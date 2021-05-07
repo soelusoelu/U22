@@ -1,0 +1,51 @@
+{
+  "tag": "Player",
+  "transform": {
+    "position": [ 0.0, 0.0, -15.0 ]
+  },
+  "components": [
+    {
+      "type": "MeshComponent",
+      "properties": {
+        "fileName": "Player\\MIX.fbx"
+      }
+    },
+    {
+      "type": "AABBAnimationCollider",
+      "properties": {}
+    },
+    {
+      "type": "PlayerAnimationController",
+      "properties": {}
+    },
+    {
+      "type": "PlayerColliderController",
+      "properties": {}
+    },
+    {
+      "type": "PlayerMove",
+      "properties": {
+        "walkSpeed": 45.0,
+        "dashSpeed": 90.0,
+        "dashMigrationTime": 0.25
+      }
+    },
+    {
+      "type": "PlayerAttack",
+      "properties": {
+        "firstLowestCoolTimeUpToAdditionalAttack": 0.5,
+        "secondLowestCoolTimeUpToAdditionalAttack": 0.4
+      }
+    },
+    {
+      "type": "PlayerGuard",
+      "properties": {}
+    },
+    {
+      "type": "PlayerRoll",
+      "properties": {
+        "rollingDistance": 30.0
+      }
+    }
+  ]
+}
