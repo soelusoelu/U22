@@ -27,7 +27,8 @@
       "properties": {
         "walkSpeed": 45.0,
         "dashSpeed": 90.0,
-        "dashMigrationTime": 0.25
+        "dashMigrationTime": 0.25,
+        "dashStaminaAmount": 1
       }
     },
     {
@@ -45,6 +46,13 @@
       "type": "PlayerRoll",
       "properties": {
         "rollingDistance": 30.0
+      }
+    },
+    {
+      "type": "Stamina",
+      "properties": {
+        "stamina": 300,
+        "coolTime": 1.0
       }
     }
   ]

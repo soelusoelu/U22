@@ -254,6 +254,7 @@
     <ClCompile Include="Component\Game\Player\PlayerRoll.cpp" />
     <ClCompile Include="Component\Game\Camera\GameCamera.cpp" />
     <ClCompile Include="Component\Game\Player\PlayerGuard.cpp" />
+    <ClCompile Include="Component\Game\Player\Stamina.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -567,6 +568,7 @@
     <ClInclude Include="Component\Game\Player\PlayerGuard.h" />
     <ClInclude Include="Component\Game\Player\PlayerMotions.h" />
     <ClInclude Include="GameObject\IThisGetter.h" />
+    <ClInclude Include="Component\Game\Player\Stamina.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />

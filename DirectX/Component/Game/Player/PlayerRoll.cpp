@@ -1,5 +1,6 @@
 ﻿#include "PlayerRoll.h"
 #include "PlayerMotions.h"
+#include "PlayerMove.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Device/Time.h"
 #include "../../../Input/Input.h"
@@ -14,6 +15,7 @@ PlayerRoll::PlayerRoll()
     , mRollingMotionTime(std::make_unique<Time>())
     , mRollingStartPoint()
     , mRollingEndPoint()
+    , mShouldReleaseRollingButton(false)
 {
 }
 
@@ -25,6 +27,10 @@ void PlayerRoll::start() {
     const auto& rollingMotion = mAnimation->getMotion(PlayerMotions::ROLL);
     auto limit = static_cast<float>(rollingMotion.numFrame) / 60.f;
     mRollingMotionTime->setLimitTime(limit);
+
+    getComponent<PlayerMove>()->callbackRunOutOfStamina([&] {
+        mShouldReleaseRollingButton = true;
+    });
 }
 
 void PlayerRoll::update() {
@@ -43,11 +49,24 @@ void PlayerRoll::update() {
     transform().setPosition(Vector3::lerp(mRollingStartPoint, mRollingEndPoint, mRollingMotionTime->rate()));
 }
 
+void PlayerRoll::lateUpdate() {
+    if (!mShouldReleaseRollingButton) {
+        return;
+    }
+    if (Input::joyPad().getJoyUp(JoyCode::B)) {
+        mShouldReleaseRollingButton = false;
+    }
+}
+
 void PlayerRoll::loadProperties(const rapidjson::Value& inObj) {
     JsonHelper::getFloat(inObj, "rollingDistance", &mRollingDistance);
 }
 
 void PlayerRoll::originalUpdate() {
+    if (mShouldReleaseRollingButton) {
+        return;
+    }
+
     if (Input::joyPad().getJoyUp(JoyCode::B)) {
         mAnimation->changeMotion(PlayerMotions::ROLL);
         mAnimation->setLoop(false);

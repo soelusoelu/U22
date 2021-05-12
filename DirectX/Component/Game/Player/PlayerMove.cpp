@@ -1,7 +1,9 @@
 ﻿#include "PlayerMove.h"
 #include "PlayerMotions.h"
+#include "Stamina.h"
 #include "../../Engine/Camera/Camera.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
+#include "../../../Device/Subject.h"
 #include "../../../Device/Time.h"
 #include "../../../GameObject/GameObject.h"
 #include "../../../GameObject/GameObjectManager.h"
@@ -12,11 +14,15 @@ PlayerMove::PlayerMove()
     : Component()
     , mCamera(nullptr)
     , mAnimation(nullptr)
+    , mStamina(nullptr)
     , mDashMigrationTimer(std::make_unique<Time>())
+    , mCallbackRunOutOfStamina(std::make_unique<Subject>())
     , mWalkSpeed(0.f)
     , mDashSpeed(0.f)
     , mIsWalking(false)
     , mIsDashing(false)
+    , mShouldReleaseDashButton(false)
+    , mDashStaminaAmount(0)
 {
 }
 
@@ -27,6 +33,16 @@ void PlayerMove::start() {
     mCamera = cam->componentManager().getComponent<Camera>();
     mAnimation = getComponent<SkinMeshComponent>();
     mAnimation->callbackChangeMotion([&] { onChangeMotion(); });
+    mStamina = getComponent<Stamina>();
+}
+
+void PlayerMove::lateUpdate() {
+    if (!mShouldReleaseDashButton) {
+        return;
+    }
+    if (Input::joyPad().getJoyUp(DASH_BUTTON)) {
+        mShouldReleaseDashButton = false;
+    }
 }
 
 void PlayerMove::loadProperties(const rapidjson::Value& inObj) {
@@ -35,6 +51,7 @@ void PlayerMove::loadProperties(const rapidjson::Value& inObj) {
     if (float time = 0.f; JsonHelper::getFloat(inObj, "dashMigrationTime", &time)) {
         mDashMigrationTimer->setLimitTime(time);
     }
+    JsonHelper::getInt(inObj, "dashStaminaAmount", &mDashStaminaAmount);
 }
 
 void PlayerMove::originalUpdate() {
@@ -68,6 +85,10 @@ bool PlayerMove::isWalking() const {
 
 bool PlayerMove::isDashing() const {
     return mIsDashing;
+}
+
+void PlayerMove::callbackRunOutOfStamina(const std::function<void()>& callback) {
+    mCallbackRunOutOfStamina->addObserver(callback);
 }
 
 void PlayerMove::walk(const Vector2& leftStickValue) {
@@ -121,13 +142,27 @@ bool PlayerMove::canMove(const Vector2& leftStickValue) const {
 }
 
 bool PlayerMove::canDash(const JoyPad& pad) {
+    //ダッシュボタンを離すまで終了
+    if (mShouldReleaseDashButton) {
+        return false;
+    }
+
+    //ダッシュボタンが押されていないなら終了
     if (!pad.getJoy(DASH_BUTTON)) {
         mDashMigrationTimer->reset();
         return false;
     }
 
+    //ダッシュボタンを一定時間押していなければ終了
     if (!mDashMigrationTimer->isTime()) {
         mDashMigrationTimer->update();
+        return false;
+    }
+
+    //スタミナが0なら終了
+    if (!mStamina->use(mDashStaminaAmount)) {
+        mShouldReleaseDashButton = true;
+        mCallbackRunOutOfStamina->notify();
         return false;
     }
 

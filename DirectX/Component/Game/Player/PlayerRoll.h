@@ -15,6 +15,7 @@ public:
     ~PlayerRoll();
     virtual void start() override;
     virtual void update() override;
+    virtual void lateUpdate() override;
     virtual void loadProperties(const rapidjson::Value& inObj) override;
     void originalUpdate();
     //ローリング中か
@@ -36,4 +37,6 @@ private:
     Vector3 mRollingStartPoint;
     //ローリング終了地点
     Vector3 mRollingEndPoint;
+    //ローリングボタンを離すべきか
+    bool mShouldReleaseRollingButton;
 };
