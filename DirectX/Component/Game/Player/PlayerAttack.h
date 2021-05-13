@@ -4,6 +4,7 @@
 #include <memory>
 
 class SkinMeshComponent;
+class Stamina;
 class Time;
 
 class PlayerAttack
@@ -55,6 +56,7 @@ private:
     static constexpr unsigned NUM_ATTACK_MOTION_DOUBLE = NUM_ATTACK_MOTION * 2;
 
     std::shared_ptr<SkinMeshComponent> mAnimation;
+    std::shared_ptr<Stamina> mStamina;
     //モーション経過時間
     std::unique_ptr<Time> mAttackMotionElapsedTimer;
     //各攻撃モーション時間
@@ -66,4 +68,6 @@ private:
     bool mIsSecondAttackMiddle;
     //攻撃終了中か
     bool mIsEndAttackMiddle;
+    //攻撃の消費スタミナ量
+    int mAttackStaminaAmount;
 };

@@ -14,7 +14,12 @@ public:
     virtual void lateUpdate() override;
     virtual void loadProperties(const rapidjson::Value& inObj) override;
     virtual void drawInspector() override;
+    //スタミナをamountに応じて使用する
+    //スタミナが1でもあれば消費量に関わらず使用する
+    //使用したらtrue、使用できないならfalse
     bool use(int amount);
+    //スタミナを回復するか設定する
+    void setHealFlag(bool value);
 
 private:
     Stamina(const Stamina&) = delete;
@@ -28,5 +33,6 @@ private:
     int mMaxStamina;
     bool mUsingStamina;
     bool mPreviousUsed;
+    bool mHealFlag;
     std::unique_ptr<Time> mCoolTime;
 };

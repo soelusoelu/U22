@@ -1,5 +1,6 @@
 ﻿#include "PlayerAttack.h"
 #include "PlayerMotions.h"
+#include "Stamina.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Device/Time.h"
 #include "../../../Input/Input.h"
@@ -8,12 +9,14 @@
 PlayerAttack::PlayerAttack()
     : Component()
     , mAnimation(nullptr)
+    , mStamina(nullptr)
     , mAttackMotionElapsedTimer(std::make_unique<Time>())
     , mAttackMotionTime{ 0.f, 0.f, 0.f, 0.f }
     , mLowestCoolTimeUpToAdditionalAttack{ 0.f, 0.f }
     , mIsFirstAttackMiddle(false)
     , mIsSecondAttackMiddle(false)
     , mIsEndAttackMiddle(false)
+    , mAttackStaminaAmount(0)
 {
 }
 
@@ -21,6 +24,7 @@ PlayerAttack::~PlayerAttack() = default;
 
 void PlayerAttack::start() {
     mAnimation = getComponent<SkinMeshComponent>();
+    mStamina = getComponent<Stamina>();
 
     const auto& firstAttack = mAnimation->getMotion(PlayerMotions::FIRST_ATTACK_START);
     mAttackMotionTime[FIRST_ATTACK_START_NO] = static_cast<float>(firstAttack.numFrame) / 60.f;
@@ -53,6 +57,7 @@ void PlayerAttack::loadProperties(const rapidjson::Value& inObj) {
         "secondLowestCoolTimeUpToAdditionalAttack",
         &mLowestCoolTimeUpToAdditionalAttack[SECOND_ATTACK_START_NO]
     );
+    JsonHelper::getInt(inObj, "attackStaminaAmount", &mAttackStaminaAmount);
 }
 
 void PlayerAttack::originalUpdate() {
@@ -89,6 +94,7 @@ void PlayerAttack::updateEndAttack() {
 
     mAnimation->changeMotion(PlayerMotions::IDOL);
     mAnimation->setLoop(true);
+    mStamina->setHealFlag(true);
 
     mIsEndAttackMiddle = false;
 }
@@ -96,6 +102,7 @@ void PlayerAttack::updateEndAttack() {
 void PlayerAttack::firstAttack() {
     mAnimation->changeMotion(PlayerMotions::FIRST_ATTACK_START);
     mAnimation->setLoop(false);
+    mStamina->setHealFlag(false);
     mIsFirstAttackMiddle = true;
     mIsSecondAttackMiddle = false;
     mAttackMotionElapsedTimer->setLimitTime(mAttackMotionTime[FIRST_ATTACK_START_NO]);
@@ -105,6 +112,7 @@ void PlayerAttack::firstAttack() {
 void PlayerAttack::secondAttack() {
     mAnimation->changeMotion(PlayerMotions::SECOND_ATTACK_START);
     mAnimation->setLoop(false);
+    mStamina->setHealFlag(false);
     mIsFirstAttackMiddle = false;
     mIsSecondAttackMiddle = true;
     mAttackMotionElapsedTimer->setLimitTime(mAttackMotionTime[SECOND_ATTACK_START_NO]);
@@ -164,6 +172,9 @@ bool PlayerAttack::canFirstAttack() const {
     if (mIsSecondAttackMiddle) {
         return false;
     }
+    if (!mStamina->use(mAttackStaminaAmount)) {
+        return false;
+    }
 
     return true;
 }
@@ -180,6 +191,9 @@ bool PlayerAttack::canSecondAttack() const {
     }
     if (mAttackMotionElapsedTimer->isTime()) {
         mAttackMotionElapsedTimer->reset();
+        return false;
+    }
+    if (!mStamina->use(mAttackStaminaAmount)) {
         return false;
     }
 

@@ -5,6 +5,7 @@
 #include <memory>
 
 class SkinMeshComponent;
+class Stamina;
 class Time;
 
 class PlayerRoll
@@ -27,6 +28,7 @@ private:
 
 private:
     std::shared_ptr<SkinMeshComponent> mAnimation;
+    std::shared_ptr<Stamina> mStamina;
     //ローリング距離
     float mRollingDistance;
     //ローリング中か
@@ -39,4 +41,6 @@ private:
     Vector3 mRollingEndPoint;
     //ローリングボタンを離すべきか
     bool mShouldReleaseRollingButton;
+    //ローリングの消費スタミナ量
+    int mRollingStaminaAmount;
 };

@@ -10,6 +10,7 @@ Stamina::Stamina()
     , mMaxStamina(0)
     , mUsingStamina(false)
     , mPreviousUsed(false)
+    , mHealFlag(true)
     , mCoolTime(std::make_unique<Time>())
 {
 }
@@ -54,11 +55,18 @@ bool Stamina::use(int amount) {
     return true;
 }
 
+void Stamina::setHealFlag(bool value) {
+    mHealFlag = value;
+}
+
 bool Stamina::canUse() const {
     return (mCurrentStamina > 0);
 }
 
 bool Stamina::canHeal() const {
+    if (!mHealFlag) {
+        return false;
+    }
     if (!mCoolTime->isTime()) {
         mCoolTime->update();
         return false;

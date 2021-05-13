@@ -1,6 +1,7 @@
 ﻿#include "PlayerRoll.h"
 #include "PlayerMotions.h"
 #include "PlayerMove.h"
+#include "Stamina.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Device/Time.h"
 #include "../../../Input/Input.h"
@@ -10,12 +11,14 @@
 PlayerRoll::PlayerRoll()
     : Component()
     , mAnimation(nullptr)
+    , mStamina(nullptr)
     , mRollingDistance(0.f)
     , mIsRolling(false)
     , mRollingMotionTime(std::make_unique<Time>())
     , mRollingStartPoint()
     , mRollingEndPoint()
     , mShouldReleaseRollingButton(false)
+    , mRollingStaminaAmount(0)
 {
 }
 
@@ -23,6 +26,7 @@ PlayerRoll::~PlayerRoll() = default;
 
 void PlayerRoll::start() {
     mAnimation = getComponent<SkinMeshComponent>();
+    mStamina = getComponent<Stamina>();
 
     const auto& rollingMotion = mAnimation->getMotion(PlayerMotions::ROLL);
     auto limit = static_cast<float>(rollingMotion.numFrame) / 60.f;
@@ -42,6 +46,7 @@ void PlayerRoll::update() {
     if (mRollingMotionTime->isTime()) {
         mRollingMotionTime->reset();
         mAnimation->changeMotion(PlayerMotions::IDOL);
+        mStamina->setHealFlag(true);
         mIsRolling = false;
         return;
     }
@@ -60,22 +65,28 @@ void PlayerRoll::lateUpdate() {
 
 void PlayerRoll::loadProperties(const rapidjson::Value& inObj) {
     JsonHelper::getFloat(inObj, "rollingDistance", &mRollingDistance);
+    JsonHelper::getInt(inObj, "rollingStaminaAmount", &mRollingStaminaAmount);
 }
 
 void PlayerRoll::originalUpdate() {
     if (mShouldReleaseRollingButton) {
         return;
     }
-
-    if (Input::joyPad().getJoyUp(JoyCode::B)) {
-        mAnimation->changeMotion(PlayerMotions::ROLL);
-        mAnimation->setLoop(false);
-        mIsRolling = true;
-
-        auto& t = transform();
-        mRollingStartPoint = t.getPosition();
-        mRollingEndPoint = t.getPosition() + t.forward() * mRollingDistance;
+    if (!Input::joyPad().getJoyUp(JoyCode::B)) {
+        return;
     }
+    if (!mStamina->use(mRollingStaminaAmount)) {
+        return;
+    }
+
+    mAnimation->changeMotion(PlayerMotions::ROLL);
+    mAnimation->setLoop(false);
+    mStamina->setHealFlag(false);
+    mIsRolling = true;
+
+    auto& t = transform();
+    mRollingStartPoint = t.getPosition();
+    mRollingEndPoint = t.getPosition() + t.forward() * mRollingDistance;
 }
 
 bool PlayerRoll::isRolling() const {
