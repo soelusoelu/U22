@@ -22,7 +22,7 @@ PlayerMove::PlayerMove()
     , mIsWalking(false)
     , mIsDashing(false)
     , mShouldReleaseDashButton(false)
-    , mDashStaminaAmount(0)
+    , mDashStaminaAmount(0.f)
 {
 }
 
@@ -51,7 +51,7 @@ void PlayerMove::loadProperties(const rapidjson::Value& inObj) {
     if (float time = 0.f; JsonHelper::getFloat(inObj, "dashMigrationTime", &time)) {
         mDashMigrationTimer->setLimitTime(time);
     }
-    JsonHelper::getInt(inObj, "dashStaminaAmount", &mDashStaminaAmount);
+    JsonHelper::getFloat(inObj, "dashStaminaAmount", &mDashStaminaAmount);
 }
 
 void PlayerMove::originalUpdate() {

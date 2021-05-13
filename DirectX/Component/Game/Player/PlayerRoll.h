@@ -42,5 +42,5 @@ private:
     //ローリングボタンを離すべきか
     bool mShouldReleaseRollingButton;
     //ローリングの消費スタミナ量
-    int mRollingStaminaAmount;
+    float mRollingStaminaAmount;
 };

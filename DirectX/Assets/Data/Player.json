@@ -28,7 +28,7 @@
         "walkSpeed": 45.0,
         "dashSpeed": 90.0,
         "dashMigrationTime": 0.25,
-        "dashStaminaAmount": 1
+        "dashStaminaAmount": 0.3
       }
     },
     {
@@ -36,24 +36,27 @@
       "properties": {
         "firstLowestCoolTimeUpToAdditionalAttack": 0.5,
         "secondLowestCoolTimeUpToAdditionalAttack": 0.4,
-        "attackStaminaAmount": 40
+        "attackStaminaAmount": 12.0
       }
     },
     {
       "type": "PlayerGuard",
-      "properties": {}
+      "properties": {
+        "guardingStaminaHealRate": 0.4
+      }
     },
     {
       "type": "PlayerRoll",
       "properties": {
         "rollingDistance": 30.0,
-        "rollingStaminaAmount": 50
+        "rollingStaminaAmount": 20.0
       }
     },
     {
       "type": "Stamina",
       "properties": {
-        "stamina": 300,
+        "stamina": 100.0,
+        "healAmount": 15.0,
         "coolTime": 1.0
       }
     }

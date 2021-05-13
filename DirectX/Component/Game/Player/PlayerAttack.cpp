@@ -16,7 +16,7 @@ PlayerAttack::PlayerAttack()
     , mIsFirstAttackMiddle(false)
     , mIsSecondAttackMiddle(false)
     , mIsEndAttackMiddle(false)
-    , mAttackStaminaAmount(0)
+    , mAttackStaminaAmount(0.f)
 {
 }
 
@@ -57,7 +57,7 @@ void PlayerAttack::loadProperties(const rapidjson::Value& inObj) {
         "secondLowestCoolTimeUpToAdditionalAttack",
         &mLowestCoolTimeUpToAdditionalAttack[SECOND_ATTACK_START_NO]
     );
-    JsonHelper::getInt(inObj, "attackStaminaAmount", &mAttackStaminaAmount);
+    JsonHelper::getFloat(inObj, "attackStaminaAmount", &mAttackStaminaAmount);
 }
 
 void PlayerAttack::originalUpdate() {

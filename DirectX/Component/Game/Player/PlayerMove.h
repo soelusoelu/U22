@@ -67,6 +67,6 @@ private:
     bool mIsWalking;
     bool mIsDashing;
     bool mShouldReleaseDashButton;
-    int mDashStaminaAmount;
+    float mDashStaminaAmount;
     static constexpr JoyCode DASH_BUTTON = JoyCode::B;
 };

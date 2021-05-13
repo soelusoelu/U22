@@ -18,7 +18,7 @@ PlayerRoll::PlayerRoll()
     , mRollingStartPoint()
     , mRollingEndPoint()
     , mShouldReleaseRollingButton(false)
-    , mRollingStaminaAmount(0)
+    , mRollingStaminaAmount(0.f)
 {
 }
 
@@ -65,7 +65,7 @@ void PlayerRoll::lateUpdate() {
 
 void PlayerRoll::loadProperties(const rapidjson::Value& inObj) {
     JsonHelper::getFloat(inObj, "rollingDistance", &mRollingDistance);
-    JsonHelper::getInt(inObj, "rollingStaminaAmount", &mRollingStaminaAmount);
+    JsonHelper::getFloat(inObj, "rollingStaminaAmount", &mRollingStaminaAmount);
 }
 
 void PlayerRoll::originalUpdate() {

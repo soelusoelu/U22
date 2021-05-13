@@ -6,11 +6,12 @@
 
 Stamina::Stamina()
     : Component()
-    , mCurrentStamina(0)
-    , mMaxStamina(0)
-    , mUsingStamina(false)
-    , mPreviousUsed(false)
+    , mCurrentStamina(0.f)
+    , mMaxStamina(0.f)
+    , mHealAmount(0.f)
+    , mUsingStaminaThisFrame(false)
     , mHealFlag(true)
+    , mHealRate(DEFAULT_HEAL_RATE)
     , mCoolTime(std::make_unique<Time>())
 {
 }
@@ -19,40 +20,51 @@ Stamina::~Stamina() = default;
 
 void Stamina::lateUpdate() {
     if (canHeal()) {
-        ++mCurrentStamina;
+        mCurrentStamina += mHealAmount * mHealRate * Time::deltaTime;
+        mCurrentStamina = Math::Min(mCurrentStamina, mMaxStamina);
     }
 
-    mPreviousUsed = mUsingStamina;
-    mUsingStamina = false;
+    if (mUsingStaminaThisFrame) {
+        mUsingStaminaThisFrame = false;
+    }
 }
 
 void Stamina::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getInt(inObj, "stamina", &mCurrentStamina);
+    JsonHelper::getFloat(inObj, "stamina", &mCurrentStamina);
     mMaxStamina = mCurrentStamina;
+    JsonHelper::getFloat(inObj, "healAmount", &mHealAmount);
     if (float time = 0.f; JsonHelper::getFloat(inObj, "coolTime", &time)) {
         mCoolTime->setLimitTime(time);
     }
 }
 
 void Stamina::drawInspector() {
-    ImGuiWrapper::sliderInt("stamina", mCurrentStamina, 0, mMaxStamina);
+    ImGuiWrapper::sliderFloat("stamina", mCurrentStamina, 0.f, mMaxStamina);
 }
 
-bool Stamina::use(int amount) {
+bool Stamina::use(float amount) {
     if (!canUse()) {
         return false;
     }
 
     mCurrentStamina -= amount;
-    if (mCurrentStamina <= 0) {
-        mCurrentStamina = 0;
+    if (mCurrentStamina <= 0.f) {
+        mCurrentStamina = 0.f;
 
         mCoolTime->reset();
     }
 
-    mUsingStamina = true;
+    mUsingStaminaThisFrame = true;
 
     return true;
+}
+
+void Stamina::setHealRate(float rate) {
+    mHealRate = rate;
+}
+
+void Stamina::setHealRateToDefault() {
+    mHealRate = DEFAULT_HEAL_RATE;
 }
 
 void Stamina::setHealFlag(bool value) {
@@ -60,7 +72,7 @@ void Stamina::setHealFlag(bool value) {
 }
 
 bool Stamina::canUse() const {
-    return (mCurrentStamina > 0);
+    return (mCurrentStamina > 0.f);
 }
 
 bool Stamina::canHeal() const {
@@ -71,10 +83,10 @@ bool Stamina::canHeal() const {
         mCoolTime->update();
         return false;
     }
-    if (mUsingStamina) {
+    if (mUsingStaminaThisFrame) {
         return false;
     }
-    if (mCurrentStamina == mMaxStamina) {
+    if (Math::equal(mCurrentStamina, mMaxStamina)) {
         return false;
     }
 

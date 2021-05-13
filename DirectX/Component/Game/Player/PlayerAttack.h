@@ -69,5 +69,5 @@ private:
     //攻撃終了中か
     bool mIsEndAttackMiddle;
     //攻撃の消費スタミナ量
-    int mAttackStaminaAmount;
+    float mAttackStaminaAmount;
 };
