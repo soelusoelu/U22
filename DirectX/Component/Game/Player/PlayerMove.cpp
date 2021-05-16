@@ -17,6 +17,7 @@ PlayerMove::PlayerMove()
     , mStamina(nullptr)
     , mDashMigrationTimer(std::make_unique<Time>())
     , mCallbackRunOutOfStamina(std::make_unique<Subject>())
+    , mLockOn(nullptr)
     , mWalkSpeed(0.f)
     , mDashSpeed(0.f)
     , mIsWalking(false)
@@ -30,7 +31,9 @@ PlayerMove::~PlayerMove() = default;
 
 void PlayerMove::start() {
     const auto& cam = gameObject().getGameObjectManager().find("Camera");
-    mCamera = cam->componentManager().getComponent<Camera>();
+    const auto& camCompManager = cam->componentManager();
+    mCamera = camCompManager.getComponent<Camera>();
+
     mAnimation = getComponent<SkinMeshComponent>();
     mAnimation->callbackChangeMotion([&] { onChangeMotion(); });
     mStamina = getComponent<Stamina>();
@@ -58,10 +61,11 @@ void PlayerMove::originalUpdate() {
     const auto& pad = Input::joyPad();
     const auto& leftStick = pad.leftStick();
     if (canMove(leftStick)) {
+        auto moveDir = calcMoveDirection(leftStick);
         if (canDash(pad)) {
-            dash(pad, leftStick);
+            dash(pad, moveDir);
         } else {
-            walk(leftStick);
+            walk(moveDir);
         }
     } else {
         stop();
@@ -91,8 +95,12 @@ void PlayerMove::callbackRunOutOfStamina(const std::function<void()>& callback) 
     mCallbackRunOutOfStamina->addObserver(callback);
 }
 
-void PlayerMove::walk(const Vector2& leftStickValue) {
-    move(mWalkSpeed, leftStickValue);
+void PlayerMove::setILockOn(const ILockOn* lockOn) {
+    mLockOn = lockOn;
+}
+
+void PlayerMove::walk(const Vector3& moveDir) {
+    moveAndRotate(moveDir, mWalkSpeed);
 
     if (!mIsWalking) {
         mAnimation->changeMotion(PlayerMotions::WALK);
@@ -102,8 +110,8 @@ void PlayerMove::walk(const Vector2& leftStickValue) {
     }
 }
 
-void PlayerMove::dash(const JoyPad& pad, const Vector2& leftStickValue) {
-    move(mDashSpeed, leftStickValue);
+void PlayerMove::dash(const JoyPad& pad, const Vector3& moveDir) {
+    moveAndRotate(moveDir, mDashSpeed);
 
     if (!mIsDashing) {
         mAnimation->changeMotion(PlayerMotions::DASH);
@@ -112,7 +120,27 @@ void PlayerMove::dash(const JoyPad& pad, const Vector2& leftStickValue) {
     }
 }
 
-void PlayerMove::move(float moveSpeed, const Vector2& leftStickValue) {
+void PlayerMove::moveAndRotate(const Vector3& moveDir, float moveSpeed) {
+    move(moveDir, moveSpeed);
+    rotate(moveDir);
+}
+
+void PlayerMove::move(const Vector3& moveDir, float moveSpeed) {
+    transform().translate(moveDir * moveSpeed * Time::deltaTime);
+}
+
+void PlayerMove::rotate(const Vector3& moveDir) {
+    auto& t = transform();
+    Vector3 forward = moveDir;
+
+    if (mLockOn->isLockOn()) {
+        forward = Vector3::normalize(mLockOn->getLockOnTargetPosition() - t.getPosition());
+    }
+
+    t.setRotation(Quaternion::lookRotation(forward));
+}
+
+Vector3 PlayerMove::calcMoveDirection(const Vector2& leftStickValue) const {
     //カメラの視線ベクトルから向きを得る
     auto eye = Vector3::normalize(mCamera->getLookAt() - mCamera->getPosition());
     auto lookRot = Quaternion::lookRotation(eye);
@@ -122,10 +150,10 @@ void PlayerMove::move(float moveSpeed, const Vector2& leftStickValue) {
     auto camForward = Vector3::transform(Vector3::forward, lookRot);
     camForward.y = 0.f;
 
-    auto& t = transform();
+    //移動方向を求める
     auto moveDir = camRight * leftStickValue.x + camForward * leftStickValue.y;
-    t.translate(moveDir * moveSpeed * Time::deltaTime);
-    t.setRotation(Quaternion::lookRotation(moveDir));
+
+    return moveDir;
 }
 
 void PlayerMove::stop() {

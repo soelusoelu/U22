@@ -31,6 +31,7 @@ public:
 
     //ILockOn
     virtual bool isLockOn() const override;
+    virtual const Vector3& getLockOnTargetPosition() const override;
     virtual void callbackLockOn(const std::function<void()>& callback) override;
 
     void setPlayer(const Player& player);
@@ -62,4 +63,5 @@ private:
     float mLookAtOffsetY;
     //ロックオン時のカメラ位置Y軸オフセット
     float mCameraOffsetY;
+
 };

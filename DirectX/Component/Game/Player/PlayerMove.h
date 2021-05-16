@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "../Camera/ILockOn.h"
 #include "../../Component.h"
 #include "../../../Input/Input.h"
 #include "../../../Math/Math.h"
@@ -36,17 +37,25 @@ public:
     bool isDashing() const;
     //ダッシュでスタミナが尽きた際のコールバック
     void callbackRunOutOfStamina(const std::function<void()>& callback);
+    //ILockOnを設定する
+    void setILockOn(const ILockOn* lockOn);
 
 private:
     PlayerMove(const PlayerMove&) = delete;
     PlayerMove& operator=(const PlayerMove&) = delete;
 
     //歩行時に行う処理
-    void walk(const Vector2& leftStickValue);
+    void walk(const Vector3& moveDir);
     //ダッシュ時に行う処理
-    void dash(const JoyPad& pad, const Vector2& leftStickValue);
-    //移動・回転処理
-    void move(float moveSpeed, const Vector2& leftStickValue);
+    void dash(const JoyPad& pad, const Vector3& moveDir);
+    //移動・回転処理を一括で行う
+    void moveAndRotate(const Vector3& moveDir, float moveSpeed);
+    //移動処理
+    void move(const Vector3& moveDir, float moveSpeed);
+    //回転処理
+    void rotate(const Vector3& moveDir);
+    //移動方向を求める
+    Vector3 calcMoveDirection(const Vector2& leftStickValue) const;
     //移動停止処理
     void stop();
     //動ける状態か
@@ -62,6 +71,7 @@ private:
     std::shared_ptr<Stamina> mStamina;
     std::unique_ptr<Time> mDashMigrationTimer;
     std::unique_ptr<Subject> mCallbackRunOutOfStamina;
+    const ILockOn* mLockOn;
     float mWalkSpeed;
     float mDashSpeed;
     bool mIsWalking;
