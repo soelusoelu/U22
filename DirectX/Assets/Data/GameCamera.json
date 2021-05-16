@@ -8,6 +8,14 @@
         "cameraToPlayerDistance": 60.0,
         "lookAtOffsetY": 8.0
       }
+    },
+    {
+      "type": "LockOn",
+      "properties": {
+        "lockOnAngle": 30.0,
+        "lookAtOffsetY": 20.0,
+        "cameraOffsetY": 15.0
+      }
     }
   ]
 }

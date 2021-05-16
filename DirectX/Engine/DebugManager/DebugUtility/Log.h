@@ -32,4 +32,6 @@ private:
     Vector2 mScale;
     //画面に表示するログの行数
     int mNumRowsToDisplay;
+
+    static constexpr float DRAW_OFFSET_Y = 32.f;
 };

@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "ILockOn.h"
 #include "../../Component.h"
 #include "../../../Math/Math.h"
 #include <memory>
@@ -13,11 +14,13 @@ public:
     GameCamera();
     ~GameCamera();
     virtual void start() override;
-    virtual void update() override;
+    virtual void lateUpdate() override;
     virtual void loadProperties(const rapidjson::Value& inObj) override;
 
     //カメラの注視点となるプレイヤーを設定する
     void setPlayer(const std::shared_ptr<GameObject>& player);
+    //プレイヤーまでの距離を取得する
+    float getDistanceToPlayer() const;
 
 private:
     GameCamera(const GameCamera&) = delete;
@@ -26,6 +29,7 @@ private:
 private:
     std::shared_ptr<Camera> mCamera;
     std::shared_ptr<GameObject> mPlayer;
+    ILockOn* mLockOn;
     //カメラ回転速度
     float mRotateSpeed;
     //プレイヤーまでの距離
