@@ -112,6 +112,11 @@ void Transform3D::rotate(const Vector3& eulers) {
     rotate(Vector3::up, eulers.y);
 }
 
+void Transform3D::lookAt(const Transform3D& target, const Vector3& upwards) {
+    auto forward = Vector3::normalize(target.getPosition() - getPosition());
+    setRotation(Quaternion::lookRotation(forward, upwards));
+}
+
 void Transform3D::setPivot(const Vector3& pivot) {
     mPivot = pivot;
 }

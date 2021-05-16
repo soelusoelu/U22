@@ -131,13 +131,12 @@ void PlayerMove::move(const Vector3& moveDir, float moveSpeed) {
 
 void PlayerMove::rotate(const Vector3& moveDir) {
     auto& t = transform();
-    Vector3 forward = moveDir;
 
     if (mLockOn->isLockOn()) {
-        forward = Vector3::normalize(mLockOn->getLockOnTargetPosition() - t.getPosition());
+        t.lookAt(mLockOn->getLockOnTargetTransform());
+    } else {
+        t.setRotation(Quaternion::lookRotation(moveDir));
     }
-
-    t.setRotation(Quaternion::lookRotation(forward));
 }
 
 Vector3 PlayerMove::calcMoveDirection(const Vector2& leftStickValue) const {

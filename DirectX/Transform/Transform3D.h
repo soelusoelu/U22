@@ -42,6 +42,8 @@ public:
     void rotate(const Vector3& axis, float angle);
     //eulers量回転させる
     void rotate(const Vector3& eulers);
+    //targetを向く
+    void lookAt(const Transform3D& target, const Vector3& upwards = Vector3::up);
 
     //ピボット位置の設定
     void setPivot(const Vector3& pivot);

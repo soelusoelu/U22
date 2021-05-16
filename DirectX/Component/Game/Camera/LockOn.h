@@ -7,7 +7,6 @@
 #include <vector>
 
 class GameObject;
-class Transform3D;
 class Camera;
 class GameCamera;
 class Subject;
@@ -31,7 +30,7 @@ public:
 
     //ILockOn
     virtual bool isLockOn() const override;
-    virtual const Vector3& getLockOnTargetPosition() const override;
+    virtual const Transform3D& getLockOnTargetTransform() const override;
     virtual void callbackLockOn(const std::function<void()>& callback) override;
 
     void setPlayer(const Player& player);

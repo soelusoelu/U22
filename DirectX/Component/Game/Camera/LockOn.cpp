@@ -53,12 +53,8 @@ bool LockOn::isLockOn() const {
     return mIsLockOn;
 }
 
-const Vector3& LockOn::getLockOnTargetPosition() const {
-    if (!mLockOnTarget) {
-        return Vector3::zero;
-    }
-
-    return mLockOnTarget->transform().getPosition();
+const Transform3D& LockOn::getLockOnTargetTransform() const {
+    return mLockOnTarget->transform();
 }
 
 void LockOn::callbackLockOn(const std::function<void()>& callback) {

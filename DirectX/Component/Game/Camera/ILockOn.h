@@ -1,12 +1,16 @@
 ﻿#pragma once
 
-#include "../../../Math/Math.h"
 #include <functional>
+
+class Transform3D;
 
 class ILockOn {
 public:
     ~ILockOn() = default;
+    //ロックオンしているか
     virtual bool isLockOn() const = 0;
-    virtual const Vector3& getLockOnTargetPosition() const = 0;
+    //ロックオン中のターゲットのトランスフォームを取得する
+    virtual const Transform3D& getLockOnTargetTransform() const = 0;
+    //ロックオンした際のコールバック
     virtual void callbackLockOn(const std::function<void()>& callback) = 0;
 };
