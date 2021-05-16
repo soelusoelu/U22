@@ -100,7 +100,8 @@ void PlayerMove::setILockOn(const ILockOn* lockOn) {
 }
 
 void PlayerMove::walk(const Vector3& moveDir) {
-    moveAndRotate(moveDir, mWalkSpeed);
+    move(moveDir, mWalkSpeed);
+    walkingRotate(moveDir);
 
     if (!mIsWalking) {
         mAnimation->changeMotion(PlayerMotions::WALK);
@@ -111,7 +112,8 @@ void PlayerMove::walk(const Vector3& moveDir) {
 }
 
 void PlayerMove::dash(const JoyPad& pad, const Vector3& moveDir) {
-    moveAndRotate(moveDir, mDashSpeed);
+    move(moveDir, mDashSpeed);
+    dashingRotate(moveDir);
 
     if (!mIsDashing) {
         mAnimation->changeMotion(PlayerMotions::DASH);
@@ -120,16 +122,11 @@ void PlayerMove::dash(const JoyPad& pad, const Vector3& moveDir) {
     }
 }
 
-void PlayerMove::moveAndRotate(const Vector3& moveDir, float moveSpeed) {
-    move(moveDir, moveSpeed);
-    rotate(moveDir);
-}
-
 void PlayerMove::move(const Vector3& moveDir, float moveSpeed) {
     transform().translate(moveDir * moveSpeed * Time::deltaTime);
 }
 
-void PlayerMove::rotate(const Vector3& moveDir) {
+void PlayerMove::walkingRotate(const Vector3& moveDir) {
     auto& t = transform();
 
     if (mLockOn->isLockOn()) {
@@ -137,6 +134,10 @@ void PlayerMove::rotate(const Vector3& moveDir) {
     } else {
         t.setRotation(Quaternion::lookRotation(moveDir));
     }
+}
+
+void PlayerMove::dashingRotate(const Vector3& moveDir) {
+    transform().setRotation(Quaternion::lookRotation(moveDir));
 }
 
 Vector3 PlayerMove::calcMoveDirection(const Vector2& leftStickValue) const {

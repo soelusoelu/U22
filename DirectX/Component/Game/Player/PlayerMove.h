@@ -48,12 +48,12 @@ private:
     void walk(const Vector3& moveDir);
     //ダッシュ時に行う処理
     void dash(const JoyPad& pad, const Vector3& moveDir);
-    //移動・回転処理を一括で行う
-    void moveAndRotate(const Vector3& moveDir, float moveSpeed);
     //移動処理
     void move(const Vector3& moveDir, float moveSpeed);
-    //回転処理
-    void rotate(const Vector3& moveDir);
+    //歩行中の回転処理
+    void walkingRotate(const Vector3& moveDir);
+    //ダッシュ中の回転処理
+    void dashingRotate(const Vector3& moveDir);
     //移動方向を求める
     Vector3 calcMoveDirection(const Vector2& leftStickValue) const;
     //移動停止処理
