@@ -256,6 +256,8 @@
     <ClCompile Include="Component\Game\Player\PlayerGuard.cpp" />
     <ClCompile Include="Component\Game\Player\Stamina.cpp" />
     <ClCompile Include="Component\Game\Camera\LockOn.cpp" />
+    <ClCompile Include="Component\Game\Player\PlayerWalk.cpp" />
+    <ClCompile Include="Component\Game\Player\PlayerDash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -572,6 +574,10 @@
     <ClInclude Include="Component\Game\Player\Stamina.h" />
     <ClInclude Include="Component\Game\Camera\LockOn.h" />
     <ClInclude Include="Component\Game\Camera\ILockOn.h" />
+    <ClInclude Include="Component\Game\Player\PlayerWalk.h" />
+    <ClInclude Include="Component\Game\Player\PlayerDash.h" />
+    <ClInclude Include="Component\Game\Player\IPlayerMove.h" />
+    <ClInclude Include="Component\Game\Player\IMoveDirectionGetter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />

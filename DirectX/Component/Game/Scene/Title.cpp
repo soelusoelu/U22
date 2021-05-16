@@ -1,7 +1,7 @@
 ﻿#include "Title.h"
 #include "../Camera/GameCamera.h"
 #include "../Camera/LockOn.h"
-#include "../Player/PlayerMove.h"
+#include "../Player/PlayerWalk.h"
 #include "../../Engine/Mesh/MeshComponent.h"
 #include "../../../GameObject/GameObject.h"
 #include "../../../GameObject/GameObjectFactory.h"
@@ -29,6 +29,6 @@ void Title::awake() {
     auto enemys = gameObject().getGameObjectManager().findGameObjects("Enemy");
     lockOn->setEnemys(enemys);
 
-    auto pm = player->componentManager().getComponent<PlayerMove>();
-    pm->setILockOn(lockOn.get());
+    auto pw = player->componentManager().getComponent<PlayerWalk>();
+    pw->setILockOn(lockOn.get());
 }

@@ -24,8 +24,17 @@
     },
     {
       "type": "PlayerMove",
+      "properties": {}
+    },
+    {
+      "type": "PlayerWalk",
       "properties": {
-        "walkSpeed": 45.0,
+        "walkSpeed": 45.0
+      }
+    },
+    {
+      "type": "PlayerDash",
+      "properties": {
         "dashSpeed": 90.0,
         "dashMigrationTime": 0.25,
         "dashStaminaAmount": 0.3

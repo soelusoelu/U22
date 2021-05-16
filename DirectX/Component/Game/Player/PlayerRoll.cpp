@@ -1,4 +1,5 @@
 ﻿#include "PlayerRoll.h"
+#include "PlayerDash.h"
 #include "PlayerMotions.h"
 #include "PlayerMove.h"
 #include "Stamina.h"
@@ -12,6 +13,8 @@ PlayerRoll::PlayerRoll()
     : Component()
     , mAnimation(nullptr)
     , mStamina(nullptr)
+    , mPlayerMove(nullptr)
+    , mMoveDirGetter(nullptr)
     , mRollingDistance(0.f)
     , mIsRolling(false)
     , mRollingMotionTime(std::make_unique<Time>())
@@ -28,11 +31,15 @@ void PlayerRoll::start() {
     mAnimation = getComponent<SkinMeshComponent>();
     mStamina = getComponent<Stamina>();
 
+    auto playerMove = getComponent<PlayerMove>();
+    mPlayerMove = playerMove.get();
+    mMoveDirGetter = playerMove.get();
+
     const auto& rollingMotion = mAnimation->getMotion(PlayerMotions::ROLL);
     auto limit = static_cast<float>(rollingMotion.numFrame) / 60.f;
     mRollingMotionTime->setLimitTime(limit);
 
-    getComponent<PlayerMove>()->callbackRunOutOfStamina([&] {
+    getComponent<PlayerDash>()->callbackRunOutOfStamina([&] {
         mShouldReleaseRollingButton = true;
     });
 }
@@ -86,7 +93,9 @@ void PlayerRoll::originalUpdate() {
 
     auto& t = transform();
     mRollingStartPoint = t.getPosition();
-    mRollingEndPoint = t.getPosition() + t.forward() * mRollingDistance;
+    mRollingEndPoint = t.getPosition() + mMoveDirGetter->getMoveDirectionInputedLast() * mRollingDistance;
+
+    mPlayerMove->rotateToMoveDirection();
 }
 
 bool PlayerRoll::isRolling() const {

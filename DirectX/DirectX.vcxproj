@@ -225,6 +225,8 @@
     <ClCompile Include="Component\Game\Player\PlayerGuard.cpp" />
     <ClCompile Include="Component\Game\Player\Stamina.cpp" />
     <ClCompile Include="Component\Game\Camera\LockOn.cpp" />
+    <ClCompile Include="Component\Game\Player\PlayerWalk.cpp" />
+    <ClCompile Include="Component\Game\Player\PlayerDash.cpp" />
     <ClCompile Include="System\Texture\MeshRenderOnTextureManager.cpp" />
     <ClCompile Include="Mesh\MeshCommonShaderSetter.cpp" />
     <ClCompile Include="Engine\SceneMesh\SceneMeshOperator.cpp" />
@@ -410,6 +412,8 @@
     <ClInclude Include="Component\Engine\Collider\AABBAnimationCollider.h" />
     <ClInclude Include="Component\Engine\Camera\CameraMove.h" />
     <ClInclude Include="Component\Game\Camera\ILockOn.h" />
+    <ClInclude Include="Component\Game\Player\IMoveDirectionGetter.h" />
+    <ClInclude Include="Component\Game\Player\IPlayerMove.h" />
     <ClInclude Include="Component\Game\Player\PlayerMotions.h" />
     <ClInclude Include="Engine\Camera\EngineCamera.h" />
     <ClInclude Include="Engine\EngineFuctionChanger.h" />
@@ -483,6 +487,8 @@
     <ClInclude Include="Component\Game\Player\PlayerGuard.h" />
     <ClInclude Include="Component\Game\Player\Stamina.h" />
     <ClInclude Include="Component\Game\Camera\LockOn.h" />
+    <ClInclude Include="Component\Game\Player\PlayerWalk.h" />
+    <ClInclude Include="Component\Game\Player\PlayerDash.h" />
     <ClInclude Include="System\AssetsDirectoryPath.h" />
     <ClInclude Include="System\Texture\MeshRenderOnTextureManager.h" />
     <ClInclude Include="Mesh\IMeshAdder.h" />

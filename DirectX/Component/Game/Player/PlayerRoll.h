@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "IMoveDirectionGetter.h"
+#include "IPlayerMove.h"
 #include "../../Component.h"
 #include "../../../Math/Math.h"
 #include <memory>
@@ -29,6 +31,8 @@ private:
 private:
     std::shared_ptr<SkinMeshComponent> mAnimation;
     std::shared_ptr<Stamina> mStamina;
+    IPlayerMove* mPlayerMove;
+    const IMoveDirectionGetter* mMoveDirGetter;
     //ローリング距離
     float mRollingDistance;
     //ローリング中か

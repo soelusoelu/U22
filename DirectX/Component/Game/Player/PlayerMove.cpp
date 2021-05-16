@@ -1,29 +1,24 @@
 ﻿#include "PlayerMove.h"
+#include "PlayerDash.h"
 #include "PlayerMotions.h"
-#include "Stamina.h"
+#include "PlayerWalk.h"
 #include "../../Engine/Camera/Camera.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Device/Subject.h"
 #include "../../../Device/Time.h"
 #include "../../../GameObject/GameObject.h"
 #include "../../../GameObject/GameObjectManager.h"
+#include "../../../Input/Input.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
 
 PlayerMove::PlayerMove()
     : Component()
     , mCamera(nullptr)
     , mAnimation(nullptr)
-    , mStamina(nullptr)
-    , mDashMigrationTimer(std::make_unique<Time>())
-    , mCallbackRunOutOfStamina(std::make_unique<Subject>())
-    , mLockOn(nullptr)
-    , mWalkSpeed(0.f)
-    , mDashSpeed(0.f)
-    , mIsWalking(false)
-    , mIsDashing(false)
-    , mShouldReleaseDashButton(false)
-    , mDashStaminaAmount(0.f)
+    , mWalk(nullptr)
+    , mDash(nullptr)
+    , mCallbackToStop(std::make_unique<Subject>())
+    , mMoveDirectionInputedLast()
 {
 }
 
@@ -35,37 +30,26 @@ void PlayerMove::start() {
     mCamera = camCompManager.getComponent<Camera>();
 
     mAnimation = getComponent<SkinMeshComponent>();
-    mAnimation->callbackChangeMotion([&] { onChangeMotion(); });
-    mStamina = getComponent<Stamina>();
+    mWalk = getComponent<PlayerWalk>();
+    mDash = getComponent<PlayerDash>();
 }
 
-void PlayerMove::lateUpdate() {
-    if (!mShouldReleaseDashButton) {
-        return;
-    }
-    if (Input::joyPad().getJoyUp(DASH_BUTTON)) {
-        mShouldReleaseDashButton = false;
-    }
-}
-
-void PlayerMove::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "walkSpeed", &mWalkSpeed);
-    JsonHelper::getFloat(inObj, "dashSpeed", &mDashSpeed);
-    if (float time = 0.f; JsonHelper::getFloat(inObj, "dashMigrationTime", &time)) {
-        mDashMigrationTimer->setLimitTime(time);
-    }
-    JsonHelper::getFloat(inObj, "dashStaminaAmount", &mDashStaminaAmount);
+const Vector3& PlayerMove::getMoveDirectionInputedLast() const {
+    return mMoveDirectionInputedLast;
 }
 
 void PlayerMove::originalUpdate() {
-    const auto& pad = Input::joyPad();
-    const auto& leftStick = pad.leftStick();
+    const auto& leftStick = Input::joyPad().leftStick();
     if (canMove(leftStick)) {
-        auto moveDir = calcMoveDirection(leftStick);
-        if (canDash(pad)) {
-            dash(pad, moveDir);
+        //スティック入力から移動方向を求める
+        calcMoveDirection(leftStick);
+
+        //ダッシュできるならダッシュする
+        //無理なら歩行
+        if (mDash->canDash()) {
+            mDash->dash(*this);
         } else {
-            walk(moveDir);
+            mWalk->walk(*this);
         }
     } else {
         stop();
@@ -73,10 +57,10 @@ void PlayerMove::originalUpdate() {
 }
 
 bool PlayerMove::isMoving() const {
-    if (mIsWalking) {
+    if (isWalking()) {
         return true;
     }
-    if (mIsDashing) {
+    if (isDashing()) {
         return true;
     }
 
@@ -84,63 +68,26 @@ bool PlayerMove::isMoving() const {
 }
 
 bool PlayerMove::isWalking() const {
-    return mIsWalking;
+    return mWalk->isWalking();
 }
 
 bool PlayerMove::isDashing() const {
-    return mIsDashing;
+    return mDash->isDashing();
 }
 
-void PlayerMove::callbackRunOutOfStamina(const std::function<void()>& callback) {
-    mCallbackRunOutOfStamina->addObserver(callback);
+void PlayerMove::callbackToStop(const std::function<void()>& callback) {
+    mCallbackToStop->addObserver(callback);
 }
 
-void PlayerMove::setILockOn(const ILockOn* lockOn) {
-    mLockOn = lockOn;
+void PlayerMove::move(float moveSpeed) {
+    transform().translate(mMoveDirectionInputedLast * moveSpeed * Time::deltaTime);
 }
 
-void PlayerMove::walk(const Vector3& moveDir) {
-    move(moveDir, mWalkSpeed);
-    walkingRotate(moveDir);
-
-    if (!mIsWalking) {
-        mAnimation->changeMotion(PlayerMotions::WALK);
-        mAnimation->setLoop(true);
-        mIsWalking = true;
-        mIsDashing = false;
-    }
+void PlayerMove::rotateToMoveDirection() {
+    transform().setRotation(Quaternion::lookRotation(mMoveDirectionInputedLast));
 }
 
-void PlayerMove::dash(const JoyPad& pad, const Vector3& moveDir) {
-    move(moveDir, mDashSpeed);
-    dashingRotate(moveDir);
-
-    if (!mIsDashing) {
-        mAnimation->changeMotion(PlayerMotions::DASH);
-        mIsWalking = false;
-        mIsDashing = true;
-    }
-}
-
-void PlayerMove::move(const Vector3& moveDir, float moveSpeed) {
-    transform().translate(moveDir * moveSpeed * Time::deltaTime);
-}
-
-void PlayerMove::walkingRotate(const Vector3& moveDir) {
-    auto& t = transform();
-
-    if (mLockOn->isLockOn()) {
-        t.lookAt(mLockOn->getLockOnTargetTransform());
-    } else {
-        t.setRotation(Quaternion::lookRotation(moveDir));
-    }
-}
-
-void PlayerMove::dashingRotate(const Vector3& moveDir) {
-    transform().setRotation(Quaternion::lookRotation(moveDir));
-}
-
-Vector3 PlayerMove::calcMoveDirection(const Vector2& leftStickValue) const {
+void PlayerMove::calcMoveDirection(const Vector2& leftStickValue) {
     //カメラの視線ベクトルから向きを得る
     auto eye = Vector3::normalize(mCamera->getLookAt() - mCamera->getPosition());
     auto lookRot = Quaternion::lookRotation(eye);
@@ -151,61 +98,18 @@ Vector3 PlayerMove::calcMoveDirection(const Vector2& leftStickValue) const {
     camForward.y = 0.f;
 
     //移動方向を求める
-    auto moveDir = camRight * leftStickValue.x + camForward * leftStickValue.y;
-
-    return moveDir;
+    mMoveDirectionInputedLast = camRight * leftStickValue.x + camForward * leftStickValue.y;
 }
 
 void PlayerMove::stop() {
-    if (mIsWalking || mIsDashing) {
+    if (isMoving()) {
         mAnimation->changeMotion(PlayerMotions::IDOL);
         mAnimation->setLoop(true);
-        mIsWalking = false;
-        mIsDashing = false;
+
+        mCallbackToStop->notify();
     }
 }
 
 bool PlayerMove::canMove(const Vector2& leftStickValue) const {
     return !(Vector2::equal(leftStickValue, Vector2::zero));
-}
-
-bool PlayerMove::canDash(const JoyPad& pad) {
-    //ダッシュボタンを離すまで終了
-    if (mShouldReleaseDashButton) {
-        return false;
-    }
-
-    //ダッシュボタンが押されていないなら終了
-    if (!pad.getJoy(DASH_BUTTON)) {
-        mDashMigrationTimer->reset();
-        return false;
-    }
-
-    //ダッシュボタンを一定時間押していなければ終了
-    if (!mDashMigrationTimer->isTime()) {
-        mDashMigrationTimer->update();
-        return false;
-    }
-
-    //スタミナが0なら終了
-    if (!mStamina->use(mDashStaminaAmount)) {
-        mShouldReleaseDashButton = true;
-        mCallbackRunOutOfStamina->notify();
-        return false;
-    }
-
-    return true;
-}
-
-void PlayerMove::onChangeMotion() {
-    auto curMotionNo = mAnimation->getCurrentMotionNumber();
-    if (curMotionNo == PlayerMotions::WALK) {
-        return;
-    }
-    if (curMotionNo == PlayerMotions::DASH) {
-        return;
-    }
-
-    mIsWalking = false;
-    mIsDashing = false;
 }
