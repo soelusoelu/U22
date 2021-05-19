@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../Component.h"
-#include "../../../Device/Subject.h"
+#include "../../../Device/Function.h"
 #include <functional>
 #include <memory>
 
@@ -28,9 +28,9 @@ public:
     void setHealFlag(bool value);
     //現在のスタミナを取得する
     float getStamina() const;
-    //現在のスタミナの残量割合を取得する
+    //最大スタミナ値に対しての現在スタミナ値の比率を取得する[0, 1]
     float getStaminaRate() const;
-    //スタミナ変更時のコールバック
+    //スタミナが変更された際のコールバック
     void callbackChangeStamina(const std::function<void(const Stamina&)>& callback);
 
 private:
@@ -56,7 +56,7 @@ private:
     //スタミナが尽きてから回復し出すまでの時間
     std::unique_ptr<Time> mCoolTime;
     //スタミナ消費時のコールバック
-    Subject<const Stamina&> mCallbackChangeStamina;
+    Function<void(const Stamina&)> mCallbackChangeStamina;
 
     static constexpr float DEFAULT_HEAL_RATE = 1.f;
 };

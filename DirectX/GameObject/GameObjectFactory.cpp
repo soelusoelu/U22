@@ -48,7 +48,9 @@
 #include "../Component/Game/Player/PlayerRoll.h"
 #include "../Component/Game/Player/PlayerWalk.h"
 #include "../Component/Game/Player/Stamina.h"
+#include "../Component/Game/PlayerEnemyCommon/HitPoint.h"
 #include "../Component/Game/Scene/Title.h"
+#include "../Component/Game/UI/PlayerHitPointGauge.h"
 #include "../Component/Game/UI/PlayerUIManager.h"
 #include "../Component/Game/UI/StaminaGauge.h"
 #include "../Engine/DebugManager/DebugUtility/Debug.h"
@@ -125,8 +127,11 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(PlayerWalk);
     ADD_COMPONENT(Stamina);
 
+    ADD_COMPONENT(HitPoint);
+
     ADD_COMPONENT(Title);
 
+    ADD_COMPONENT(PlayerHitPointGauge);
     ADD_COMPONENT(PlayerUIManager);
     ADD_COMPONENT(StaminaGauge);
 #pragma endregion

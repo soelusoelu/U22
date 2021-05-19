@@ -3,7 +3,7 @@
 #include "IMoveDirectionGetter.h"
 #include "IPlayerMove.h"
 #include "../../Component.h"
-#include "../../../Device/Subject.h"
+#include "../../../Device/Function.h"
 #include "../../../Math/Math.h"
 #include <functional>
 #include <memory>
@@ -57,7 +57,7 @@ private:
     std::shared_ptr<SkinMeshComponent> mAnimation;
     std::shared_ptr<PlayerWalk> mWalk;
     std::shared_ptr<PlayerDash> mDash;
-    Subject<> mCallbackToStop;
+    Function<void()> mCallbackToStop;
     //最後に入力された移動方向
     Vector3 mMoveDirectionInputedLast;
 };

@@ -1,4 +1,1 @@
-D:\Download\Sourcetree\Oct2020\Oct2020\DirectXTex\Bin\Desktop_2019_Win10\Win32\Debug\DirectXTex.lib
-D:\Download\Sourcetree\Oct2020\Oct2020\DirectXTex\Bin\Desktop_2019_Win10\Win32\Debug\DirectXTex.pdb
-D:\Download\Sourcetree\MyEngine\DirectXTex\Bin\Desktop_2019_Win10\Win32\Debug\DirectXTex.lib
 D:\Download\Sourcetree\U22\DirectXTex\Bin\Desktop_2019_Win10\Win32\Debug\DirectXTex.lib

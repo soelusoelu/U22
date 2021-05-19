@@ -13,7 +13,7 @@ StaminaGauge::StaminaGauge()
 StaminaGauge::~StaminaGauge() = default;
 
 void StaminaGauge::start() {
-    mSprite = getComponent<SpriteComponent>();
+    mSprite = getComponents<SpriteComponent>()[PlayerUIManager::SPRITE_STAMINA];
 
     getComponent<PlayerUIManager>()->callbackSetPlayer(
         [&](const GameObject& player) { onSetPlayer(player); }

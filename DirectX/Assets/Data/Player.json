@@ -62,6 +62,12 @@
       }
     },
     {
+      "type": "HitPoint",
+      "properties": {
+        "HP": 300
+      }
+    },
+    {
       "type": "Stamina",
       "properties": {
         "stamina": 100.0,

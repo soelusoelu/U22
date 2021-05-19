@@ -2,7 +2,7 @@
 
 #include "ILockOn.h"
 #include "../../Component.h"
-#include "../../../Device/Subject.h"
+#include "../../../Device/Function.h"
 #include "../../../Math/Math.h"
 #include <memory>
 #include <vector>
@@ -53,7 +53,7 @@ private:
     Player mPlayer;
     Enemys mEnemys;
     Enemy mLockOnTarget;
-    Subject<> mCallbackLockOn;
+    Function<void()> mCallbackLockOn;
     //ロックオン範囲角度
     float mLockOnAngle;
     //ロックオン中か

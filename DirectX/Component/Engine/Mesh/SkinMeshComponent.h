@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "../../Component.h"
-#include "../../../Device/Subject.h"
+#include "../../../Device/Function.h"
 #include "../../../Math/Math.h"
 #include "../../../Mesh/IAnimation.h"
 #include "../../../Mesh/Motion.h"
@@ -71,9 +71,9 @@ private:
     //現在のボーン姿勢
     std::vector<Matrix4> mCurrentBones;
     //changeMotion後に呼ばれるコールバック
-    Subject<> mCallbackChangeMotion;
+    Function<void()> mCallbackChangeMotion;
     //ボーン姿勢計算後に呼ばれるコールバック
-    Subject<> mCallbackComputeCurrentBones;
+    Function<void()> mCallbackComputeCurrentBones;
     //現在のモーション番号
     int mCurrentMotionNo;
     //現在のモーションフレーム

@@ -170,6 +170,7 @@
     <ClCompile Include="Component\Engine\Mesh\AnimationCPU.cpp" />
     <ClCompile Include="Component\Engine\Collider\AABBAnimationCollider.cpp" />
     <ClCompile Include="Component\Engine\Camera\CameraMove.cpp" />
+    <ClCompile Include="Component\Game\PlayerEnemyCommon\HitPoint.cpp" />
     <ClCompile Include="Engine\Camera\EngineCamera.cpp" />
     <ClCompile Include="Engine\EngineFuctionChanger.cpp" />
     <ClCompile Include="Engine\ModelViewer\AnimationViewer.cpp" />
@@ -229,6 +230,7 @@
     <ClCompile Include="Component\Game\Player\PlayerDash.cpp" />
     <ClCompile Include="Component\Game\UI\StaminaGauge.cpp" />
     <ClCompile Include="Component\Game\UI\PlayerUIManager.cpp" />
+    <ClCompile Include="Component\Game\UI\PlayerHitPointGauge.cpp" />
     <ClCompile Include="System\Texture\MeshRenderOnTextureManager.cpp" />
     <ClCompile Include="Mesh\MeshCommonShaderSetter.cpp" />
     <ClCompile Include="Engine\SceneMesh\SceneMeshOperator.cpp" />
@@ -413,6 +415,7 @@
     <ClInclude Include="Component\Engine\Collider\AABBAnimationCollider.h" />
     <ClInclude Include="Component\Engine\Camera\CameraMove.h" />
     <ClInclude Include="Component\Game\Camera\ILockOn.h" />
+    <ClInclude Include="Component\Game\PlayerEnemyCommon\HitPoint.h" />
     <ClInclude Include="Component\Game\Player\IMoveDirectionGetter.h" />
     <ClInclude Include="Component\Game\Player\IPlayerMove.h" />
     <ClInclude Include="Component\Game\Player\PlayerMotions.h" />
@@ -466,6 +469,7 @@
     <ClInclude Include="DirectX\DepthStencilViewDesc.h" />
     <ClInclude Include="Component\Engine\Scene\MapEditor.h" />
     <ClInclude Include="Component\Game\Camera\GameCamera.h" />
+    <ClInclude Include="Device\Function.h" />
     <ClInclude Include="GameObject\IGameObjectAdder.h" />
     <ClInclude Include="GameObject\IGameObjectsGetter.h" />
     <ClInclude Include="GameObject\IThisGetter.h" />
@@ -492,6 +496,7 @@
     <ClInclude Include="Component\Game\Player\PlayerDash.h" />
     <ClInclude Include="Component\Game\UI\StaminaGauge.h" />
     <ClInclude Include="Component\Game\UI\PlayerUIManager.h" />
+    <ClInclude Include="Component\Game\UI\PlayerHitPointGauge.h" />
     <ClInclude Include="System\AssetsDirectoryPath.h" />
     <ClInclude Include="System\Texture\MeshRenderOnTextureManager.h" />
     <ClInclude Include="Mesh\IMeshAdder.h" />
@@ -637,7 +642,6 @@
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Component\Engine\Sprite\SpriteComponent.h" />
     <ClInclude Include="Math\Plane.h" />
-    <ClInclude Include="Device\Subject.h" />
     <ClInclude Include="Component\Engine\Sprite\Sprite3D.h" />
     <ClInclude Include="Component\Game\Scene\Title.h" />
     <ClInclude Include="Transform\Pivot.h" />
@@ -905,11 +909,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">
-      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Assets\Data\Camera.json" />
     <None Include="Assets\Data\CollideOperator.json" />
     <None Include="Assets\Data\DirectionalLight.json" />
@@ -929,6 +928,11 @@
     <None Include="Shader\OutLineHeader.hlsli" />
     <None Include="Shader\ShadowHeader.hlsli" />
     <None Include="Shader\SimpleHeader.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">
+      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

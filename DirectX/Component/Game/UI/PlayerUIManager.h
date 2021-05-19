@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "../../Component.h"
-#include "../../../Device/Subject.h"
+#include "../../../Device/Function.h"
 #include <functional>
 #include <memory>
 
@@ -14,14 +14,16 @@ public:
     PlayerUIManager();
     ~PlayerUIManager();
     void setPlayer(const Player& player);
-    const GameObject& getPlayer() const;
     void callbackSetPlayer(const std::function<void(const GameObject&)>& callback);
 
 private:
     PlayerUIManager(const PlayerUIManager&) = delete;
     PlayerUIManager& operator=(const PlayerUIManager&) = delete;
 
+public:
+    static constexpr unsigned SPRITE_HP = 0;
+    static constexpr unsigned SPRITE_STAMINA = 1;
+
 private:
-    Player mPlayer;
-    Subject<const GameObject&> mCallbackSetPlayer;
+    Function<void(const GameObject&)> mCallbackSetPlayer;
 };

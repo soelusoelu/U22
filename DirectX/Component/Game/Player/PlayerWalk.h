@@ -3,7 +3,7 @@
 #include "IPlayerMove.h"
 #include "../Camera/ILockOn.h"
 #include "../../Component.h"
-#include "../../../Device/Subject.h"
+#include "../../../Device/Function.h"
 #include <functional>
 #include <memory>
 
@@ -37,7 +37,7 @@ private:
 
 private:
     std::shared_ptr<SkinMeshComponent> mAnimation;
-    Subject<> mCallbackToWalk;
+    Function<void()> mCallbackToWalk;
     const ILockOn* mLockOn;
     float mWalkSpeed;
     bool mIsWalking;

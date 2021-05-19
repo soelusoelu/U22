@@ -41,7 +41,9 @@ void Stamina::loadProperties(const rapidjson::Value& inObj) {
 }
 
 void Stamina::drawInspector() {
-    ImGuiWrapper::sliderFloat("stamina", mCurrentStamina, 0.f, mMaxStamina);
+    if (ImGuiWrapper::sliderFloat("stamina", mCurrentStamina, 0.f, mMaxStamina)) {
+        mCallbackChangeStamina(*this);
+    }
 }
 
 bool Stamina::use(float amount) {

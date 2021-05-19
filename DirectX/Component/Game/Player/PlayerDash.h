@@ -2,7 +2,7 @@
 
 #include "IPlayerMove.h"
 #include "../../Component.h"
-#include "../../../Device/Subject.h"
+#include "../../../Device/Function.h"
 #include "../../../Input/Input.h"
 #include <functional>
 #include <memory>
@@ -42,8 +42,8 @@ private:
     std::shared_ptr<SkinMeshComponent> mAnimation;
     std::shared_ptr<Stamina> mStamina;
     std::unique_ptr<Time> mDashMigrationTimer;
-    Subject<> mCallbackToDash;
-    Subject<> mCallbackRunOutOfStamina;
+    Function<void()> mCallbackToDash;
+    Function<void()> mCallbackRunOutOfStamina;
     //ダッシュ速度
     float mDashSpeed;
     //ダッシュ中か

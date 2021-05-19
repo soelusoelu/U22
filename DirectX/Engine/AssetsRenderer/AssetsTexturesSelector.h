@@ -2,7 +2,7 @@
 
 #include "IAssetsRenderTexturesGetter.h"
 #include "ICallbackSelectAssetsTexture.h"
-#include "../../Device/Subject.h"
+#include "../../Device/Function.h"
 #include <functional>
 #include <memory>
 
@@ -23,5 +23,5 @@ private:
 
 private:
     const IAssetsRenderTexturesGetter* mTexturesGetter;
-    Subject<> mCallbackSelectTexture;
+    Function<void()> mCallbackSelectTexture;
 };

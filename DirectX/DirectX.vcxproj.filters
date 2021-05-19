@@ -259,6 +259,8 @@
     <ClCompile Include="Component\Game\Player\PlayerDash.cpp" />
     <ClCompile Include="Component\Game\UI\StaminaGauge.cpp" />
     <ClCompile Include="Component\Game\UI\PlayerUIManager.cpp" />
+    <ClCompile Include="Component\Game\PlayerEnemyCommon\HitPoint.cpp" />
+    <ClCompile Include="Component\Game\UI\PlayerHitPointGauge.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -300,7 +302,6 @@
     <ClInclude Include="Input\InputUtility.h" />
     <ClInclude Include="Input\IKeyboard.h" />
     <ClInclude Include="Input\IMouse.h" />
-    <ClInclude Include="Device\Subject.h" />
     <ClInclude Include="System\SystemInclude.h" />
     <ClInclude Include="System\GlobalFunction.h" />
     <ClInclude Include="DirectX\BlendDesc.h" />
@@ -581,6 +582,9 @@
     <ClInclude Include="Component\Game\Player\IMoveDirectionGetter.h" />
     <ClInclude Include="Component\Game\UI\StaminaGauge.h" />
     <ClInclude Include="Component\Game\UI\PlayerUIManager.h" />
+    <ClInclude Include="Device\Function.h" />
+    <ClInclude Include="Component\Game\PlayerEnemyCommon\HitPoint.h" />
+    <ClInclude Include="Component\Game\UI\PlayerHitPointGauge.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />

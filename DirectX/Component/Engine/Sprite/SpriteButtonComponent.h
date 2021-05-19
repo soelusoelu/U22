@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "../../Component.h"
-#include "../../../Device/Subject.h"
+#include "../../../Device/Function.h"
 #include "../../../Math/Math.h"
 #include <functional>
 #include <memory>
@@ -46,7 +46,7 @@ private:
 private:
     SpritePtr mSprite;
     SpritePtr mSelectingSprite;
-    Subject<> mCallbackClick;
+    Function<void()> mCallbackClick;
     bool mEnableFunction;
     bool mPreviousContains;
     bool mWaitOneFrame;
