@@ -2,6 +2,7 @@
 
 #include "ILockOn.h"
 #include "../../Component.h"
+#include "../../../Device/Subject.h"
 #include "../../../Math/Math.h"
 #include <memory>
 #include <vector>
@@ -9,7 +10,6 @@
 class GameObject;
 class Camera;
 class GameCamera;
-class Subject;
 
 class LockOn
     : public Component
@@ -53,7 +53,7 @@ private:
     Player mPlayer;
     Enemys mEnemys;
     Enemy mLockOnTarget;
-    std::unique_ptr<Subject> mCallbackLockOn;
+    Subject<> mCallbackLockOn;
     //ロックオン範囲角度
     float mLockOnAngle;
     //ロックオン中か

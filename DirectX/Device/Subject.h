@@ -3,13 +3,22 @@
 #include <list>
 #include <functional>
 
+template<typename... Args>
 class Subject {
 public:
-    Subject();
-    ~Subject();
-    void addObserver(const std::function<void()>& observer);
-    void notify() const;
+    Subject() = default;
+    ~Subject() = default;
+
+    void operator+=(const std::function<void(Args...)>& observer) {
+        mObservers.emplace_back(observer);
+    }
+
+    void operator()(Args... args) {
+        for (const auto& observer : mObservers) {
+            observer(args...);
+        }
+    }
 
 private:
-    std::list<std::function<void()>> mObservers;
+    std::list<std::function<void(Args...)>> mObservers;
 };

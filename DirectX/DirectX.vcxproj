@@ -227,6 +227,8 @@
     <ClCompile Include="Component\Game\Camera\LockOn.cpp" />
     <ClCompile Include="Component\Game\Player\PlayerWalk.cpp" />
     <ClCompile Include="Component\Game\Player\PlayerDash.cpp" />
+    <ClCompile Include="Component\Game\UI\StaminaGauge.cpp" />
+    <ClCompile Include="Component\Game\UI\PlayerUIManager.cpp" />
     <ClCompile Include="System\Texture\MeshRenderOnTextureManager.cpp" />
     <ClCompile Include="Mesh\MeshCommonShaderSetter.cpp" />
     <ClCompile Include="Engine\SceneMesh\SceneMeshOperator.cpp" />
@@ -326,7 +328,6 @@
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Component\Engine\Sprite\SpriteComponent.cpp" />
     <ClCompile Include="Math\Plane.cpp" />
-    <ClCompile Include="Device\Subject.cpp" />
     <ClCompile Include="Component\Engine\Sprite\Sprite3D.cpp" />
     <ClCompile Include="Component\Game\Scene\Title.cpp" />
     <ClCompile Include="Transform\Pivot.cpp" />
@@ -489,6 +490,8 @@
     <ClInclude Include="Component\Game\Camera\LockOn.h" />
     <ClInclude Include="Component\Game\Player\PlayerWalk.h" />
     <ClInclude Include="Component\Game\Player\PlayerDash.h" />
+    <ClInclude Include="Component\Game\UI\StaminaGauge.h" />
+    <ClInclude Include="Component\Game\UI\PlayerUIManager.h" />
     <ClInclude Include="System\AssetsDirectoryPath.h" />
     <ClInclude Include="System\Texture\MeshRenderOnTextureManager.h" />
     <ClInclude Include="Mesh\IMeshAdder.h" />
@@ -917,6 +920,7 @@
     <None Include="Assets\Data\ModelViewer.json" />
     <None Include="Assets\Data\Plane.json" />
     <None Include="Assets\Data\Player.json" />
+    <None Include="Assets\Data\PlayerUI.json" />
     <None Include="Assets\Data\Title.json" />
     <None Include="Assets\Data\Waveform.json" />
     <None Include="Shader\MaterialHeader.hlsli" />

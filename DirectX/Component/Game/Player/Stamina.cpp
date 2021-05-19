@@ -22,6 +22,8 @@ void Stamina::lateUpdate() {
     if (canHeal()) {
         mCurrentStamina += mHealAmount * mHealRate * Time::deltaTime;
         mCurrentStamina = Math::Min(mCurrentStamina, mMaxStamina);
+
+        mCallbackChangeStamina(*this);
     }
 
     if (mUsingStaminaThisFrame) {
@@ -56,6 +58,8 @@ bool Stamina::use(float amount) {
 
     mUsingStaminaThisFrame = true;
 
+    mCallbackChangeStamina(*this);
+
     return true;
 }
 
@@ -69,6 +73,18 @@ void Stamina::setHealRateToDefault() {
 
 void Stamina::setHealFlag(bool value) {
     mHealFlag = value;
+}
+
+float Stamina::getStamina() const {
+    return mCurrentStamina;
+}
+
+float Stamina::getStaminaRate() const {
+    return (mCurrentStamina / mMaxStamina);
+}
+
+void Stamina::callbackChangeStamina(const std::function<void(const Stamina&)>& callback) {
+    mCallbackChangeStamina += callback;
 }
 
 bool Stamina::canUse() const {

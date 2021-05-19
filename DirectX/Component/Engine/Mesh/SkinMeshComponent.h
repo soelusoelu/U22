@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../../Component.h"
+#include "../../../Device/Subject.h"
 #include "../../../Math/Math.h"
 #include "../../../Mesh/IAnimation.h"
 #include "../../../Mesh/Motion.h"
@@ -9,7 +10,6 @@
 #include <vector>
 
 class MeshShader;
-class Subject;
 
 class SkinMeshComponent
     : public Component
@@ -71,9 +71,9 @@ private:
     //現在のボーン姿勢
     std::vector<Matrix4> mCurrentBones;
     //changeMotion後に呼ばれるコールバック
-    std::unique_ptr<Subject> mCallbackChangeMotion;
+    Subject<> mCallbackChangeMotion;
     //ボーン姿勢計算後に呼ばれるコールバック
-    std::unique_ptr<Subject> mCallbackComputeCurrentBones;
+    Subject<> mCallbackComputeCurrentBones;
     //現在のモーション番号
     int mCurrentMotionNo;
     //現在のモーションフレーム

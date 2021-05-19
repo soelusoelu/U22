@@ -55,7 +55,6 @@
     <ClCompile Include="GameObject\GameObjectManager.cpp" />
     <ClCompile Include="GameObject\GameObjectFactory.cpp" />
     <ClCompile Include="Math\Plane.cpp" />
-    <ClCompile Include="Device\Subject.cpp" />
     <ClCompile Include="DirectX\BlendState.cpp" />
     <ClCompile Include="DirectX\Buffer.cpp" />
     <ClCompile Include="DirectX\ComparisonFunc.cpp" />
@@ -258,6 +257,8 @@
     <ClCompile Include="Component\Game\Camera\LockOn.cpp" />
     <ClCompile Include="Component\Game\Player\PlayerWalk.cpp" />
     <ClCompile Include="Component\Game\Player\PlayerDash.cpp" />
+    <ClCompile Include="Component\Game\UI\StaminaGauge.cpp" />
+    <ClCompile Include="Component\Game\UI\PlayerUIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -578,6 +579,8 @@
     <ClInclude Include="Component\Game\Player\PlayerDash.h" />
     <ClInclude Include="Component\Game\Player\IPlayerMove.h" />
     <ClInclude Include="Component\Game\Player\IMoveDirectionGetter.h" />
+    <ClInclude Include="Component\Game\UI\StaminaGauge.h" />
+    <ClInclude Include="Component\Game\UI\PlayerUIManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />
@@ -598,5 +601,6 @@
     <None Include="Assets\Data\Plane.json" />
     <None Include="Assets\Data\GameCamera.json" />
     <None Include="Assets\Data\Enemy.json" />
+    <None Include="Assets\Data\PlayerUI.json" />
   </ItemGroup>
 </Project>

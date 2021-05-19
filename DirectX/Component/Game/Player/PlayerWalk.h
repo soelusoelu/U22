@@ -3,11 +3,11 @@
 #include "IPlayerMove.h"
 #include "../Camera/ILockOn.h"
 #include "../../Component.h"
+#include "../../../Device/Subject.h"
 #include <functional>
 #include <memory>
 
 class SkinMeshComponent;
-class Subject;
 
 class PlayerWalk
     : public Component
@@ -37,7 +37,7 @@ private:
 
 private:
     std::shared_ptr<SkinMeshComponent> mAnimation;
-    std::unique_ptr<Subject> mCallbackToWalk;
+    Subject<> mCallbackToWalk;
     const ILockOn* mLockOn;
     float mWalkSpeed;
     bool mIsWalking;

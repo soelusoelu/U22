@@ -3,14 +3,12 @@
 #include "PlayerMotions.h"
 #include "PlayerMove.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
-#include "../../../Device/Subject.h"
 #include "../../../Transform/Transform3D.h"
 #include "../../../Utility/LevelLoader.h"
 
 PlayerWalk::PlayerWalk()
     : Component()
     , mAnimation(nullptr)
-    , mCallbackToWalk(std::make_unique<Subject>())
     , mLockOn(nullptr)
     , mWalkSpeed(0.f)
     , mIsWalking(false)
@@ -40,7 +38,7 @@ void PlayerWalk::walk(IPlayerMove& playerMove) {
         mAnimation->setLoop(true);
         mIsWalking = true;
 
-        mCallbackToWalk->notify();
+        mCallbackToWalk();
     }
 }
 
@@ -53,7 +51,7 @@ void PlayerWalk::setILockOn(const ILockOn* lockOn) {
 }
 
 void PlayerWalk::callbackToWalk(const std::function<void()>& callback) {
-    mCallbackToWalk->addObserver(callback);
+    mCallbackToWalk += callback;
 }
 
 void PlayerWalk::rotate(IPlayerMove& playerMove) {

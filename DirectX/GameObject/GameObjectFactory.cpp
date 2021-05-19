@@ -49,6 +49,8 @@
 #include "../Component/Game/Player/PlayerWalk.h"
 #include "../Component/Game/Player/Stamina.h"
 #include "../Component/Game/Scene/Title.h"
+#include "../Component/Game/UI/PlayerUIManager.h"
+#include "../Component/Game/UI/StaminaGauge.h"
 #include "../Engine/DebugManager/DebugUtility/Debug.h"
 #include "../System/GlobalFunction.h"
 #include "../Utility/LevelLoader.h"
@@ -124,6 +126,9 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(Stamina);
 
     ADD_COMPONENT(Title);
+
+    ADD_COMPONENT(PlayerUIManager);
+    ADD_COMPONENT(StaminaGauge);
 #pragma endregion
 }
 

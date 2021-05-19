@@ -2,6 +2,7 @@
 #include "../Camera/GameCamera.h"
 #include "../Camera/LockOn.h"
 #include "../Player/PlayerWalk.h"
+#include "../UI/PlayerUIManager.h"
 #include "../../Engine/Mesh/MeshComponent.h"
 #include "../../../GameObject/GameObject.h"
 #include "../../../GameObject/GameObjectFactory.h"
@@ -19,6 +20,7 @@ void Title::awake() {
     auto player = GameObjectCreater::create("Player");
     GameObjectCreater::create("Enemy");
     GameObjectCreater::create("Plane");
+    auto playerUIManager = GameObjectCreater::create("PlayerUI");
 
     auto camera = GameObjectCreater::create("GameCamera");
 
@@ -31,4 +33,6 @@ void Title::awake() {
 
     auto pw = player->componentManager().getComponent<PlayerWalk>();
     pw->setILockOn(lockOn.get());
+
+    playerUIManager->componentManager().getComponent<PlayerUIManager>()->setPlayer(player);
 }

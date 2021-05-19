@@ -1,6 +1,5 @@
 ﻿#include "SpriteButtonComponent.h"
 #include "../Sprite/SpriteComponent.h"
-#include "../../../Device/Subject.h"
 #include "../../../Imgui/imgui.h"
 #include "../../../Input/Input.h"
 #include "../../../Sprite/SpriteUtility.h"
@@ -12,7 +11,6 @@ SpriteButtonComponent::SpriteButtonComponent()
     : Component()
     , mSprite(nullptr)
     , mSelectingSprite(nullptr)
-    , mCallbackClick(std::make_unique<Subject>())
     , mEnableFunction(true)
     , mPreviousContains(false)
     , mWaitOneFrame(true)
@@ -46,7 +44,7 @@ void SpriteButtonComponent::update() {
 
     //マウスの左ボタンを押していれば通知を送る
     if (contains && mouse.getMouseButtonDown(MouseCode::LeftButton)) {
-        mCallbackClick->notify();
+        mCallbackClick();
     }
 
     mPreviousContains = contains;
@@ -90,7 +88,7 @@ void SpriteButtonComponent::enableButtonFunction(bool value) {
 }
 
 void SpriteButtonComponent::callbackClick(const std::function<void()>& onClick) {
-    mCallbackClick->addObserver(onClick);
+    mCallbackClick += onClick;
 }
 
 bool SpriteButtonComponent::canAccessSprites() const {

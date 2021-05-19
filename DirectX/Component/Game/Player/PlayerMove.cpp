@@ -4,7 +4,6 @@
 #include "PlayerWalk.h"
 #include "../../Engine/Camera/Camera.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
-#include "../../../Device/Subject.h"
 #include "../../../Device/Time.h"
 #include "../../../GameObject/GameObject.h"
 #include "../../../GameObject/GameObjectManager.h"
@@ -17,7 +16,6 @@ PlayerMove::PlayerMove()
     , mAnimation(nullptr)
     , mWalk(nullptr)
     , mDash(nullptr)
-    , mCallbackToStop(std::make_unique<Subject>())
     , mMoveDirectionInputedLast()
 {
 }
@@ -76,7 +74,7 @@ bool PlayerMove::isDashing() const {
 }
 
 void PlayerMove::callbackToStop(const std::function<void()>& callback) {
-    mCallbackToStop->addObserver(callback);
+    mCallbackToStop += callback;
 }
 
 void PlayerMove::move(float moveSpeed) {
@@ -106,7 +104,7 @@ void PlayerMove::stop() {
         mAnimation->changeMotion(PlayerMotions::IDOL);
         mAnimation->setLoop(true);
 
-        mCallbackToStop->notify();
+        mCallbackToStop();
     }
 }
 

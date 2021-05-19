@@ -4,7 +4,6 @@
 #include "PlayerWalk.h"
 #include "Stamina.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
-#include "../../../Device/Subject.h"
 #include "../../../Device/Time.h"
 #include "../../../Transform/Transform3D.h"
 #include "../../../Utility/LevelLoader.h"
@@ -14,8 +13,6 @@ PlayerDash::PlayerDash()
     , mAnimation(nullptr)
     , mStamina(nullptr)
     , mDashMigrationTimer(std::make_unique<Time>())
-    , mCallbackToDash(std::make_unique<Subject>())
-    , mCallbackRunOutOfStamina(std::make_unique<Subject>())
     , mDashSpeed(0.f)
     , mIsDashing(false)
     , mShouldReleaseDashButton(false)
@@ -59,7 +56,7 @@ void PlayerDash::dash(IPlayerMove& playerMove) {
         mAnimation->changeMotion(PlayerMotions::DASH);
         mIsDashing = true;
 
-        mCallbackToDash->notify();
+        mCallbackToDash();
     }
 }
 
@@ -88,7 +85,7 @@ bool PlayerDash::canDash() {
     //スタミナが0なら終了
     if (!mStamina->use(mDashStaminaAmount)) {
         mShouldReleaseDashButton = true;
-        mCallbackRunOutOfStamina->notify();
+        mCallbackRunOutOfStamina();
         return false;
     }
 
@@ -96,11 +93,11 @@ bool PlayerDash::canDash() {
 }
 
 void PlayerDash::callbackToDash(const std::function<void()>& callback) {
-    mCallbackToDash->addObserver(callback);
+    mCallbackToDash += callback;
 }
 
 void PlayerDash::callbackRunOutOfStamina(const std::function<void()>& callback) {
-    mCallbackRunOutOfStamina->addObserver(callback);
+    mCallbackRunOutOfStamina += callback;
 }
 
 void PlayerDash::onChangeMotion() {

@@ -1,7 +1,6 @@
 ﻿#include "LockOn.h"
 #include "GameCamera.h"
 #include "../../Engine/Camera/Camera.h"
-#include "../../../Device/Subject.h"
 #include "../../../GameObject/GameObject.h"
 #include "../../../GameObject/GameObjectManager.h"
 #include "../../../Input/Input.h"
@@ -14,7 +13,6 @@ LockOn::LockOn()
     , mGameCamera(nullptr)
     , mPlayer(nullptr)
     , mLockOnTarget(nullptr)
-    , mCallbackLockOn(std::make_unique<Subject>())
     , mLockOnAngle(0.f)
     , mIsLockOn(false)
     , mLookAtOffsetY(0.f)
@@ -32,8 +30,14 @@ void LockOn::start() {
 }
 
 void LockOn::update() {
+    if (!Input::joyPad().getJoyDown(JoyCode::RightStickButton)) {
+        return;
+    }
+
     if (!mIsLockOn) {
         lockOn();
+    } else {
+        mIsLockOn = false;
     }
 }
 
@@ -58,7 +62,7 @@ const Transform3D& LockOn::getLockOnTargetTransform() const {
 }
 
 void LockOn::callbackLockOn(const std::function<void()>& callback) {
-    mCallbackLockOn->addObserver(callback);
+    mCallbackLockOn += callback;
 }
 
 void LockOn::setPlayer(const Player& player) {
@@ -70,17 +74,13 @@ void LockOn::setEnemys(const Enemys& enemys) {
 }
 
 void LockOn::lockOn() {
-    if (!Input::joyPad().getJoyDown(JoyCode::RightStickButton)) {
-        return;
-    }
-
     for (const auto& e : mEnemys) {
         const auto& ePos = e->transform().getPosition();
         mIsLockOn = isLockOnRange(ePos);
         if (mIsLockOn) {
             mLockOnTarget = e;
 
-            mCallbackLockOn->notify();
+            mCallbackLockOn();
             return;
         }
     }

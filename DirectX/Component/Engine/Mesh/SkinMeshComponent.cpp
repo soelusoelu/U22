@@ -1,7 +1,6 @@
 ﻿#include "SkinMeshComponent.h"
 #include "MeshComponent.h"
 #include "MeshShader.h"
-#include "../../../Device/Subject.h"
 #include "../../../Engine/DebugManager/DebugUtility/Debug.h"
 #include "../../../System/Shader/ConstantBuffers.h"
 #include <cassert>
@@ -10,8 +9,6 @@ SkinMeshComponent::SkinMeshComponent()
     : Component()
     , mAnimation(nullptr)
     , mMeshShader(nullptr)
-    , mCallbackChangeMotion(std::make_unique<Subject>())
-    , mCallbackComputeCurrentBones(std::make_unique<Subject>())
     , mCurrentMotionNo(0)
     , mCurrentFrame(0)
     , mIsMotionUpdate(true)
@@ -26,7 +23,7 @@ void SkinMeshComponent::update() {
         calcNextPose();
 
         //通知を送る
-        mCallbackComputeCurrentBones->notify();
+        mCallbackComputeCurrentBones();
     }
 
     //gpu側でスキニングする場合に送る必要がある
@@ -44,7 +41,7 @@ void SkinMeshComponent::changeMotion(unsigned motionNo) {
     mCurrentFrame = 0;
     mIsMotionUpdate = true;
 
-    mCallbackChangeMotion->notify();
+    mCallbackChangeMotion();
 }
 
 void SkinMeshComponent::changeMotion(const std::string& motionName) {
@@ -125,11 +122,11 @@ void SkinMeshComponent::setValue(const std::shared_ptr<MeshShader>& meshShader, 
 }
 
 void SkinMeshComponent::callbackChangeMotion(const std::function<void()>& callback) {
-    mCallbackChangeMotion->addObserver(callback);
+    mCallbackChangeMotion += callback;
 }
 
 void SkinMeshComponent::callbackComputeCurrentBones(const std::function<void()>& callback) {
-    mCallbackComputeCurrentBones->addObserver(callback);
+    mCallbackComputeCurrentBones += callback;
 }
 
 void SkinMeshComponent::calcNextPose() {

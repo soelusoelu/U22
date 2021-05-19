@@ -1,12 +1,12 @@
 ﻿#pragma once
 
 #include "../../Component.h"
+#include "../../../Device/Subject.h"
 #include "../../../Math/Math.h"
 #include <functional>
 #include <memory>
 
 class SpriteComponent;
-class Subject;
 
 class SpriteButtonComponent : public Component {
     using SpritePtr = std::shared_ptr<SpriteComponent>;
@@ -46,7 +46,7 @@ private:
 private:
     SpritePtr mSprite;
     SpritePtr mSelectingSprite;
-    std::unique_ptr<Subject> mCallbackClick;
+    Subject<> mCallbackClick;
     bool mEnableFunction;
     bool mPreviousContains;
     bool mWaitOneFrame;
