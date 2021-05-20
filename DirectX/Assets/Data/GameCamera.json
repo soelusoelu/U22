@@ -6,7 +6,9 @@
       "properties": {
         "rotateSpeed": 120.0,
         "cameraToPlayerDistance": 60.0,
-        "lookAtOffsetY": 8.0
+        "lookAtOffsetY": 8.0,
+        "startPositionY": 15.0,
+        "unlockOnLerpTimer": 0.5
       }
     },
     {
@@ -14,7 +16,8 @@
       "properties": {
         "lockOnAngle": 30.0,
         "lookAtOffsetY": 20.0,
-        "cameraOffsetY": 15.0
+        "cameraOffsetY": 15.0,
+        "lerpTime": 1.0
       }
     }
   ]

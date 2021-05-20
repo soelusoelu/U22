@@ -3,11 +3,12 @@
 #include "../../Utility/LevelLoader.h"
 
 FPSCounter::FPSCounter() :
-    mDrawUpdateTimer(std::make_unique<Time>(0.5f)),
+    mDrawUpdateTimer(std::make_unique<Time>()),
     mFixedFrame(60.f),
     mCurrentFPS(60.f),
     mFrequency(),
     mPreviousTime() {
+    mDrawUpdateTimer->setLimitTime(0.5f);
 }
 
 FPSCounter::~FPSCounter() = default;

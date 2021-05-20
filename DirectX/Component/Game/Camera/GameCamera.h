@@ -6,6 +6,7 @@
 #include <memory>
 
 class Camera;
+class Time;
 
 class GameCamera
     : public Component
@@ -26,14 +27,21 @@ private:
     GameCamera(const GameCamera&) = delete;
     GameCamera& operator=(const GameCamera&) = delete;
 
+    void calcRotation(const Vector3& lookAt, const Vector3& pos);
+    void onUnlockOn();
+
 private:
     std::shared_ptr<Camera> mCamera;
     std::shared_ptr<GameObject> mPlayer;
     ILockOn* mLockOn;
+    //ロックオン解除時の補間時間
+    std::unique_ptr<Time> mUnlockOnLerpTimer;
     //カメラ回転速度
     float mRotateSpeed;
     //プレイヤーまでの距離
     float mToPlayerDistance;
     //注視点のY軸オフセット
     float mLookAtOffsetY;
+    //開始時のカメラY軸位置
+    float mStartPositionY;
 };

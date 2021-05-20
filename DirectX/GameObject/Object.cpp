@@ -16,7 +16,8 @@ void Object::destroy(float sec) {
     if (mDestroyTimer) {
         return;
     }
-    mDestroyTimer = std::make_unique<Time>(sec);
+    mDestroyTimer = std::make_unique<Time>();
+    mDestroyTimer->setLimitTime(sec);
 }
 
 bool Object::isDead() const {

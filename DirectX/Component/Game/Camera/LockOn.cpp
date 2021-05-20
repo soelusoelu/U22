@@ -1,6 +1,7 @@
 ﻿#include "LockOn.h"
 #include "GameCamera.h"
 #include "../../Engine/Camera/Camera.h"
+#include "../../../Device/Time.h"
 #include "../../../GameObject/GameObject.h"
 #include "../../../GameObject/GameObjectManager.h"
 #include "../../../Input/Input.h"
@@ -17,6 +18,7 @@ LockOn::LockOn()
     , mIsLockOn(false)
     , mLookAtOffsetY(0.f)
     , mCameraOffsetY(0.f)
+    , mLerpTimer(std::make_unique<Time>())
 {
 }
 
@@ -38,6 +40,9 @@ void LockOn::update() {
         lockOn();
     } else {
         mIsLockOn = false;
+        mLerpTimer->reset();
+
+        mCallbackUnlockOn();
     }
 }
 
@@ -51,6 +56,9 @@ void LockOn::loadProperties(const rapidjson::Value & inObj) {
     JsonHelper::getFloat(inObj, "lockOnAngle", &mLockOnAngle);
     JsonHelper::getFloat(inObj, "lookAtOffsetY", &mLookAtOffsetY);
     JsonHelper::getFloat(inObj, "cameraOffsetY", &mCameraOffsetY);
+    if (float time = 0.f; JsonHelper::getFloat(inObj, "lerpTime", &time)) {
+        mLerpTimer->setLimitTime(time);
+    }
 }
 
 bool LockOn::isLockOn() const {
@@ -65,6 +73,10 @@ void LockOn::callbackLockOn(const std::function<void()>& callback) {
     mCallbackLockOn += callback;
 }
 
+void LockOn::callbackUnlockOn(const std::function<void()>& callback) {
+    mCallbackUnlockOn += callback;
+}
+
 void LockOn::setPlayer(const Player& player) {
     mPlayer = player;
 }
@@ -76,8 +88,8 @@ void LockOn::setEnemys(const Enemys& enemys) {
 void LockOn::lockOn() {
     for (const auto& e : mEnemys) {
         const auto& ePos = e->transform().getPosition();
-        mIsLockOn = isLockOnRange(ePos);
-        if (mIsLockOn) {
+        if (isLockOnRange(ePos)) {
+            mIsLockOn = true;
             mLockOnTarget = e;
 
             mCallbackLockOn();
@@ -88,12 +100,20 @@ void LockOn::lockOn() {
 
 void LockOn::lockOnUpdate() {
     auto lookAt = mLockOnTarget->transform().getPosition() + Vector3::up * mLookAtOffsetY;
+    if (!mLerpTimer->isTime()) {
+        mLerpTimer->update();
+        lookAt = Vector3::lerp(mCamera->getLookAt(), lookAt, mLerpTimer->rate());
+    }
     mCamera->lookAt(lookAt);
 
     const auto& pt = mPlayer->transform();
     auto playerToLookAt = Vector3::normalize(lookAt - pt.getPosition());
     playerToLookAt.y = 0.f;
-    mCamera->setPosition(pt.getPosition() + -playerToLookAt * mGameCamera->getDistanceToPlayer() + Vector3::up * mCameraOffsetY);
+    auto cameraPos = pt.getPosition() + -playerToLookAt * mGameCamera->getDistanceToPlayer() + Vector3::up * mCameraOffsetY;
+    if (!mLerpTimer->isTime()) {
+        cameraPos = Vector3::lerp(mCamera->getPosition(), cameraPos, mLerpTimer->rate());
+    }
+    mCamera->setPosition(cameraPos);
 }
 
 bool LockOn::isLockOnRange(const Vector3& enemyPosition) const {
