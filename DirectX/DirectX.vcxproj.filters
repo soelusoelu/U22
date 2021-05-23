@@ -261,6 +261,7 @@
     <ClCompile Include="Component\Game\UI\PlayerUIManager.cpp" />
     <ClCompile Include="Component\Game\PlayerEnemyCommon\HitPoint.cpp" />
     <ClCompile Include="Component\Game\UI\PlayerHitPointGauge.cpp" />
+    <ClCompile Include="Component\Game\Player\PlayerWeapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -585,6 +586,7 @@
     <ClInclude Include="Device\Function.h" />
     <ClInclude Include="Component\Game\PlayerEnemyCommon\HitPoint.h" />
     <ClInclude Include="Component\Game\UI\PlayerHitPointGauge.h" />
+    <ClInclude Include="Component\Game\Player\PlayerWeapon.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />
@@ -606,5 +608,6 @@
     <None Include="Assets\Data\GameCamera.json" />
     <None Include="Assets\Data\Enemy.json" />
     <None Include="Assets\Data\PlayerUI.json" />
+    <None Include="Assets\Data\Weapon.json" />
   </ItemGroup>
 </Project>

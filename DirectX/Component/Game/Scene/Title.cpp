@@ -2,6 +2,7 @@
 #include "../Camera/GameCamera.h"
 #include "../Camera/LockOn.h"
 #include "../Player/PlayerWalk.h"
+#include "../Player/PlayerWeapon.h"
 #include "../UI/PlayerUIManager.h"
 #include "../../Engine/Mesh/MeshComponent.h"
 #include "../../../GameObject/GameObject.h"
@@ -18,6 +19,7 @@ Title::~Title() = default;
 
 void Title::awake() {
     auto player = GameObjectCreater::create("Player");
+    auto weapon = GameObjectCreater::create("Weapon");
     GameObjectCreater::create("Enemy");
     GameObjectCreater::create("Plane");
     auto playerUIManager = GameObjectCreater::create("PlayerUI");
@@ -31,8 +33,9 @@ void Title::awake() {
     auto enemys = gameObject().getGameObjectManager().findGameObjects("Enemy");
     lockOn->setEnemys(enemys);
 
-    auto pw = player->componentManager().getComponent<PlayerWalk>();
-    pw->setILockOn(lockOn.get());
+    const auto& playerCompManager = player->componentManager();
+    playerCompManager.getComponent<PlayerWalk>()->setILockOn(lockOn.get());
+    playerCompManager.getComponent<PlayerWeapon>()->setWeapon(weapon);
 
     playerUIManager->componentManager().getComponent<PlayerUIManager>()->setPlayer(player);
 }

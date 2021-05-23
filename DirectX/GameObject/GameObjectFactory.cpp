@@ -47,6 +47,7 @@
 #include "../Component/Game/Player/PlayerMove.h"
 #include "../Component/Game/Player/PlayerRoll.h"
 #include "../Component/Game/Player/PlayerWalk.h"
+#include "../Component/Game/Player/PlayerWeapon.h"
 #include "../Component/Game/Player/Stamina.h"
 #include "../Component/Game/PlayerEnemyCommon/HitPoint.h"
 #include "../Component/Game/Scene/Title.h"
@@ -125,6 +126,7 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(PlayerMove);
     ADD_COMPONENT(PlayerRoll);
     ADD_COMPONENT(PlayerWalk);
+    ADD_COMPONENT(PlayerWeapon);
     ADD_COMPONENT(Stamina);
 
     ADD_COMPONENT(HitPoint);

@@ -1,0 +1,11 @@
+{
+  "tag": "Weapon",
+  "components": [
+    {
+      "type": "MeshComponent",
+      "properties": {
+        "fileName": "Player\\sword_test.fbx"
+      }
+    }
+  ]
+}

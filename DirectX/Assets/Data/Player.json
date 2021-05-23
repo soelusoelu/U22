@@ -74,6 +74,10 @@
         "healAmount": 15.0,
         "coolTime": 1.0
       }
+    },
+    {
+      "type": "PlayerWeapon",
+      "properties": {}
     }
   ]
 }

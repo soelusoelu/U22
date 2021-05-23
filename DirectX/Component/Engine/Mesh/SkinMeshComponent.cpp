@@ -130,7 +130,7 @@ void SkinMeshComponent::callbackComputeCurrentBones(const std::function<void()>&
 }
 
 void SkinMeshComponent::calcNextPose() {
-    const auto& motion = mAnimation->getMotion(mCurrentMotionNo);
+    const auto& motion = getCurrentMotion();
 
     //シェーダーにボーンのデータを渡す
     for (size_t i = 0; i < mAnimation->getBoneCount(); ++i) {
@@ -141,7 +141,7 @@ void SkinMeshComponent::calcNextPose() {
 }
 
 void SkinMeshComponent::calcCurrentFrame() {
-    const auto& motion = mAnimation->getMotion(mCurrentMotionNo);
+    const auto& motion = getCurrentMotion();
 
     ++mCurrentFrame;
 
