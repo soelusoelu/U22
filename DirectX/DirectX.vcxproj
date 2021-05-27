@@ -166,11 +166,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Component\Game\UI\BossEnemyUIManager.cpp" />
+    <ClCompile Include="Component\Game\UI\BossEnemyHitPointGauge.cpp" />
     <ClCompile Include="Collision\AABBCreater.cpp" />
     <ClCompile Include="Component\Engine\Mesh\AnimationCPU.cpp" />
     <ClCompile Include="Component\Engine\Collider\AABBAnimationCollider.cpp" />
     <ClCompile Include="Component\Engine\Camera\CameraMove.cpp" />
     <ClCompile Include="Component\Game\PlayerEnemyCommon\HitPoint.cpp" />
+    <ClCompile Include="Component\Game\Enemy\EnemyAnimationController.cpp" />
+    <ClCompile Include="Component\Game\Enemy\EnemyColliderController.cpp" />
     <ClCompile Include="Engine\Camera\EngineCamera.cpp" />
     <ClCompile Include="Engine\EngineFuctionChanger.cpp" />
     <ClCompile Include="Engine\ModelViewer\AnimationViewer.cpp" />
@@ -408,8 +412,11 @@
     <ClCompile Include="Sound\Effects\FourierTransform\WindowFunction.cpp" />
     <ClCompile Include="Component\Engine\Sample\WaveformRenderSample.cpp" />
     <ClCompile Include="Mesh\VertexNormalSmoother.cpp" />
+    <ClCompile Include="Component\Game\Weapon\WeaponDamage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component\Game\UI\BossEnemyUIManager.h" />
+    <ClInclude Include="Component\Game\UI\BossEnemyHitPointGauge.h" />
     <ClInclude Include="Collision\AABBCreater.h" />
     <ClInclude Include="Component\Engine\Mesh\AnimationCPU.h" />
     <ClInclude Include="Collision\BoxConstantGroup.h" />
@@ -420,6 +427,8 @@
     <ClInclude Include="Component\Game\Player\IMoveDirectionGetter.h" />
     <ClInclude Include="Component\Game\Player\IPlayerMove.h" />
     <ClInclude Include="Component\Game\Player\PlayerMotions.h" />
+    <ClInclude Include="Component\Game\Enemy\EnemyAnimationController.h" />
+    <ClInclude Include="Component\Game\Enemy\EnemyColliderController.h" />
     <ClInclude Include="Engine\Camera\EngineCamera.h" />
     <ClInclude Include="Engine\EngineFuctionChanger.h" />
     <ClInclude Include="Engine\AssetsRenderer\ICallbackSelectAssetsTexture.h" />
@@ -733,6 +742,7 @@
     <ClInclude Include="Sound\Effects\FourierTransform\WindowFunction.h" />
     <ClInclude Include="Component\Engine\Sample\WaveformRenderSample.h" />
     <ClInclude Include="Mesh\VertexNormalSmoother.h" />
+    <ClInclude Include="Component\Game\Weapon\WeaponDamage.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\ChickenMesh.hlsl">
@@ -925,6 +935,7 @@
     <None Include="Assets\Data\Title.json" />
     <None Include="Assets\Data\Waveform.json" />
     <None Include="Assets\Data\Weapon.json" />
+    <None Include="Assets\Data\BossEnemyUI.json" />
     <None Include="Shader\MaterialHeader.hlsli" />
     <None Include="Shader\MeshCommonAndMaterialHeader.hlsli" />
     <None Include="Shader\MeshCommonHeader.hlsli" />

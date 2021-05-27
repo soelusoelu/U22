@@ -7,19 +7,19 @@ class GameObject;
 class SpriteComponent;
 class HitPoint;
 
-class PlayerHitPointGauge
+class BossEnemyHitPointGauge
     : public Component
 {
 public:
-    PlayerHitPointGauge();
-    ~PlayerHitPointGauge();
+    BossEnemyHitPointGauge();
+    ~BossEnemyHitPointGauge();
     virtual void start() override;
 
 private:
-    PlayerHitPointGauge(const PlayerHitPointGauge&) = delete;
-    PlayerHitPointGauge& operator=(const PlayerHitPointGauge&) = delete;
+    BossEnemyHitPointGauge(const BossEnemyHitPointGauge&) = delete;
+    BossEnemyHitPointGauge& operator=(const BossEnemyHitPointGauge&) = delete;
 
-    void onSetPlayer(const GameObject& player);
+    void onSetBossEnemy(const GameObject& boss);
     void onChangeHP(const HitPoint& hp);
 
 private:

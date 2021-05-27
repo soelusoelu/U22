@@ -11,7 +11,21 @@
       }
     },
     {
+      "type": "HitPoint",
+      "properties": {
+        "HP": 300
+      }
+    },
+    {
       "type": "AABBAnimationCollider",
+      "properties": {}
+    },
+    {
+      "type": "EnemyAnimationController",
+      "properties": {}
+    },
+    {
+      "type": "EnemyColliderController",
       "properties": {}
     }
   ]

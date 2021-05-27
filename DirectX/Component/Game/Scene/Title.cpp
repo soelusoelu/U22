@@ -3,6 +3,7 @@
 #include "../Camera/LockOn.h"
 #include "../Player/PlayerWalk.h"
 #include "../Player/PlayerWeapon.h"
+#include "../UI/BossEnemyUIManager.h"
 #include "../UI/PlayerUIManager.h"
 #include "../../Engine/Mesh/MeshComponent.h"
 #include "../../../GameObject/GameObject.h"
@@ -20,9 +21,10 @@ Title::~Title() = default;
 void Title::awake() {
     auto player = GameObjectCreater::create("Player");
     auto weapon = GameObjectCreater::create("Weapon");
-    GameObjectCreater::create("Enemy");
+    auto boss = GameObjectCreater::create("Enemy");
     GameObjectCreater::create("Plane");
     auto playerUIManager = GameObjectCreater::create("PlayerUI");
+    auto bossEnemyUIManager = GameObjectCreater::create("BossEnemyUI");
 
     auto camera = GameObjectCreater::create("GameCamera");
 
@@ -38,4 +40,6 @@ void Title::awake() {
     playerCompManager.getComponent<PlayerWeapon>()->setWeapon(weapon);
 
     playerUIManager->componentManager().getComponent<PlayerUIManager>()->setPlayer(player);
+
+    bossEnemyUIManager->componentManager().getComponent<BossEnemyUIManager>()->setBoss(boss);
 }

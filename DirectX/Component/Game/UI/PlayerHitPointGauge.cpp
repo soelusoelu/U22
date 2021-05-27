@@ -2,6 +2,7 @@
 #include "PlayerUIManager.h"
 #include "../PlayerEnemyCommon/HitPoint.h"
 #include "../../Engine/Sprite/SpriteComponent.h"
+#include "../../../GameObject/GameObject.h"
 
 PlayerHitPointGauge::PlayerHitPointGauge()
     : Component()

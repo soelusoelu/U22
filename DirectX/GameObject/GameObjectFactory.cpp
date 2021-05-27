@@ -39,6 +39,8 @@
 #include "../Component/Engine/Text/TextNumber.h"
 #include "../Component/Game/Camera/GameCamera.h"
 #include "../Component/Game/Camera/LockOn.h"
+#include "../Component/Game/Enemy/EnemyAnimationController.h"
+#include "../Component/Game/Enemy/EnemyColliderController.h"
 #include "../Component/Game/Player/PlayerAnimationController.h"
 #include "../Component/Game/Player/PlayerAttack.h"
 #include "../Component/Game/Player/PlayerColliderController.h"
@@ -51,6 +53,8 @@
 #include "../Component/Game/Player/Stamina.h"
 #include "../Component/Game/PlayerEnemyCommon/HitPoint.h"
 #include "../Component/Game/Scene/Title.h"
+#include "../Component/Game/UI/BossEnemyHitPointGauge.h"
+#include "../Component/Game/UI/BossEnemyUIManager.h"
 #include "../Component/Game/UI/PlayerHitPointGauge.h"
 #include "../Component/Game/UI/PlayerUIManager.h"
 #include "../Component/Game/UI/StaminaGauge.h"
@@ -118,6 +122,9 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(GameCamera);
     ADD_COMPONENT(LockOn);
 
+    ADD_COMPONENT(EnemyAnimationController);
+    ADD_COMPONENT(EnemyColliderController);
+
     ADD_COMPONENT(PlayerAnimationController);
     ADD_COMPONENT(PlayerAttack);
     ADD_COMPONENT(PlayerColliderController);
@@ -133,6 +140,8 @@ GameObjectFactory::GameObjectFactory() {
 
     ADD_COMPONENT(Title);
 
+    ADD_COMPONENT(BossEnemyHitPointGauge);
+    ADD_COMPONENT(BossEnemyUIManager);
     ADD_COMPONENT(PlayerHitPointGauge);
     ADD_COMPONENT(PlayerUIManager);
     ADD_COMPONENT(StaminaGauge);

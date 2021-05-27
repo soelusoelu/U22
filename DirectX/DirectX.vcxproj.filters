@@ -262,6 +262,11 @@
     <ClCompile Include="Component\Game\PlayerEnemyCommon\HitPoint.cpp" />
     <ClCompile Include="Component\Game\UI\PlayerHitPointGauge.cpp" />
     <ClCompile Include="Component\Game\Player\PlayerWeapon.cpp" />
+    <ClCompile Include="Component\Game\Enemy\EnemyAnimationController.cpp" />
+    <ClCompile Include="Component\Game\Enemy\EnemyColliderController.cpp" />
+    <ClCompile Include="Component\Game\UI\BossEnemyHitPointGauge.cpp" />
+    <ClCompile Include="Component\Game\UI\BossEnemyUIManager.cpp" />
+    <ClCompile Include="Component\Game\Weapon\WeaponDamage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -587,6 +592,11 @@
     <ClInclude Include="Component\Game\PlayerEnemyCommon\HitPoint.h" />
     <ClInclude Include="Component\Game\UI\PlayerHitPointGauge.h" />
     <ClInclude Include="Component\Game\Player\PlayerWeapon.h" />
+    <ClInclude Include="Component\Game\Enemy\EnemyAnimationController.h" />
+    <ClInclude Include="Component\Game\Enemy\EnemyColliderController.h" />
+    <ClInclude Include="Component\Game\UI\BossEnemyHitPointGauge.h" />
+    <ClInclude Include="Component\Game\UI\BossEnemyUIManager.h" />
+    <ClInclude Include="Component\Game\Weapon\WeaponDamage.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />
@@ -609,5 +619,6 @@
     <None Include="Assets\Data\Enemy.json" />
     <None Include="Assets\Data\PlayerUI.json" />
     <None Include="Assets\Data\Weapon.json" />
+    <None Include="Assets\Data\BossEnemyUI.json" />
   </ItemGroup>
 </Project>

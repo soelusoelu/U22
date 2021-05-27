@@ -13,6 +13,12 @@
     {
       "type": "AABBCollider",
       "properties": {}
+    },
+    {
+      "type": "WeaponDamage",
+      "properties": {
+        "damage": 30
+      }
     }
   ]
 }
