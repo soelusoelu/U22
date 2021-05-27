@@ -4,6 +4,7 @@
 #include "../../../Engine/DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
 #include "../../../Engine/DebugManager/DebugUtility/Debug.h"
 #include "../../../Imgui/imgui.h"
+#include "../../../Transform/ParentChildRelationship.h"
 #include "../../../Transform/Transform3D.h"
 #include "../../../Utility/LevelLoader.h"
 
@@ -24,12 +25,7 @@ void AABBCollider::start() {
 
     //ファイルから値を読み込んでいないなら頂点から形成する
     if (!mLoadedProperties) {
-        auto meshComponent = getComponent<MeshComponent>();
-        if (meshComponent) {
-            const auto& mesh = meshComponent->getMesh();
-            //メッシュ情報からAABBを作成する
-            createAABB(*mesh);
-        }
+        create();
     }
 
     //早速transformが変わっているかもしれないから更新する
@@ -137,6 +133,15 @@ std::array<std::pair<Vector3, Vector3>, BoxConstantGroup::SURFACES_NUM> AABBColl
 
 void AABBCollider::setRenderCollision(bool value) {
     mIsRenderCollision = value;
+}
+
+void AABBCollider::create() {
+    auto meshComponent = getComponent<MeshComponent>();
+    if (meshComponent) {
+        const auto mesh = meshComponent->getMesh();
+        //メッシュ情報からAABBを作成する
+        createAABB(*mesh);
+    }
 }
 
 void AABBCollider::createAABB(const IMesh& mesh) {

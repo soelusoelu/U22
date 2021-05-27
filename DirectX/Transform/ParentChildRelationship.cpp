@@ -20,6 +20,8 @@ void ParentChildRelationship::addChild(const Child& child) {
     mChildren.emplace_back(child);
     //子の親を自身に設定する
     child->transform().getParentChildRelation().setParent(this);
+
+    mCallbackBuildingParentChildRelationship();
 }
 
 void ParentChildRelationship::removeChild(const Child& child) {
@@ -54,6 +56,12 @@ Transform3D& ParentChildRelationship::transform() const {
     return *mTransform;
 }
 
+void ParentChildRelationship::callbackBuildingParentChildRelationship(const std::function<void()>& f) {
+    mCallbackBuildingParentChildRelationship += f;
+}
+
 void ParentChildRelationship::setParent(const Parent& parent) {
     mParent = parent;
+
+    mCallbackBuildingParentChildRelationship();
 }

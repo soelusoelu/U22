@@ -40,6 +40,8 @@ private:
     AABBCollider& operator=(const AABBCollider&) = delete;
 
     //AABBを作成する
+    void create();
+    //メッシュ情報からAABBを作成する
     void createAABB(const IMesh& mesh);
     //メッシュから最小、最大点を割り出す
     void computeMinMax(Vector3& outMin, Vector3& outMax, const MeshVertices& meshVertices);

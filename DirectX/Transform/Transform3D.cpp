@@ -5,14 +5,15 @@
 #include "../Imgui/imgui.h"
 #include "../Utility/LevelLoader.h"
 
-Transform3D::Transform3D(GameObject* gameObject) :
-    mGameObject(gameObject),
-    mParentChildRelation(std::make_unique<ParentChildRelationship>(this)),
-    mWorldTransform(Matrix4::identity),
-    mPosition(Vector3::zero),
-    mRotation(Quaternion::identity),
-    mPivot(Vector3::zero),
-    mScale(Vector3::one) {
+Transform3D::Transform3D(GameObject* gameObject)
+    : mGameObject(gameObject)
+    , mParentChildRelation(std::make_unique<ParentChildRelationship>(this))
+    , mWorldTransform(Matrix4::identity)
+    , mPosition(Vector3::zero)
+    , mRotation(Quaternion::identity)
+    , mPivot(Vector3::zero)
+    , mScale(Vector3::one)
+{
 }
 
 Transform3D::~Transform3D() = default;
@@ -38,13 +39,7 @@ void Transform3D::setPosition(const Vector3& pos) {
 }
 
 Vector3 Transform3D::getPosition() const {
-    auto parent = mParentChildRelation->parent();
-    auto pos = mPosition;
-    while (parent) {
-        pos += parent->transform().mPosition;
-        parent = parent->parent();
-    }
-    return pos;
+    return mWorldTransform.getTranslation();
 }
 
 const Vector3& Transform3D::getLocalPosition() const {
@@ -136,13 +131,7 @@ void Transform3D::setScale(float scale) {
 }
 
 Vector3 Transform3D::getScale() const {
-    auto parent = mParentChildRelation->parent();
-    auto scale = mScale;
-    while (parent) {
-        scale *= parent->transform().mScale;
-        parent = parent->parent();
-    }
-    return scale;
+    return mWorldTransform.getScale();
 }
 
 const Vector3& Transform3D::getLocalScale() const {

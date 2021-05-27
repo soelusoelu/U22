@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "../Device/Function.h"
+#include <functional>
 #include <list>
 #include <memory>
 
@@ -29,6 +31,8 @@ public:
     size_t getChildCount() const;
     //Transform3Dを取得する
     Transform3D& transform() const;
+    //親子関係が構築された際のコールバック
+    void callbackBuildingParentChildRelationship(const std::function<void()>& f);
 
 private:
     ParentChildRelationship(const ParentChildRelationship&) = delete;
@@ -41,4 +45,5 @@ private:
     Transform3D* mTransform;
     Parent mParent;
     Children mChildren;
+    Function<void()> mCallbackBuildingParentChildRelationship;
 };
