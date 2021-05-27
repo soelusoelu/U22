@@ -58,6 +58,7 @@
 #include "../Component/Game/UI/PlayerHitPointGauge.h"
 #include "../Component/Game/UI/PlayerUIManager.h"
 #include "../Component/Game/UI/StaminaGauge.h"
+#include "../Component/Game/Weapon/WeaponDamage.h"
 #include "../Engine/DebugManager/DebugUtility/Debug.h"
 #include "../System/GlobalFunction.h"
 #include "../Utility/LevelLoader.h"
@@ -145,6 +146,8 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(PlayerHitPointGauge);
     ADD_COMPONENT(PlayerUIManager);
     ADD_COMPONENT(StaminaGauge);
+
+    ADD_COMPONENT(WeaponDamage);
 #pragma endregion
 }
 

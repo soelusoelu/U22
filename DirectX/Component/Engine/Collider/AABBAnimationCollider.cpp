@@ -38,7 +38,7 @@ void AABBAnimationCollider::start() {
     updatePoints();
 
     if (mPhysics) {
-        //mPhysics->add(shared_from_this());
+        mPhysics->add(shared_from_this());
     }
 }
 
@@ -52,16 +52,14 @@ void AABBAnimationCollider::lateUpdate() {
     updatePoints();
 
     //当たり判定を可視化する
-    if (mIsRenderCollision) {
-        renderCollision();
-    }
+    renderCollision();
 }
 
 void AABBAnimationCollider::finalize() {
     Collider::finalize();
 
     if (mPhysics) {
-        //mPhysics->remove(shared_from_this());
+        mPhysics->remove(shared_from_this());
     }
 }
 
@@ -85,6 +83,10 @@ void AABBAnimationCollider::concatenate(unsigned a, unsigned b) {
     mAABBs[a].concatenateTargets.emplace_back(b);
     mAABBs[a].isActive = true;
     mAABBs[b].isActive = false;
+}
+
+const AABBs& AABBAnimationCollider::getAABBs() const {
+    return mAABBs;
 }
 
 const AABB& AABBAnimationCollider::getAABB(unsigned index) const {
@@ -166,6 +168,13 @@ void AABBAnimationCollider::updatePoints() {
 
 void AABBAnimationCollider::renderCollision() {
 #ifdef _DEBUG
+    if (!mIsRenderCollision) {
+        return;
+    }
+    if (!mEnable) {
+        return;
+    }
+
     //デバッグ時のみ当たり判定を表示
     for (const auto& target : mAABBs) {
         if (!target.isActive) {

@@ -1,4 +1,5 @@
 ﻿#include "PlayerWeapon.h"
+#include "../../Engine/Collider/AABBCollider.h"
 #include "../../Engine/Mesh/AnimationCPU.h"
 #include "../../Engine/Mesh/MeshComponent.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
@@ -12,6 +13,7 @@ PlayerWeapon::PlayerWeapon()
     , mAnimation(nullptr)
     , mAnimationCpu(nullptr)
     , mWeapon(nullptr)
+    , mWeaponCollider(nullptr)
 {
 }
 
@@ -35,6 +37,17 @@ void PlayerWeapon::lateUpdate() {
 
 void PlayerWeapon::setWeapon(const std::shared_ptr<GameObject>& weapon) {
     mWeapon = weapon;
+    mWeaponCollider = weapon->componentManager().getComponent<AABBCollider>();
+    mWeaponCollider->disabled();
+
     //プレイヤーの子に設定する
     transform().getParentChildRelation().addChild(weapon);
+}
+
+const GameObject& PlayerWeapon::getWeapon() const {
+    return *mWeapon;
+}
+
+AABBCollider& PlayerWeapon::getWeaponCollider() const {
+    return *mWeaponCollider;
 }

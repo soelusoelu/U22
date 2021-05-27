@@ -50,9 +50,7 @@ void AABBCollider::lateUpdate() {
     updatePoints();
 
     //当たり判定を可視化する
-    if (mIsRenderCollision) {
-        renderCollision();
-    }
+    renderCollision();
 }
 
 void AABBCollider::finalize() {
@@ -240,6 +238,13 @@ void AABBCollider::computeDefaultPoint() {
 
 void AABBCollider::renderCollision() {
 #ifdef _DEBUG
+    if (!mIsRenderCollision) {
+        return;
+    }
+    if (!mEnable) {
+        return;
+    }
+
     //デバッグ時のみ当たり判定を表示
     Debug::renderLine(mPoints[BoxConstantGroup::BOX_NEAR_BOTTOM_LEFT], mPoints[BoxConstantGroup::BOX_NEAR_BOTTOM_RIGHT], ColorPalette::lightGreen);
     Debug::renderLine(mPoints[BoxConstantGroup::BOX_NEAR_BOTTOM_LEFT], mPoints[BoxConstantGroup::BOX_BACK_BOTTOM_LEFT], ColorPalette::lightGreen);

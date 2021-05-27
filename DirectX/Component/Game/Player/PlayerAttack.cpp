@@ -1,6 +1,8 @@
 ﻿#include "PlayerAttack.h"
 #include "PlayerMotions.h"
+#include "PlayerWeapon.h"
 #include "Stamina.h"
+#include "../../Engine/Collider/AABBCollider.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Device/Time.h"
 #include "../../../Input/Input.h"
@@ -10,6 +12,7 @@ PlayerAttack::PlayerAttack()
     : Component()
     , mAnimation(nullptr)
     , mStamina(nullptr)
+    , mWeapon(nullptr)
     , mAttackMotionElapsedTimer(std::make_unique<Time>())
     , mAttackMotionTime{ 0.f, 0.f, 0.f, 0.f }
     , mLowestCoolTimeUpToAdditionalAttack{ 0.f, 0.f }
@@ -25,6 +28,7 @@ PlayerAttack::~PlayerAttack() = default;
 void PlayerAttack::start() {
     mAnimation = getComponent<SkinMeshComponent>();
     mStamina = getComponent<Stamina>();
+    mWeapon = getComponent<PlayerWeapon>();
 
     const auto& firstAttack = mAnimation->getMotion(PlayerMotions::FIRST_ATTACK_START);
     mAttackMotionTime[FIRST_ATTACK_START_NO] = static_cast<float>(firstAttack.numFrame) / 60.f;
@@ -107,6 +111,7 @@ void PlayerAttack::firstAttack() {
     mIsSecondAttackMiddle = false;
     mAttackMotionElapsedTimer->setLimitTime(mAttackMotionTime[FIRST_ATTACK_START_NO]);
     mAttackMotionElapsedTimer->reset();
+    mWeapon->getWeaponCollider().enabled();
 }
 
 void PlayerAttack::secondAttack() {
@@ -136,6 +141,7 @@ void PlayerAttack::attackEnd() {
     //攻撃状態リセット
     mIsFirstAttackMiddle = false;
     mIsSecondAttackMiddle = false;
+    mWeapon->getWeaponCollider().disabled();
 }
 
 void PlayerAttack::firstAttackEnd() {

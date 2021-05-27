@@ -4,6 +4,7 @@
 #include <memory>
 
 class SkinMeshComponent;
+class PlayerWeapon;
 class Stamina;
 class Time;
 
@@ -57,6 +58,7 @@ private:
 
     std::shared_ptr<SkinMeshComponent> mAnimation;
     std::shared_ptr<Stamina> mStamina;
+    std::shared_ptr<PlayerWeapon> mWeapon;
     //モーション経過時間
     std::unique_ptr<Time> mAttackMotionElapsedTimer;
     //各攻撃モーション時間

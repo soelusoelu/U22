@@ -22,6 +22,8 @@ struct AABBInfomation {
     bool isActive = true;
 };
 
+using AABBs = std::vector<AABBInfomation>;
+
 class AABBAnimationCollider
     : public Collider
     , public std::enable_shared_from_this<AABBAnimationCollider>
@@ -37,6 +39,8 @@ public:
 
     //指定したAABBを結合する
     void concatenate(unsigned a, unsigned b);
+    //全AABBを取得する
+    const AABBs& getAABBs() const;
     //AABBを取得する
     const AABB& getAABB(unsigned index) const;
     //当たり判定を可視化するか
@@ -63,7 +67,7 @@ private:
 
 private:
     //当たり判定であるAABB情報群
-    std::vector<AABBInfomation> mAABBs;
+    AABBs mAABBs;
     //メッシュコンポーネント
     std::shared_ptr<MeshComponent> mMesh;
     //アニメーションコンポーネント
