@@ -39,7 +39,7 @@ void PointRenderer::renderPoint(const Vector3& point, const Vector3& color) {
 void PointRenderer::drawPoint(const Point3DParam& param, const Matrix4& viewProj) const {
     //パラメータからワールド行列を計算する
     mTransform->setPosition(param.point);
-    mTransform->computeWorldTransform();
+    mTransform->computeMatrix();
 
     //シェーダーに値を渡す
     PointConstantBuffer cb;

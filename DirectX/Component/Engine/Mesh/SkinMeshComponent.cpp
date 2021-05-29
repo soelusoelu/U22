@@ -21,9 +21,6 @@ SkinMeshComponent::~SkinMeshComponent() = default;
 void SkinMeshComponent::update() {
     if (mIsMotionUpdate) {
         calcNextPose();
-
-        //通知を送る
-        mCallbackComputeCurrentBones();
     }
 
     //gpu側でスキニングする場合に送る必要がある
@@ -138,6 +135,9 @@ void SkinMeshComponent::calcNextPose() {
     }
 
     calcCurrentFrame();
+
+    //通知を送る
+    mCallbackComputeCurrentBones();
 }
 
 void SkinMeshComponent::calcCurrentFrame() {

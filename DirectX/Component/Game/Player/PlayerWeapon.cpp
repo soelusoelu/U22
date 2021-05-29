@@ -27,7 +27,7 @@ void PlayerWeapon::start() {
 
 void PlayerWeapon::lateUpdate() {
     const auto& curBones = mAnimation->getBoneCurrentFrameMatrix();
-    const auto& rightHand = curBones[RIGHT_HAND_BONE_NO];
+    const auto& rightHand = curBones[LEFT_HAND_BONE_NO];
     const auto& vertices = mAnimationCpu->getCurrentMotionVertexPositions(0);
 
     auto& wt = mWeapon->transform();

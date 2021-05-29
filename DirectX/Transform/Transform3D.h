@@ -12,8 +12,10 @@ public:
     Transform3D(GameObject* gameObject = nullptr);
     ~Transform3D();
 
-    //ワールド行列更新
-    void computeWorldTransform();
+    //行列を計算する
+    void computeMatrix();
+    //ローカル行列の取得
+    const Matrix4& getLocalTransform() const;
     //ワールド行列の取得
     const Matrix4& getWorldTransform() const;
 
@@ -82,16 +84,17 @@ private:
     Transform3D(const Transform3D&) = delete;
     Transform3D& operator=(const Transform3D&) = delete;
 
+    //ローカル行列を計算する
+    void computeLocalMatrix();
     //ワールド行列を計算する
-    void computeWorld();
-    //親のワールド行列を掛け合わせる
-    void multiplyParentWorldTransform();
+    void computeWorldMatrix();
     //子のワールド行列を計算する
     void computeChildrenTransform();
 
 private:
     GameObject* mGameObject;
     std::unique_ptr<ParentChildRelationship> mParentChildRelation;
+    Matrix4 mLocalTransform;
     Matrix4 mWorldTransform;
     Vector3 mPosition;
     Quaternion mRotation;

@@ -51,7 +51,7 @@ void LineRenderer3D::drawLine(const Line3DParam& param, const Matrix4& proj) con
     //パラメータからワールド行列を計算する
     mTransform->setScale(param.p2 - param.p1);
     mTransform->setPosition(param.p1);
-    mTransform->computeWorldTransform();
+    mTransform->computeMatrix();
 
     //シェーダーに値を渡す
     LineConstantBuffer cb;

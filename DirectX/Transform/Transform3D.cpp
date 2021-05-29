@@ -8,6 +8,7 @@
 Transform3D::Transform3D(GameObject* gameObject)
     : mGameObject(gameObject)
     , mParentChildRelation(std::make_unique<ParentChildRelationship>(this))
+    , mLocalTransform(Matrix4::identity)
     , mWorldTransform(Matrix4::identity)
     , mPosition(Vector3::zero)
     , mRotation(Quaternion::identity)
@@ -18,16 +19,21 @@ Transform3D::Transform3D(GameObject* gameObject)
 
 Transform3D::~Transform3D() = default;
 
-void Transform3D::computeWorldTransform() {
+void Transform3D::computeMatrix() {
     //親がいる場合は親に任せる
     if (mParentChildRelation->parent()) {
         return;
     }
 
-    //自身のワールド行列を計算する
-    computeWorld();
+    //行列を計算する
+    computeLocalMatrix();
+    computeWorldMatrix();
     //子のワールド行列を計算する
     computeChildrenTransform();
+}
+
+const Matrix4& Transform3D::getLocalTransform() const {
+    return mLocalTransform;
 }
 
 const Matrix4& Transform3D::getWorldTransform() const {
@@ -167,8 +173,6 @@ void Transform3D::loadProperties(const rapidjson::Value& inObj) {
     }
     JsonHelper::getVector3(inObj, "scale", &mScale);
     JsonHelper::getVector3(inObj, "pivot", &mPivot);
-
-    computeWorldTransform();
 }
 
 void Transform3D::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const {
@@ -190,17 +194,19 @@ void Transform3D::drawInspector() {
     ImGuiWrapper::dragVector3("Scale", mScale, 0.01f);
 }
 
-void Transform3D::computeWorld() {
-    mWorldTransform = Matrix4::createTranslation(-mPivot); //ピボットを原点に
-    mWorldTransform *= Matrix4::createScale(getLocalScale());
-    mWorldTransform *= Matrix4::createFromQuaternion(getLocalRotation());
-    mWorldTransform *= Matrix4::createTranslation(getLocalPosition());
+void Transform3D::computeLocalMatrix() {
+    mLocalTransform = Matrix4::createTranslation(-mPivot); //ピボットを原点に
+    mLocalTransform *= Matrix4::createScale(mScale);
+    mLocalTransform *= Matrix4::createFromQuaternion(mRotation);
+    mLocalTransform *= Matrix4::createTranslation(mPosition);
 }
 
-void Transform3D::multiplyParentWorldTransform() {
+void Transform3D::computeWorldMatrix() {
+    mWorldTransform = mLocalTransform;
+
     auto parent = mParentChildRelation->parent();
     while (parent) {
-        mWorldTransform *= parent->transform().mWorldTransform;
+        mWorldTransform *= parent->transform().mLocalTransform;
         parent = parent->parent();
     }
 }
@@ -209,13 +215,13 @@ void Transform3D::computeChildrenTransform() {
     const auto& children = mParentChildRelation->getChildren();
     for (const auto& child : children) {
         auto& childTransform = child->transform();
-        //子のワールド行列を計算する
-        childTransform.computeWorld();
+        //子のローカル行列を計算する
+        childTransform.computeLocalMatrix();
 
         //さらに子へ降りていく
         child->transform().computeChildrenTransform();
     }
 
-    //子のワールド行列に親のワールド行列を掛け合わせる
-    multiplyParentWorldTransform();
+    //ワールド行列を計算する
+    computeWorldMatrix();
 }

@@ -52,7 +52,7 @@ void Sprite3D::lateUpdate() {
     if (getActive()) {
         const auto& scale = mTransform->getScale();
         mTransform->setScale(scale * Vector3(mTextureAspect, 1.f));
-        mTransform->computeWorldTransform();
+        mTransform->computeMatrix();
         mTransform->setScale(scale);
     }
 }
