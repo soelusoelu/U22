@@ -236,6 +236,7 @@
     <ClCompile Include="Component\Game\UI\PlayerUIManager.cpp" />
     <ClCompile Include="Component\Game\UI\PlayerHitPointGauge.cpp" />
     <ClCompile Include="Component\Game\Player\PlayerWeapon.cpp" />
+    <ClCompile Include="Component\Game\Player\PlayerShield.cpp" />
     <ClCompile Include="System\Texture\MeshRenderOnTextureManager.cpp" />
     <ClCompile Include="Mesh\MeshCommonShaderSetter.cpp" />
     <ClCompile Include="Engine\SceneMesh\SceneMeshOperator.cpp" />
@@ -508,6 +509,7 @@
     <ClInclude Include="Component\Game\UI\PlayerUIManager.h" />
     <ClInclude Include="Component\Game\UI\PlayerHitPointGauge.h" />
     <ClInclude Include="Component\Game\Player\PlayerWeapon.h" />
+    <ClInclude Include="Component\Game\Player\PlayerShield.h" />
     <ClInclude Include="System\AssetsDirectoryPath.h" />
     <ClInclude Include="System\Texture\MeshRenderOnTextureManager.h" />
     <ClInclude Include="Mesh\IMeshAdder.h" />
@@ -932,6 +934,7 @@
     <None Include="Assets\Data\Plane.json" />
     <None Include="Assets\Data\Player.json" />
     <None Include="Assets\Data\PlayerUI.json" />
+    <None Include="Assets\Data\Shield.json" />
     <None Include="Assets\Data\Title.json" />
     <None Include="Assets\Data\Waveform.json" />
     <None Include="Assets\Data\Weapon.json" />

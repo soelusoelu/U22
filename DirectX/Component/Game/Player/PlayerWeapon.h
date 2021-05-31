@@ -25,5 +25,4 @@ private:
     std::shared_ptr<AABBCollider> mWeaponCollider;
 
     static constexpr unsigned RIGHT_HAND_BONE_NO = 10;
-    static constexpr unsigned LEFT_HAND_BONE_NO = 14;
 };

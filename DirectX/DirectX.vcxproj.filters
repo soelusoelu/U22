@@ -267,6 +267,7 @@
     <ClCompile Include="Component\Game\UI\BossEnemyHitPointGauge.cpp" />
     <ClCompile Include="Component\Game\UI\BossEnemyUIManager.cpp" />
     <ClCompile Include="Component\Game\Weapon\WeaponDamage.cpp" />
+    <ClCompile Include="Component\Game\Player\PlayerShield.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -597,6 +598,7 @@
     <ClInclude Include="Component\Game\UI\BossEnemyHitPointGauge.h" />
     <ClInclude Include="Component\Game\UI\BossEnemyUIManager.h" />
     <ClInclude Include="Component\Game\Weapon\WeaponDamage.h" />
+    <ClInclude Include="Component\Game\Player\PlayerShield.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />
@@ -620,5 +622,6 @@
     <None Include="Assets\Data\PlayerUI.json" />
     <None Include="Assets\Data\Weapon.json" />
     <None Include="Assets\Data\BossEnemyUI.json" />
+    <None Include="Assets\Data\Shield.json" />
   </ItemGroup>
 </Project>

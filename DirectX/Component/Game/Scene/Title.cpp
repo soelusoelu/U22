@@ -1,6 +1,7 @@
 ﻿#include "Title.h"
 #include "../Camera/GameCamera.h"
 #include "../Camera/LockOn.h"
+#include "../Player/PlayerShield.h"
 #include "../Player/PlayerWalk.h"
 #include "../Player/PlayerWeapon.h"
 #include "../UI/BossEnemyUIManager.h"
@@ -21,6 +22,7 @@ Title::~Title() = default;
 void Title::awake() {
     auto player = GameObjectCreater::create("Player");
     auto weapon = GameObjectCreater::create("Weapon");
+    auto shield = GameObjectCreater::create("Shield");
     auto boss = GameObjectCreater::create("Enemy");
     GameObjectCreater::create("Plane");
     auto playerUIManager = GameObjectCreater::create("PlayerUI");
@@ -38,6 +40,7 @@ void Title::awake() {
     const auto& playerCompManager = player->componentManager();
     playerCompManager.getComponent<PlayerWalk>()->setILockOn(lockOn.get());
     playerCompManager.getComponent<PlayerWeapon>()->setWeapon(weapon);
+    playerCompManager.getComponent<PlayerShield>()->setShield(shield);
 
     playerUIManager->componentManager().getComponent<PlayerUIManager>()->setPlayer(player);
 

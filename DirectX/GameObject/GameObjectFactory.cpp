@@ -48,6 +48,7 @@
 #include "../Component/Game/Player/PlayerGuard.h"
 #include "../Component/Game/Player/PlayerMove.h"
 #include "../Component/Game/Player/PlayerRoll.h"
+#include "../Component/Game/Player/PlayerShield.h"
 #include "../Component/Game/Player/PlayerWalk.h"
 #include "../Component/Game/Player/PlayerWeapon.h"
 #include "../Component/Game/Player/Stamina.h"
@@ -133,6 +134,7 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(PlayerGuard);
     ADD_COMPONENT(PlayerMove);
     ADD_COMPONENT(PlayerRoll);
+    ADD_COMPONENT(PlayerShield);
     ADD_COMPONENT(PlayerWalk);
     ADD_COMPONENT(PlayerWeapon);
     ADD_COMPONENT(Stamina);

@@ -1,0 +1,19 @@
+{
+  "tag": "Shield",
+  "transform": {
+    "position": [ -6.7, 9.6, 0.0 ],
+    "rotation": [ 0.0, 90.0, 90.0 ]
+  },
+  "components": [
+    {
+      "type": "MeshComponent",
+      "properties": {
+        "fileName": "Player\\shield.fbx"
+      }
+    },
+    {
+      "type": "AABBCollider",
+      "properties": {}
+    }
+  ]
+}
