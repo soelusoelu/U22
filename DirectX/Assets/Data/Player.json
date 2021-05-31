@@ -43,8 +43,8 @@
     {
       "type": "PlayerAttack",
       "properties": {
-        "firstLowestCoolTimeUpToAdditionalAttack": 0.5,
-        "secondLowestCoolTimeUpToAdditionalAttack": 0.4,
+        "firstLowestCoolTimeUpToAdditionalAttack": 0.85,
+        "secondLowestCoolTimeUpToAdditionalAttack": 0.7,
         "attackStaminaAmount": 12.0
       }
     },

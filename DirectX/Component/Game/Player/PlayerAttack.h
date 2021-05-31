@@ -65,11 +65,6 @@ private:
     float mAttackMotionTime[NUM_ATTACK_MOTION_DOUBLE];
     //追加攻撃までの最低クールタイム
     float mLowestCoolTimeUpToAdditionalAttack[NUM_ATTACK_MOTION];
-    //各攻撃の最中か
-    bool mIsFirstAttackMiddle;
-    bool mIsSecondAttackMiddle;
-    //攻撃終了中か
-    bool mIsEndAttackMiddle;
     //攻撃の消費スタミナ量
     float mAttackStaminaAmount;
 };
