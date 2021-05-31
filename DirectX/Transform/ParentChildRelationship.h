@@ -30,8 +30,8 @@ public:
     Parent root() const;
     //子の数を取得する
     size_t getChildCount() const;
-    //装備部位を設定する
-    void setEquipmentPart(const Matrix4* equipment);
+    //装備を設定する
+    void setEquipment(const Child& equipment, const Matrix4* equipmentPart);
     //装備部位を取得する
     const Matrix4* getEquipmentPart() const;
     //Transform3Dを取得する
@@ -50,6 +50,6 @@ private:
     Transform3D* mTransform;
     Parent mParent;
     Children mChildren;
-    const Matrix4* mEquipment;
+    const Matrix4* mEquipmentPart;
     Function<void()> mCallbackBuildingParentChildRelationship;
 };

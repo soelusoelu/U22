@@ -21,11 +21,9 @@ void PlayerWeapon::setWeapon(const std::shared_ptr<GameObject>& weapon) {
     mWeaponCollider = weapon->componentManager().getComponent<AABBCollider>();
     mWeaponCollider->disabled();
 
-    //プレイヤーの子に設定する
-    transform().getParentChildRelation().addChild(weapon);
-
+    //装備を設定する
     const auto& rightHand = getComponent<SkinMeshComponent>()->getBoneCurrentFrameMatrix()[RIGHT_HAND_BONE_NO];
-    weapon->transform().getParentChildRelation().setEquipmentPart(&rightHand);
+    transform().getParentChildRelation().setEquipment(weapon, &rightHand);
 }
 
 const GameObject& PlayerWeapon::getWeapon() const {

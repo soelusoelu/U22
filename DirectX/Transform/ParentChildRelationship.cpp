@@ -1,11 +1,11 @@
 ﻿#include "ParentChildRelationship.h"
+#include "Transform3D.h"
 #include "../GameObject/GameObject.h"
-#include "../Transform/Transform3D.h"
 
 ParentChildRelationship::ParentChildRelationship(Transform3D* transform)
     : mTransform(transform)
     , mParent(nullptr)
-    , mEquipment(nullptr)
+    , mEquipmentPart(nullptr)
 {
 }
 
@@ -53,12 +53,15 @@ size_t ParentChildRelationship::getChildCount() const {
     return mChildren.size();
 }
 
-void ParentChildRelationship::setEquipmentPart(const Matrix4* equipment) {
-    mEquipment = equipment;
+void ParentChildRelationship::setEquipment(const Child& equipment, const Matrix4* equipmentPart) {
+    //装備を子に追加する
+    addChild(equipment);
+    //装備に装備部位を設定する
+    equipment->transform().getParentChildRelation().mEquipmentPart = equipmentPart;
 }
 
 const Matrix4* ParentChildRelationship::getEquipmentPart() const {
-    return mEquipment;
+    return mEquipmentPart;
 }
 
 Transform3D& ParentChildRelationship::transform() const {
