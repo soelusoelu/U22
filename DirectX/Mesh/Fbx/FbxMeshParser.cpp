@@ -41,10 +41,10 @@ void FbxMeshParser::parse(
         MeshVertex vertex;
 
         int index = polygonVertices[i];
-        vertex.pos = FbxUtility::fbxVector4ToVector3(src[index], true);
+        vertex.pos = FbxUtility::fbxVector4ToVector3(src[index]);
         vertex.pos = Vector3::transform(vertex.pos, mat);
 
-        vertex.normal = FbxUtility::fbxVector4ToVector3(normalArray[i], true);
+        vertex.normal = FbxUtility::fbxVector4ToVector3(normalArray[i]);
         vertex.normal = Vector3::transform(vertex.normal, q);
 
         //UVは使用している場合のみ
@@ -61,10 +61,10 @@ void FbxMeshParser::parse(
     indices.resize(polygonVertexCount);
 
     for (int i = 0, polyCount = fbxMesh->GetPolygonCount(); i < polyCount; ++i) {
-        //fbxは右手系なので、DirectXの左手系に直すために2->1->0の順にインデックスを格納していく
-        indices[i * 3 + 0] = i * 3 + 2;
-        indices[i * 3 + 1] = i * 3 + 1;
-        indices[i * 3 + 2] = i * 3;
+        auto idx = i * 3;
+        indices[idx] = idx;
+        indices[idx + 1] = idx + 1;
+        indices[idx + 2] = idx + 2;
     }
 }
 

@@ -1,6 +1,7 @@
 {
   "tag": "Weapon",
   "transform": {
+    "position": [ 6.68, 10.49, 0.0 ],
     "scale": [ 2.0, 2.0, 2.0 ]
   },
   "components": [

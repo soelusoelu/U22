@@ -204,6 +204,11 @@ void Transform3D::computeLocalMatrix() {
 void Transform3D::computeWorldMatrix() {
     mWorldTransform = mLocalTransform;
 
+    const auto ep = mParentChildRelation->getEquipmentPart();
+    if (ep) {
+        mWorldTransform *= *ep;
+    }
+
     auto parent = mParentChildRelation->parent();
     while (parent) {
         mWorldTransform *= parent->transform().mLocalTransform;

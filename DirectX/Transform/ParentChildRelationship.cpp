@@ -5,6 +5,7 @@
 ParentChildRelationship::ParentChildRelationship(Transform3D* transform)
     : mTransform(transform)
     , mParent(nullptr)
+    , mEquipment(nullptr)
 {
 }
 
@@ -50,6 +51,14 @@ ParentChildRelationship* ParentChildRelationship::root() const {
 
 size_t ParentChildRelationship::getChildCount() const {
     return mChildren.size();
+}
+
+void ParentChildRelationship::setEquipmentPart(const Matrix4* equipment) {
+    mEquipment = equipment;
+}
+
+const Matrix4* ParentChildRelationship::getEquipmentPart() const {
+    return mEquipment;
 }
 
 Transform3D& ParentChildRelationship::transform() const {
