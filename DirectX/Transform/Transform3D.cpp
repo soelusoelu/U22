@@ -81,12 +81,19 @@ void Transform3D::setRotation(const Vector3& eulers) {
 }
 
 Quaternion Transform3D::getRotation() const {
-    auto parent = mParentChildRelation->parent();
     auto rotation = mRotation;
+
+    const auto ep = mParentChildRelation->getEquipmentPart();
+    if (ep) {
+        rotation = Quaternion::concatenate(rotation, ep->getQuaternion());
+    }
+
+    auto parent = mParentChildRelation->parent();
     while (parent) {
         rotation = Quaternion::concatenate(rotation, parent->transform().mRotation);
         parent = parent->parent();
     }
+
     return rotation;
 }
 
