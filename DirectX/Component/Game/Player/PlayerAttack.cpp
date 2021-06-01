@@ -13,9 +13,9 @@ PlayerAttack::PlayerAttack()
     , mAnimation(nullptr)
     , mStamina(nullptr)
     , mWeapon(nullptr)
-    , mAttackMotionElapsedTimer(std::make_unique<Time>())
+    , mMotionTimer(std::make_unique<Time>())
     , mAttackMotionTime{ 0.f, 0.f, 0.f, 0.f }
-    , mLowestCoolTimeUpToAdditionalAttack{ 0.f, 0.f }
+    , mCoolTimeUntilAdditionalAttack{ 0.f, 0.f }
     , mAttackStaminaAmount(0.f)
 {
 }
@@ -27,26 +27,42 @@ void PlayerAttack::start() {
     mStamina = getComponent<Stamina>();
     mWeapon = getComponent<PlayerWeapon>();
 
-    const auto& firstAttack = mAnimation->getMotion(PlayerMotions::FIRST_ATTACK_START);
-    mAttackMotionTime[FIRST_ATTACK_START_NO] = static_cast<float>(firstAttack.numFrame) / 60.f;
-    const auto& secondAttack = mAnimation->getMotion(PlayerMotions::SECOND_ATTACK_START);
-    mAttackMotionTime[SECOND_ATTACK_START_NO] = static_cast<float>(secondAttack.numFrame) / 60.f;
-    const auto& firstAttackEnd = mAnimation->getMotion(PlayerMotions::FIRST_ATTACK_END);
-    mAttackMotionTime[FIRST_ATTACK_END_NO] = static_cast<float>(firstAttackEnd.numFrame) / 60.f;
-    const auto& secondAttackEnd = mAnimation->getMotion(PlayerMotions::SECOND_ATTACK_END);
-    mAttackMotionTime[SECOND_ATTACK_END_NO] = static_cast<float>(secondAttackEnd.numFrame) / 60.f;
+    //各モーションの時間を取得
+    setMotionTime(FIRST_ATTACK_START_NO, PlayerMotions::FIRST_ATTACK_START);
+    setMotionTime(SECOND_ATTACK_START_NO, PlayerMotions::SECOND_ATTACK_START);
+    setMotionTime(FIRST_ATTACK_END_NO, PlayerMotions::FIRST_ATTACK_END);
+    setMotionTime(SECOND_ATTACK_END_NO, PlayerMotions::SECOND_ATTACK_END);
 }
 
 void PlayerAttack::update() {
-    auto motionNo = mAnimation->getCurrentMotionNumber();
-    if (motionNo == PlayerMotions::FIRST_ATTACK_START
-        || motionNo == PlayerMotions::SECOND_ATTACK_START) {
-        attackEnd();
+    //攻撃中以外無視
+    if (!isAttackOperating()) {
+        return;
     }
 
-    if (motionNo == PlayerMotions::FIRST_ATTACK_END
-        || motionNo == PlayerMotions::SECOND_ATTACK_END) {
-        updateEndAttack();
+    if (Input::joyPad().getJoyDown(JoyCode::RightButton)) {
+        if (canSecondAttack()) {
+            secondAttack();
+        }
+        if (canSecondToFirstAttack()) {
+            firstAttack();
+        }
+    }
+
+    mMotionTimer->update();
+    if (mMotionTimer->isTime()) {
+        mMotionTimer->reset();
+
+        if (isAttacking()) {
+            endAttack();
+
+            //即下記の終了条件に当てはまるのを防ぐために
+            return;
+        }
+
+        if (isAttackEnding()) {
+            endAttackOperation();
+        }
     }
 }
 
@@ -54,12 +70,12 @@ void PlayerAttack::loadProperties(const rapidjson::Value& inObj) {
     JsonHelper::getFloat(
         inObj,
         "firstLowestCoolTimeUpToAdditionalAttack",
-        &mLowestCoolTimeUpToAdditionalAttack[FIRST_ATTACK_START_NO]
+        &mCoolTimeUntilAdditionalAttack[FIRST_ATTACK_START_NO]
     );
     JsonHelper::getFloat(
         inObj,
         "secondLowestCoolTimeUpToAdditionalAttack",
-        &mLowestCoolTimeUpToAdditionalAttack[SECOND_ATTACK_START_NO]
+        &mCoolTimeUntilAdditionalAttack[SECOND_ATTACK_START_NO]
     );
     JsonHelper::getFloat(inObj, "attackStaminaAmount", &mAttackStaminaAmount);
 }
@@ -72,9 +88,17 @@ void PlayerAttack::originalUpdate() {
     if (canFirstAttack()) {
         firstAttack();
     }
-    if (canSecondAttack()) {
-        secondAttack();
+}
+
+bool PlayerAttack::isAttackOperating() const {
+    if (isAttacking()) {
+        return true;
     }
+    if (isAttackEnding()) {
+        return true;
+    }
+
+    return false;
 }
 
 bool PlayerAttack::isAttacking() const {
@@ -82,10 +106,16 @@ bool PlayerAttack::isAttacking() const {
     if (motionNo == PlayerMotions::FIRST_ATTACK_START) {
         return true;
     }
-    if (motionNo == PlayerMotions::FIRST_ATTACK_END) {
+    if (motionNo == PlayerMotions::SECOND_ATTACK_START) {
         return true;
     }
-    if (motionNo == PlayerMotions::SECOND_ATTACK_START) {
+
+    return false;
+}
+
+bool PlayerAttack::isAttackEnding() const {
+    auto motionNo = mAnimation->getCurrentMotionNumber();
+    if (motionNo == PlayerMotions::FIRST_ATTACK_END) {
         return true;
     }
     if (motionNo == PlayerMotions::SECOND_ATTACK_END) {
@@ -95,38 +125,35 @@ bool PlayerAttack::isAttacking() const {
     return false;
 }
 
-void PlayerAttack::updateEndAttack() {
-    if (!updateTimer()) {
-        return;
-    }
+void PlayerAttack::setMotionTime(unsigned index, unsigned motionNo) {
+    mAttackMotionTime[index] = static_cast<float>(mAnimation->getMotion(motionNo).numFrame) / 60.f;
+}
 
-    mAnimation->changeMotion(PlayerMotions::IDOL);
-    mAnimation->setLoop(true);
-    mStamina->setHealFlag(true);
+void PlayerAttack::changeMotion(unsigned motionNo, bool isLoop) {
+    mAnimation->changeMotion(motionNo);
+    mAnimation->setLoop(isLoop);
+}
+
+void PlayerAttack::changeLimitTimer(float time) {
+    mMotionTimer->setLimitTime(time);
+    mMotionTimer->reset();
 }
 
 void PlayerAttack::firstAttack() {
-    mAnimation->changeMotion(PlayerMotions::FIRST_ATTACK_START);
-    mAnimation->setLoop(false);
+    changeMotion(PlayerMotions::FIRST_ATTACK_START, false);
+    changeLimitTimer(mAttackMotionTime[FIRST_ATTACK_START_NO]);
+    //スタミナが回復しないように設定
     mStamina->setHealFlag(false);
-    mAttackMotionElapsedTimer->setLimitTime(mAttackMotionTime[FIRST_ATTACK_START_NO]);
-    mAttackMotionElapsedTimer->reset();
+    //武器の当たり判定を有効化
     mWeapon->getWeaponCollider().enabled();
 }
 
 void PlayerAttack::secondAttack() {
-    mAnimation->changeMotion(PlayerMotions::SECOND_ATTACK_START);
-    mAnimation->setLoop(false);
-    mStamina->setHealFlag(false);
-    mAttackMotionElapsedTimer->setLimitTime(mAttackMotionTime[SECOND_ATTACK_START_NO]);
-    mAttackMotionElapsedTimer->reset();
+    changeMotion(PlayerMotions::SECOND_ATTACK_START, false);
+    changeLimitTimer(mAttackMotionTime[SECOND_ATTACK_START_NO]);
 }
 
-void PlayerAttack::attackEnd() {
-    if (!updateTimer()) {
-        return;
-    }
-
+void PlayerAttack::endAttack() {
     //1回目の攻撃終了か
     if (isEndFirstAttack()) {
         firstAttackEnd();
@@ -140,43 +167,24 @@ void PlayerAttack::attackEnd() {
     mWeapon->getWeaponCollider().disabled();
 }
 
+void PlayerAttack::endAttackOperation() {
+    changeMotion(PlayerMotions::IDOL, true);
+    mStamina->setHealFlag(true);
+}
+
 void PlayerAttack::firstAttackEnd() {
-    mAnimation->changeMotion(PlayerMotions::FIRST_ATTACK_END);
-    mAnimation->setLoop(false);
-    mAttackMotionElapsedTimer->setLimitTime(mAttackMotionTime[FIRST_ATTACK_END_NO]);
-    mAttackMotionElapsedTimer->reset();
+    changeMotion(PlayerMotions::FIRST_ATTACK_END, false);
+    changeLimitTimer(mAttackMotionTime[FIRST_ATTACK_END_NO]);
 }
 
 void PlayerAttack::secondAttackEnd() {
-    mAnimation->changeMotion(PlayerMotions::SECOND_ATTACK_END);
-    mAnimation->setLoop(false);
-    mAttackMotionElapsedTimer->setLimitTime(mAttackMotionTime[SECOND_ATTACK_END_NO]);
-    mAttackMotionElapsedTimer->reset();
-}
-
-bool PlayerAttack::updateTimer() {
-    mAttackMotionElapsedTimer->update();
-
-    if (mAttackMotionElapsedTimer->isTime()) {
-        mAttackMotionElapsedTimer->reset();
-        return true;
-    }
-
-    return false;
+    changeMotion(PlayerMotions::SECOND_ATTACK_END, false);
+    changeLimitTimer(mAttackMotionTime[SECOND_ATTACK_END_NO]);
 }
 
 bool PlayerAttack::canFirstAttack() const {
-    if (isAttacking()) {
-        if (mAnimation->getCurrentMotionNumber() != PlayerMotions::SECOND_ATTACK_START) {
-            return false;
-        }
-        if (mAttackMotionElapsedTimer->getCountUpTime() < mLowestCoolTimeUpToAdditionalAttack[SECOND_ATTACK_START_NO]) {
-            return false;
-        }
-        if (mAttackMotionElapsedTimer->isTime()) {
-            mAttackMotionElapsedTimer->reset();
-            return false;
-        }
+    if (isAttackOperating()) {
+        return false;
     }
     if (!mStamina->use(mAttackStaminaAmount)) {
         return false;
@@ -189,11 +197,21 @@ bool PlayerAttack::canSecondAttack() const {
     if (mAnimation->getCurrentMotionNumber() != PlayerMotions::FIRST_ATTACK_START) {
         return false;
     }
-    if (mAttackMotionElapsedTimer->getCountUpTime() < mLowestCoolTimeUpToAdditionalAttack[FIRST_ATTACK_START_NO]) {
+    if (mMotionTimer->getCountUpTime() < mCoolTimeUntilAdditionalAttack[FIRST_ATTACK_START_NO]) {
         return false;
     }
-    if (mAttackMotionElapsedTimer->isTime()) {
-        mAttackMotionElapsedTimer->reset();
+    if (!mStamina->use(mAttackStaminaAmount)) {
+        return false;
+    }
+
+    return true;
+}
+
+bool PlayerAttack::canSecondToFirstAttack() const {
+    if (mAnimation->getCurrentMotionNumber() != PlayerMotions::SECOND_ATTACK_START) {
+        return false;
+    }
+    if (mMotionTimer->getCountUpTime() < mCoolTimeUntilAdditionalAttack[SECOND_ATTACK_START_NO]) {
         return false;
     }
     if (!mStamina->use(mAttackStaminaAmount)) {

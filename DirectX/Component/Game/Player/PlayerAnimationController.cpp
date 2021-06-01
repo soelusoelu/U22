@@ -47,7 +47,7 @@ bool PlayerAnimationController::canMove() const {
     if (mRoll->isRolling()) {
         return false;
     }
-    if (mAttack->isAttacking()) {
+    if (mAttack->isAttackOperating()) {
         return false;
     }
     if (mGuard->isGuarding()) {
@@ -76,7 +76,7 @@ bool PlayerAnimationController::canGuard() const {
     if (mRoll->isRolling()) {
         return false;
     }
-    if (mAttack->isAttacking()) {
+    if (mAttack->isAttackOperating()) {
         return false;
     }
 
