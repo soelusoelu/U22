@@ -18,7 +18,6 @@
 #include "../Component/Engine/Light/PointLightComponent.h"
 #include "../Component/Engine/Mesh/AnimationCPU.h"
 #include "../Component/Engine/Mesh/MeshComponent.h"
-#include "../Component/Engine/Mesh/MeshMaterial.h"
 #include "../Component/Engine/Mesh/MeshOutLine.h"
 #include "../Component/Engine/Mesh/MeshRenderer.h"
 #include "../Component/Engine/Mesh/MeshShader.h"
@@ -93,7 +92,6 @@ GameObjectFactory::GameObjectFactory() {
 
     ADD_COMPONENT(AnimationCPU);
     ADD_COMPONENT(MeshComponent);
-    ADD_COMPONENT(MeshMaterial);
     ADD_COMPONENT(MeshOutLine);
     ADD_COMPONENT(MeshRenderer);
     ADD_COMPONENT(MeshShader);

@@ -10,6 +10,8 @@
 class IMesh {
 public:
     virtual ~IMesh() = default;
+    //指定のマテリアルを設定する
+    virtual void setMaterial(const Material& material, unsigned index) = 0;
     //指定のマテリアルの取得
     virtual const Material& getMaterial(unsigned index) const = 0;
     //メッシュの数を取得する

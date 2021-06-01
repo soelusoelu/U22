@@ -209,7 +209,6 @@
     <ClCompile Include="Component\Engine\Mesh\MeshOutLine.cpp" />
     <ClCompile Include="Component\Engine\Mesh\MeshShader.cpp" />
     <ClCompile Include="Component\Engine\Mesh\MeshRenderer.cpp" />
-    <ClCompile Include="Component\Engine\Mesh\MeshMaterial.cpp" />
     <ClCompile Include="DirectX\DepthStencilView.cpp" />
     <ClCompile Include="Component\Engine\Scene\MapEditor.cpp" />
     <ClCompile Include="Component\Game\Camera\GameCamera.cpp" />
@@ -416,6 +415,7 @@
     <ClCompile Include="Component\Game\Weapon\WeaponDamage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component\Game\Enemy\EnemyMotions.h" />
     <ClInclude Include="Component\Game\UI\BossEnemyUIManager.h" />
     <ClInclude Include="Component\Game\UI\BossEnemyHitPointGauge.h" />
     <ClInclude Include="Collision\AABBCreater.h" />
@@ -473,7 +473,6 @@
     <ClInclude Include="Component\Engine\Mesh\MeshOutLine.h" />
     <ClInclude Include="Component\Engine\Mesh\MeshShader.h" />
     <ClInclude Include="Component\Engine\Mesh\MeshRenderer.h" />
-    <ClInclude Include="Component\Engine\Mesh\MeshMaterial.h" />
     <ClInclude Include="Engine\Pause\IPause.h" />
     <ClInclude Include="Engine\SceneMesh\ICurrentSelectSceneMeshGetter.h" />
     <ClInclude Include="DirectX\DepthStencilView.h" />

@@ -15,10 +15,6 @@ EnemyColliderController::~EnemyColliderController() = default;
 void EnemyColliderController::start() {
     mCollider = getComponent<AABBAnimationCollider>();
     mHP = getComponent<HitPoint>();
-
-    mCollider->concatenate(HEAD, NOSE);
-    mCollider->concatenate(HEAD, LEFT_EYE);
-    mCollider->concatenate(HEAD, RIGHT_EYE);
 }
 
 void EnemyColliderController::onCollisionEnter(Collider& other) {

@@ -1,5 +1,4 @@
 ﻿#include "MeshShader.h"
-#include "MeshMaterial.h"
 #include "../Mesh/MeshComponent.h"
 #include "../../../Engine/DebugManager/DebugUtility/Debug.h"
 #include "../../../Imgui/imgui.h"
@@ -14,7 +13,6 @@
 
 MeshShader::MeshShader()
     : Component()
-    , mMeshMaterial(nullptr)
     , mMesh(nullptr)
     , mAnimation(nullptr)
     , mShader(nullptr)
@@ -22,13 +20,6 @@ MeshShader::MeshShader()
 }
 
 MeshShader::~MeshShader() = default;
-
-void MeshShader::start() {
-    mMeshMaterial = getComponent<MeshMaterial>();
-    if (!mMeshMaterial) {
-        mMeshMaterial = addComponent<MeshMaterial>("MeshMaterial");
-    }
-}
 
 void MeshShader::loadProperties(const rapidjson::Value& inObj) {
     std::string shader;
@@ -81,14 +72,10 @@ void MeshShader::setCommonValue(
     mShader->transferData(&meshcb, sizeof(meshcb), 0);
 }
 
-void MeshShader::setDefaultMaterial(unsigned materialIndex, unsigned constantBufferIndex) const {
-    if (mMeshMaterial->isSetMaterial(materialIndex)) {
-        //指定のインデックスのマテリアルが登録されてたらそっちを使う
-        setMaterial(mMeshMaterial->getMaterial(materialIndex), constantBufferIndex);
-    } else {
-        //登録されてなかったら、デフォルトを使う
-        setMaterial(mMesh->getMaterial(materialIndex), constantBufferIndex);
-    }
+void MeshShader::setMaterialData(unsigned materialIndex, unsigned constantBufferIndex) const {
+    MaterialConstantBuffer matcb{};
+    MeshCommonShaderSetter::setMaterial(matcb, mMesh->getMaterial(materialIndex));
+    mShader->transferData(&matcb, sizeof(matcb), constantBufferIndex);
 }
 
 void MeshShader::setTransferData(const void* data, unsigned size, unsigned constantBufferIndex) {
@@ -120,10 +107,4 @@ void MeshShader::setDefaultShader() {
 
     //シェーダーを生成する
     mShader = AssetsManager::instance().createShader(shader);
-}
-
-void MeshShader::setMaterial(const Material& material, unsigned constantBufferIndex) const {
-    MaterialConstantBuffer matcb{};
-    MeshCommonShaderSetter::setMaterial(matcb, material);
-    mShader->transferData(&matcb, sizeof(matcb), constantBufferIndex);
 }

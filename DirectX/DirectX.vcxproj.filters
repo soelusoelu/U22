@@ -173,7 +173,6 @@
     <ClCompile Include="Component\Engine\Light\DirectionalLight.cpp" />
     <ClCompile Include="Component\Engine\Light\PointLightComponent.cpp" />
     <ClCompile Include="Component\Engine\Mesh\MeshComponent.cpp" />
-    <ClCompile Include="Component\Engine\Mesh\MeshMaterial.cpp" />
     <ClCompile Include="Component\Engine\Mesh\MeshOutLine.cpp" />
     <ClCompile Include="Component\Engine\Mesh\MeshRenderer.cpp" />
     <ClCompile Include="Component\Engine\Mesh\MeshShader.cpp" />
@@ -476,7 +475,6 @@
     <ClInclude Include="Component\Engine\Light\PointLightComponent.h" />
     <ClInclude Include="Component\Engine\Mesh\IDrawBefore.h" />
     <ClInclude Include="Component\Engine\Mesh\MeshComponent.h" />
-    <ClInclude Include="Component\Engine\Mesh\MeshMaterial.h" />
     <ClInclude Include="Component\Engine\Mesh\MeshOutLine.h" />
     <ClInclude Include="Component\Engine\Mesh\MeshRenderer.h" />
     <ClInclude Include="Component\Engine\Mesh\MeshShader.h" />
@@ -599,6 +597,7 @@
     <ClInclude Include="Component\Game\UI\BossEnemyUIManager.h" />
     <ClInclude Include="Component\Game\Weapon\WeaponDamage.h" />
     <ClInclude Include="Component\Game\Player\PlayerShield.h" />
+    <ClInclude Include="Component\Game\Enemy\EnemyMotions.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />

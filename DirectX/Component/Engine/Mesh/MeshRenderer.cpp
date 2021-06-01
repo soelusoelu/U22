@@ -89,7 +89,7 @@ void MeshRenderer::drawMesh(
     const auto loopCount = mMeshComponent->getMesh()->getMeshCount();
     for (size_t i = 0; i < loopCount; ++i) {
         //マテリアルを設定する
-        mMeshShader->setDefaultMaterial(i);
+        mMeshShader->setMaterialData(i);
 
         //描画
         mMeshComponent->getDrawer()->draw(i);

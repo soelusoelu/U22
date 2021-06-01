@@ -23,6 +23,8 @@ public:
     Mesh();
     ~Mesh();
 
+    //指定のマテリアルを設定する
+    virtual void setMaterial(const Material& material, unsigned index) override;
     //指定のマテリアルの取得
     virtual const Material& getMaterial(unsigned index) const override;
     //メッシュの数を取得する

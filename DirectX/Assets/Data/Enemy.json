@@ -1,13 +1,14 @@
 {
   "tag": "Enemy",
   "transform": {
-    "scale": [ 5.0, 5.0, 5.0 ]
+    "rotation": [ 0.0, 180.0, 0.0 ],
+    "scale": [ 2.0, 2.0, 2.0 ]
   },
   "components": [
     {
       "type": "MeshComponent",
       "properties": {
-        "fileName": "Practice\\test.fbx"
+        "fileName": "Enemy\\enemy_prot.fbx"
       }
     },
     {

@@ -14,6 +14,11 @@ Mesh::Mesh()
 
 Mesh::~Mesh() = default;
 
+void Mesh::setMaterial(const Material& material, unsigned index) {
+    assert(index < mMaterials.size());
+    mMaterials[index] = material;
+}
+
 const Material& Mesh::getMaterial(unsigned index) const {
     assert(index < mMaterials.size());
     return mMaterials[index];
