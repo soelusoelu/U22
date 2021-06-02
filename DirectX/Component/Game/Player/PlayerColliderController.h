@@ -4,6 +4,7 @@
 #include <memory>
 
 class AABBAnimationCollider;
+class HitPoint;
 
 class PlayerColliderController
     : public Component
@@ -12,6 +13,7 @@ public:
     PlayerColliderController();
     ~PlayerColliderController();
     virtual void start() override;
+    virtual void onCollisionEnter(Collider& other) override;
 
 private:
     PlayerColliderController(const PlayerColliderController&) = delete;
@@ -19,6 +21,7 @@ private:
 
 private:
     std::shared_ptr<AABBAnimationCollider> mCollider;
+    std::shared_ptr<HitPoint> mHP;
 
     static constexpr unsigned HEAD = 0;
     static constexpr unsigned NOSE = 2;

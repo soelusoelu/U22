@@ -38,8 +38,11 @@
 #include "../Component/Engine/Text/TextNumber.h"
 #include "../Component/Game/Camera/GameCamera.h"
 #include "../Component/Game/Camera/LockOn.h"
+#include "../Component/Game/Enemy/EnemyAI.h"
 #include "../Component/Game/Enemy/EnemyAnimationController.h"
+#include "../Component/Game/Enemy/EnemyAttack.h"
 #include "../Component/Game/Enemy/EnemyColliderController.h"
+#include "../Component/Game/Enemy/EnemyMove.h"
 #include "../Component/Game/Player/PlayerAnimationController.h"
 #include "../Component/Game/Player/PlayerAttack.h"
 #include "../Component/Game/Player/PlayerColliderController.h"
@@ -122,8 +125,11 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(GameCamera);
     ADD_COMPONENT(LockOn);
 
+    ADD_COMPONENT(EnemyAI);
     ADD_COMPONENT(EnemyAnimationController);
+    ADD_COMPONENT(EnemyAttack);
     ADD_COMPONENT(EnemyColliderController);
+    ADD_COMPONENT(EnemyMove);
 
     ADD_COMPONENT(PlayerAnimationController);
     ADD_COMPONENT(PlayerAttack);

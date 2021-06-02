@@ -3,6 +3,7 @@
 #include "PlayerMotions.h"
 #include "PlayerMove.h"
 #include "Stamina.h"
+#include "../../Engine/Collider/AABBAnimationCollider.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Device/Time.h"
 #include "../../../Input/Input.h"
@@ -12,6 +13,7 @@
 PlayerRoll::PlayerRoll()
     : Component()
     , mAnimation(nullptr)
+    , mCollider(nullptr)
     , mStamina(nullptr)
     , mPlayerMove(nullptr)
     , mMoveDirGetter(nullptr)
@@ -29,6 +31,7 @@ PlayerRoll::~PlayerRoll() = default;
 
 void PlayerRoll::start() {
     mAnimation = getComponent<SkinMeshComponent>();
+    mCollider = getComponent<AABBAnimationCollider>();
     mStamina = getComponent<Stamina>();
 
     auto playerMove = getComponent<PlayerMove>();
@@ -53,6 +56,7 @@ void PlayerRoll::update() {
     if (mRollingMotionTime->isTime()) {
         mRollingMotionTime->reset();
         mAnimation->changeMotion(PlayerMotions::IDOL);
+        mCollider->enabled();
         mStamina->setHealFlag(true);
         mIsRolling = false;
         return;
@@ -88,6 +92,7 @@ void PlayerRoll::originalUpdate() {
 
     mAnimation->changeMotion(PlayerMotions::ROLL);
     mAnimation->setLoop(false);
+    mCollider->disabled();
     mStamina->setHealFlag(false);
     mIsRolling = true;
 

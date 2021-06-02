@@ -180,6 +180,9 @@ void Transform3D::loadProperties(const rapidjson::Value& inObj) {
     }
     JsonHelper::getVector3(inObj, "scale", &mScale);
     JsonHelper::getVector3(inObj, "pivot", &mPivot);
+
+    computeLocalMatrix();
+    computeWorldMatrix();
 }
 
 void Transform3D::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const {

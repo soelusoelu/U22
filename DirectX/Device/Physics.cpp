@@ -81,13 +81,14 @@ void Physics::sweepAndPrune() {
         }
     }
 
-    for (const auto& animColls : mAnimationColliders) {
-        if (!enabled(*animColls)) {
+    for (size_t i = 0; i < mAnimationColliders.size(); ++i) {
+        auto& animCollsA = mAnimationColliders[i];
+        if (!enabled(*animCollsA)) {
             continue;
         }
 
-        for (const auto& animColl : animColls->getAABBs()) {
-            if (!animColl.isActive) {
+        for (const auto& animCollA : animCollsA->getAABBs()) {
+            if (!animCollA.isActive) {
                 continue;
             }
 
@@ -96,10 +97,31 @@ void Physics::sweepAndPrune() {
                     continue;
                 }
 
-                if (Intersect::intersectAABB(animColl.aabb, coll->getAABB())) {
-                    animColls->addHitCollider(coll);
-                    coll->addHitCollider(animColls);
+                if (Intersect::intersectAABB(animCollA.aabb, coll->getAABB())) {
+                    animCollsA->addHitCollider(coll);
+                    coll->addHitCollider(animCollsA);
                 }
+            }
+
+
+
+            for (size_t j = i + 1; j < mAnimationColliders.size(); ++j) {
+                const auto& animCollsB = mAnimationColliders[j];
+                if (!enabled(*animCollsB)) {
+                    continue;
+                }
+
+                for (const auto& animCollB : animCollsB->getAABBs()) {
+                    if (!animCollB.isActive) {
+                        continue;
+                    }
+
+                    if (Intersect::intersectAABB(animCollA.aabb, animCollB.aabb)) {
+                        animCollsA->addHitCollider(animCollsB);
+                        animCollsB->addHitCollider(animCollsA);
+                    }
+                }
+
             }
         }
     }

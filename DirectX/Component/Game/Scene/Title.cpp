@@ -1,6 +1,7 @@
 ﻿#include "Title.h"
 #include "../Camera/GameCamera.h"
 #include "../Camera/LockOn.h"
+#include "../Enemy/EnemyAI.h"
 #include "../Player/PlayerShield.h"
 #include "../Player/PlayerWalk.h"
 #include "../Player/PlayerWeapon.h"
@@ -10,6 +11,7 @@
 #include "../../../GameObject/GameObject.h"
 #include "../../../GameObject/GameObjectFactory.h"
 #include "../../../GameObject/GameObjectManager.h"
+#include "../../../Input/Input.h"
 #include "../../../Transform/Transform3D.h"
 
 Title::Title() :
@@ -42,7 +44,15 @@ void Title::awake() {
     playerCompManager.getComponent<PlayerWeapon>()->setWeapon(weapon);
     playerCompManager.getComponent<PlayerShield>()->setShield(shield);
 
+    boss->componentManager().getComponent<EnemyAI>()->setPlayer(player);
+
     playerUIManager->componentManager().getComponent<PlayerUIManager>()->setPlayer(player);
 
     bossEnemyUIManager->componentManager().getComponent<BossEnemyUIManager>()->setBoss(boss);
+}
+
+void Title::update() {
+    if (Input::keyboard().getKeyDown(KeyCode::R)) {
+        next("Title");
+    }
 }
