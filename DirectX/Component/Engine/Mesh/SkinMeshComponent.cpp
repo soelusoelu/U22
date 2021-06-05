@@ -56,6 +56,9 @@ void SkinMeshComponent::changeMotion(const std::string& motionName) {
 void SkinMeshComponent::tPose() {
     mIsMotionUpdate = false;
     mCurrentBones.assign(mCurrentBones.size(), Matrix4::identity);
+
+    //通知を送る
+    mCallbackComputeCurrentBones();
 }
 
 void SkinMeshComponent::setMotionUpdateFlag(bool value) {

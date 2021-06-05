@@ -25,6 +25,10 @@ public:
     //文字列をKeyCodeに変換
     static void stringToKeyCode(const std::string& src, KeyCode* dst);
 
+public:
+    //無効な数字
+    static constexpr int INVALID_NUMBER = -1;
+
 private:
     IDirectInputDevice8* mKeyDevice;
     byte mCurrentKeys[256];

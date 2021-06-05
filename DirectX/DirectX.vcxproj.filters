@@ -270,6 +270,7 @@
     <ClCompile Include="Component\Game\Enemy\EnemyAttack.cpp" />
     <ClCompile Include="Component\Game\Enemy\EnemyAI.cpp" />
     <ClCompile Include="Component\Game\Enemy\EnemyMove.cpp" />
+    <ClCompile Include="Component\Engine\Other\SimpleMotionChanger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -604,6 +605,7 @@
     <ClInclude Include="Component\Game\Enemy\EnemyAttack.h" />
     <ClInclude Include="Component\Game\Enemy\EnemyAI.h" />
     <ClInclude Include="Component\Game\Enemy\EnemyMove.h" />
+    <ClInclude Include="Component\Engine\Other\SimpleMotionChanger.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />

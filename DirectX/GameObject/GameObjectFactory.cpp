@@ -24,6 +24,7 @@
 #include "../Component/Engine/Mesh/SkinMeshComponent.h"
 #include "../Component/Engine/Other/GameObjectSaveAndLoader.h"
 #include "../Component/Engine/Other/SaveThis.h"
+#include "../Component/Engine/Other/SimpleMotionChanger.h"
 #include "../Component/Engine/Sample/RayMouse.h"
 #include "../Component/Engine/Sample/WaveformRenderSample.h"
 #include "../Component/Engine/Scene/MapEditor.h"
@@ -102,6 +103,7 @@ GameObjectFactory::GameObjectFactory() {
 
     ADD_COMPONENT(GameObjectSaveAndLoader);
     ADD_COMPONENT(SaveThis);
+    ADD_COMPONENT(SimpleMotionChanger);
 
     ADD_COMPONENT(RayMouse);
     ADD_COMPONENT(WaveformRenderSample);

@@ -71,7 +71,7 @@ int Keyboard::getNumber() const {
         return 9;
     }
 
-    return -1;
+    return INVALID_NUMBER;
 }
 
 bool Keyboard::getEnter() const {
