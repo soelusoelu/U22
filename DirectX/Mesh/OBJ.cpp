@@ -225,7 +225,7 @@ void OBJ::loadTexture(Material& material, std::istringstream& iss, const std::st
     std::string textureName;
     iss >> textureName;
     //テクスチャ読み込み
-    material.texture = AssetsManager::instance().createTexture(textureName, directoryPath);
+    material.textureID = AssetsManager::instance().createTextureID(textureName, directoryPath);
 }
 
 bool OBJ::isSkip(const std::string& line) {

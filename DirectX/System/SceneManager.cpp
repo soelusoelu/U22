@@ -83,7 +83,8 @@ void SceneManager::initialize(const IFpsGetter* fpsGetter) {
     mCamera = cam->componentManager().getComponent<Camera>();
 
     mRenderer->initialize();
-    mEngineManager->initialize(mCamera, this, this, mGameObjectManager.get(), mMeshManager.get(), fpsGetter);
+    mEngineManager->initialize(mCamera, this, mGameObjectManager.get(), mMeshManager.get(), fpsGetter);
+    mEngineManager->getModeChanger().callbackChangeMode([&](EngineMode mode) { onChangeMode(mode); });
     mMeshManager->initialize();
     mLightManager->initialize();
     mTextDrawer->initialize();
@@ -162,64 +163,47 @@ void SceneManager::draw() const {
 #pragma endregion
 
     //メッシュ描画準備
-//    mRenderer->renderMesh();
-//
-//    if (isGameMode()) {
-//        //メッシュの描画
-//        const auto& dirLight = mLightManager->getDirectionalLight();
-//        mMeshManager->draw(view, proj, mCamera->getPosition(), dirLight.getDirection(), dirLight.getLightColor());
-//
-//        //メッシュをテクスチャに描画する
-//        mMeshRenderOnTextureManager->drawMeshOnTextures();
-//    }
-//
-//#ifdef _DEBUG
-//    mEngineManager->draw3D(mMode, *mRenderer, *mCamera, mLightManager->getDirectionalLight());
-//#endif // _DEBUG
+    mRenderer->renderMesh();
+
+    if (isGameMode()) {
+        //メッシュの描画
+        const auto& dirLight = mLightManager->getDirectionalLight();
+        mMeshManager->draw(view, proj, mCamera->getPosition(), dirLight.getDirection(), dirLight.getLightColor());
+
+        //メッシュをテクスチャに描画する
+        mMeshRenderOnTextureManager->drawMeshOnTextures();
+    }
+
+#ifdef _DEBUG
+    mEngineManager->draw3D(mMode, *mRenderer, *mCamera, mLightManager->getDirectionalLight());
+#endif // _DEBUG
 
     //スプライト描画準備
     mRenderer->renderSprite();
     //3Dスプライト
-    //mRenderer->renderSprite3D();
+    mRenderer->renderSprite3D();
 
-    //if (isGameMode()) {
-    //    //3Dスプライトを描画する
-    //    mSpriteManager->draw3Ds(view, proj);
-    //}
+    if (isGameMode()) {
+        //3Dスプライトを描画する
+        mSpriteManager->draw3Ds(view, proj);
+    }
 
     //2Dスプライト
     auto proj2D = Matrix4::identity;
     mRenderer->renderSprite2D(proj2D);
 
-    //if (isGameMode()) {
-    //    //メッシュ描画済みテクスチャを描画する
-    //    mMeshRenderOnTextureManager->drawTextures(proj2D);
-    //    //2Dスプライト描画
-    //    mSpriteManager->drawComponents(proj2D);
-    //    //テキスト描画
-    //    mTextDrawer->drawAll(proj2D);
-    //}
+    if (isGameMode()) {
+        //メッシュ描画済みテクスチャを描画する
+        mMeshRenderOnTextureManager->drawTextures(proj2D);
+        //2Dスプライト描画
+        mSpriteManager->drawComponents(proj2D);
+        //テキスト描画
+        mTextDrawer->drawAll(proj2D);
+    }
 
 #ifdef _DEBUG
     mEngineManager->draw(mMode, *mRenderer, proj2D);
 #endif // _DEBUG
-}
-
-void SceneManager::onChangeGameMode() {
-    mMode = EngineMode::GAME;
-    mMeshManager->registerThisToMeshRenderer();
-    mEngineManager->debug().getDebugLayer().hierarchy().setGameObjectsGetter(mGameObjectManager.get());
-}
-
-void SceneManager::onChangeMapEditorMode() {
-    mMode = EngineMode::MAP_EDITOR;
-    mEngineManager->onChangeMapEditorMode();
-    mEngineManager->debug().getDebugLayer().hierarchy().setGameObjectsGetter(mEngineManager->getMapEditorMeshManager().getGameObjects());
-}
-
-void SceneManager::onChangeModelViewerMode() {
-    mMode = EngineMode::MODEL_VIEWER;
-    mEngineManager->onChangeModelViewerMode();
 }
 
 EngineMode SceneManager::getMode() const {
@@ -241,15 +225,28 @@ void SceneManager::createScene(const std::string& name) {
 
 void SceneManager::choiceBeginScene() {
     if (mBeginScene == EngineModeName::MAP_EDITOR) {
-        onChangeMapEditorMode();
+        onChangeMode(EngineMode::MAP_EDITOR);
     } else if (mBeginScene == EngineModeName::MODEL_VIEWER) {
-        onChangeModelViewerMode();
+        onChangeMode(EngineMode::MODEL_VIEWER);
     } else {
-        onChangeGameMode();
+        onChangeMode(EngineMode::GAME);
     }
     createScene(mReleaseScene);
 }
 
 bool SceneManager::isGameMode() const {
     return (mMode == EngineMode::GAME);
+}
+
+void SceneManager::onChangeMode(EngineMode mode) {
+    mMode = mode;
+    if (mode == EngineMode::GAME) {
+        mMeshManager->registerThisToMeshRenderer();
+        mEngineManager->debug().getDebugLayer().hierarchy().setGameObjectsGetter(mGameObjectManager.get());
+    } else if (mode == EngineMode::MAP_EDITOR) {
+        mEngineManager->onChangeMapEditorMode();
+        mEngineManager->debug().getDebugLayer().hierarchy().setGameObjectsGetter(mEngineManager->getMapEditorMeshManager().getGameObjects());
+    } else if (mode == EngineMode::MODEL_VIEWER) {
+        mEngineManager->onChangeModelViewerMode();
+    }
 }

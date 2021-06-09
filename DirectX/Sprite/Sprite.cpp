@@ -4,26 +4,27 @@
 #include "../System/AssetsManager.h"
 #include "../System/shader/ConstantBuffers.h"
 #include "../System/shader/Shader.h"
-#include "../System/Texture/TextureFromFile.h"
+#include "../System/Texture/Texture.h"
 #include "../Transform/Transform2D.h"
 #include <cassert>
 #include <vector>
 
-Sprite::Sprite() :
-    mTransform(std::make_unique<Transform2D>()),
-    mTexture(nullptr),
-    mShader(AssetsManager::instance().createShader("Texture.hlsl")),
-    mColor(ColorPalette::white),
-    mAlpha(1.f),
-    mUV(0.f, 0.f, 1.f, 1.f),
-    mFileName(),
-    mIsActive(true) {
-
+Sprite::Sprite()
+    : mTransform(std::make_unique<Transform2D>())
+    , mTextureID(INVALID_ID)
+    , mShader(AssetsManager::instance().createShader("Texture.hlsl"))
+    , mColor(ColorPalette::white)
+    , mAlpha(1.f)
+    , mUV(0.f, 0.f, 1.f, 1.f)
+    , mFileName()
+    , mIsActive(true)
+{
     computeWorldTransform();
 }
 
-Sprite::Sprite(const std::string& fileName) :
-    Sprite() {
+Sprite::Sprite(const std::string& fileName)
+    : Sprite()
+{
     //テクスチャ生成
     setTextureFromFileName(fileName);
 }
@@ -37,18 +38,12 @@ void Sprite::computeWorldTransform() {
 }
 
 void Sprite::draw(const Matrix4& proj) const {
-    if (!mTexture) {
+    if (!enabledTexture()) {
         return;
     }
 
-    static bool is = false;
-    if (!is) {
     //シェーダーを登録
     mShader->setShaderInfo();
-    //テクスチャーを登録
-    mTexture->setTextureInfo();
-    is = true;
-    }
 
     //シェーダーのコンスタントバッファーに各種データを渡す
     TextureConstantBuffer cb;
@@ -90,10 +85,10 @@ float Sprite::getAlpha() const {
 }
 
 void Sprite::setUV(float l, float t, float r, float b) {
-    //assert(0.f <= l || l <= 1.f);
-    //assert(0.f <= t || t <= 1.f);
-    //assert(l <= r || r <= 1.f);
-    //assert(t <= b || b <= 1.f);
+    assert(0.f <= l || l <= 1.f);
+    assert(0.f <= t || t <= 1.f);
+    assert(l <= r || r <= 1.f);
+    assert(t <= b || b <= 1.f);
 
     mUV.x = l;
     mUV.y = t;
@@ -101,7 +96,7 @@ void Sprite::setUV(float l, float t, float r, float b) {
     mUV.w = b;
 
     //サイズ修正
-    const auto& texSize = mTexture->getTextureSize();
+    const auto& texSize = texture().getTextureSize();
     Vector2 size = Vector2(texSize.x * (r - l), texSize.y * (b - t));
 
     //テクスチャサイズを変更したことを通知
@@ -113,7 +108,7 @@ const Vector4& Sprite::getUV() const {
 }
 
 const Vector2& Sprite::getTextureSize() const {
-    return mTexture->getTextureSize();
+    return texture().getTextureSize();
 }
 
 void Sprite::setActive(bool value) {
@@ -125,33 +120,32 @@ bool Sprite::getActive() const {
 }
 
 void Sprite::setTextureFromFileName(const std::string& fileName) {
-    if (mTexture) {
-        mTexture.reset();
-    }
-    mTexture = AssetsManager::instance().createTexture(fileName);
+    mTextureID = AssetsManager::instance().createTextureID(fileName);
 
     //Transformに通知
-    mTransform->setSize(mTexture->getTextureSize());
+    mTransform->setSize(texture().getTextureSize());
 
     //ファイル名変更
     mFileName = fileName;
 }
 
 void Sprite::setTexture(const std::shared_ptr<Texture>& texture) {
-    if (mTexture) {
-        mTexture.reset();
-    }
-    mTexture = texture;
+    mTextureID = AssetsManager::instance().addTexture(texture);
 
     //Transformに通知
-    mTransform->setSize(mTexture->getTextureSize());
+    mTransform->setSize(texture->getTextureSize());
 
     //ファイル名変更
     mFileName.clear();
 }
 
 const Texture& Sprite::texture() const {
-    return *mTexture;
+    const auto& tex = AssetsManager::instance().getTextureFromID(mTextureID);
+    return *tex;
+}
+
+int Sprite::getTextureID() const {
+    return mTextureID;
 }
 
 const Shader& Sprite::shader() const {
@@ -160,4 +154,16 @@ const Shader& Sprite::shader() const {
 
 const std::string& Sprite::fileName() const {
     return mFileName;
+}
+
+void Sprite::setSpriteManager(SpriteManager* manager) {
+    mManager = manager;
+}
+
+SpriteManager& Sprite::getSpriteManager() const {
+    return *mManager;
+}
+
+bool Sprite::enabledTexture() const {
+    return (mTextureID != INVALID_ID);
 }

@@ -30,9 +30,10 @@ void AssetsRenderTextureAdder::saveProperties(rapidjson::Document::AllocatorType
     inObj.AddMember("assetsRenderTextureAdder", props, alloc);
 }
 
-void AssetsRenderTextureAdder::initialize(IAddAssets* adder) {
+void AssetsRenderTextureAdder::initialize(IAddAssets* adder, IEngineFunctionChanger& changer) {
     mAssetsAdder = adder;
     mButton = std::make_unique<SpriteButton>([&] { onClickButton(); }, mSpriteFilePath, mRenderPosition);
+    changer.callbackChangeMode([&](EngineMode mode) { onChangeMode(mode); });
 }
 
 void AssetsRenderTextureAdder::update() {
@@ -48,5 +49,12 @@ void AssetsRenderTextureAdder::onClickButton() {
         //絶対パスからアセットディレクトリ部分を抜き出す
         const auto& assetsDir = FileUtil::getAssetsFromAbsolutePath(outFilePath);
         mAssetsAdder->add(assetsDir);
+    }
+}
+
+void AssetsRenderTextureAdder::onChangeMode(EngineMode mode) {
+    bool isActive = (mode == EngineMode::MAP_EDITOR || mode == EngineMode::MODEL_VIEWER);
+    if (mButton->getActive() != isActive) {
+        mButton->setActive(isActive);
     }
 }

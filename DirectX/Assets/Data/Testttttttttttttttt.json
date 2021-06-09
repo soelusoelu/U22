@@ -1,0 +1,10 @@
+{
+  "components": [
+    {
+      "type": "SpriteComponent",
+      "properties": {
+        "fileName": "System\\pixel.png"
+      }
+    }
+  ]
+}

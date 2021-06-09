@@ -4,13 +4,16 @@
 #include "../Utility/LevelLoader.h"
 
 EngineFuctionChanger::EngineFuctionChanger()
-    : mCallbackChangeEngineMode(nullptr)
-    , mStartRenderPosition()
+    : mStartRenderPosition()
     , mSpriteSpace(0.f)
 {
 }
 
 EngineFuctionChanger::~EngineFuctionChanger() = default;
+
+void EngineFuctionChanger::callbackChangeMode(const std::function<void(EngineMode)>& f) {
+    mCallbackChangeMode += f;
+}
 
 void EngineFuctionChanger::loadProperties(const rapidjson::Value& inObj) {
     const auto& efcObj = inObj["engineFuctionChanger"];
@@ -30,20 +33,19 @@ void EngineFuctionChanger::saveProperties(rapidjson::Document::AllocatorType& al
     inObj.AddMember("engineFuctionChanger", props, alloc);
 }
 
-void EngineFuctionChanger::initialize(ICallbackChangeEngineMode* callback) {
-    mCallbackChangeEngineMode = callback;
-
+void EngineFuctionChanger::initialize() {
     for (size_t i = 0; i < mSpritesFilePath.size(); ++i) {
         mSpritesButton.emplace_back(std::make_unique<SpriteButton>(nullptr, mSpritesFilePath[i], mStartRenderPosition + Vector2::right * (SPRITE_WIDTH + mSpriteSpace) * i));
     }
-    mSpritesButton[0]->setClickFunc([&] { mCallbackChangeEngineMode->onChangeGameMode(); });
-    mSpritesButton[1]->setClickFunc([&] { mCallbackChangeEngineMode->onChangeMapEditorMode(); });
-    mSpritesButton[2]->setClickFunc([&] { mCallbackChangeEngineMode->onChangeModelViewerMode(); });
 }
 
 void EngineFuctionChanger::update() {
-    for (const auto& button : mSpritesButton) {
-        button->clickButton(Input::mouse().getMousePosition());
+    for (size_t i = 0; i < mSpritesButton.size(); ++i) {
+        bool result = mSpritesButton[i]->clickButton(Input::mouse().getMousePosition());
+        if (result) {
+            mCallbackChangeMode(static_cast<EngineMode>(i));
+            return;
+        }
     }
 }
 

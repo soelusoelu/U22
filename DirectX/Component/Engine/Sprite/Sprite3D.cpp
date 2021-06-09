@@ -9,24 +9,24 @@
 #include "../../../System/Shader/ConstantBuffers.h"
 #include "../../../System/Shader/Shader.h"
 #include "../../../System/Texture/Texture.h"
-#include "../../../System/Texture/TextureFromFile.h"
 #include "../../../Transform/Transform3D.h"
 #include "../../../Utility/LevelLoader.h"
 #include <cassert>
 
-Sprite3D::Sprite3D() :
-    Component(),
-    mTransform(std::make_unique<Transform3D>()),
-    mTexture(nullptr),
-    mShader(nullptr),
-    mCurrentTextureSize(Vector2::zero),
-    mTextureAspect(Vector2::one),
-    mColor(ColorPalette::white),
-    mAlpha(1.f),
-    mUV(Vector4(0.f, 0.f, 1.f, 1.f)),
-    mFileName(""),
-    mIsActive(true),
-    mIsBillboard(false) {
+Sprite3D::Sprite3D()
+    : Component()
+    , mTransform(std::make_unique<Transform3D>())
+    , mTextureID(INVALID_ID)
+    , mShader(nullptr)
+    , mCurrentTextureSize(Vector2::zero)
+    , mTextureAspect(Vector2::one)
+    , mColor(ColorPalette::white)
+    , mAlpha(1.f)
+    , mUV(Vector4(0.f, 0.f, 1.f, 1.f))
+    , mFileName("")
+    , mIsActive(true)
+    , mIsBillboard(false)
+{
 }
 
 Sprite3D::~Sprite3D() = default;
@@ -34,8 +34,8 @@ Sprite3D::~Sprite3D() = default;
 void Sprite3D::awake() {
     //ファイル名を読み込めてたらテクスチャを生成
     if (!mFileName.empty()) {
-        mTexture = AssetsManager::instance().createTexture(mFileName);
-        mCurrentTextureSize = mTexture->getTextureSize();
+        mTextureID = AssetsManager::instance().createTextureID(mFileName);
+        mCurrentTextureSize = texture().getTextureSize();
 
         //テクスチャのアスペクト比を計算
         calcAspectRatio();
@@ -107,14 +107,12 @@ void Sprite3D::drawInspector() {
 }
 
 void Sprite3D::draw(const Matrix4& viewProj) const {
-    if (!mTexture) {
+    if (!enabledTexture()) {
         return;
     }
 
     //シェーダーを登録
     mShader->setShaderInfo();
-    //テクスチャーを登録
-    mTexture->setTextureInfo();
 
     //シェーダーのコンスタントバッファーに各種データを渡す
     TextureConstantBuffer cb;
@@ -130,14 +128,12 @@ void Sprite3D::draw(const Matrix4& viewProj) const {
 }
 
 void Sprite3D::drawBillboard(const Matrix4& invView, const Matrix4& viewProj) {
-    if (!mTexture) {
+    if (!enabledTexture()) {
         return;
     }
 
     //シェーダーを登録
     mShader->setShaderInfo();
-    //テクスチャーを登録
-    mTexture->setTextureInfo();
 
     //シェーダーのコンスタントバッファーに各種データを渡す
     TextureConstantBuffer cb;
@@ -188,10 +184,10 @@ float Sprite3D::getAlpha() const {
 }
 
 void Sprite3D::setUV(float l, float t, float r, float b) {
-    //assert(0.f <= l || l <= 1.f);
-    //assert(0.f <= t || t <= 1.f);
-    //assert(l <= r || r <= 1.f);
-    //assert(t <= b || b <= 1.f);
+    assert(0.f <= l || l <= 1.f);
+    assert(0.f <= t || t <= 1.f);
+    assert(l <= r || r <= 1.f);
+    assert(t <= b || b <= 1.f);
 
     mUV.x = l;
     mUV.y = t;
@@ -199,7 +195,7 @@ void Sprite3D::setUV(float l, float t, float r, float b) {
     mUV.w = b;
 
     //サイズ修正
-    const auto& texSize = mTexture->getTextureSize();
+    const auto& texSize = texture().getTextureSize();
     mCurrentTextureSize = Vector2(texSize.x * (r - l), texSize.y * (b - t));
 
     //アスペクト比再計算
@@ -219,13 +215,10 @@ bool Sprite3D::getActive() const {
 }
 
 void Sprite3D::setTextureFromFileName(const std::string& fileName) {
-    if (mTexture) {
-        mTexture.reset();
-    }
-    mTexture = AssetsManager::instance().createTexture(fileName);
+    mTextureID = AssetsManager::instance().createTextureID(fileName);
 
     //各種初期化
-    mCurrentTextureSize = mTexture->getTextureSize();
+    mCurrentTextureSize = texture().getTextureSize();
     mColor = ColorPalette::white;
     mAlpha = 1.f;
     mUV = Vector4(0.f, 0.f, 1.f, 1.f);
@@ -238,7 +231,12 @@ void Sprite3D::setTextureFromFileName(const std::string& fileName) {
 }
 
 const Texture& Sprite3D::texture() const {
-    return *mTexture;
+    const auto& tex = AssetsManager::instance().getTextureFromID(mTextureID);
+    return *tex;
+}
+
+int Sprite3D::getTextureID() const {
+    return mTextureID;
 }
 
 const Vector2& Sprite3D::getTextureAspect() const {
@@ -272,10 +270,14 @@ void Sprite3D::addToManager() {
 }
 
 void Sprite3D::calcAspectRatio() {
-    if (!mTexture) {
+    if (!enabledTexture()) {
         return;
     }
 
     //x軸を基準にアスペクト比を求める
     mTextureAspect.x = mCurrentTextureSize.x / mCurrentTextureSize.y;
+}
+
+bool Sprite3D::enabledTexture() const {
+    return (mTextureID != INVALID_ID);
 }

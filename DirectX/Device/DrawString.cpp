@@ -1,9 +1,9 @@
 ﻿#include "DrawString.h"
 #include "../Sprite/Sprite.h"
+#include "../System/Texture/Texture.h"
 #include "../Transform/Transform2D.h"
 #include "../Utility/LevelLoader.h"
 #include "../Utility/StringUtil.h"
-#include "../Engine/DebugManager/DebugUtility/Debug.h"
 
 DrawString::DrawString()
     : mNumberSprite(nullptr)
@@ -237,6 +237,7 @@ void DrawString::drawString(const ParamString& param, const Matrix4& proj) const
 
         //ワールド座標を更新し、描画
         trans.computeWorldTransform();
+        mFontSprite->texture().setTextureInfo();
         mFontSprite->draw(proj);
 
         //描画位置を1文字分ずらす

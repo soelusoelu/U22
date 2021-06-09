@@ -1,8 +1,8 @@
 ﻿#pragma once
 
 #include "EngineMode.h"
-#include "ICallbackChangeEngineMode.h"
 #include "IEngineModeGetter.h"
+#include "IEngineFunctionChanger.h"
 #include "Pause/IPause.h"
 #include "../GameObject/IGameObjectsGetter.h"
 #include "../Math/Math.h"
@@ -34,7 +34,6 @@ public:
     //初期化
     void initialize(
         const std::shared_ptr<Camera>& camera,
-        ICallbackChangeEngineMode* callback,
         const IEngineModeGetter* engineModeGetter,
         const IGameObjectsGetter* gameObjctsGetter,
         const IMeshesGetter* meshesGetter,
@@ -64,6 +63,8 @@ public:
     void onChangeMapEditorMode();
     void onChangeModelViewerMode();
 
+    //エンジンモード変更者へのアクセス
+    IEngineFunctionChanger& getModeChanger() const;
     //デバッグ機能へのアクセス
     DebugManager& debug() const;
     //ポーズ機能へのアクセス

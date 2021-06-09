@@ -42,7 +42,6 @@ void EngineFunctionManager::saveProperties(rapidjson::Document::AllocatorType& a
 
 void EngineFunctionManager::initialize(
     const std::shared_ptr<Camera>& camera,
-    ICallbackChangeEngineMode* callback,
     const IEngineModeGetter* engineModeGetter,
     const IGameObjectsGetter* gameObjctsGetter,
     const IMeshesGetter* meshesGetter,
@@ -51,9 +50,9 @@ void EngineFunctionManager::initialize(
 #ifdef _DEBUG
     mDebugManager->initialize(gameObjctsGetter, fpsGetter, mPause.get());
     mPause->initialize();
-    mFunctionChanger->initialize(callback);
+    mFunctionChanger->initialize();
     mMapEditor->initialize(mDebugManager->getDebugLayer().inspector(), mAssetsRenderTextureManager.get());
-    mAssetsRenderTextureManager->initialize();
+    mAssetsRenderTextureManager->initialize(getModeChanger());
     mSceneMeshOperator->initialize(camera, meshesGetter);
     mModelViewer->initialize(engineModeGetter, mAssetsRenderTextureManager.get(), mAssetsRenderTextureManager->getCallbackSelectAssetsTexture());
 #endif // _DEBUG
@@ -82,9 +81,9 @@ void EngineFunctionManager::draw(EngineMode mode, const Renderer& renderer, Matr
     //レンダリング領域をデバッグに変更
     renderer.renderToDebug(proj);
 
-    //mAssetsRenderTextureManager->drawTextures(mode, proj);
-    //mPause->drawButton(proj);
-    //mFunctionChanger->draw(proj);
+    mAssetsRenderTextureManager->drawTextures(mode, proj);
+    mPause->drawButton(proj);
+    mFunctionChanger->draw(proj);
     mDebugManager->draw(mode, renderer, proj);
 #endif // _DEBUG
 }
@@ -109,6 +108,10 @@ void EngineFunctionManager::onChangeMapEditorMode() {
 
 void EngineFunctionManager::onChangeModelViewerMode() {
     mModelViewer->onChangeModelViewerMode();
+}
+
+IEngineFunctionChanger& EngineFunctionManager::getModeChanger() const {
+    return *mFunctionChanger;
 }
 
 DebugManager& EngineFunctionManager::debug() const {

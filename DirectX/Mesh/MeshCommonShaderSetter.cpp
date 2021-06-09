@@ -1,4 +1,5 @@
 ﻿#include "MeshCommonShaderSetter.h"
+#include "../System/AssetsManager.h"
 #include "../System/Texture/Texture.h"
 
 void MeshCommonShaderSetter::setCommon(
@@ -31,6 +32,6 @@ void MeshCommonShaderSetter::setMaterial(
 
     //テクスチャ登録
     if (transferTexture) {
-        material.texture->setTextureInfo();
+        AssetsManager::instance().getTextureFromID(material.textureID)->setTextureInfo();
     }
 }

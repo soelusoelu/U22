@@ -2,7 +2,6 @@
 
 #include "FpsCounter/IFpsGetter.h"
 #include "../Engine/EngineMode.h"
-#include "../Engine/ICallbackChangeEngineMode.h"
 #include "../Engine/IEngineModeGetter.h"
 #include <rapidjson/document.h>
 #include <memory>
@@ -21,7 +20,9 @@ class LightManager;
 class MeshRenderOnTextureManager;
 class DrawString;
 
-class SceneManager : public ICallbackChangeEngineMode, public IEngineModeGetter {
+class SceneManager
+    : public IEngineModeGetter
+{
 public:
     SceneManager();
     ~SceneManager();
@@ -32,10 +33,6 @@ public:
     void draw() const;
 
 private:
-    virtual void onChangeGameMode() override;
-    virtual void onChangeMapEditorMode() override;
-    virtual void onChangeModelViewerMode() override;
-
     virtual EngineMode getMode() const override;
 
     //シーン変更時
@@ -46,6 +43,8 @@ private:
     void choiceBeginScene();
     //ゲーム中か
     bool isGameMode() const;
+    //モード変更時
+    void onChangeMode(EngineMode mode);
 
 private:
     std::unique_ptr<Renderer> mRenderer;

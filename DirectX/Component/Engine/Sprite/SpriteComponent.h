@@ -52,6 +52,8 @@ public:
     void setTexture(const std::shared_ptr<Texture>& texture);
     //テクスチャ
     const Texture& texture() const;
+    //テクスチャIDを取得する
+    int getTextureID() const;
     //シェーダーの取得
     const Shader& shader() const;
     //ファイル名の取得

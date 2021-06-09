@@ -3,6 +3,7 @@
 #include "FBX/FBX.h"
 #include "../DirectX/DirectXInclude.h"
 #include "../Engine/DebugManager/DebugUtility/Debug.h"
+#include "../System/AssetsManager.h"
 #include "../System/Texture/TextureFromMemory.h"
 #include "../Utility/FileUtil.h"
 #include <cassert>
@@ -142,8 +143,8 @@ void Mesh::createMesh(const std::string& filePath) {
 
     for (auto&& mat : mMaterials) {
         //テクスチャがないマテリアルは白テクスチャを代替する
-        if (!mat.texture) {
-            mat.texture = std::make_shared<TextureFromMemory>(1, 1);
+        if (mat.textureID == Material::INVALID_ID) {
+            mat.textureID = AssetsManager::instance().addTexture(std::make_shared<TextureFromMemory>(1, 1));
         }
 
         //透明値が0のときは1にする

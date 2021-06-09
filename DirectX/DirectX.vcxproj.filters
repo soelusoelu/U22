@@ -556,7 +556,6 @@
     <ClInclude Include="Engine\MapEditor\AssetsPlacement.h" />
     <ClInclude Include="Mesh\IMeshAdder.h" />
     <ClInclude Include="GameObject\IGameObjectAdder.h" />
-    <ClInclude Include="Engine\ICallbackChangeEngineMode.h" />
     <ClInclude Include="Engine\IEngineModeGetter.h" />
     <ClInclude Include="Engine\Camera\EngineCamera.h" />
     <ClInclude Include="Input\InputManager.h" />
@@ -608,6 +607,7 @@
     <ClInclude Include="Component\Game\Enemy\EnemyMove.h" />
     <ClInclude Include="Component\Engine\Other\SimpleMotionChanger.h" />
     <ClInclude Include="Device\TimeMeasurement.h" />
+    <ClInclude Include="Engine\IEngineFunctionChanger.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />
@@ -632,5 +632,6 @@
     <None Include="Assets\Data\Weapon.json" />
     <None Include="Assets\Data\BossEnemyUI.json" />
     <None Include="Assets\Data\Shield.json" />
+    <None Include="Assets\Data\Testttttttttttttttt.json" />
   </ItemGroup>
 </Project>

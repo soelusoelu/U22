@@ -52,7 +52,7 @@ void DebugManager::draw(
     mDebugLayer->draw(mode, *mStringDrawer, proj);
     DebugUtility::instance().draw(mode, *mStringDrawer);
     mStringDrawer->drawAll(proj);
-    //DebugUtility::instance().drawLine2D(mode, renderer, proj);
+    DebugUtility::instance().drawLine2D(mode, renderer, proj);
 }
 
 void DebugManager::draw3D(

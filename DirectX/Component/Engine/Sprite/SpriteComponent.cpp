@@ -171,6 +171,10 @@ const Texture& SpriteComponent::texture() const {
     return mSprite->texture();
 }
 
+int SpriteComponent::getTextureID() const {
+    return mSprite->getTextureID();
+}
+
 const Shader& SpriteComponent::shader() const {
     return mSprite->shader();
 }

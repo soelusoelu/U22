@@ -33,9 +33,9 @@ void AssetsRenderTextureManager::saveProperties(rapidjson::Document::AllocatorTy
     mTextureAdder->saveProperties(alloc, inObj);
 }
 
-void AssetsRenderTextureManager::initialize() {
+void AssetsRenderTextureManager::initialize(IEngineFunctionChanger& changer) {
     mTextureList->initialize();
-    mTextureAdder->initialize(mTextureList.get());
+    mTextureAdder->initialize(mTextureList.get(), changer);
     mDeleter->initialize(mTextureList.get(), this);
     mSelector->initialize(mTextureList.get());
 }

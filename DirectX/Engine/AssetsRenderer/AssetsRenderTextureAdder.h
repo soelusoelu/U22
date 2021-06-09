@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include "IAddAssets.h"
+#include "../EngineMode.h"
+#include "../IEngineFunctionChanger.h"
 #include "../../Math/Math.h"
 #include <rapidjson/document.h>
 #include <memory>
@@ -15,7 +17,7 @@ public:
     ~AssetsRenderTextureAdder();
     void loadProperties(const rapidjson::Value& inObj);
     void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
-    void initialize(IAddAssets* adder);
+    void initialize(IAddAssets* adder, IEngineFunctionChanger& changer);
     void update();
     void draw(const Matrix4& proj);
 
@@ -24,6 +26,7 @@ private:
     AssetsRenderTextureAdder& operator=(const AssetsRenderTextureAdder&) = delete;
 
     void onClickButton();
+    void onChangeMode(EngineMode mode);
 
 private:
     std::unique_ptr<SpriteButton> mButton;

@@ -8,7 +8,6 @@
 class Shader;
 class SpriteManager;
 class Texture;
-class TextureFromFile;
 class Transform3D;
 
 class Sprite3D : public Component, public std::enable_shared_from_this<Sprite3D> {
@@ -48,6 +47,8 @@ public:
     void setTextureFromFileName(const std::string& fileName);
     //テクスチャの取得
     const Texture& texture() const;
+    //テクスチャIDを取得する
+    int getTextureID() const;
     //テクスチャのアスペクト比の取得
     const Vector2& getTextureAspect() const;
     //シェーダーの取得
@@ -67,10 +68,12 @@ protected:
     void addToManager();
     //テクスチャのアスペクト比を計算する
     void calcAspectRatio();
+    //有効なテクスチャか
+    bool enabledTexture() const;
 
 protected:
     std::unique_ptr<Transform3D> mTransform;
-    std::shared_ptr<TextureFromFile> mTexture;
+    int mTextureID;
     std::shared_ptr<Shader> mShader;
     Vector2 mCurrentTextureSize;
     Vector2 mTextureAspect;
@@ -82,4 +85,6 @@ protected:
     bool mIsBillboard;
 
     static inline SpriteManager* mSpriteManager = nullptr;
+
+    static constexpr int INVALID_ID = -1;
 };

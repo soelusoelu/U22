@@ -442,7 +442,7 @@
     <ClInclude Include="Engine\EngineFuctionChanger.h" />
     <ClInclude Include="Engine\AssetsRenderer\ICallbackSelectAssetsTexture.h" />
     <ClInclude Include="Engine\EngineMode.h" />
-    <ClInclude Include="Engine\ICallbackChangeEngineMode.h" />
+    <ClInclude Include="Engine\IEngineFunctionChanger.h" />
     <ClInclude Include="Engine\IEngineModeGetter.h" />
     <ClInclude Include="Engine\ModelViewer\AnimationViewer.h" />
     <ClInclude Include="Engine\AssetsRenderer\AssetsRenderTexture.h" />
@@ -944,6 +944,7 @@
     <None Include="Assets\Data\Player.json" />
     <None Include="Assets\Data\PlayerUI.json" />
     <None Include="Assets\Data\Shield.json" />
+    <None Include="Assets\Data\Testttttttttttttttt.json" />
     <None Include="Assets\Data\Title.json" />
     <None Include="Assets\Data\Waveform.json" />
     <None Include="Assets\Data\Weapon.json" />
