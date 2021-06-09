@@ -82,9 +82,9 @@ void EngineFunctionManager::draw(EngineMode mode, const Renderer& renderer, Matr
     //レンダリング領域をデバッグに変更
     renderer.renderToDebug(proj);
 
-    mAssetsRenderTextureManager->drawTextures(mode, proj);
-    mPause->drawButton(proj);
-    mFunctionChanger->draw(proj);
+    //mAssetsRenderTextureManager->drawTextures(mode, proj);
+    //mPause->drawButton(proj);
+    //mFunctionChanger->draw(proj);
     mDebugManager->draw(mode, renderer, proj);
 #endif // _DEBUG
 }

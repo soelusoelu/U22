@@ -41,10 +41,14 @@ void Sprite::draw(const Matrix4& proj) const {
         return;
     }
 
+    static bool is = false;
+    if (!is) {
     //シェーダーを登録
     mShader->setShaderInfo();
     //テクスチャーを登録
     mTexture->setTextureInfo();
+    is = true;
+    }
 
     //シェーダーのコンスタントバッファーに各種データを渡す
     TextureConstantBuffer cb;

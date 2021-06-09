@@ -6,6 +6,7 @@
 #include <list>
 #include <memory>
 #include <string>
+#include "../Device/TimeMeasurement.h"
 
 class Sprite;
 
@@ -78,7 +79,7 @@ private:
     void drawFloat(const ParamFloat& param, const Matrix4& proj) const;
     void drawString(const ParamString& param, const Matrix4& proj) const;
     //ピボットから描画位置を調整
-    void computePositionFromPivot(Vector2* pos, const Vector2& size, Pivot pivot) const;
+    void computePositionFromPivot(Vector2& pos, const Vector2& size, Pivot pivot) const;
 
 public:
     static constexpr int WIDTH = 32; //画像1文字の横幅
@@ -103,4 +104,5 @@ private:
     static constexpr int WIDTH_CHAR_COUNT = SPRITE_WIDTH / WIDTH; //フォント画像の画像横の文字数
     static constexpr int HEIGHT_CHAR_COUNT = FONT_HEIGHT / HEIGHT;
     static constexpr float FONT_HEIGHT_RATE = static_cast<float>(HEIGHT) / static_cast<float>(FONT_HEIGHT);
+    std::unique_ptr<TimeMeasurement> timer;
 };
