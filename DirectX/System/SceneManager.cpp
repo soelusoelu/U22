@@ -100,7 +100,7 @@ void SceneManager::initialize(const IFpsGetter* fpsGetter) {
 #ifdef _DEBUG
     choiceBeginScene();
 #else
-    onChangeGameMode();
+    mEngineManager->getModeChanger().changeMode(EngineMode::GAME);
     createScene(mReleaseScene);
 #endif // _DEBUG
 }
@@ -126,7 +126,13 @@ void SceneManager::update() {
         mPhysics->sweepAndPrune();
         //各マネージャークラスを更新
         mMeshManager->update();
-        mSpriteManager->update();
+    }
+
+    //スプライトはいつでも更新する
+    mSpriteManager->update();
+
+    //またゲーム中なら
+    if (isGameMode()) {
         mMeshRenderOnTextureManager->update();
 
         //シーン移行
@@ -202,6 +208,9 @@ void SceneManager::draw() const {
     }
 
 #ifdef _DEBUG
+    //レンダリング領域をデバッグに変更
+    mRenderer->renderToDebug(proj2D);
+    mSpriteManager->draw(proj2D);
     mEngineManager->draw(mMode, *mRenderer, proj2D);
 #endif // _DEBUG
 }
@@ -224,13 +233,17 @@ void SceneManager::createScene(const std::string& name) {
 }
 
 void SceneManager::choiceBeginScene() {
+    auto& changer = mEngineManager->getModeChanger();
+
     if (mBeginScene == EngineModeName::MAP_EDITOR) {
-        onChangeMode(EngineMode::MAP_EDITOR);
+        changer.changeMode(EngineMode::MAP_EDITOR);
     } else if (mBeginScene == EngineModeName::MODEL_VIEWER) {
-        onChangeMode(EngineMode::MODEL_VIEWER);
+        changer.changeMode(EngineMode::MODEL_VIEWER);
     } else {
-        onChangeMode(EngineMode::GAME);
+        changer.changeMode(EngineMode::GAME);
     }
+
+    //シーン作成
     createScene(mReleaseScene);
 }
 

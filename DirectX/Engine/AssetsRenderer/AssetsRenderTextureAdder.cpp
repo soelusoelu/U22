@@ -40,10 +40,6 @@ void AssetsRenderTextureAdder::update() {
     mButton->clickButton(Input::mouse().getMousePosition());
 }
 
-void AssetsRenderTextureAdder::draw(const Matrix4& proj) {
-    mButton->draw(proj);
-}
-
 void AssetsRenderTextureAdder::onClickButton() {
     if (std::string outFilePath, outFileName; FileUtil::openFileDialog(outFilePath, outFileName)) {
         //絶対パスからアセットディレクトリ部分を抜き出す

@@ -8,7 +8,9 @@
 
 class SpriteButton;
 
-class Pause : public IPause {
+class Pause
+    : public IPause
+{
 public:
     Pause();
     ~Pause();
@@ -17,7 +19,6 @@ public:
     void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
     void initialize();
     void update();
-    void drawButton(const Matrix4& proj) const;
 
 private:
     std::unique_ptr<SpriteButton> mButton;

@@ -4,11 +4,12 @@
 #include "../../System/Window.h"
 #include "../../Utility/LevelLoader.h"
 
-Pause::Pause() :
-    mButton(nullptr),
-    mFileName(""),
-    mOffset(Vector2::zero),
-    mIsPausing(false) {
+Pause::Pause()
+    : mButton(nullptr)
+    , mFileName("")
+    , mOffset(Vector2::zero)
+    , mIsPausing(false)
+{
 }
 
 Pause::~Pause() = default;
@@ -51,8 +52,4 @@ void Pause::update() {
 
     //ボタンがクリックされた
     mIsPausing = !mIsPausing;
-}
-
-void Pause::drawButton(const Matrix4& proj) const {
-    mButton->draw(proj);
 }

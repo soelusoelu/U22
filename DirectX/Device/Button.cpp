@@ -69,7 +69,7 @@ SpriteButton::SpriteButton(const std::function<void()>& onClick, const std::stri
     : mOnClick(onClick)
     , mSprite(std::make_shared<Sprite>(fileName))
 {
-    //mSprite->getSpriteManager().add(mSprite);
+    mSprite->getSpriteManager().add(mSprite);
     mSprite->transform().setPosition(pos);
 }
 
@@ -116,9 +116,4 @@ void SpriteButton::onClick() const {
     if (mOnClick) {
         mOnClick();
     }
-}
-
-void SpriteButton::draw(const Matrix4& proj) const {
-    mSprite->transform().computeWorldTransform();
-    mSprite->draw(proj);
 }

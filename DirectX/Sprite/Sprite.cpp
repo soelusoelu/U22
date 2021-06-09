@@ -19,7 +19,6 @@ Sprite::Sprite()
     , mFileName()
     , mIsActive(true)
 {
-    computeWorldTransform();
 }
 
 Sprite::Sprite(const std::string& fileName)

@@ -11,6 +11,10 @@ EngineFuctionChanger::EngineFuctionChanger()
 
 EngineFuctionChanger::~EngineFuctionChanger() = default;
 
+void EngineFuctionChanger::changeMode(EngineMode mode) {
+    mCallbackChangeMode(mode);
+}
+
 void EngineFuctionChanger::callbackChangeMode(const std::function<void(EngineMode)>& f) {
     mCallbackChangeMode += f;
 }
@@ -40,17 +44,12 @@ void EngineFuctionChanger::initialize() {
 }
 
 void EngineFuctionChanger::update() {
+    const auto& mousePos = Input::mouse().getMousePosition();
     for (size_t i = 0; i < mSpritesButton.size(); ++i) {
-        bool result = mSpritesButton[i]->clickButton(Input::mouse().getMousePosition());
+        bool result = mSpritesButton[i]->clickButton(mousePos);
         if (result) {
             mCallbackChangeMode(static_cast<EngineMode>(i));
             return;
         }
-    }
-}
-
-void EngineFuctionChanger::draw(const Matrix4& proj) const {
-    for (const auto& button : mSpritesButton) {
-        button->draw(proj);
     }
 }

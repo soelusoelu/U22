@@ -39,7 +39,8 @@ void SpriteManager::draw(const Matrix4& proj) {
         }
 
         //前回のIDと違ければテクスチャを登録する
-        if (preID != sprite->getTextureID()) {
+        if (int id = sprite->getTextureID(); preID != id) {
+            preID = id;
             sprite->texture().setTextureInfo();
         }
 
@@ -60,7 +61,8 @@ void SpriteManager::drawComponents(const Matrix4& proj) const {
         }
 
         //前回のIDと違ければテクスチャを登録する
-        if (preID != sprite->getTextureID()) {
+        if (int id = sprite->getTextureID(); preID != id) {
+            preID = id;
             sprite->texture().setTextureInfo();
         }
 
@@ -87,7 +89,8 @@ void SpriteManager::draw3Ds(const Matrix4& view, const Matrix4& proj) const {
         }
 
         //前回のIDと違ければテクスチャを登録する
-        if (preID != sprite->getTextureID()) {
+        if (int id = sprite->getTextureID(); preID != id) {
+            preID = id;
             sprite->texture().setTextureInfo();
         }
 

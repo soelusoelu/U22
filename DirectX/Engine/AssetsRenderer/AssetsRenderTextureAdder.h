@@ -19,7 +19,6 @@ public:
     void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
     void initialize(IAddAssets* adder, IEngineFunctionChanger& changer);
     void update();
-    void draw(const Matrix4& proj);
 
 private:
     AssetsRenderTextureAdder(const AssetsRenderTextureAdder&) = delete;

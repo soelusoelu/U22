@@ -21,12 +21,12 @@ class EngineFuctionChanger
 public:
     EngineFuctionChanger();
     ~EngineFuctionChanger();
+    virtual void changeMode(EngineMode mode) override;
     virtual void callbackChangeMode(const std::function<void(EngineMode)>& f) override;
     void loadProperties(const rapidjson::Value& inObj);
     void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
     void initialize();
     void update();
-    void draw(const Matrix4& proj) const;
 
 private:
     EngineFuctionChanger(const EngineFuctionChanger&) = delete;

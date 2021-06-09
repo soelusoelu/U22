@@ -57,7 +57,6 @@ void AssetsRenderTextureManager::drawMeshes(EngineMode mode) const {
 void AssetsRenderTextureManager::drawTextures(EngineMode mode, const Matrix4& proj) const {
     if (isProcessMode(mode)) {
         mTextureList->drawTexture(proj);
-        mTextureAdder->draw(proj);
     }
 }
 
