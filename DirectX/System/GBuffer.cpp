@@ -176,7 +176,7 @@ void GBuffer::createVertexBuffer() {
     SubResourceDesc sub;
     sub.data = vertices;
 
-    mVertexBuffer = std::make_unique<VertexBuffer>(bd, sub);
+    mVertexBuffer = std::make_unique<VertexBuffer>(bd, &sub);
 }
 
 void GBuffer::createIndexBuffer() {

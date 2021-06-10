@@ -1,5 +1,5 @@
-Texture2D g_texDecal : register(t0);
-SamplerState g_samLinear : register(s0);
+Texture2D texDecal : register(t0);
+SamplerState samLinear : register(s0);
 
 struct VS_IN
 {
@@ -32,7 +32,7 @@ VS_OUTPUT VS(VS_IN input)
 
 float4 PS(VS_OUTPUT input) : SV_Target
 {
-    float4 col = g_texDecal.Sample(g_samLinear, input.UV);
+    float4 col = texDecal.Sample(samLinear, input.UV);
     col *= input.color;
     return col;
 }

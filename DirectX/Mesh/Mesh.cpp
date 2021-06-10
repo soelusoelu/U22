@@ -164,7 +164,7 @@ void Mesh::createVertexBuffer(unsigned meshIndex) {
     SubResourceDesc sub;
     sub.data = vertices.data();
 
-    mVertexBuffers.emplace_back(std::make_unique<VertexBuffer>(bd, sub));
+    mVertexBuffers.emplace_back(std::make_unique<VertexBuffer>(bd, &sub));
 }
 
 void Mesh::createIndexBuffer(unsigned meshIndex) {

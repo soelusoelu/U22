@@ -6,8 +6,7 @@
 
 class VertexBuffer : public Buffer {
 public:
-    VertexBuffer(const BufferDesc& desc);
-    VertexBuffer(const BufferDesc& desc, const SubResourceDesc& data);
+    VertexBuffer(const BufferDesc& desc, const SubResourceDesc* data = nullptr);
     ~VertexBuffer();
     //頂点バッファをGPUに設定する(基本版)
     void setVertexBuffer();

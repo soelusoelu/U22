@@ -85,7 +85,7 @@ void Texture::createVertexBuffer() {
     SubResourceDesc sub;
     sub.data = vertices;
 
-    vertexBuffer = new VertexBuffer(bd, sub);
+    vertexBuffer = new VertexBuffer(bd, &sub);
 
     static const TextureVertex vertices3D[] = {
         Vector3(-0.5f, 0.5f, 0.f), Vector2(0.f, 0.f), //左上
@@ -96,7 +96,7 @@ void Texture::createVertexBuffer() {
 
     sub.data = vertices3D;
 
-    vertexBuffer3D = new VertexBuffer(bd, sub);
+    vertexBuffer3D = new VertexBuffer(bd, &sub);
 }
 
 void Texture::createIndexBuffer() {
