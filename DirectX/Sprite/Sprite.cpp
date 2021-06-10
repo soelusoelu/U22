@@ -28,6 +28,12 @@ Sprite::Sprite(const std::string& fileName)
     setTextureFromFileName(fileName);
 }
 
+Sprite::Sprite(const std::string& fileName, const std::string& shaderName)
+    : Sprite(fileName)
+{
+    mShader = AssetsManager::instance().createShader(shaderName);
+}
+
 Sprite::~Sprite() = default;
 
 void Sprite::computeWorldTransform() {
@@ -119,7 +125,7 @@ bool Sprite::getActive() const {
 }
 
 void Sprite::setTextureFromFileName(const std::string& fileName) {
-    mTextureID = AssetsManager::instance().createTextureID(fileName);
+    mTextureID = AssetsManager::instance().createTexture(fileName);
 
     //Transformに通知
     mTransform->setSize(texture().getTextureSize());

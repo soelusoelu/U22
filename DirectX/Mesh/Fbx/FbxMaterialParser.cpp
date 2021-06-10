@@ -148,7 +148,7 @@ void FbxMaterialParser::createTexture(Material& material, const FbxSurfaceMateri
 
     //ファイル名からテクスチャを作成する
     auto& am = AssetsManager::instance();
-    int texID = am.createTextureID(textureName, directoryPath);
+    int texID = am.createTexture(textureName, directoryPath);
 
     //指定されたテクスチャに渡す
     if (type == FbxSurfaceMaterial::sDiffuse) {

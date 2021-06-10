@@ -14,6 +14,7 @@ class Sprite : public Object {
 public:
     Sprite();
     Sprite(const std::string& fileName);
+    Sprite(const std::string& fileName, const std::string& shaderName);
     virtual ~Sprite();
     //行列の計算をする
     void computeWorldTransform();

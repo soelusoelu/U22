@@ -23,10 +23,8 @@ public:
 
     //テクスチャを読み込む
     void loadTexture(const std::string& fileName, const std::string& directoryPath = AssetsDirectoryPath::TEXTURE_PATH);
-    //ファイルパスからテクスチャを取得する
-    //const std::shared_ptr<Texture>& createTexture(const std::string& fileName, const std::string& directoryPath = AssetsDirectoryPath::TEXTURE_PATH);
-    //ファイルパスからテクスチャパラメータを取得する
-    int createTextureID(const std::string& filename, const std::string& directoryPath = AssetsDirectoryPath::TEXTURE_PATH);
+    //ファイルパスからテクスチャIDを取得する
+    int createTexture(const std::string& filename, const std::string& directoryPath = AssetsDirectoryPath::TEXTURE_PATH);
     //テクスチャを追加する
     int addTexture(const std::shared_ptr<Texture>& texture);
     //IDからテクスチャを取得する
@@ -64,7 +62,6 @@ private:
 
     static inline AssetsManager* mInstance = nullptr;
 
-    //std::unordered_map<std::string, std::shared_ptr<Texture>> mTextures;
     std::vector<TextureParam> mTextures;
     std::unordered_map<std::string, std::shared_ptr<Mesh>> mMeshes;
     std::unordered_map<std::string, std::shared_ptr<Shader>> mShaders;

@@ -15,7 +15,6 @@ public:
 private:
     D3D11_BUFFER_DESC toBufferDesc(const BufferDesc& desc) const;
 
-    //コピー禁止
     Buffer(const Buffer&) = delete;
     Buffer& operator=(const Buffer&) = delete;
 

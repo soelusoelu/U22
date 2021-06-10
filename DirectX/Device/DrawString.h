@@ -9,6 +9,7 @@
 #include "../Device/TimeMeasurement.h"
 
 class Sprite;
+class SpriteInstancingDrawer;
 
 class DrawString {
 public:
@@ -105,4 +106,5 @@ private:
     static constexpr int HEIGHT_CHAR_COUNT = FONT_HEIGHT / HEIGHT;
     static constexpr float FONT_HEIGHT_RATE = static_cast<float>(HEIGHT) / static_cast<float>(FONT_HEIGHT);
     std::unique_ptr<TimeMeasurement> timer;
+    std::unique_ptr<SpriteInstancingDrawer> mDrawer;
 };

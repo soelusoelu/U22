@@ -27,7 +27,7 @@ void SpriteManager::update() {
     }
 }
 
-void SpriteManager::draw(const Matrix4& proj) {
+void SpriteManager::draw(const Matrix4& proj) const {
     if (mSprites.empty()) {
         return;
     }

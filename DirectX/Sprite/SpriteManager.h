@@ -20,7 +20,7 @@ public:
     SpriteManager();
     ~SpriteManager();
     void update();
-    void draw(const Matrix4& proj);
+    void draw(const Matrix4& proj) const;
     void drawComponents(const Matrix4& proj) const;
     void draw3Ds(const Matrix4& view, const Matrix4& proj) const;
     void add(const SpritePtr& sprite);

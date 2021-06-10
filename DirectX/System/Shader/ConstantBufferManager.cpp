@@ -1,7 +1,6 @@
 ﻿#include "ConstantBufferManager.h"
 #include "ConstantBuffers.h"
 #include "../../DirectX/DirectXInclude.h"
-#include "../../Engine/DebugManager/DebugUtility/Debug.h"
 
 ConstantBufferManager::ConstantBufferManager() {
     mConstantBuffers.emplace("Texture.hlsl", BuffersSize{ sizeof(TextureConstantBuffer) });
@@ -47,8 +46,6 @@ std::vector<std::unique_ptr<Buffer>> ConstantBufferManager::createConstantBuffer
             cb.size = ((itr->second[i] + 0xff) & ~0xff);
             buffers[i] = std::make_unique<Buffer>(cb);
         }
-    } else {
-        Debug::windowMessage(shaderName + "のConstantBufferが設定されていません");
     }
 
     return buffers;

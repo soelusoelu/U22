@@ -34,7 +34,7 @@ Sprite3D::~Sprite3D() = default;
 void Sprite3D::awake() {
     //ファイル名を読み込めてたらテクスチャを生成
     if (!mFileName.empty()) {
-        mTextureID = AssetsManager::instance().createTextureID(mFileName);
+        mTextureID = AssetsManager::instance().createTexture(mFileName);
         mCurrentTextureSize = texture().getTextureSize();
 
         //テクスチャのアスペクト比を計算
@@ -215,7 +215,7 @@ bool Sprite3D::getActive() const {
 }
 
 void Sprite3D::setTextureFromFileName(const std::string& fileName) {
-    mTextureID = AssetsManager::instance().createTextureID(fileName);
+    mTextureID = AssetsManager::instance().createTexture(fileName);
 
     //各種初期化
     mCurrentTextureSize = texture().getTextureSize();

@@ -19,8 +19,9 @@ void TimeMeasurement::start() {
 double TimeMeasurement::end() {
     auto end = std::chrono::system_clock::now();
     auto dur = end - mStart;
-    //auto result = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
-    auto result = static_cast<double>(dur.count() / 1000.0);
+    //小数点以下を取得できないためマイクロ秒で取得しミリ秒に変換してる
+    double result = std::chrono::duration_cast<std::chrono::microseconds>(dur).count();
+    result /= 1000.0;
 
     if (mCount < mNumMeasurements) {
         mMeasurements[mCount] = result;

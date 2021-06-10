@@ -7,6 +7,7 @@
 #include "../../Utility/FileUtil.h"
 #include "../../Utility/StringUtil.h"
 #include <d3dcompiler.h>
+#include <cassert>
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -50,11 +51,11 @@ void Shader::transferData(const void* data, unsigned size, unsigned constantBuff
 
     D3D11_MAPPED_SUBRESOURCE mapRes = { 0 };
     //開く
-    if (map(&mapRes, constantBufferIndex)) {
+    if (map(&mapRes, mConstantBuffers[constantBufferIndex]->buffer())) {
         //データ転送
         memcpy_s(mapRes.pData, mapRes.RowPitch, data, size);
         //閉じる
-        unmap(constantBufferIndex);
+        unmap(mConstantBuffers[constantBufferIndex]->buffer());
     }
 }
 
@@ -76,6 +77,11 @@ void Shader::setPSConstantBuffers(unsigned index, unsigned numBuffers) const {
 
 void Shader::setInputLayout() const {
     MyDirectX::DirectX::instance().deviceContext()->IASetInputLayout(mVertexLayout->layout());
+}
+
+const Buffer& Shader::getConstantBuffer(unsigned index) const {
+    assert(index < mConstantBuffers.size());
+    return *mConstantBuffers[index];
 }
 
 const std::string& Shader::getShaderName() const {
@@ -158,10 +164,10 @@ void Shader::createInputLayout(const std::vector<InputElementDesc>& layout) {
     mVertexLayout = std::make_unique<InputElement>(layout, mVSBlob.Get());
 }
 
-bool Shader::map(D3D11_MAPPED_SUBRESOURCE* mapRes, unsigned index, unsigned sub, D3D11_MAP type, unsigned flag) const {
-    return SUCCEEDED(MyDirectX::DirectX::instance().deviceContext()->Map(mConstantBuffers[index]->buffer(), sub, type, flag, mapRes));
+bool Shader::map(D3D11_MAPPED_SUBRESOURCE* mapRes, ID3D11Buffer* buffer, unsigned sub, D3D11_MAP type, unsigned flag) const {
+    return SUCCEEDED(MyDirectX::DirectX::instance().deviceContext()->Map(buffer, sub, type, flag, mapRes));
 }
 
-void Shader::unmap(unsigned index, unsigned sub) const {
-    MyDirectX::DirectX::instance().deviceContext()->Unmap(mConstantBuffers[index]->buffer(), sub);
+void Shader::unmap(ID3D11Buffer* buffer, unsigned sub) const {
+    MyDirectX::DirectX::instance().deviceContext()->Unmap(buffer, sub);
 }

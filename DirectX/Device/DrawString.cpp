@@ -1,5 +1,6 @@
 ﻿#include "DrawString.h"
 #include "../Sprite/Sprite.h"
+#include "../Sprite/SpriteInstancingDrawer.h"
 #include "../System/Texture/Texture.h"
 #include "../Transform/Transform2D.h"
 #include "../Utility/LevelLoader.h"
@@ -11,6 +12,7 @@ DrawString::DrawString()
     , mNumberFileName("")
     , mFontFileName("")
     , timer(std::make_unique<TimeMeasurement>())
+    , mDrawer(std::make_unique<SpriteInstancingDrawer>())
 {
 }
 
@@ -18,7 +20,7 @@ DrawString::~DrawString() = default;
 
 void DrawString::initialize() {
     mNumberSprite = std::make_unique<Sprite>(mNumberFileName);
-    mFontSprite = std::make_unique<Sprite>(mFontFileName);
+    mFontSprite = std::make_unique<Sprite>(mFontFileName, "SpriteInstancing.hlsl");
 }
 
 void DrawString::loadProperties(const rapidjson::Value& inObj) {
@@ -51,6 +53,7 @@ void DrawString::drawAll(const Matrix4& proj) const {
     for (const auto& param : mParamsString) {
         drawString(param, proj);
     }
+    mDrawer->instancingDraw(*mFontSprite, proj);
     timer->end();
 }
 
@@ -58,6 +61,7 @@ void DrawString::clear() {
     mParamsInt.clear();
     mParamsFloat.clear();
     mParamsString.clear();
+    mDrawer->clear();
 }
 
 void DrawString::drawNumber(
@@ -237,8 +241,7 @@ void DrawString::drawString(const ParamString& param, const Matrix4& proj) const
 
         //ワールド座標を更新し、描画
         trans.computeWorldTransform();
-        mFontSprite->texture().setTextureInfo();
-        mFontSprite->draw(proj);
+        mDrawer->add(*mFontSprite, proj);
 
         //描画位置を1文字分ずらす
         pos.x += OFFSET_X;

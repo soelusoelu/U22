@@ -47,9 +47,11 @@ public:
     void setRenderTarget() const;
     void setDebugRenderTarget() const;
     void setPrimitive(PrimitiveType primitive) const;
+    void updateSubresource(ID3D11Resource* outResource, const void* inData, unsigned outSubresource = 0, const D3D11_BOX* outBox = nullptr, unsigned inRowPitch = 0, unsigned inDepthPitch = 0);
 
     void draw(unsigned numVertex, unsigned start = 0);
     void drawIndexed(unsigned numIndices, unsigned startIndex = 0, int startVertex = 0);
+    void drawIndexedInstanced(unsigned numIndices, unsigned numInstance, unsigned startIndex = 0, int startVertex = 0, unsigned startInstance = 0);
 
     void clearRenderTarget(float r = 0.f, float g = 0.f, float b = 1.f, float a = 1.f) const;
     void clearDepthStencilView(bool depth = true, bool stencil = false);

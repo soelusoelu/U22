@@ -20,6 +20,7 @@
     <FxCompile Include="Shader\ShadowDepthTextureCreater.hlsl" />
     <FxCompile Include="Shader\SkinMeshShadow.hlsl" />
     <FxCompile Include="Shader\SimpleMeshTexture.hlsl" />
+    <FxCompile Include="Shader\SpriteInstancing.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component\ComponentManager.cpp" />
@@ -272,6 +273,7 @@
     <ClCompile Include="Component\Game\Enemy\EnemyMove.cpp" />
     <ClCompile Include="Component\Engine\Other\SimpleMotionChanger.cpp" />
     <ClCompile Include="Device\TimeMeasurement.cpp" />
+    <ClCompile Include="Sprite\SpriteInstancingDrawer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -608,6 +610,7 @@
     <ClInclude Include="Component\Engine\Other\SimpleMotionChanger.h" />
     <ClInclude Include="Device\TimeMeasurement.h" />
     <ClInclude Include="Engine\IEngineFunctionChanger.h" />
+    <ClInclude Include="Sprite\SpriteInstancingDrawer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />

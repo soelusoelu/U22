@@ -26,14 +26,7 @@ void AssetsManager::loadTexture(const std::string& fileName, const std::string& 
     loadTextureGetID(directoryPath + fileName);
 }
 
-//const std::shared_ptr<Texture>& AssetsManager::createTexture(const std::string& fileName, const std::string& directoryPath) {
-//    //テクスチャを読み込む
-//    int id = loadTextureGetID(directoryPath + fileName);
-//
-//    return getTextureFromID(id);
-//}
-
-int AssetsManager::createTextureID(const std::string& filename, const std::string& directoryPath) {
+int AssetsManager::createTexture(const std::string& filename, const std::string& directoryPath) {
     //テクスチャを読み込む
     int id = loadTextureGetID(directoryPath + filename);
 
