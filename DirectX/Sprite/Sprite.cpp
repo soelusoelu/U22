@@ -5,6 +5,7 @@
 #include "../System/shader/ConstantBuffers.h"
 #include "../System/shader/Shader.h"
 #include "../System/Texture/Texture.h"
+#include "../System/Texture/TextureBinder.h"
 #include "../Transform/Transform2D.h"
 #include <cassert>
 #include <vector>
@@ -47,6 +48,8 @@ void Sprite::draw(const Matrix4& proj) const {
         return;
     }
 
+    //テクスチャを登録
+    TextureBinder::bind(mTextureID);
     //シェーダーを登録
     mShader->setShaderInfo();
 

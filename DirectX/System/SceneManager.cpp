@@ -168,48 +168,48 @@ void SceneManager::draw() const {
 #pragma endregion
 
     //メッシュ描画準備
-//    mRenderer->renderMesh();
-//
-//    if (isGameMode()) {
-//        //メッシュの描画
-//        const auto& dirLight = mLightManager->getDirectionalLight();
-//        mMeshManager->draw(view, proj, mCamera->getPosition(), dirLight.getDirection(), dirLight.getLightColor());
-//
-//        //メッシュをテクスチャに描画する
-//        mMeshRenderOnTextureManager->drawMeshOnTextures();
-//    }
-//
-//#ifdef _DEBUG
-//    mEngineManager->draw3D(mMode, *mRenderer, *mCamera, mLightManager->getDirectionalLight());
-//#endif // _DEBUG
+    mRenderer->renderMesh();
+
+    if (isGameMode()) {
+        //メッシュの描画
+        const auto& dirLight = mLightManager->getDirectionalLight();
+        mMeshManager->draw(view, proj, mCamera->getPosition(), dirLight.getDirection(), dirLight.getLightColor());
+
+        //メッシュをテクスチャに描画する
+        mMeshRenderOnTextureManager->drawMeshOnTextures();
+    }
+
+#ifdef _DEBUG
+    mEngineManager->draw3D(mMode, *mRenderer, *mCamera, mLightManager->getDirectionalLight());
+#endif // _DEBUG
 
     //スプライト描画準備
     mRenderer->renderSprite();
     //3Dスプライト
-    //mRenderer->renderSprite3D();
+    mRenderer->renderSprite3D();
 
-    //if (isGameMode()) {
-    //    //3Dスプライトを描画する
-    //    mSpriteManager->draw3Ds(view, proj);
-    //}
+    if (isGameMode()) {
+        //3Dスプライトを描画する
+        mSpriteManager->draw3Ds(view, proj);
+    }
 
     //2Dスプライト
     auto proj2D = Matrix4::identity;
     mRenderer->renderSprite2D(proj2D);
 
-    //if (isGameMode()) {
-    //    //メッシュ描画済みテクスチャを描画する
-    //    mMeshRenderOnTextureManager->drawTextures(proj2D);
-    //    //2Dスプライト描画
-    //    mSpriteManager->drawComponents(proj2D);
-    //    //テキスト描画
-    //    mTextDrawer->drawAll(proj2D);
-    //}
+    if (isGameMode()) {
+        //メッシュ描画済みテクスチャを描画する
+        mMeshRenderOnTextureManager->drawTextures(proj2D);
+        //2Dスプライト描画
+        mSpriteManager->drawComponents(proj2D);
+        //テキスト描画
+        mTextDrawer->drawAll(proj2D);
+    }
 
 #ifdef _DEBUG
     //レンダリング領域をデバッグに変更
     mRenderer->renderToDebug(proj2D);
-    //mSpriteManager->draw(proj2D);
+    mSpriteManager->draw(proj2D);
     mEngineManager->draw(mMode, *mRenderer, proj2D);
 #endif // _DEBUG
 }

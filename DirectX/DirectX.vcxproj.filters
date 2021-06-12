@@ -274,6 +274,7 @@
     <ClCompile Include="Component\Engine\Other\SimpleMotionChanger.cpp" />
     <ClCompile Include="Device\TimeMeasurement.cpp" />
     <ClCompile Include="Sprite\SpriteInstancingDrawer.cpp" />
+    <ClCompile Include="System\Texture\TextureBinder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -611,6 +612,7 @@
     <ClInclude Include="Device\TimeMeasurement.h" />
     <ClInclude Include="Engine\IEngineFunctionChanger.h" />
     <ClInclude Include="Sprite\SpriteInstancingDrawer.h" />
+    <ClInclude Include="System\Texture\TextureBinder.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />

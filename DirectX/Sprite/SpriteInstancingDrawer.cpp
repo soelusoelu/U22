@@ -2,6 +2,7 @@
 #include "Sprite.h"
 #include "../System/Shader/Shader.h"
 #include "../System/Texture/Texture.h"
+#include "../System/Texture/TextureBinder.h"
 #include "../Transform/Transform2D.h"
 
 SpriteInstancingDrawer::SpriteInstancingDrawer()
@@ -11,17 +12,17 @@ SpriteInstancingDrawer::SpriteInstancingDrawer()
 
 SpriteInstancingDrawer::~SpriteInstancingDrawer() = default;
 
+void SpriteInstancingDrawer::initialize() {
+    BufferDesc bd{};
+    bd.size = sizeof(TextureConstantBuffer) * MAX_INSTANCE;
+    bd.usage = Usage::USAGE_DYNAMIC;
+    bd.type = static_cast<unsigned>(BufferType::BUFFER_TYPE_VERTEX);
+    bd.cpuAccessFlags = static_cast<unsigned>(BufferCPUAccessFlag::CPU_ACCESS_WRITE);
+
+    mInputBuffer = std::make_unique<VertexBuffer>(bd);
+}
+
 void SpriteInstancingDrawer::add(const Sprite& sprite, const Matrix4& proj) {
-    if (!mInputBuffer) {
-        BufferDesc bd;
-        bd.size = sizeof(TextureConstantBuffer) * MAX_INSTANCE;
-        bd.usage = Usage::USAGE_DYNAMIC;
-        bd.type = static_cast<unsigned>(BufferType::BUFFER_TYPE_VERTEX);
-        bd.cpuAccessFlags = static_cast<unsigned>(BufferCPUAccessFlag::CPU_ACCESS_WRITE);
-
-        mInputBuffer = std::make_unique<VertexBuffer>(bd);
-    }
-
     //スプライトから描画に必要なデータを抜き出す
     TextureConstantBuffer tcb{};
     tcb.wp = sprite.transform().getWorldTransform() * proj;
@@ -40,12 +41,13 @@ void SpriteInstancingDrawer::instancingDraw(const Sprite& sprite, const Matrix4&
         return;
     }
 
-    ID3D11Buffer* buffers[2] = { Texture::vertexBuffer->buffer(), mInputBuffer->buffer() };
-    unsigned strides[2] = { Texture::vertexBuffer->desc().oneSize, sizeof(TextureConstantBuffer) };
-    Texture::vertexBuffer->setVertexBuffer(2, buffers, strides);
+    //インスタンシング用頂点バッファを登録する
+    ID3D11Buffer* buffers[NUM_VERTEX_BUFFER] = { Texture::vertexBuffer->buffer(), mInputBuffer->buffer() };
+    unsigned strides[NUM_VERTEX_BUFFER] = { Texture::vertexBuffer->desc().oneSize, sizeof(TextureConstantBuffer) };
+    Texture::vertexBuffer->setVertexBuffer(NUM_VERTEX_BUFFER, buffers, strides);
 
     //テクスチャを登録する
-    sprite.texture().setTextureInfo();
+    TextureBinder::bind(sprite.getTextureID());
     //シェーダーを登録する
     sprite.shader().setShaderInfo();
 

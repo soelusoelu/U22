@@ -9,6 +9,7 @@
 #include "../../../System/Shader/ConstantBuffers.h"
 #include "../../../System/Shader/Shader.h"
 #include "../../../System/Texture/Texture.h"
+#include "../../../System/Texture/TextureBinder.h"
 #include "../../../Transform/Transform3D.h"
 #include "../../../Utility/LevelLoader.h"
 #include <cassert>
@@ -111,6 +112,8 @@ void Sprite3D::draw(const Matrix4& viewProj) const {
         return;
     }
 
+    //テクスチャを登録
+    TextureBinder::bind(mTextureID);
     //シェーダーを登録
     mShader->setShaderInfo();
 
@@ -132,6 +135,8 @@ void Sprite3D::drawBillboard(const Matrix4& invView, const Matrix4& viewProj) {
         return;
     }
 
+    //テクスチャを登録
+    TextureBinder::bind(mTextureID);
     //シェーダーを登録
     mShader->setShaderInfo();
 

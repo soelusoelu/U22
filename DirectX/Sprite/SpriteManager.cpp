@@ -2,7 +2,6 @@
 #include "Sprite.h"
 #include "../Component/Engine/Sprite/Sprite3D.h"
 #include "../Component/Engine/Sprite/SpriteComponent.h"
-#include "../System/Texture/Texture.h"
 #include <algorithm>
 
 SpriteManager::SpriteManager() {
@@ -32,16 +31,9 @@ void SpriteManager::draw(const Matrix4& proj) const {
         return;
     }
 
-    int preID = -1;
     for (const auto& sprite : mSprites) {
         if (!sprite->getActive() || sprite->isDead()) {
             continue;
-        }
-
-        //前回のIDと違ければテクスチャを登録する
-        if (int id = sprite->getTextureID(); preID != id) {
-            preID = id;
-            sprite->texture().setTextureInfo();
         }
 
         //描画する
@@ -54,16 +46,9 @@ void SpriteManager::drawComponents(const Matrix4& proj) const {
         return;
     }
 
-    int preID = -1;
     for (const auto& sprite : mSpriteComponents) {
         if (!sprite->getActive() || sprite->isDead()) {
             continue;
-        }
-
-        //前回のIDと違ければテクスチャを登録する
-        if (int id = sprite->getTextureID(); preID != id) {
-            preID = id;
-            sprite->texture().setTextureInfo();
         }
 
         //描画する
@@ -82,16 +67,9 @@ void SpriteManager::draw3Ds(const Matrix4& view, const Matrix4& proj) const {
     cancelRotation.m[3][2] = 0.f;
     cancelRotation.inverse();
 
-    int preID = -1;
     for (const auto& sprite : mSprite3Ds) {
         if (!sprite->getActive() || sprite->isDead()) {
             continue;
-        }
-
-        //前回のIDと違ければテクスチャを登録する
-        if (int id = sprite->getTextureID(); preID != id) {
-            preID = id;
-            sprite->texture().setTextureInfo();
         }
 
         if (sprite->isBillboard()) {

@@ -21,6 +21,7 @@ DrawString::~DrawString() = default;
 void DrawString::initialize() {
     mNumberSprite = std::make_unique<Sprite>(mNumberFileName);
     mFontSprite = std::make_unique<Sprite>(mFontFileName, "SpriteInstancing.hlsl");
+    mDrawer->initialize();
 }
 
 void DrawString::loadProperties(const rapidjson::Value& inObj) {

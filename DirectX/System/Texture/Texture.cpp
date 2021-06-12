@@ -35,37 +35,22 @@ Texture::Texture(const std::shared_ptr<ShaderResourceView>& view, const Vector2&
 
 Texture::~Texture() = default;
 
-void Texture::finalize() {
-    safeDelete(vertexBuffer);
-    safeDelete(vertexBuffer3D);
-    safeDelete(indexBuffer);
-}
-
 const Vector2& Texture::getTextureSize() const {
     return mTextureSize;
 }
 
-void Texture::setVSTextures(unsigned start, unsigned numTextures) const {
-    mShaderResourceView->setVSShaderResources(start, numTextures);
+const ShaderResourceView& Texture::getShaderResourceView() const {
+    return *mShaderResourceView;
 }
 
-void Texture::setPSTextures(unsigned start, unsigned numTextures) const {
-    mShaderResourceView->setPSShaderResources(start, numTextures);
+const Sampler& Texture::getSampler() const {
+    return *mSampler;
 }
 
-void Texture::setVSSamplers(unsigned start, unsigned numSamplers) const {
-    mSampler->setVSSamplers(start, numSamplers);
-}
-
-void Texture::setPSSamplers(unsigned start, unsigned numSamplers) const {
-    mSampler->setPSSamplers(start, numSamplers);
-}
-
-void Texture::setTextureInfo(unsigned start, unsigned numSamplers) const {
-    setVSTextures(start, numSamplers);
-    setPSTextures(start, numSamplers);
-    setVSSamplers(start, numSamplers);
-    setPSSamplers(start, numSamplers);
+void Texture::finalize() {
+    safeDelete(vertexBuffer);
+    safeDelete(vertexBuffer3D);
+    safeDelete(indexBuffer);
 }
 
 void Texture::createVertexBuffer() {
