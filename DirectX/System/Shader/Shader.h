@@ -22,21 +22,19 @@ public:
     //プログラムの終わりの終了処理
     static void finalize();
 
-    //描画に必要な要素をすべて登録する
-    void setShaderInfo() const;
     //シェーダーにデータを転送する
     void transferData(const void* data, unsigned size, unsigned constantBufferIndex = 0) const;
 
-    //個別に登録したいなら↓
-    //自身をシェーダーとして登録
-    void setVSShader(ID3D11ClassInstance* classInstances = nullptr, unsigned numClassInstances = 0) const;
-    void setPSShader(ID3D11ClassInstance* classInstances = nullptr, unsigned numClassInstances = 0) const;
     //使用するコンスタントバッファを登録
     void setVSConstantBuffers(unsigned index = 0, unsigned numBuffers = 1) const;
     void setPSConstantBuffers(unsigned index = 0, unsigned numBuffers = 1) const;
-    //自身を登録
-    void setInputLayout() const;
 
+    //頂点シェーダーを取得する
+    ID3D11VertexShader* getVertexShader() const;
+    //ピクセルシェーダーを取得する
+    ID3D11PixelShader* getPixelShader() const;
+    //頂点レイアウトを取得する
+    const InputElement& getVertexLayout() const;
     //コンスタントバッファを取得する
     const Buffer& getConstantBuffer(unsigned index = 0) const;
     //シェーダー名を取得する

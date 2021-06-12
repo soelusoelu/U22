@@ -4,6 +4,7 @@
 #include "../AssetsManager.h"
 #include "../Shader/ConstantBuffers.h"
 #include "../Shader/Shader.h"
+#include "../Shader/ShaderBinder.h"
 #include "../../DirectX/DirectXInclude.h"
 #include "../../Mesh/Mesh.h"
 #include "../../Mesh/MeshCommonShaderSetter.h"
@@ -14,7 +15,7 @@ MeshRenderOnTexture::MeshRenderOnTexture(const std::string& filePath, int width,
     : mRenderTexture(std::make_unique<RenderTexture>(width, height, Format::FORMAT_D16_UNORM, Format::FORMAT_RGBA8_UNORM))
     , mSprite(std::make_unique<Sprite>())
     , mMesh(AssetsManager::instance().createMeshFromFilePath(filePath))
-    , mMeshShader(AssetsManager::instance().createShader("SimpleMeshTexture.hlsl"))
+    , mMeshShaderID(AssetsManager::instance().createShader("SimpleMeshTexture.hlsl"))
     , mFilePath(filePath)
     , mWidth(width)
     , mHeight(height)
@@ -34,15 +35,16 @@ void MeshRenderOnTexture::drawMeshOnTexture(const Matrix4& viewProj) const {
     //レンダーテクスチャへの書き込み前処理
     mRenderTexture->drawBegin();
 
-    mMeshShader->setShaderInfo();
+    ShaderBinder::bind(mMeshShaderID);
 
     SimpleMeshConstantBuffer meshcb = { Matrix4::identity * viewProj };
-    mMeshShader->transferData(&meshcb, sizeof(meshcb), 0);
+    auto& shader = AssetsManager::instance().getShaderFormID(mMeshShaderID);
+    shader.transferData(&meshcb, sizeof(meshcb), 0);
 
     for (size_t i = 0; i < mMesh->getMeshCount(); ++i) {
         MaterialConstantBuffer matcb{};
         MeshCommonShaderSetter::setMaterial(matcb, mMesh->getMaterial(i));
-        mMeshShader->transferData(&matcb, sizeof(matcb), 1);
+        shader.transferData(&matcb, sizeof(matcb), 1);
 
         mMesh->draw(i);
     }

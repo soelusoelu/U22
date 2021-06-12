@@ -38,12 +38,6 @@ void Shader::finalize() {
     safeDelete(inputElementManager);
 }
 
-void Shader::setShaderInfo() const {
-    setVSShader();
-    setPSShader();
-    setInputLayout();
-}
-
 void Shader::transferData(const void* data, unsigned size, unsigned constantBufferIndex) const {
     //コンスタントバッファを登録する
     setVSConstantBuffers(constantBufferIndex);
@@ -59,14 +53,6 @@ void Shader::transferData(const void* data, unsigned size, unsigned constantBuff
     }
 }
 
-void Shader::setVSShader(ID3D11ClassInstance* classInstances, unsigned numClassInstances) const {
-    MyDirectX::DirectX::instance().deviceContext()->VSSetShader(mVertexShader.Get(), &classInstances, numClassInstances);
-}
-
-void Shader::setPSShader(ID3D11ClassInstance* classInstances, unsigned numClassInstances) const {
-    MyDirectX::DirectX::instance().deviceContext()->PSSetShader(mPixelShader.Get(), &classInstances, numClassInstances);
-}
-
 void Shader::setVSConstantBuffers(unsigned index, unsigned numBuffers) const {
     MyDirectX::DirectX::instance().deviceContext()->VSSetConstantBuffers(index, numBuffers, mConstantBuffers[index]->bufferAddres());
 }
@@ -75,8 +61,16 @@ void Shader::setPSConstantBuffers(unsigned index, unsigned numBuffers) const {
     MyDirectX::DirectX::instance().deviceContext()->PSSetConstantBuffers(index, numBuffers, mConstantBuffers[index]->bufferAddres());
 }
 
-void Shader::setInputLayout() const {
-    MyDirectX::DirectX::instance().deviceContext()->IASetInputLayout(mVertexLayout->layout());
+ID3D11VertexShader* Shader::getVertexShader() const {
+    return mVertexShader.Get();
+}
+
+ID3D11PixelShader* Shader::getPixelShader() const {
+    return mPixelShader.Get();
+}
+
+const InputElement& Shader::getVertexLayout() const {
+    return *mVertexLayout;
 }
 
 const Buffer& Shader::getConstantBuffer(unsigned index) const {

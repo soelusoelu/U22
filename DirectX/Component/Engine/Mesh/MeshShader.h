@@ -7,8 +7,6 @@
 #include <unordered_map>
 #include <utility>
 
-class Shader;
-
 //メッシュのシェーダーを扱うクラス
 class MeshShader : public Component {
 public:
@@ -18,8 +16,8 @@ public:
     virtual void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const override;
     virtual void drawInspector() override;
 
-    //シェーダーを使用する準備をする
-    void preSet() const;
+    //シェーダーをバインドする
+    void bindShader() const;
     //シェーダーにデータを転送する
     void transferData();
 
@@ -54,6 +52,6 @@ private:
 
     const IMesh* mMesh;
     const IAnimation* mAnimation;
-    std::shared_ptr<Shader> mShader;
+    int mShaderID;
     std::unordered_map<unsigned, TransferData> mTransferDataMap;
 };

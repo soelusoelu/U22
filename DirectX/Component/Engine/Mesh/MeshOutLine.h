@@ -7,7 +7,6 @@
 #include "../../../Mesh/IMeshDrawer.h"
 #include <memory>
 
-class Shader;
 class SkinMeshComponent;
 class Camera;
 class DirectionalLight;
@@ -53,7 +52,7 @@ private:
 protected:
     const IMesh* mMesh;
     const IMeshDrawer* mDrawer;
-    std::shared_ptr<Shader> mOutLineShader;
+    int mOutLineShaderID;
     std::shared_ptr<SkinMeshComponent> mSkinMesh;
     Vector3 mOutLineColor;
     float mOutLineThickness;

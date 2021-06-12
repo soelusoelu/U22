@@ -1,6 +1,7 @@
 ﻿#include "SpriteInstancingDrawer.h"
 #include "Sprite.h"
 #include "../System/Shader/Shader.h"
+#include "../System/Shader/ShaderBinder.h"
 #include "../System/Texture/Texture.h"
 #include "../System/Texture/TextureBinder.h"
 #include "../Transform/Transform2D.h"
@@ -49,7 +50,7 @@ void SpriteInstancingDrawer::instancingDraw(const Sprite& sprite, const Matrix4&
     //テクスチャを登録する
     TextureBinder::bind(sprite.getTextureID());
     //シェーダーを登録する
-    sprite.shader().setShaderInfo();
+    ShaderBinder::bind(sprite.getShaderID());
 
     //シェーダーにデータ転送
     const auto& shader = sprite.shader();

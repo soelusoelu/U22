@@ -3,12 +3,13 @@
 #include "../../../../System/AssetsManager.h"
 #include "../../../../System/Shader/ConstantBuffers.h"
 #include "../../../../System/Shader/Shader.h"
+#include "../../../../System/Shader/ShaderBinder.h"
 #include "../../../../Transform/Transform2D.h"
 #include <vector>
 
 LineRenderer2D::LineRenderer2D() :
     LineRenderer(),
-    mShader(nullptr),
+    mShaderID(-1),
     mTransform(std::make_unique<Transform2D>()) {
     //ラインのサイズはバーテックスバッファに合わせる
     mTransform->setSize(Vector2::one);
@@ -37,12 +38,12 @@ const void* LineRenderer2D::getVertexData() const {
 
 void LineRenderer2D::createShader() {
     //シェーダー作成
-    mShader = AssetsManager::instance().createShader("Line2D.hlsl");
+    mShaderID = AssetsManager::instance().createShader("Line2D.hlsl");
 }
 
 void LineRenderer2D::drawLines(const Matrix4& proj) const {
     //シェーダーを登録
-    mShader->setShaderInfo();
+    ShaderBinder::bind(mShaderID);
 
     for (const auto& line : mLines) {
         drawLine(line, proj);
@@ -61,7 +62,7 @@ void LineRenderer2D::drawLine(const Line2DParam& param, const Matrix4& proj) con
     cb.color = Vector4(param.color, 1.f);
 
     //データ転送
-    mShader->transferData(&cb, sizeof(cb));
+    AssetsManager::instance().getShaderFormID(mShaderID).transferData(&cb, sizeof(cb));
 
     //描画
     MyDirectX::DirectX::instance().drawIndexed(2);

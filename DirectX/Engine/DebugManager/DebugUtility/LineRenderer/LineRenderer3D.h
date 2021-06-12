@@ -5,7 +5,6 @@
 #include <list>
 #include <memory>
 
-class Shader;
 class Transform3D;
 
 class LineRenderer3D : public LineRenderer {
@@ -41,7 +40,7 @@ private:
     void drawLine(const Line3DParam& param, const Matrix4& proj) const;
 
 private:
-    std::shared_ptr<Shader> mShader;
+    int mShaderID;
     std::list<Line3DParam> mLines;
     std::unique_ptr<Transform3D> mTransform;
 };

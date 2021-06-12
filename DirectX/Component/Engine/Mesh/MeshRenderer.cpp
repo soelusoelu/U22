@@ -78,7 +78,7 @@ void MeshRenderer::drawMesh(
     const Vector3& dirLightColor
 ) const {
     //描画前準備
-    mMeshShader->preSet();
+    mMeshShader->bindShader();
 
     //メッシュ共通の値を設定する
     mMeshShader->setCommonValue(view, projection, cameraPosition, dirLightDirection, dirLightColor);

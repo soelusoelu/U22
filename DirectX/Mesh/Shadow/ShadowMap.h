@@ -4,7 +4,6 @@
 #include <rapidjson/document.h>
 #include <memory>
 
-class Shader;
 class RenderTexture;
 class MeshRenderer;
 
@@ -35,7 +34,7 @@ private:
     ShadowMap& operator=(const ShadowMap&) = delete;
 
 private:
-    std::shared_ptr<Shader> mDepthTextureCreateShader;
+    int mDepthTextureCreateShaderID;
     std::unique_ptr<RenderTexture> mRenderTexture;
     ShadowConstantBuffer mShadowConstBuffer;
     int mShadowTextureSize;

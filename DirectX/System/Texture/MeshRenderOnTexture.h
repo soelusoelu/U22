@@ -9,7 +9,6 @@
 class RenderTexture;
 class Sprite;
 class Mesh;
-class Shader;
 
 //メッシュをテクスチャ上に描画する
 class MeshRenderOnTexture {
@@ -47,7 +46,7 @@ private:
     std::unique_ptr<RenderTexture> mRenderTexture;
     std::unique_ptr<Sprite> mSprite;
     std::shared_ptr<Mesh> mMesh;
-    std::shared_ptr<Shader> mMeshShader;
+    int mMeshShaderID;
     std::string mFilePath;
     int mWidth;
     int mHeight;

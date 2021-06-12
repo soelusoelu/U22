@@ -7,6 +7,7 @@
 #include "../../../System/AssetsManager.h"
 #include "../../../System/Shader/ConstantBuffers.h"
 #include "../../../System/Shader/Shader.h"
+#include "../../../System/Shader/ShaderBinder.h"
 #include "../../../System/Texture/Texture.h"
 #include "../../../Transform/Transform3D.h"
 #include "../../../Utility/LevelLoader.h"
@@ -15,7 +16,7 @@ MeshShader::MeshShader()
     : Component()
     , mMesh(nullptr)
     , mAnimation(nullptr)
-    , mShader(nullptr)
+    , mShaderID(-1)
 {
 }
 
@@ -26,7 +27,7 @@ void MeshShader::loadProperties(const rapidjson::Value& inObj) {
     //シェーダー名が取得できたら読み込む
     if (JsonHelper::getString(inObj, "shaderName", &shader)) {
         //シェーダーを生成する
-        mShader = AssetsManager::instance().createShader(shader);
+        mShaderID = AssetsManager::instance().createShader(shader);
     } else {
         //できなかったらデフォルトを使う
         setDefaultShader();
@@ -34,16 +35,16 @@ void MeshShader::loadProperties(const rapidjson::Value& inObj) {
 }
 
 void MeshShader::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const {
-    JsonHelper::setString(alloc, inObj, "shaderName", mShader->getShaderName());
+    JsonHelper::setString(alloc, inObj, "shaderName", AssetsManager::instance().getShaderFormID(mShaderID).getShaderName());
 }
 
 void MeshShader::drawInspector() {
-    ImGui::Text("Shader: %s", mShader->getShaderName().c_str());
+    ImGui::Text("Shader: %s", AssetsManager::instance().getShaderFormID(mShaderID).getShaderName().c_str());
 }
 
-void MeshShader::preSet() const {
+void MeshShader::bindShader() const {
     //使用するシェーダーの登録
-    mShader->setShaderInfo();
+    ShaderBinder::bind(mShaderID);
 }
 
 void MeshShader::transferData() {
@@ -55,7 +56,7 @@ void MeshShader::transferData() {
     //すべてのデータを転送する
     for (const auto& transferData : mTransferDataMap) {
         const auto& data = transferData.second;
-        mShader->transferData(data.data, data.size, transferData.first);
+        AssetsManager::instance().getShaderFormID(mShaderID).transferData(data.data, data.size, transferData.first);
     }
 }
 
@@ -69,13 +70,13 @@ void MeshShader::setCommonValue(
     //シェーダーのコンスタントバッファーに各種データを渡す
     MeshCommonConstantBuffer meshcb{};
     MeshCommonShaderSetter::setCommon(meshcb, transform().getWorldTransform(), view, projection, cameraPosition, dirLightDirection, dirLightColor);
-    mShader->transferData(&meshcb, sizeof(meshcb), 0);
+    AssetsManager::instance().getShaderFormID(mShaderID).transferData(&meshcb, sizeof(meshcb), 0);
 }
 
 void MeshShader::setMaterialData(unsigned materialIndex, unsigned constantBufferIndex) const {
     MaterialConstantBuffer matcb{};
     MeshCommonShaderSetter::setMaterial(matcb, mMesh->getMaterial(materialIndex));
-    mShader->transferData(&matcb, sizeof(matcb), constantBufferIndex);
+    AssetsManager::instance().getShaderFormID(mShaderID).transferData(&matcb, sizeof(matcb), constantBufferIndex);
 }
 
 void MeshShader::setTransferData(const void* data, unsigned size, unsigned constantBufferIndex) {
@@ -106,5 +107,5 @@ void MeshShader::setDefaultShader() {
     }
 
     //シェーダーを生成する
-    mShader = AssetsManager::instance().createShader(shader);
+    mShaderID = AssetsManager::instance().createShader(shader);
 }

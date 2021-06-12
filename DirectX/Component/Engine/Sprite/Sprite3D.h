@@ -53,6 +53,8 @@ public:
     const Vector2& getTextureAspect() const;
     //シェーダーの取得
     const Shader& shader() const;
+    //シェーダーIDを取得する
+    int getShaderID() const;
     //ファイル名の取得
     const std::string& fileName() const;
     //ビルボードにするか
@@ -74,7 +76,7 @@ protected:
 protected:
     std::unique_ptr<Transform3D> mTransform;
     int mTextureID;
-    std::shared_ptr<Shader> mShader;
+    int mShaderID;
     Vector2 mCurrentTextureSize;
     Vector2 mTextureAspect;
     Vector3 mColor;

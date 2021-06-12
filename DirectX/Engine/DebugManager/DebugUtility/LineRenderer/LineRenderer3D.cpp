@@ -3,12 +3,13 @@
 #include "../../../../System/AssetsManager.h"
 #include "../../../../System/Shader/ConstantBuffers.h"
 #include "../../../../System/Shader/Shader.h"
+#include "../../../../System/Shader/ShaderBinder.h"
 #include "../../../../Transform/Transform3D.h"
 #include <vector>
 
 LineRenderer3D::LineRenderer3D() :
     LineRenderer(),
-    mShader(nullptr),
+    mShaderID(-1),
     mTransform(std::make_unique<Transform3D>()) {
 }
 
@@ -35,12 +36,12 @@ const void* LineRenderer3D::getVertexData() const {
 
 void LineRenderer3D::createShader() {
     //シェーダー作成
-    mShader = AssetsManager::instance().createShader("Line3D.hlsl");
+    mShaderID = AssetsManager::instance().createShader("Line3D.hlsl");
 }
 
 void LineRenderer3D::drawLines(const Matrix4& proj) const {
     //シェーダーを登録
-    mShader->setShaderInfo();
+    ShaderBinder::bind(mShaderID);
 
     for (const auto& line : mLines) {
         drawLine(line, proj);
@@ -59,7 +60,7 @@ void LineRenderer3D::drawLine(const Line3DParam& param, const Matrix4& proj) con
     cb.color = Vector4(param.color, 1.f);
 
     //シェーダーにデータ転送
-    mShader->transferData(&cb, sizeof(cb));
+    AssetsManager::instance().getShaderFormID(mShaderID).transferData(&cb, sizeof(cb));
 
     //描画
     MyDirectX::DirectX::instance().drawIndexed(2);

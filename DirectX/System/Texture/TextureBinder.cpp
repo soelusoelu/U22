@@ -12,12 +12,12 @@ void TextureBinder::bind(int id) {
         const auto& tex = AssetsManager::instance().getTextureFromID(id);
 
         //テクスチャバインド
-        const auto& srv = tex->getShaderResourceView();
+        const auto& srv = tex.getShaderResourceView();
         srv.setVSShaderResources();
         srv.setPSShaderResources();
 
         //サンプラーバインド
-        const auto& sampler = tex->getSampler();
+        const auto& sampler = tex.getSampler();
         sampler.setVSSamplers();
         sampler.setPSSamplers();
     }

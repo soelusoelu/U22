@@ -50,6 +50,8 @@ public:
     int getTextureID() const;
     //シェーダーの取得
     const Shader& shader() const;
+    //シェーダーIDを取得する
+    int getShaderID() const;
     //ファイル名の取得
     const std::string& fileName() const;
 
@@ -68,7 +70,7 @@ private:
 private:
     std::unique_ptr<Transform2D> mTransform;
     int mTextureID;
-    std::shared_ptr<Shader> mShader;
+    int mShaderID;
     Vector3 mColor;
     float mAlpha;
     Vector4 mUV;

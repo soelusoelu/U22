@@ -13,6 +13,7 @@
 #include "../../../System/AssetsManager.h"
 #include "../../../System/Shader/ConstantBuffers.h"
 #include "../../../System/Shader/Shader.h"
+#include "../../../System/Shader/ShaderBinder.h"
 #include "../../../System/Texture/TextureFromFile.h"
 #include "../../../Transform/Transform3D.h"
 #include "../../../Utility/LevelLoader.h"
@@ -21,7 +22,7 @@ MeshOutLine::MeshOutLine()
     : Component()
     , mMesh(nullptr)
     , mDrawer(nullptr)
-    , mOutLineShader(nullptr)
+    , mOutLineShaderID(-1)
     , mSkinMesh(nullptr)
     , mOutLineColor(ColorPalette::white)
     , mOutLineThickness(0.1f)
@@ -45,7 +46,7 @@ void MeshOutLine::start() {
 
     //アニメーションするかでシェーダーを決める
     auto name = (mIsAnimation) ? "SkinMeshOutLine.hlsl" : "OutLine.hlsl";
-    mOutLineShader = AssetsManager::instance().createShader(name);
+    mOutLineShaderID = AssetsManager::instance().createShader(name);
 
     if (mIsAnimation) {
         mSkinMesh = getComponent<SkinMeshComponent>();
@@ -121,7 +122,7 @@ bool MeshOutLine::getActiveOutLine() const {
 
 void MeshOutLine::drawOutLine(const Matrix4& view, const Matrix4& projection) const {
     //アウトラインシェーダーの登録
-    mOutLineShader->setShaderInfo();
+    ShaderBinder::bind(mOutLineShaderID);
 
     //スケールを拡大したモデルをアウトラインとして描画するため
     //ワールド行列の再計算をする
@@ -136,12 +137,12 @@ void MeshOutLine::drawOutLine(const Matrix4& view, const Matrix4& projection) co
     OutLineConstantBuffer outlinecb;
     outlinecb.wvp = world * view * projection;
     outlinecb.outlineColor = Vector4(mOutLineColor, 1.f);
-    mOutLineShader->transferData(&outlinecb, sizeof(outlinecb), 0);
+    const auto& shader = AssetsManager::instance().getShaderFormID(mOutLineShaderID);
+    shader.transferData(&outlinecb, sizeof(outlinecb), 0);
 
     //アニメーションするならボーンのデータも渡す
     if (mIsAnimation) {
-        //ボーンデータを転送する
-        mOutLineShader->transferData(mSkinMesh->getBoneCurrentFrameMatrix().data(), sizeof(SkinMeshConstantBuffer), 1);
+        shader.transferData(mSkinMesh->getBoneCurrentFrameMatrix().data(), sizeof(SkinMeshConstantBuffer), 1);
     }
 
     //アウトラインを描画する

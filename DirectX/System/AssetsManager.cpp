@@ -21,14 +21,24 @@ void AssetsManager::finalize() {
     safeDelete(mInstance);
 }
 
-void AssetsManager::loadTexture(const std::string& fileName, const std::string& directoryPath) {
+void AssetsManager::loadTexture(const std::string& filename, const std::string& directoryPath) {
     //テクスチャを読み込む
-    loadTextureGetID(directoryPath + fileName);
+    createTexture(directoryPath + filename);
 }
 
 int AssetsManager::createTexture(const std::string& filename, const std::string& directoryPath) {
-    //テクスチャを読み込む
-    int id = loadTextureGetID(directoryPath + filename);
+    auto filePath = directoryPath + filename;
+
+    //読み込み済みなら何もしない
+    int id = -1;
+    if (loadedTexture(filePath, &id)) {
+        return id;
+    }
+
+    //テクスチャを生成し格納
+    auto texture = std::make_shared<TextureFromFile>(filePath);
+    id = mTextures.size();
+    mTextures.emplace_back(TextureParam{ texture, filePath, id });
 
     return id;
 }
@@ -39,8 +49,29 @@ int AssetsManager::addTexture(const std::shared_ptr<Texture>& texture) {
     return id;
 }
 
-const std::shared_ptr<Texture>& AssetsManager::getTextureFromID(int id) const {
-    return mTextures[id].texture;
+const Texture& AssetsManager::getTextureFromID(int id) const {
+    return *mTextures[id].texture;
+}
+
+int AssetsManager::createShader(const std::string& filename, const std::string& directoryPath) {
+    auto filePath = directoryPath + filename;
+
+    //読み込み済みなら何もしない
+    int id = -1;
+    if (loadedShader(filePath, &id)) {
+        return id;
+    }
+
+    //シェーダーを生成し格納
+    auto shader = std::make_shared<Shader>(filename, directoryPath);
+    id = mShaders.size();
+    mShaders.emplace_back(ShaderParam{ shader, filePath, id });
+
+    return id;
+}
+
+const Shader& AssetsManager::getShaderFormID(int id) const {
+    return *mShaders[id].shader;
 }
 
 void AssetsManager::loadMesh(const std::string& fileName, const std::string& directoryPath) {
@@ -75,44 +106,24 @@ std::shared_ptr<Mesh> AssetsManager::createMeshFromFilePath(const std::string& f
     return mMeshes[filePath];
 }
 
-std::shared_ptr<Shader> AssetsManager::createShader(const std::string& fileName, const std::string& directoryPath) {
-    std::shared_ptr<Shader> shader = nullptr;
-
-    //ディレクトパスとファイル名を結合する
-    auto filePath = directoryPath + fileName;
-
-    //読み込み済みなら
-    if (mShaders.find(filePath) != mShaders.end()) {
-        shader = mShaders[filePath];
-    } else {
-        //シェーダーを生成し格納
-        shader = std::make_shared<Shader>(fileName, directoryPath);
-        mShaders.emplace(filePath, shader);
-    }
-
-    return shader;
-}
-
-int AssetsManager::loadTextureGetID(const std::string& filePath) {
-    //読み込み済みなら何もしない
-    int id = -1;
-    if (loadedTexture(filePath, &id)) {
-        return id;
-    }
-
-    //テクスチャを生成し格納
-    auto texture = std::make_shared<TextureFromFile>(filePath);
-    id = mTextures.size();
-    mTextures.emplace_back(TextureParam{ texture, filePath, id });
-
-    return id;
-}
-
 bool AssetsManager::loadedTexture(const std::string& filePath, int* outID) const {
     for (const auto& tex : mTextures) {
         if (tex.filePath == filePath) {
             if (outID) {
                 *outID = tex.id;
+            }
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool AssetsManager::loadedShader(const std::string& filePath, int* outID) const {
+    for (const auto& s : mShaders) {
+        if (s.filePath == filePath) {
+            if (outID) {
+                *outID = s.id;
             }
             return true;
         }

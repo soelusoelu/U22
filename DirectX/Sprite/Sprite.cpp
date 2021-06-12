@@ -4,6 +4,7 @@
 #include "../System/AssetsManager.h"
 #include "../System/shader/ConstantBuffers.h"
 #include "../System/shader/Shader.h"
+#include "../System/shader/ShaderBinder.h"
 #include "../System/Texture/Texture.h"
 #include "../System/Texture/TextureBinder.h"
 #include "../Transform/Transform2D.h"
@@ -13,7 +14,7 @@
 Sprite::Sprite()
     : mTransform(std::make_unique<Transform2D>())
     , mTextureID(INVALID_ID)
-    , mShader(AssetsManager::instance().createShader("Texture.hlsl"))
+    , mShaderID(AssetsManager::instance().createShader("Texture.hlsl"))
     , mColor(ColorPalette::white)
     , mAlpha(1.f)
     , mUV(0.f, 0.f, 1.f, 1.f)
@@ -32,7 +33,7 @@ Sprite::Sprite(const std::string& fileName)
 Sprite::Sprite(const std::string& fileName, const std::string& shaderName)
     : Sprite(fileName)
 {
-    mShader = AssetsManager::instance().createShader(shaderName);
+    mShaderID = AssetsManager::instance().createShader(shaderName);
 }
 
 Sprite::~Sprite() = default;
@@ -51,7 +52,7 @@ void Sprite::draw(const Matrix4& proj) const {
     //テクスチャを登録
     TextureBinder::bind(mTextureID);
     //シェーダーを登録
-    mShader->setShaderInfo();
+    ShaderBinder::bind(mShaderID);
 
     //シェーダーのコンスタントバッファーに各種データを渡す
     TextureConstantBuffer cb;
@@ -60,7 +61,7 @@ void Sprite::draw(const Matrix4& proj) const {
     cb.uv = mUV;
 
     //シェーダーにデータ転送
-    mShader->transferData(&cb, sizeof(cb));
+    shader().transferData(&cb, sizeof(cb));
 
     //プリミティブをレンダリング
     MyDirectX::DirectX::instance().drawIndexed(6);
@@ -148,8 +149,7 @@ void Sprite::setTexture(const std::shared_ptr<Texture>& texture) {
 }
 
 const Texture& Sprite::texture() const {
-    const auto& tex = AssetsManager::instance().getTextureFromID(mTextureID);
-    return *tex;
+    return AssetsManager::instance().getTextureFromID(mTextureID);
 }
 
 int Sprite::getTextureID() const {
@@ -157,7 +157,11 @@ int Sprite::getTextureID() const {
 }
 
 const Shader& Sprite::shader() const {
-    return *mShader;
+    return AssetsManager::instance().getShaderFormID(mShaderID);
+}
+
+int Sprite::getShaderID() const {
+    return mShaderID;
 }
 
 const std::string& Sprite::fileName() const {

@@ -8,6 +8,7 @@
 #include "../../../System/Window.h"
 #include "../../../System/Shader/ConstantBuffers.h"
 #include "../../../System/Shader/Shader.h"
+#include "../../../System/Shader/ShaderBinder.h"
 #include "../../../System/Texture/Texture.h"
 #include "../../../System/Texture/TextureBinder.h"
 #include "../../../Transform/Transform3D.h"
@@ -18,7 +19,7 @@ Sprite3D::Sprite3D()
     : Component()
     , mTransform(std::make_unique<Transform3D>())
     , mTextureID(INVALID_ID)
-    , mShader(nullptr)
+    , mShaderID(-1)
     , mCurrentTextureSize(Vector2::zero)
     , mTextureAspect(Vector2::one)
     , mColor(ColorPalette::white)
@@ -43,7 +44,7 @@ void Sprite3D::awake() {
     }
 
     //シェーダー生成
-    mShader = AssetsManager::instance().createShader("Texture3D.hlsl");
+    mShaderID = AssetsManager::instance().createShader("Texture3D.hlsl");
 
     //マネージャーに登録する
     addToManager();
@@ -115,7 +116,7 @@ void Sprite3D::draw(const Matrix4& viewProj) const {
     //テクスチャを登録
     TextureBinder::bind(mTextureID);
     //シェーダーを登録
-    mShader->setShaderInfo();
+    ShaderBinder::bind(mShaderID);
 
     //シェーダーのコンスタントバッファーに各種データを渡す
     TextureConstantBuffer cb;
@@ -124,7 +125,7 @@ void Sprite3D::draw(const Matrix4& viewProj) const {
     cb.uv = mUV;
 
     //シェーダーにデータ転送
-    mShader->transferData(&cb, sizeof(cb));
+    shader().transferData(&cb, sizeof(cb));
 
     //プリミティブをレンダリング
     MyDirectX::DirectX::instance().drawIndexed(6);
@@ -138,7 +139,7 @@ void Sprite3D::drawBillboard(const Matrix4& invView, const Matrix4& viewProj) {
     //テクスチャを登録
     TextureBinder::bind(mTextureID);
     //シェーダーを登録
-    mShader->setShaderInfo();
+    ShaderBinder::bind(mShaderID);
 
     //シェーダーのコンスタントバッファーに各種データを渡す
     TextureConstantBuffer cb;
@@ -156,7 +157,7 @@ void Sprite3D::drawBillboard(const Matrix4& invView, const Matrix4& viewProj) {
     cb.uv = mUV;
 
     //シェーダーにデータ転送
-    mShader->transferData(&cb, sizeof(cb));
+    shader().transferData(&cb, sizeof(cb));
 
     //プリミティブをレンダリング
     MyDirectX::DirectX::instance().drawIndexed(6);
@@ -236,8 +237,7 @@ void Sprite3D::setTextureFromFileName(const std::string& fileName) {
 }
 
 const Texture& Sprite3D::texture() const {
-    const auto& tex = AssetsManager::instance().getTextureFromID(mTextureID);
-    return *tex;
+    return AssetsManager::instance().getTextureFromID(mTextureID);
 }
 
 int Sprite3D::getTextureID() const {
@@ -249,7 +249,11 @@ const Vector2& Sprite3D::getTextureAspect() const {
 }
 
 const Shader& Sprite3D::shader() const {
-    return *mShader;
+    return AssetsManager::instance().getShaderFormID(mShaderID);
+}
+
+int Sprite3D::getShaderID() const {
+    return mShaderID;
 }
 
 const std::string& Sprite3D::fileName() const {

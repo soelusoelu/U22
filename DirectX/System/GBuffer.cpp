@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "Shader/ConstantBuffers.h"
 #include "Shader/Shader.h"
+#include "Shader/ShaderBinder.h"
 #include "../Component/Engine/Camera/Camera.h"
 #include "../Component/Engine/Light/DirectionalLight.h"
 #include "../DirectX/DirectXInclude.h"
@@ -12,8 +13,8 @@
 
 GBuffer::GBuffer()
     : mSampler(nullptr)
-    , mGBufferShader(nullptr)
-    , mDefferdShader(nullptr)
+    , mGBufferShaderID(-1)
+    , mDefferdShaderID(-1)
     , mVertexBuffer(nullptr)
     , mIndexBuffer(nullptr)
 {
@@ -83,7 +84,7 @@ void GBuffer::renderToTexture() {
     auto& dx = MyDirectX::DirectX::instance();
 
     //シェーダーをセット
-    mGBufferShader->setShaderInfo();
+    ShaderBinder::bind(mGBufferShaderID);
 
     //各テクスチャをレンダーターゲットに設定
     RenderTargetView::setRenderTargets(mRenderTargets);
@@ -112,7 +113,7 @@ void GBuffer::renderFromTexture(const Camera& camera, const LightManager& lightM
     dx.clearDepthStencilView();
 
     //使用するシェーダーは、テクスチャーを参照するシェーダー
-    mDefferdShader->setShaderInfo();
+    ShaderBinder::bind(mDefferdShaderID);
     //1パス目で作成したテクスチャー3枚をセット
     setShaderResources();
     //サンプラーをセット
@@ -125,7 +126,7 @@ void GBuffer::renderFromTexture(const Camera& camera, const LightManager& lightM
     cb.ambientLight = lightManager.getAmbientLight();
 
     //シェーダーにデータ転送
-    mDefferdShader->transferData(&cb, sizeof(cb));
+    AssetsManager::instance().getShaderFormID(mDefferdShaderID).transferData(&cb, sizeof(cb));
 
     //スクリーンサイズのポリゴンをレンダー
     dx.setPrimitive(PrimitiveType::TRIANGLE_LIST);
@@ -155,8 +156,8 @@ void GBuffer::createSampler() {
 
 void GBuffer::createShader() {
     //シェーダー生成
-    mGBufferShader = AssetsManager::instance().createShader("GBuffer.hlsl");
-    mDefferdShader = AssetsManager::instance().createShader("Deferred.hlsl");
+    mGBufferShaderID = AssetsManager::instance().createShader("GBuffer.hlsl");
+    mDefferdShaderID = AssetsManager::instance().createShader("Deferred.hlsl");
 }
 
 void GBuffer::createVertexBuffer() {

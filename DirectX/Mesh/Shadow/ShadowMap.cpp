@@ -9,6 +9,7 @@
 #include "../../System/AssetsManager.h"
 #include "../../System/Window.h"
 #include "../../System/Shader/Shader.h"
+#include "../../System/Shader/ShaderBinder.h"
 #include "../../System/Texture/Texture.h"
 #include "../../System/Texture/RenderTexture.h"
 #include "../../Transform/Transform2D.h"
@@ -16,7 +17,7 @@
 #include "../../Utility/LevelLoader.h"
 
 ShadowMap::ShadowMap()
-    : mDepthTextureCreateShader(nullptr)
+    : mDepthTextureCreateShaderID(-1)
     , mRenderTexture(nullptr)
     , mShadowTextureSize(0)
     , mLightDistance(0.f)
@@ -28,7 +29,7 @@ ShadowMap::ShadowMap()
 ShadowMap::~ShadowMap() = default;
 
 void ShadowMap::initialize() {
-    mDepthTextureCreateShader = AssetsManager::instance().createShader("ShadowDepthTextureCreater.hlsl");
+    mDepthTextureCreateShaderID = AssetsManager::instance().createShader("ShadowDepthTextureCreater.hlsl");
     mRenderTexture = std::make_unique<RenderTexture>(mShadowTextureSize, mShadowTextureSize, Format::FORMAT_D24_UNORM_S8_UINT, Format::FORMAT_R16_UNORM);
 
     //const auto& s = getComponent<SpriteComponent>();
@@ -62,7 +63,7 @@ void ShadowMap::drawBegin(const Vector3& dirLightDirection) {
     mRenderTexture->drawBegin(1.f, 1.f, 1.f, 1.f, true, false);
 
     //シェーダー登録
-    mDepthTextureCreateShader->setShaderInfo();
+    ShaderBinder::bind(mDepthTextureCreateShaderID);
 
     //ライトビュー計算
     mShadowConstBuffer.lightView = Matrix4::createLookAt(-dirLightDirection * mLightDistance, dirLightDirection, Vector3::up);
@@ -72,7 +73,7 @@ void ShadowMap::drawBegin(const Vector3& dirLightDirection) {
 void ShadowMap::draw(const MeshRenderer& renderer) const {
     SimpleMeshConstantBuffer smcb{};
     smcb.wvp = renderer.transform().getWorldTransform() * mShadowConstBuffer.lightView * mShadowConstBuffer.lightProj;
-    mDepthTextureCreateShader->transferData(&smcb, sizeof(smcb));
+    AssetsManager::instance().getShaderFormID(mDepthTextureCreateShaderID).transferData(&smcb, sizeof(smcb));
 
     const auto& meshComp = renderer.getMeshComponent();
     const auto& drawer = meshComp.getDrawer();
