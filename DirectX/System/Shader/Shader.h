@@ -24,6 +24,9 @@ public:
 
     //シェーダーにデータを転送する
     void transferData(const void* data, unsigned size, unsigned constantBufferIndex = 0) const;
+    //シェーダーに値を渡すための開始・終了処理
+    bool map(D3D11_MAPPED_SUBRESOURCE* mapRes, ID3D11Buffer* buffer, unsigned sub = 0, D3D11_MAP type = D3D11_MAP_WRITE_DISCARD, unsigned flag = 0) const;
+    void unmap(ID3D11Buffer* buffer, unsigned sub = 0) const;
 
     //使用するコンスタントバッファを登録
     void setVSConstantBuffers(unsigned index = 0, unsigned numBuffers = 1) const;
@@ -51,10 +54,6 @@ private:
     bool compileShader(Microsoft::WRL::ComPtr<ID3DBlob>* out, const std::string& fileName, const std::string& entryPoint, const std::string& target);
     //インプットレイアウトの生成
     void createInputLayout(const std::vector<InputElementDesc>& layout);
-    //シェーダーに値を渡すための開始・終了処理
-public:
-    bool map(D3D11_MAPPED_SUBRESOURCE* mapRes, ID3D11Buffer* buffer, unsigned sub = 0, D3D11_MAP type = D3D11_MAP_WRITE_DISCARD, unsigned flag = 0) const;
-    void unmap(ID3D11Buffer* buffer, unsigned sub = 0) const;
 
 private:
     std::string mShaderName;

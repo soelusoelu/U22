@@ -33,8 +33,8 @@ void LineRenderer::createVertexBuffer() {
     BufferDesc bd;
     bd.oneSize = getParamSize();
     bd.size = bd.oneSize * 2; //頂点が2つだから
-    bd.usage = Usage::USAGE_IMMUTABLE;
-    bd.type = static_cast<unsigned>(BufferType::BUFFER_TYPE_VERTEX);
+    bd.usage = Usage::IMMUTABLE;
+    bd.type = static_cast<unsigned>(BufferType::VERTEX);
 
     SubResourceDesc sub;
     sub.data = getVertexData();
@@ -48,8 +48,8 @@ void LineRenderer::createIndexBuffer() {
     };
     BufferDesc bd;
     bd.size = sizeof(indices);
-    bd.usage = Usage::USAGE_IMMUTABLE;
-    bd.type = static_cast<unsigned>(BufferType::BUFFER_TYPE_INDEX);
+    bd.usage = Usage::IMMUTABLE;
+    bd.type = static_cast<unsigned>(BufferType::INDEX);
 
     SubResourceDesc sub;
     sub.data = indices;

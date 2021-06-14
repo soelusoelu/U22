@@ -139,7 +139,7 @@ void SceneManager::update() {
         if (!next.empty()) {
             change();
             //次のシーンに渡す値を避難させとく
-            auto toNextValues = mCurrentScene->getValuePassToNextScene();
+            const auto& toNextValues = mCurrentScene->getValuePassToNextScene();
             //シーン遷移
             createScene(next);
             //新しいシーンに前のシーンの値を渡す

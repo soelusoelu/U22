@@ -1,10 +1,7 @@
 ﻿#pragma once
 
 #include "../Math/Math.h"
-#include <memory>
 #include <string>
-
-class Texture;
 
 struct Material {
     Vector3 ambient; //アンビエント

@@ -64,8 +64,8 @@ void Texture::createVertexBuffer() {
     BufferDesc bd;
     bd.oneSize = sizeof(TextureVertex);
     bd.size = bd.oneSize * 4; //頂点が4つだから
-    bd.usage = Usage::USAGE_IMMUTABLE;
-    bd.type = static_cast<unsigned>(BufferType::BUFFER_TYPE_VERTEX);
+    bd.usage = Usage::IMMUTABLE;
+    bd.type = static_cast<unsigned>(BufferType::VERTEX);
 
     SubResourceDesc sub;
     sub.data = vertices;
@@ -91,8 +91,8 @@ void Texture::createIndexBuffer() {
     };
     BufferDesc bd;
     bd.size = sizeof(indices);
-    bd.usage = Usage::USAGE_IMMUTABLE;
-    bd.type = static_cast<unsigned>(BufferType::BUFFER_TYPE_INDEX);
+    bd.usage = Usage::IMMUTABLE;
+    bd.type = static_cast<unsigned>(BufferType::INDEX);
 
     SubResourceDesc sub;
     sub.data = indices;

@@ -159,8 +159,8 @@ void Mesh::createVertexBuffer(unsigned meshIndex) {
     BufferDesc bd;
     bd.oneSize = sizeof(vertices[0]);
     bd.size = bd.oneSize * vertices.size();
-    bd.usage = Usage::USAGE_DEFAULT;
-    bd.type = static_cast<unsigned>(BufferType::BUFFER_TYPE_VERTEX);
+    bd.usage = Usage::DEFAULT;
+    bd.type = static_cast<unsigned>(BufferType::VERTEX);
     SubResourceDesc sub;
     sub.data = vertices.data();
 
@@ -171,8 +171,8 @@ void Mesh::createIndexBuffer(unsigned meshIndex) {
     const auto& indices = mMeshesIndices[meshIndex];
     BufferDesc bd;
     bd.size = sizeof(indices[0]) * indices.size();
-    bd.usage = Usage::USAGE_DEFAULT;
-    bd.type = static_cast<unsigned>(BufferType::BUFFER_TYPE_INDEX);
+    bd.usage = Usage::DEFAULT;
+    bd.type = static_cast<unsigned>(BufferType::INDEX);
     SubResourceDesc sub;
     sub.data = indices.data();
 

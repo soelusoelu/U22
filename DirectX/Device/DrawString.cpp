@@ -11,7 +11,6 @@ DrawString::DrawString()
     , mFontSprite(nullptr)
     , mNumberFileName("")
     , mFontFileName("")
-    , timer(std::make_unique<TimeMeasurement>())
     , mDrawer(std::make_unique<SpriteInstancingDrawer>())
 {
 }
@@ -47,15 +46,10 @@ void DrawString::drawAll(const Matrix4& proj) const {
     for (const auto& param : mParamsFloat) {
         drawFloat(param, proj);
     }
-    if (mParamsString.empty()) {
-        return;
-    }
-    timer->start();
     for (const auto& param : mParamsString) {
         drawString(param, proj);
     }
     mDrawer->instancingDraw(*mFontSprite, proj);
-    timer->end();
 }
 
 void DrawString::clear() {

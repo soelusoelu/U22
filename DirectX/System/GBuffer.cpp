@@ -31,7 +31,7 @@ void GBuffer::create() {
     desc.width = Window::standardWidth();
     desc.height = Window::standardHeight();
     desc.format = Format::FORMAT_RGBA16_FLOAT;
-    desc.usage = Usage::USAGE_DEFAULT;
+    desc.usage = Usage::DEFAULT;
     desc.bindFlags =
         static_cast<unsigned>(Texture2DBind::TEXTURE_BIND_RENDER_TARGET) |
         static_cast<unsigned>(Texture2DBind::TEXTURE_BIND_SHADER_RESOURCE);
@@ -171,8 +171,8 @@ void GBuffer::createVertexBuffer() {
     BufferDesc bd;
     bd.oneSize = sizeof(PosNormUVVertex);
     bd.size = bd.oneSize * 4;
-    bd.usage = Usage::USAGE_DEFAULT;
-    bd.type = static_cast<unsigned>(BufferType::BUFFER_TYPE_VERTEX);
+    bd.usage = Usage::DEFAULT;
+    bd.type = static_cast<unsigned>(BufferType::VERTEX);
 
     SubResourceDesc sub;
     sub.data = vertices;
@@ -188,8 +188,8 @@ void GBuffer::createIndexBuffer() {
     };
     BufferDesc bd;
     bd.size = sizeof(indices);
-    bd.usage = Usage::USAGE_IMMUTABLE;
-    bd.type = static_cast<unsigned>(BufferType::BUFFER_TYPE_INDEX);
+    bd.usage = Usage::IMMUTABLE;
+    bd.type = static_cast<unsigned>(BufferType::INDEX);
 
     SubResourceDesc sub;
     sub.data = indices;

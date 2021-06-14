@@ -49,7 +49,7 @@ void Title::awake() {
     //playerUIManager->componentManager().getComponent<PlayerUIManager>()->setPlayer(player);
 
     //bossEnemyUIManager->componentManager().getComponent<BossEnemyUIManager>()->setBoss(boss);
-    for (size_t i = 0; i < 30; i++) {
+    for (size_t i = 0; i < 500; i++) {
         GameObjectCreater::create("Testttttttttttttttt");
     }
 }

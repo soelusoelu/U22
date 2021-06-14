@@ -53,6 +53,14 @@ void Shader::transferData(const void* data, unsigned size, unsigned constantBuff
     }
 }
 
+bool Shader::map(D3D11_MAPPED_SUBRESOURCE* mapRes, ID3D11Buffer* buffer, unsigned sub, D3D11_MAP type, unsigned flag) const {
+    return SUCCEEDED(MyDirectX::DirectX::instance().deviceContext()->Map(buffer, sub, type, flag, mapRes));
+}
+
+void Shader::unmap(ID3D11Buffer* buffer, unsigned sub) const {
+    MyDirectX::DirectX::instance().deviceContext()->Unmap(buffer, sub);
+}
+
 void Shader::setVSConstantBuffers(unsigned index, unsigned numBuffers) const {
     MyDirectX::DirectX::instance().deviceContext()->VSSetConstantBuffers(index, numBuffers, mConstantBuffers[index]->bufferAddres());
 }
@@ -156,12 +164,4 @@ bool Shader::compileShader(Microsoft::WRL::ComPtr<ID3DBlob>* out, const std::str
 
 void Shader::createInputLayout(const std::vector<InputElementDesc>& layout) {
     mVertexLayout = std::make_unique<InputElement>(layout, mVSBlob.Get());
-}
-
-bool Shader::map(D3D11_MAPPED_SUBRESOURCE* mapRes, ID3D11Buffer* buffer, unsigned sub, D3D11_MAP type, unsigned flag) const {
-    return SUCCEEDED(MyDirectX::DirectX::instance().deviceContext()->Map(buffer, sub, type, flag, mapRes));
-}
-
-void Shader::unmap(ID3D11Buffer* buffer, unsigned sub) const {
-    MyDirectX::DirectX::instance().deviceContext()->Unmap(buffer, sub);
 }

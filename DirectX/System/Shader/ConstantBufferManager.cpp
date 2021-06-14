@@ -37,9 +37,9 @@ std::vector<std::unique_ptr<Buffer>> ConstantBufferManager::createConstantBuffer
 
         //バッファ共通設定
         BufferDesc cb;
-        cb.usage = Usage::USAGE_DYNAMIC;
-        cb.type = static_cast<unsigned>(BufferType::BUFFER_TYPE_CONSTANT_BUFFER);
-        cb.cpuAccessFlags = static_cast<unsigned>(BufferCPUAccessFlag::CPU_ACCESS_WRITE);
+        cb.usage = Usage::DYNAMIC;
+        cb.type = static_cast<unsigned>(BufferType::CONSTANT_BUFFER);
+        cb.cpuAccessFlags = static_cast<unsigned>(BufferCPUAccessFlag::WRITE);
 
         //バッファの数だけ生成する
         for (size_t i = 0; i < size; i++) {

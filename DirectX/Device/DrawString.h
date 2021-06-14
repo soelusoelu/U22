@@ -6,7 +6,6 @@
 #include <list>
 #include <memory>
 #include <string>
-#include "../Device/TimeMeasurement.h"
 
 class Sprite;
 class SpriteInstancingDrawer;
@@ -92,9 +91,9 @@ private:
     std::list<ParamInt> mParamsInt;
     std::list<ParamFloat> mParamsFloat;
     std::list<ParamString> mParamsString;
-
     std::string mNumberFileName;
     std::string mFontFileName;
+    std::unique_ptr<SpriteInstancingDrawer> mDrawer;
 
     static constexpr int SPRITE_WIDTH = 512; //画像横幅
     static constexpr float WIDTH_RATE = static_cast<float>(WIDTH) / static_cast<float>(SPRITE_WIDTH); //画像横幅に対する1文字の比率
@@ -105,6 +104,4 @@ private:
     static constexpr int WIDTH_CHAR_COUNT = SPRITE_WIDTH / WIDTH; //フォント画像の画像横の文字数
     static constexpr int HEIGHT_CHAR_COUNT = FONT_HEIGHT / HEIGHT;
     static constexpr float FONT_HEIGHT_RATE = static_cast<float>(HEIGHT) / static_cast<float>(FONT_HEIGHT);
-    std::unique_ptr<TimeMeasurement> timer;
-    std::unique_ptr<SpriteInstancingDrawer> mDrawer;
 };

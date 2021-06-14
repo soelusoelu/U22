@@ -16,9 +16,9 @@ SpriteInstancingDrawer::~SpriteInstancingDrawer() = default;
 void SpriteInstancingDrawer::initialize() {
     BufferDesc bd{};
     bd.size = sizeof(TextureConstantBuffer) * MAX_INSTANCE;
-    bd.usage = Usage::USAGE_DYNAMIC;
-    bd.type = static_cast<unsigned>(BufferType::BUFFER_TYPE_VERTEX);
-    bd.cpuAccessFlags = static_cast<unsigned>(BufferCPUAccessFlag::CPU_ACCESS_WRITE);
+    bd.usage = Usage::DYNAMIC;
+    bd.type = static_cast<unsigned>(BufferType::VERTEX);
+    bd.cpuAccessFlags = static_cast<unsigned>(BufferCPUAccessFlag::WRITE);
 
     mInputBuffer = std::make_unique<VertexBuffer>(bd);
 }
