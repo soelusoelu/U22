@@ -59,6 +59,9 @@ void SpriteInstancingDrawer::instancingDraw(const Sprite& sprite, const Matrix4&
     //開く
     if (shader.map(&mapRes, mInputBuffer->buffer())) {
         auto out = static_cast<TextureConstantBuffer*>(mapRes.pData);
+        if (!out) {
+            return;
+        }
         for (size_t i = 0; i < mInstancingData.size(); i++) {
             memcpy_s(&out[i], sizeof(out[i]), &mInstancingData[i], sizeof(mInstancingData[i]));
         }

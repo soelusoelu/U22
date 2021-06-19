@@ -150,6 +150,10 @@ void MeshManager::drawShadow(
     const Vector3& dirLightDirection,
     const Vector3& dirLightColor
 ) const {
+    if (mShadowMeshes.empty()) {
+        return;
+    }
+
     //描画準備
     mShadowMap->drawBegin(dirLightDirection);
 

@@ -639,6 +639,5 @@
     <None Include="Assets\Data\Weapon.json" />
     <None Include="Assets\Data\BossEnemyUI.json" />
     <None Include="Assets\Data\Shield.json" />
-    <None Include="Assets\Data\Testttttttttttttttt.json" />
   </ItemGroup>
 </Project>
