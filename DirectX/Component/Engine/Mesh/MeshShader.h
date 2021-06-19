@@ -33,7 +33,7 @@ public:
     void setMaterialData(unsigned materialIndex, unsigned constantBufferIndex = 1) const;
     //全メッシュに共通する値を設定する
     //データが生きている必要あり
-    void setTransferData(const void* data, unsigned size, unsigned constantBufferIndex);
+    void setTransferData(const void* data, unsigned constantBufferIndex);
 
     //各種インターフェースを設定する
     void setInterface(const IMesh* mesh, const IAnimation* anim);
@@ -45,13 +45,8 @@ private:
     MeshShader& operator=(const MeshShader&) = delete;
 
 private:
-    struct TransferData {
-        const void* data;
-        unsigned size;
-    };
-
     const IMesh* mMesh;
     const IAnimation* mAnimation;
     int mShaderID;
-    std::unordered_map<unsigned, TransferData> mTransferDataMap;
+    std::unordered_map<unsigned, const void*> mTransferDataMap;
 };

@@ -8,7 +8,7 @@
 #include "../../Math/Math.h"
 #include "../../System/AssetsManager.h"
 #include "../../System/Window.h"
-#include "../../System/Shader/Shader.h"
+#include "../../System/Shader/DataTransfer.h"
 #include "../../System/Shader/ShaderBinder.h"
 #include "../../System/Texture/Texture.h"
 #include "../../System/Texture/RenderTexture.h"
@@ -73,7 +73,7 @@ void ShadowMap::drawBegin(const Vector3& dirLightDirection) {
 void ShadowMap::draw(const MeshRenderer& renderer) const {
     SimpleMeshConstantBuffer smcb{};
     smcb.wvp = renderer.transform().getWorldTransform() * mShadowConstBuffer.lightView * mShadowConstBuffer.lightProj;
-    AssetsManager::instance().getShaderFormID(mDepthTextureCreateShaderID).transferData(&smcb, sizeof(smcb));
+    DataTransfer::transferConstantBuffer(mDepthTextureCreateShaderID, &smcb);
 
     const auto& meshComp = renderer.getMeshComponent();
     const auto& drawer = meshComp.getDrawer();
@@ -84,7 +84,7 @@ void ShadowMap::draw(const MeshRenderer& renderer) const {
 }
 
 void ShadowMap::setShadowConstantBuffer(MeshRenderer& renderer) {
-    renderer.getMeshShader().setTransferData(&mShadowConstBuffer, sizeof(mShadowConstBuffer), 2);
+    renderer.getMeshShader().setTransferData(&mShadowConstBuffer, 2);
 }
 
 void ShadowMap::drawEnd() const {

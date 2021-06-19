@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "../AssetsManager.h"
 #include "../Shader/ConstantBuffers.h"
-#include "../Shader/Shader.h"
+#include "../Shader/DataTransfer.h"
 #include "../Shader/ShaderBinder.h"
 #include "../../DirectX/DirectXInclude.h"
 #include "../../Mesh/Mesh.h"
@@ -38,13 +38,12 @@ void MeshRenderOnTexture::drawMeshOnTexture(const Matrix4& viewProj) const {
     ShaderBinder::bind(mMeshShaderID);
 
     SimpleMeshConstantBuffer meshcb = { Matrix4::identity * viewProj };
-    auto& shader = AssetsManager::instance().getShaderFormID(mMeshShaderID);
-    shader.transferData(&meshcb, sizeof(meshcb), 0);
+    DataTransfer::transferConstantBuffer(mMeshShaderID, &meshcb, 0);
 
     for (size_t i = 0; i < mMesh->getMeshCount(); ++i) {
         MaterialConstantBuffer matcb{};
         MeshCommonShaderSetter::setMaterial(matcb, mMesh->getMaterial(i));
-        shader.transferData(&matcb, sizeof(matcb), 1);
+        DataTransfer::transferConstantBuffer(mMeshShaderID, &matcb, 1);
 
         mMesh->draw(i);
     }

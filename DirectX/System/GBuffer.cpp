@@ -2,7 +2,7 @@
 #include "AssetsManager.h"
 #include "Window.h"
 #include "Shader/ConstantBuffers.h"
-#include "Shader/Shader.h"
+#include "Shader/DataTransfer.h"
 #include "Shader/ShaderBinder.h"
 #include "../Component/Engine/Camera/Camera.h"
 #include "../Component/Engine/Light/DirectionalLight.h"
@@ -126,7 +126,7 @@ void GBuffer::renderFromTexture(const Camera& camera, const LightManager& lightM
     cb.ambientLight = lightManager.getAmbientLight();
 
     //シェーダーにデータ転送
-    AssetsManager::instance().getShaderFormID(mDefferdShaderID).transferData(&cb, sizeof(cb));
+    DataTransfer::transferConstantBuffer(mDefferdShaderID, &cb);
 
     //スクリーンサイズのポリゴンをレンダー
     dx.setPrimitive(PrimitiveType::TRIANGLE_LIST);

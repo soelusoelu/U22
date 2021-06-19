@@ -6,6 +6,7 @@
 #include "../../../Mesh/MeshCommonShaderSetter.h"
 #include "../../../System/AssetsManager.h"
 #include "../../../System/Shader/ConstantBuffers.h"
+#include "../../../System/Shader/DataTransfer.h"
 #include "../../../System/Shader/Shader.h"
 #include "../../../System/Shader/ShaderBinder.h"
 #include "../../../System/Texture/Texture.h"
@@ -55,8 +56,7 @@ void MeshShader::transferData() {
 
     //すべてのデータを転送する
     for (const auto& transferData : mTransferDataMap) {
-        const auto& data = transferData.second;
-        AssetsManager::instance().getShaderFormID(mShaderID).transferData(data.data, data.size, transferData.first);
+        DataTransfer::transferConstantBuffer(mShaderID, transferData.second, transferData.first);
     }
 }
 
@@ -70,17 +70,17 @@ void MeshShader::setCommonValue(
     //シェーダーのコンスタントバッファーに各種データを渡す
     MeshCommonConstantBuffer meshcb{};
     MeshCommonShaderSetter::setCommon(meshcb, transform().getWorldTransform(), view, projection, cameraPosition, dirLightDirection, dirLightColor);
-    AssetsManager::instance().getShaderFormID(mShaderID).transferData(&meshcb, sizeof(meshcb), 0);
+    DataTransfer::transferConstantBuffer(mShaderID, &meshcb, 0);
 }
 
 void MeshShader::setMaterialData(unsigned materialIndex, unsigned constantBufferIndex) const {
     MaterialConstantBuffer matcb{};
     MeshCommonShaderSetter::setMaterial(matcb, mMesh->getMaterial(materialIndex));
-    AssetsManager::instance().getShaderFormID(mShaderID).transferData(&matcb, sizeof(matcb), constantBufferIndex);
+    DataTransfer::transferConstantBuffer(mShaderID, &matcb, constantBufferIndex);
 }
 
-void MeshShader::setTransferData(const void* data, unsigned size, unsigned constantBufferIndex) {
-    mTransferDataMap[constantBufferIndex] = { data, size };
+void MeshShader::setTransferData(const void* data, unsigned constantBufferIndex) {
+    mTransferDataMap[constantBufferIndex] = data;
 }
 
 void MeshShader::setInterface(const IMesh* mesh, const IAnimation* anim) {

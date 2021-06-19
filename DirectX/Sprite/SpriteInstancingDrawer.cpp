@@ -1,6 +1,6 @@
 ﻿#include "SpriteInstancingDrawer.h"
 #include "Sprite.h"
-#include "../System/Shader/Shader.h"
+#include "../System/Shader/DataTransfer.h"
 #include "../System/Shader/ShaderBinder.h"
 #include "../System/Texture/Texture.h"
 #include "../System/Texture/TextureBinder.h"
@@ -53,21 +53,11 @@ void SpriteInstancingDrawer::instancingDraw(const Sprite& sprite, const Matrix4&
     ShaderBinder::bind(sprite.getShaderID());
 
     //シェーダーにデータ転送
-    const auto& shader = sprite.shader();
-
-    D3D11_MAPPED_SUBRESOURCE mapRes = { 0 };
-    //開く
-    if (shader.map(&mapRes, mInputBuffer->buffer())) {
-        auto out = static_cast<TextureConstantBuffer*>(mapRes.pData);
-        if (!out) {
-            return;
-        }
-        for (size_t i = 0; i < mInstancingData.size(); i++) {
-            memcpy_s(&out[i], sizeof(out[i]), &mInstancingData[i], sizeof(mInstancingData[i]));
-        }
-        //閉じる
-        shader.unmap(mInputBuffer->buffer());
-    }
+    DataTransfer::transferData(
+        *mInputBuffer,
+        mInstancingData.data(),
+        mInstancingData.size()
+    );
 
     //描画
     MyDirectX::DirectX::instance().drawIndexedInstanced(6, mInstancingData.size());

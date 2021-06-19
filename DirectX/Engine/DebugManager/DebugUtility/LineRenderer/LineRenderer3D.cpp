@@ -2,7 +2,7 @@
 #include "../../../../DirectX/DirectXInclude.h"
 #include "../../../../System/AssetsManager.h"
 #include "../../../../System/Shader/ConstantBuffers.h"
-#include "../../../../System/Shader/Shader.h"
+#include "../../../../System/Shader/DataTransfer.h"
 #include "../../../../System/Shader/ShaderBinder.h"
 #include "../../../../Transform/Transform3D.h"
 #include <vector>
@@ -60,7 +60,7 @@ void LineRenderer3D::drawLine(const Line3DParam& param, const Matrix4& proj) con
     cb.color = Vector4(param.color, 1.f);
 
     //シェーダーにデータ転送
-    AssetsManager::instance().getShaderFormID(mShaderID).transferData(&cb, sizeof(cb));
+    DataTransfer::transferConstantBuffer(mShaderID, &cb);
 
     //描画
     MyDirectX::DirectX::instance().drawIndexed(2);

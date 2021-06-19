@@ -12,7 +12,7 @@
 #include "../../../Mesh/Mesh.h"
 #include "../../../System/AssetsManager.h"
 #include "../../../System/Shader/ConstantBuffers.h"
-#include "../../../System/Shader/Shader.h"
+#include "../../../System/Shader/DataTransfer.h"
 #include "../../../System/Shader/ShaderBinder.h"
 #include "../../../System/Texture/TextureFromFile.h"
 #include "../../../Transform/Transform3D.h"
@@ -138,11 +138,15 @@ void MeshOutLine::drawOutLine(const Matrix4& view, const Matrix4& projection) co
     outlinecb.wvp = world * view * projection;
     outlinecb.outlineColor = Vector4(mOutLineColor, 1.f);
     const auto& shader = AssetsManager::instance().getShaderFormID(mOutLineShaderID);
-    shader.transferData(&outlinecb, sizeof(outlinecb), 0);
+    DataTransfer::transferConstantBuffer(mOutLineShaderID, &outlinecb, 0);
 
     //アニメーションするならボーンのデータも渡す
     if (mIsAnimation) {
-        shader.transferData(mSkinMesh->getBoneCurrentFrameMatrix().data(), sizeof(SkinMeshConstantBuffer), 1);
+        DataTransfer::transferConstantBuffer(
+            mOutLineShaderID,
+            mSkinMesh->getBoneCurrentFrameMatrix().data(),
+            1
+        );
     }
 
     //アウトラインを描画する

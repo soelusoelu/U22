@@ -38,37 +38,6 @@ void Shader::finalize() {
     safeDelete(inputElementManager);
 }
 
-void Shader::transferData(const void* data, unsigned size, unsigned constantBufferIndex) const {
-    //コンスタントバッファを登録する
-    setVSConstantBuffers(constantBufferIndex);
-    setPSConstantBuffers(constantBufferIndex);
-
-    D3D11_MAPPED_SUBRESOURCE mapRes = { 0 };
-    //開く
-    if (map(&mapRes, mConstantBuffers[constantBufferIndex]->buffer())) {
-        //データ転送
-        memcpy_s(mapRes.pData, mapRes.RowPitch, data, size);
-        //閉じる
-        unmap(mConstantBuffers[constantBufferIndex]->buffer());
-    }
-}
-
-bool Shader::map(D3D11_MAPPED_SUBRESOURCE* mapRes, ID3D11Buffer* buffer, unsigned sub, D3D11_MAP type, unsigned flag) const {
-    return SUCCEEDED(MyDirectX::DirectX::instance().deviceContext()->Map(buffer, sub, type, flag, mapRes));
-}
-
-void Shader::unmap(ID3D11Buffer* buffer, unsigned sub) const {
-    MyDirectX::DirectX::instance().deviceContext()->Unmap(buffer, sub);
-}
-
-void Shader::setVSConstantBuffers(unsigned index, unsigned numBuffers) const {
-    MyDirectX::DirectX::instance().deviceContext()->VSSetConstantBuffers(index, numBuffers, mConstantBuffers[index]->bufferAddres());
-}
-
-void Shader::setPSConstantBuffers(unsigned index, unsigned numBuffers) const {
-    MyDirectX::DirectX::instance().deviceContext()->PSSetConstantBuffers(index, numBuffers, mConstantBuffers[index]->bufferAddres());
-}
-
 ID3D11VertexShader* Shader::getVertexShader() const {
     return mVertexShader.Get();
 }

@@ -3,7 +3,7 @@
 #include "../DirectX/DirectXInclude.h"
 #include "../System/AssetsManager.h"
 #include "../System/shader/ConstantBuffers.h"
-#include "../System/shader/Shader.h"
+#include "../System/shader/DataTransfer.h"
 #include "../System/shader/ShaderBinder.h"
 #include "../System/Texture/Texture.h"
 #include "../System/Texture/TextureBinder.h"
@@ -55,13 +55,13 @@ void Sprite::draw(const Matrix4& proj) const {
     ShaderBinder::bind(mShaderID);
 
     //シェーダーのコンスタントバッファーに各種データを渡す
-    TextureConstantBuffer cb;
+    TextureConstantBuffer cb{};
     cb.wp = mTransform->getWorldTransform() * proj;
     cb.color = Vector4(mColor, mAlpha);
     cb.uv = mUV;
 
     //シェーダーにデータ転送
-    shader().transferData(&cb, sizeof(cb));
+    DataTransfer::transferConstantBuffer(mShaderID, &cb);
 
     //プリミティブをレンダリング
     MyDirectX::DirectX::instance().drawIndexed(6);

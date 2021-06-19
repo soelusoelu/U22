@@ -7,7 +7,7 @@
 #include "../../../System/AssetsManager.h"
 #include "../../../System/Window.h"
 #include "../../../System/Shader/ConstantBuffers.h"
-#include "../../../System/Shader/Shader.h"
+#include "../../../System/Shader/DataTransfer.h"
 #include "../../../System/Shader/ShaderBinder.h"
 #include "../../../System/Texture/Texture.h"
 #include "../../../System/Texture/TextureBinder.h"
@@ -125,7 +125,7 @@ void Sprite3D::draw(const Matrix4& viewProj) const {
     cb.uv = mUV;
 
     //シェーダーにデータ転送
-    shader().transferData(&cb, sizeof(cb));
+    DataTransfer::transferConstantBuffer(mShaderID, &cb);
 
     //プリミティブをレンダリング
     MyDirectX::DirectX::instance().drawIndexed(6);
@@ -157,7 +157,7 @@ void Sprite3D::drawBillboard(const Matrix4& invView, const Matrix4& viewProj) {
     cb.uv = mUV;
 
     //シェーダーにデータ転送
-    shader().transferData(&cb, sizeof(cb));
+    DataTransfer::transferConstantBuffer(mShaderID, &cb);
 
     //プリミティブをレンダリング
     MyDirectX::DirectX::instance().drawIndexed(6);
