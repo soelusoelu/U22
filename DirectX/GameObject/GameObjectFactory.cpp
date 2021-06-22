@@ -13,6 +13,7 @@
 #include "../Component/Engine/Collider/AABBAnimationCollider.h"
 #include "../Component/Engine/Collider/CircleCollider.h"
 #include "../Component/Engine/Collider/OBBAnimationCollider.h"
+#include "../Component/Engine/Collider/OBBCollider.h"
 #include "../Component/Engine/Collider/SphereCollider.h"
 #include "../Component/Engine/Light/DirectionalLight.h"
 #include "../Component/Engine/Light/PointLightComponent.h"
@@ -89,6 +90,7 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(AABBAnimationCollider);
     ADD_COMPONENT(CircleCollider);
     ADD_COMPONENT(OBBAnimationCollider);
+    ADD_COMPONENT(OBBCollider);
     ADD_COMPONENT(SphereCollider);
 
     ADD_COMPONENT(DirectionalLight);

@@ -65,9 +65,12 @@ OBB OBBCreater::create(const MeshVertices& vertices) {
     Vector3 center3 = vec3 * (max3 + min3);
     result.center = (center1 + center2 + center3) / 2.f;
 
-    result.edges[0] = vec1 * (max1 - min1);
-    result.edges[1] = vec2 * (max2 - min2);
-    result.edges[2] = vec3 * (max3 - min3);
+    auto right = vec1 * (max1 - min1) / 2.f;
+    auto top = vec2 * (max2 - min2) / 2.f;
+    auto forward = vec3 * (max3 - min3) / 2.f;
+    result.rotation = Quaternion::lookRotation(Vector3::normalize(forward), Vector3::normalize(top));
+
+    result.extents = Vector3(right.length(), top.length(), forward.length());
 
     return result;
 }
@@ -145,7 +148,7 @@ Matrix3 OBBCreater::computeEigenvector(const Matrix3& mat) {
         float cos = Math::sqrt((1.f + gamma) / 2.f);
 
         if (alpha * beta < 0.f) {
-            sin = -sin;
+            sin *= -1.f;
         }
 
         for (int i = 0; i < 3; ++i) {

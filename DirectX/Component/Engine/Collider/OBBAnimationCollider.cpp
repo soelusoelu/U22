@@ -131,16 +131,27 @@ void OBBAnimationCollider::renderCollision() {
         }
 
         const auto& obb = target.obb;
-        const auto& edges = obb.edges;
-        Vector3 ftr = obb.center + (edges[0] / 2.f) + (edges[1] / 2.f) + (edges[2] / 2.f);
-        Vector3 fbr = ftr - edges[2];
-        Vector3 ftl = ftr - edges[0];
-        Vector3 fbl = ftl - edges[2];
+        const auto& center = obb.center;
+        const auto& rot = obb.rotation;
+        const auto& extents = obb.extents;
 
-        Vector3 btr = ftr - edges[1];
-        Vector3 bbr = btr - edges[2];
-        Vector3 btl = btr - edges[0];
-        Vector3 bbl = btl - edges[2];
+        Vector3 ftr = extents;
+        ftr = Vector3::transform(ftr, rot) + center;
+        Vector3 fbr = Vector3(extents.x, -extents.y, extents.z);
+        fbr = Vector3::transform(fbr, rot) + center;
+        Vector3 ftl = Vector3(-extents.x, extents.y, extents.z);
+        ftl = Vector3::transform(ftl, rot) + center;
+        Vector3 fbl = Vector3(-extents.x, -extents.y, extents.z);
+        fbl = Vector3::transform(fbl, rot) + center;
+
+        Vector3 btr = Vector3(extents.x, extents.y, -extents.z);
+        btr = Vector3::transform(btr, rot) + center;
+        Vector3 bbr = Vector3(extents.x, -extents.y, -extents.z);
+        bbr = Vector3::transform(bbr, rot) + center;
+        Vector3 btl = Vector3(-extents.x, extents.y, -extents.z);
+        btl = Vector3::transform(btl, rot) + center;
+        Vector3 bbl = -extents;
+        bbl = Vector3::transform(bbl, rot) + center;
 
         Debug::renderLine(ftr, fbr, ColorPalette::lightGreen);
         Debug::renderLine(ftr, ftl, ColorPalette::lightGreen);
@@ -156,6 +167,10 @@ void OBBAnimationCollider::renderCollision() {
         Debug::renderLine(ftl, btl, ColorPalette::lightGreen);
         Debug::renderLine(fbr, bbr, ColorPalette::lightGreen);
         Debug::renderLine(fbl, bbl, ColorPalette::lightGreen);
+
+        //Debug::renderLine(center, center + Vector3::right, ColorPalette::red);
+        //Debug::renderLine(center, center + Vector3::up, ColorPalette::blue);
+        //Debug::renderLine(center, center + Vector3::back, ColorPalette::green);
     }
 #endif // _DEBUG
 }

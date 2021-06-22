@@ -277,6 +277,7 @@
     <ClCompile Include="System\Texture\TextureBinder.cpp" />
     <ClCompile Include="System\Shader\ShaderBinder.cpp" />
     <ClCompile Include="System\Shader\DataTransfer.cpp" />
+    <ClCompile Include="Component\Engine\Collider\OBBCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -617,6 +618,7 @@
     <ClInclude Include="System\Texture\TextureBinder.h" />
     <ClInclude Include="System\Shader\ShaderBinder.h" />
     <ClInclude Include="System\Shader\DataTransfer.h" />
+    <ClInclude Include="Component\Engine\Collider\OBBCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />

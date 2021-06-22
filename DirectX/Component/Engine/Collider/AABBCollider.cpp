@@ -236,7 +236,7 @@ void AABBCollider::computeDefaultPoint() {
     mDefaultMax = max + t.getPivot();
 }
 
-void AABBCollider::renderCollision() {
+void AABBCollider::renderCollision() const {
 #ifdef _DEBUG
     if (!mIsRenderCollision) {
         return;

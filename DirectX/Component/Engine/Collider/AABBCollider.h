@@ -52,7 +52,7 @@ private:
     //最新の点からtransformを掛ける前の点を求める
     void computeDefaultPoint();
     //当たり判定を可視化する
-    void renderCollision();
+    void renderCollision() const;
 
 private:
     //当たり判定であるAABB
