@@ -8,6 +8,7 @@ FbxMeshParser::~FbxMeshParser() = default;
 //長いけど無駄にfor文を回さなくて済む
 void FbxMeshParser::parse(
     MeshVertices& meshVertices,
+    MeshVerticesPosition& meshVerticesPosition,
     Indices& indices,
     FbxMesh* fbxMesh
 ) const {
@@ -28,6 +29,7 @@ void FbxMeshParser::parse(
 
     //事前に拡張しとく
     meshVertices.resize(polygonVertexCount);
+    meshVerticesPosition.resize(polygonVertexCount);
 
     //メッシュごとのトランスフォームを計算
     FbxNode* node = fbxMesh->GetNode();
@@ -37,48 +39,35 @@ void FbxMeshParser::parse(
     auto s = FbxUtility::fbxDouble3ToVector3(node->LclScaling.Get());
     auto mat = Matrix4::createScale(s) * Matrix4::createFromQuaternion(q) * Matrix4::createTranslation(t);
 
-    int polygonCount = fbxMesh->GetPolygonCount();
-    int count = 0;
-    for (int i = 0; i < polygonCount; ++i) {
-        MeshVertex vertex{};
+    for (int i = 0; i < polygonVertexCount; ++i) {
+        MeshVertex vertex;
 
-        //ポリゴンの頂点数を取得する(三角ポリゴンか四角ポリゴンかを判別する)
-        int polygonSize = fbxMesh->GetPolygonSize(i);
+        int index = polygonVertices[i];
+        vertex.pos = FbxUtility::fbxVector4ToVector3(src[index]);
+        vertex.pos = Vector3::transform(vertex.pos, mat);
 
-        for (int j = 0; j < polygonSize; j++) {
-            int index = fbxMesh->GetPolygonVertex(i, j);
-            vertex.pos = FbxUtility::fbxVector4ToVector3(src[index], true);
-            vertex.pos = Vector3::transform(vertex.pos, mat);
+        vertex.normal = FbxUtility::fbxVector4ToVector3(normalArray[i]);
+        vertex.normal = Vector3::transform(vertex.normal, q);
 
-            vertex.normal = FbxUtility::fbxVector4ToVector3(normalArray[count], true);
-            vertex.normal = Vector3::transform(vertex.normal, q);
-
-            //UVは使用している場合のみ
-            if (uvArray.Size() > 0) {
-                vertex.uv.x = static_cast<float>(uvArray[count][0]);
-                vertex.uv.y = 1.f - static_cast<float>(uvArray[count][1]);
-            }
-
-            //頂点情報を格納
-            meshVertices[count] = vertex;
-
-            ++count;
+        //UVは使用している場合のみ
+        if (uvArray.Size() > 0) {
+            vertex.uv.x = static_cast<float>(uvArray[i][0]);
+            vertex.uv.y = 1.f - static_cast<float>(uvArray[i][1]);
         }
 
-        if (polygonSize == 3) {
-            //fbxは右手系なので、DirectXの左手系に直すために0->2->1の順にインデックスを格納していく
-            indices.emplace_back(i * 3);
-            indices.emplace_back(i * 3 + 2);
-            indices.emplace_back(i * 3 + 1);
-        } else if (polygonSize == 4) {
-            //fbxは右手系なので、DirectXの左手系に直すために0->2->1、0->3->2の順にインデックスを格納していく
-            indices.emplace_back(i * 4);
-            indices.emplace_back(i * 4 + 2);
-            indices.emplace_back(i * 4 + 1);
-            indices.emplace_back(i * 4);
-            indices.emplace_back(i * 4 + 3);
-            indices.emplace_back(i * 4 + 2);
-        }
+        //頂点情報を格納
+        meshVertices[i] = vertex;
+        meshVerticesPosition[i] = vertex.pos;
+    }
+
+    //indicesはポリゴン頂点数
+    indices.resize(polygonVertexCount);
+
+    for (int i = 0, polyCount = fbxMesh->GetPolygonCount(); i < polyCount; ++i) {
+        auto idx = i * 3;
+        indices[idx] = idx;
+        indices[idx + 1] = idx + 1;
+        indices[idx + 2] = idx + 2;
     }
 }
 

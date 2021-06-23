@@ -42,7 +42,7 @@ void AnimationViewer::setTPose() {
 bool AnimationViewer::isChangeMotion(int& nextMotionNumber) const {
     int keyNumber = Input::keyboard().getNumber();
     //数字キーが押されてなければ終了
-    if (keyNumber == -1) {
+    if (keyNumber == Keyboard::INVALID_NUMBER) {
         return false;
     }
     //数字キーが0なら終了(Tポーズ用)

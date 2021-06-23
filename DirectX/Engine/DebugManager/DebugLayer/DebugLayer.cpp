@@ -37,8 +37,10 @@ void DebugLayer::draw(EngineMode mode, DrawString& drawer, Matrix4& proj) const 
     if (mode == EngineMode::GAME) {
         mFixedDebugInfo->draw(drawer);
     }
+    if (mode == EngineMode::GAME || mode == EngineMode::MAP_EDITOR) {
+        mHierarchy->drawGameObjects(drawer);
+    }
 
-    mHierarchy->drawGameObjects(drawer);
     mInspector->drawInspect();
 }
 

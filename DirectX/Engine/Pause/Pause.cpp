@@ -34,10 +34,12 @@ void Pause::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson:
     inObj.AddMember("pause", props, alloc);
 }
 
-void Pause::initialize() {
+void Pause::initialize(IEngineFunctionChanger* modeChanger) {
     auto pos = mOffset;
     pos.x += Window::width();
     mButton = std::make_unique<SpriteButton>(nullptr, mFileName, pos);
+
+    modeChanger->callbackChangeMode([&](EngineMode mode) { onModeChange(mode); });
 }
 
 void Pause::update() {
@@ -52,4 +54,8 @@ void Pause::update() {
 
     //ボタンがクリックされた
     mIsPausing = !mIsPausing;
+}
+
+void Pause::onModeChange(EngineMode mode) {
+    mButton->setActive(mode == EngineMode::GAME);
 }

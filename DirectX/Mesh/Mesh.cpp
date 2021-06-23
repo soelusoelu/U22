@@ -34,6 +34,11 @@ const MeshVertices& Mesh::getMeshVertices(unsigned index) const {
     return mMeshesVertices[index];
 }
 
+const MeshVerticesPosition& Mesh::getMeshVerticesPosition(unsigned index) const {
+    assert(index < mMeshesVerticesPosition.size());
+    return mMeshesVerticesPosition[index];
+}
+
 const Indices& Mesh::getMeshIndices(unsigned index) const {
     assert(index < mMeshesIndices.size());
     return mMeshesIndices[index];
@@ -139,7 +144,15 @@ void Mesh::createMesh(const std::string& filePath) {
     }
 
     //メッシュを解析する
-    mMesh->parse(filePath, mMeshesVertices, mMeshesIndices, mMaterials, mMotions, mBones);
+    mMesh->parse(
+        filePath,
+        mMeshesVertices,
+        mMeshesVerticesPosition,
+        mMeshesIndices,
+        mMaterials,
+        mMotions,
+        mBones
+    );
 
     for (auto&& mat : mMaterials) {
         //テクスチャがないマテリアルは白テクスチャを代替する

@@ -21,9 +21,6 @@ void OBBAnimationCollider::start() {
 
     mMesh = getComponent<MeshComponent>();
     mAnimationCPU = getComponent<AnimationCPU>();
-    if (!mAnimationCPU) {
-        mAnimationCPU = addComponent<AnimationCPU>("AnimationCPU");
-    }
 
     //メッシュの数分拡張する
     unsigned meshCount = mMesh->getMesh()->getMeshCount();
@@ -42,7 +39,7 @@ void OBBAnimationCollider::lateUpdate() {
     Collider::lateUpdate();
 
     //OBBを更新する
-    //computeOBB();
+    computeOBB();
 
     //当たり判定を可視化する
     if (mIsRenderCollision) {
@@ -98,28 +95,25 @@ void OBBAnimationCollider::computeOBB() {
         if (!target.isActive) {
             continue;
         }
-        createOBB(i);
+        //createOBB(i);
+        updateOBB(i, i);
 
-        const auto& targets = target.concatenateTargets;
-        for (const auto& t : targets) {
-            updateOBB(i, t);
-        }
+        //const auto& targets = target.concatenateTargets;
+        //for (const auto& t : targets) {
+        //    updateOBB(i, t);
+        //}
     }
 }
 
 void OBBAnimationCollider::updateOBB(unsigned target, unsigned index) {
     //スキニング結果から更新する
-    //Vector3 min, max;
-    //computeMinMax(min, max, mAnimationCPU->getCurrentMotionVertexPositions(index));
-
-    //auto& obb = mOBBs[target].obb;
-    //obb.updateMinMax(min);
-    //obb.updateMinMax(max);
+    const auto& positions = mAnimationCPU->getCurrentMotionVertexPositions(index);
+    mOBBs[target].obb = OBBCreater::create(positions);
 }
 
 void OBBAnimationCollider::createOBB(unsigned meshIndex) {
-    const auto& vertices = mMesh->getMesh()->getMeshVertices(meshIndex);
-    mOBBs[meshIndex].obb = OBBCreater::create(vertices);
+    const auto& positions = mMesh->getMesh()->getMeshVerticesPosition(meshIndex);
+    mOBBs[meshIndex].obb = OBBCreater::create(positions);
 }
 
 void OBBAnimationCollider::renderCollision() {

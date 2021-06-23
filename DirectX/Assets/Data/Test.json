@@ -1,0 +1,18 @@
+{
+  "components": [
+    {
+      "type": "MeshComponent",
+      "properties": {
+        "fileName": "Player\\U22_player_whiteanime2.fbx"
+      }
+    },
+    {
+      "type": "OBBAnimationCollider",
+      "properties": {}
+    },
+    {
+      "type": "SimpleMotionChanger",
+      "properties": {}
+    }
+  ]
+}

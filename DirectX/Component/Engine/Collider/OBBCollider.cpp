@@ -14,7 +14,7 @@ void OBBCollider::start() {
     Collider::start();
 
     auto mesh = getComponent<MeshComponent>();
-    mOBB = OBBCreater::create(mesh->getMesh()->getMeshVertices(0));
+    mOBB = OBBCreater::create(mesh->getMesh()->getMeshVerticesPosition(0));
 }
 
 void OBBCollider::lateUpdate() {

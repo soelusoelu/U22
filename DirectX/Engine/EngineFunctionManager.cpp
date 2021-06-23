@@ -24,6 +24,26 @@ EngineFunctionManager::EngineFunctionManager()
 
 EngineFunctionManager::~EngineFunctionManager() = default;
 
+IEngineFunctionChanger& EngineFunctionManager::getModeChanger() const {
+    return *mFunctionChanger;
+}
+
+DebugManager& EngineFunctionManager::debug() const {
+    return *mDebugManager;
+}
+
+IPause& EngineFunctionManager::pause() const {
+    return *mPause;
+}
+
+AssetsRenderTextureManager& EngineFunctionManager::getAssetsRenderTextureManager() const {
+    return *mAssetsRenderTextureManager;
+}
+
+MapEditorMeshManager& EngineFunctionManager::getMapEditorMeshManager() const {
+    return *mMapEditor;
+}
+
 void EngineFunctionManager::loadProperties(const rapidjson::Value& inObj) {
     mDebugManager->loadProperties(inObj);
     mPause->loadProperties(inObj);
@@ -49,12 +69,12 @@ void EngineFunctionManager::initialize(
 ) {
 #ifdef _DEBUG
     mDebugManager->initialize(gameObjctsGetter, fpsGetter, mPause.get());
-    mPause->initialize();
     mFunctionChanger->initialize();
-    mMapEditor->initialize(mDebugManager->getDebugLayer().inspector(), mAssetsRenderTextureManager.get());
+    mPause->initialize(mFunctionChanger.get());
+    mMapEditor->initialize(mDebugManager->getDebugLayer().inspector(), this, mFunctionChanger.get(), mAssetsRenderTextureManager.get());
     mAssetsRenderTextureManager->initialize(getModeChanger());
     mSceneMeshOperator->initialize(camera, meshesGetter);
-    mModelViewer->initialize(engineModeGetter, mAssetsRenderTextureManager.get(), mAssetsRenderTextureManager->getCallbackSelectAssetsTexture());
+    mModelViewer->initialize(engineModeGetter, mAssetsRenderTextureManager.get(), mAssetsRenderTextureManager->getCallbackSelectAssetsTexture(), mFunctionChanger.get());
 #endif // _DEBUG
 }
 
@@ -95,32 +115,4 @@ void EngineFunctionManager::draw3D(
     mModelViewer->draw(mode, dirLight.getDirection(), dirLight.getLightColor());
     mDebugManager->draw3D(mode, renderer, camera.getViewProjection());
 #endif // _DEBUG
-}
-
-void EngineFunctionManager::onChangeMapEditorMode() {
-    mMapEditor->onChangeMapEditorMode();
-}
-
-void EngineFunctionManager::onChangeModelViewerMode() {
-    mModelViewer->onChangeModelViewerMode();
-}
-
-IEngineFunctionChanger& EngineFunctionManager::getModeChanger() const {
-    return *mFunctionChanger;
-}
-
-DebugManager& EngineFunctionManager::debug() const {
-    return *mDebugManager;
-}
-
-IPause& EngineFunctionManager::pause() const {
-    return *mPause;
-}
-
-AssetsRenderTextureManager& EngineFunctionManager::getAssetsRenderTextureManager() const {
-    return *mAssetsRenderTextureManager;
-}
-
-MapEditorMeshManager& EngineFunctionManager::getMapEditorMeshManager() const {
-    return *mMapEditor;
 }

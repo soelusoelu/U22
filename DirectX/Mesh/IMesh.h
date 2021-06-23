@@ -12,12 +12,14 @@ public:
     virtual ~IMesh() = default;
     //指定のマテリアルを設定する
     virtual void setMaterial(const Material& material, unsigned index) = 0;
-    //指定のマテリアルの取得
+    //指定のマテリアルの取得する
     virtual const Material& getMaterial(unsigned index) const = 0;
     //メッシュの数を取得する
     virtual unsigned getMeshCount() const = 0;
-    //指定の頂点情報を取得
+    //指定の頂点情報を取得する
     virtual const MeshVertices& getMeshVertices(unsigned index) const = 0;
+    //指定の頂点位置配列を取得する
+    virtual const MeshVerticesPosition& getMeshVerticesPosition(unsigned index) const = 0;
     //指定のインデックスバッファを取得する
     virtual const Indices& getMeshIndices(unsigned index) const = 0;
     //指定のメッシュのポリゴン数を取得する

@@ -278,6 +278,7 @@
     <ClCompile Include="System\Shader\ShaderBinder.cpp" />
     <ClCompile Include="System\Shader\DataTransfer.cpp" />
     <ClCompile Include="Component\Engine\Collider\OBBCollider.cpp" />
+    <ClCompile Include="Engine\ModelViewer\SaveModelViewerCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -619,6 +620,8 @@
     <ClInclude Include="System\Shader\ShaderBinder.h" />
     <ClInclude Include="System\Shader\DataTransfer.h" />
     <ClInclude Include="Component\Engine\Collider\OBBCollider.h" />
+    <ClInclude Include="Engine\ModelViewer\SaveModelViewerCollider.h" />
+    <ClInclude Include="Engine\IEngineManagingClassGetter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />
@@ -643,5 +646,6 @@
     <None Include="Assets\Data\Weapon.json" />
     <None Include="Assets\Data\BossEnemyUI.json" />
     <None Include="Assets\Data\Shield.json" />
+    <None Include="Assets\Data\Test.json" />
   </ItemGroup>
 </Project>

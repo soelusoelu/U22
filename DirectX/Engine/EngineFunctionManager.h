@@ -1,9 +1,8 @@
 ﻿#pragma once
 
 #include "EngineMode.h"
+#include "IEngineManagingClassGetter.h"
 #include "IEngineModeGetter.h"
-#include "IEngineFunctionChanger.h"
-#include "Pause/IPause.h"
 #include "../GameObject/IGameObjectsGetter.h"
 #include "../Math/Math.h"
 #include "../Mesh/IMeshesGetter.h"
@@ -15,19 +14,25 @@
 class Camera;
 class DirectionalLight;
 class Renderer;
-class DebugManager;
 class Pause;
 class EngineFuctionChanger;
-class MapEditorMeshManager;
-class AssetsRenderTextureManager;
 class SceneMeshOperator;
 class ModelViewer;
 
 //エンジン機能統括クラス
-class EngineFunctionManager {
+class EngineFunctionManager
+    : public IEngineManagingClassGetter
+{
 public:
     EngineFunctionManager();
     ~EngineFunctionManager();
+
+    virtual IEngineFunctionChanger& getModeChanger() const override;
+    virtual DebugManager& debug() const override;
+    virtual IPause& pause() const override;
+    virtual AssetsRenderTextureManager& getAssetsRenderTextureManager() const override;
+    virtual MapEditorMeshManager& getMapEditorMeshManager() const override;
+
     void loadProperties(const rapidjson::Value& inObj);
     void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj);
 
@@ -59,20 +64,6 @@ public:
         const Camera& camera,
         const DirectionalLight& dirLight
     ) const;
-
-    void onChangeMapEditorMode();
-    void onChangeModelViewerMode();
-
-    //エンジンモード変更者へのアクセス
-    IEngineFunctionChanger& getModeChanger() const;
-    //デバッグ機能へのアクセス
-    DebugManager& debug() const;
-    //ポーズ機能へのアクセス
-    IPause& pause() const;
-    //アセットテクスチャ管理者を取得する
-    AssetsRenderTextureManager& getAssetsRenderTextureManager() const;
-    //マップエディタ管理者を取得する
-    MapEditorMeshManager& getMapEditorMeshManager() const;
 
 private:
     EngineFunctionManager(const EngineFunctionManager&) = delete;

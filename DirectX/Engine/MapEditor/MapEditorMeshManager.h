@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include "../EngineMode.h"
+#include "../IEngineFunctionChanger.h"
+#include "../IEngineManagingClassGetter.h"
 #include "../AssetsRenderer/ICurrentSelectTextureGetter.h"
 #include "../DebugManager/DebugLayer/Inspector/IInspectorTargetSetter.h"
 #include "../../GameObject/IGameObjectsGetter.h"
@@ -21,6 +23,8 @@ public:
 
     void initialize(
         IInspectorTargetSetter* inspector,
+        IEngineManagingClassGetter* managingGetter,
+        IEngineFunctionChanger* modeChanger,
         const ICurrentSelectTextureGetter* textureGetter
     );
 
@@ -34,8 +38,6 @@ public:
         const Vector3& dirLightColor
     ) const;
 
-    //エンジン機能がマップエディタに変更されたとき
-    void onChangeMapEditorMode();
     //IGameObjectsGetterを取得する
     const IGameObjectsGetter* getGameObjects() const;
 
@@ -43,9 +45,13 @@ private:
     MapEditorMeshManager(const MapEditorMeshManager&) = delete;
     MapEditorMeshManager& operator=(const MapEditorMeshManager&) = delete;
 
+    //エンジンモード変更時
+    void onModeChange(EngineMode mode);
+
 private:
     std::unique_ptr<GameObjectManager> mGameObjectManager;
     std::unique_ptr<MeshManager> mMeshManager;
     std::unique_ptr<SimpleCamera> mCamera;
     std::unique_ptr<AssetsPlacement> mPlace;
+    IEngineManagingClassGetter* mEngineManagingClassGetter;
 };

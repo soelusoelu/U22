@@ -9,6 +9,8 @@
 #include "../../Mesh/MeshManager.h"
 #include "../../System/Texture/MeshRenderOnTexture.h"
 #include "../../Transform/Transform3D.h"
+#include "../../Input/Input.h"
+#include "SaveModelViewerCollider.h"
 
 ModelViewer::ModelViewer()
     : mEngineModeGetter(nullptr)
@@ -28,7 +30,8 @@ void ModelViewer::loadProperties(const rapidjson::Value& inObj) {
 void ModelViewer::initialize(
     const IEngineModeGetter* engineModeGetter,
     const ICurrentSelectTextureGetter* assetsTextureGetter,
-    ICallbackSelectAssetsTexture* callbackSelectAssetsTexture
+    ICallbackSelectAssetsTexture* callbackSelectAssetsTexture,
+    IEngineFunctionChanger* engineFunctionChanger
 ) {
     mEngineModeGetter = engineModeGetter;
     mAssetsTextureGetter = assetsTextureGetter;
@@ -37,18 +40,19 @@ void ModelViewer::initialize(
     mModelViewCamera->initialize();
 
     callbackSelectAssetsTexture->callbackSelectTexture([&] { onSelectAssetsTexture(); });
+    engineFunctionChanger->callbackChangeMode([&](EngineMode mode) { onChangeMode(mode); });
 
-    //auto p = std::make_shared<GameObject>();
-    ////ワールド行列の計算
-    //p->transform().computeWorldTransform();
-    ////床メッシュ作成
-    //auto mc = Component::addComponent<MeshComponent>(*p, "MeshComponent");
-    //mc->createMesh("Plane.fbx", "Assets\\Model\\Shape\\");
-    //auto mr = mc->getComponent<MeshRenderer>();
-    ////所有権保持のため
-    //mPlane = std::make_pair(p, mr);
-    ////床を影無しで追加
-    //mMeshManager->add(mr, false);
+    auto p = std::make_shared<GameObject>();
+    //ワールド行列の計算
+    p->transform().computeMatrix();
+    //床メッシュ作成
+    auto mc = Component::addComponent<MeshComponent>(*p, "MeshComponent");
+    mc->createMesh("Plane.fbx", "Assets\\Model\\Shape\\");
+    auto mr = mc->getComponent<MeshRenderer>();
+    //所有権保持のため
+    mPlane = std::make_pair(p, mr);
+    //床を影無しで追加
+    mMeshManager->add(mr, false);
 }
 
 void ModelViewer::update(EngineMode mode) {
@@ -57,9 +61,15 @@ void ModelViewer::update(EngineMode mode) {
             mTarget.first->update();
             mTarget.first->lateUpdate();
         }
+        if (mPlane.first) {
+            mPlane.first->update();
+            mPlane.first->lateUpdate();
+        }
 
         mModelViewCamera->update();
         mAnimationViewer->update();
+
+        saveModel();
     }
 }
 
@@ -104,6 +114,29 @@ void ModelViewer::onSelectAssetsTexture() {
     setTarget(newTarget, meshRenderer);
 }
 
-void ModelViewer::onChangeModelViewerMode() {
-    mMeshManager->registerThisToMeshRenderer();
+void ModelViewer::saveModel() {
+    const auto& keyboard = Input::keyboard();
+    bool pressedS = keyboard.getKeyDown(KeyCode::S);
+    bool pressedLeftControl = keyboard.getKey(KeyCode::LeftControl);
+    if (pressedLeftControl && pressedS) {
+        if (!mTarget.first) {
+            return;
+        }
+
+        SaveModelViewerCollider::save(*mTarget.first);
+    }
+}
+
+void ModelViewer::onChangeMode(EngineMode mode) {
+    bool isModelViewer = (mode == EngineMode::MODEL_VIEWER);
+    if (isModelViewer) {
+        mMeshManager->registerThisToMeshRenderer();
+    }
+
+    if (mTarget.first) {
+        mTarget.first->setActive(isModelViewer);
+    }
+    if (mPlane.first) {
+        mPlane.first->setActive(isModelViewer);
+    }
 }

@@ -22,33 +22,35 @@ Title::Title() :
 Title::~Title() = default;
 
 void Title::awake() {
-    auto player = GameObjectCreater::create("Player");
-    auto weapon = GameObjectCreater::create("Weapon");
-    auto shield = GameObjectCreater::create("Shield");
-    auto boss = GameObjectCreater::create("Enemy");
-    GameObjectCreater::create("Plane");
-    auto playerUIManager = GameObjectCreater::create("PlayerUI");
-    auto bossEnemyUIManager = GameObjectCreater::create("BossEnemyUI");
+    //auto player = GameObjectCreater::create("Player");
+    //auto weapon = GameObjectCreater::create("Weapon");
+    //auto shield = GameObjectCreater::create("Shield");
+    //auto boss = GameObjectCreater::create("Enemy");
+    //GameObjectCreater::create("Plane");
+    //auto playerUIManager = GameObjectCreater::create("PlayerUI");
+    //auto bossEnemyUIManager = GameObjectCreater::create("BossEnemyUI");
 
-    auto camera = GameObjectCreater::create("GameCamera");
+    //auto camera = GameObjectCreater::create("GameCamera");
 
-    const auto& camCompManager = camera->componentManager();
-    camCompManager.getComponent<GameCamera>()->setPlayer(player);
-    const auto& lockOn = camCompManager.getComponent<LockOn>();
-    lockOn->setPlayer(player);
-    auto enemys = gameObject().getGameObjectManager().findGameObjects("Enemy");
-    lockOn->setEnemys(enemys);
+    //const auto& camCompManager = camera->componentManager();
+    //camCompManager.getComponent<GameCamera>()->setPlayer(player);
+    //const auto& lockOn = camCompManager.getComponent<LockOn>();
+    //lockOn->setPlayer(player);
+    //auto enemys = gameObject().getGameObjectManager().findGameObjects("Enemy");
+    //lockOn->setEnemys(enemys);
 
-    const auto& playerCompManager = player->componentManager();
-    playerCompManager.getComponent<PlayerWalk>()->setILockOn(lockOn.get());
-    playerCompManager.getComponent<PlayerWeapon>()->setWeapon(weapon);
-    playerCompManager.getComponent<PlayerShield>()->setShield(shield);
+    //const auto& playerCompManager = player->componentManager();
+    //playerCompManager.getComponent<PlayerWalk>()->setILockOn(lockOn.get());
+    //playerCompManager.getComponent<PlayerWeapon>()->setWeapon(weapon);
+    //playerCompManager.getComponent<PlayerShield>()->setShield(shield);
 
-    boss->componentManager().getComponent<EnemyAI>()->setPlayer(player);
+    //boss->componentManager().getComponent<EnemyAI>()->setPlayer(player);
 
-    playerUIManager->componentManager().getComponent<PlayerUIManager>()->setPlayer(player);
+    //playerUIManager->componentManager().getComponent<PlayerUIManager>()->setPlayer(player);
 
-    bossEnemyUIManager->componentManager().getComponent<BossEnemyUIManager>()->setBoss(boss);
+    //bossEnemyUIManager->componentManager().getComponent<BossEnemyUIManager>()->setBoss(boss);
+
+    //GameObjectCreater::create("Test");
 }
 
 void Title::update() {

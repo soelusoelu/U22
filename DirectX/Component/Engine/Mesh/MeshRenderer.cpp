@@ -1,4 +1,5 @@
 ﻿#include "MeshRenderer.h"
+#include "AnimationCPU.h"
 #include "MeshComponent.h"
 #include "MeshShader.h"
 #include "SkinMeshComponent.h"
@@ -118,6 +119,13 @@ void MeshRenderer::createSkinMeshComponent() {
         skinMesh = addComponent<SkinMeshComponent>("SkinMeshComponent");
     }
     skinMesh->setValue(mMeshShader, iAnim);
+
+
+    //AnimationCPUがないなら追加する
+    auto animationCPU = getComponent<AnimationCPU>();
+    if (!animationCPU) {
+        addComponent<AnimationCPU>("AnimationCPU");
+    }
 }
 
 void MeshRenderer::addToManager() {

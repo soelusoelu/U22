@@ -25,12 +25,14 @@ public:
 
     //指定のマテリアルを設定する
     virtual void setMaterial(const Material& material, unsigned index) override;
-    //指定のマテリアルの取得
+    //指定のマテリアルの取得する
     virtual const Material& getMaterial(unsigned index) const override;
     //メッシュの数を取得する
     virtual unsigned getMeshCount() const override;
-    //指定の頂点情報を取得
+    //指定の頂点情報を取得する
     virtual const MeshVertices& getMeshVertices(unsigned index) const override;
+    //指定の頂点位置配列を取得する
+    virtual const MeshVerticesPosition& getMeshVerticesPosition(unsigned index) const override;
     //指定のインデックスバッファを取得する
     virtual const Indices& getMeshIndices(unsigned index) const override;
     //指定のメッシュのポリゴン数を取得する
@@ -72,6 +74,7 @@ private:
 private:
     std::unique_ptr<IMeshLoader> mMesh;
     std::vector<MeshVertices> mMeshesVertices;
+    std::vector<MeshVerticesPosition> mMeshesVerticesPosition;
     std::vector<Indices> mMeshesIndices;
     std::vector<Material> mMaterials;
     std::vector<Motion> mMotions;

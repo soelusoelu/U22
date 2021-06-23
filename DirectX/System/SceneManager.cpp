@@ -255,10 +255,5 @@ void SceneManager::onChangeMode(EngineMode mode) {
     if (mode == EngineMode::GAME) {
         mMeshManager->registerThisToMeshRenderer();
         mEngineManager->debug().getDebugLayer().hierarchy().setGameObjectsGetter(mGameObjectManager.get());
-    } else if (mode == EngineMode::MAP_EDITOR) {
-        mEngineManager->onChangeMapEditorMode();
-        mEngineManager->debug().getDebugLayer().hierarchy().setGameObjectsGetter(mEngineManager->getMapEditorMeshManager().getGameObjects());
-    } else if (mode == EngineMode::MODEL_VIEWER) {
-        mEngineManager->onChangeModelViewerMode();
     }
 }

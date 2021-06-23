@@ -22,9 +22,6 @@ void AABBAnimationCollider::start() {
 
     mMesh = getComponent<MeshComponent>();
     mAnimationCPU = getComponent<AnimationCPU>();
-    if (!mAnimationCPU) {
-        mAnimationCPU = addComponent<AnimationCPU>("AnimationCPU");
-    }
 
     //メッシュの数分拡張する
     unsigned meshCount = mMesh->getMesh()->getMeshCount();

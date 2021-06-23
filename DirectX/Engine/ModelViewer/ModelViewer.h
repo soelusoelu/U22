@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../EngineMode.h"
+#include "../IEngineFunctionChanger.h"
 #include "../IEngineModeGetter.h"
 #include "../AssetsRenderer/ICallbackSelectAssetsTexture.h"
 #include "../AssetsRenderer/ICurrentSelectTextureGetter.h"
@@ -29,7 +30,8 @@ public:
     void initialize(
         const IEngineModeGetter* engineModeGetter,
         const ICurrentSelectTextureGetter* assetsTextureGetter,
-        ICallbackSelectAssetsTexture* callbackSelectAssetsTexture
+        ICallbackSelectAssetsTexture* callbackSelectAssetsTexture,
+        IEngineFunctionChanger* engineFunctionChanger
     );
 
     //毎フレーム更新
@@ -51,13 +53,14 @@ public:
     //アセットテクスチャが選択されたとき
     void onSelectAssetsTexture();
 
-    //エンジン機能がモデルビューアに変更されたとき
-    void onChangeModelViewerMode();
-
-
 private:
     ModelViewer(const ModelViewer&) = delete;
     ModelViewer& operator=(const ModelViewer&) = delete;
+
+    //現在のモデル状態を保存する
+    void saveModel();
+    //エンジンモード変更時
+    void onChangeMode(EngineMode mode);
 
 private:
     const IEngineModeGetter* mEngineModeGetter;
