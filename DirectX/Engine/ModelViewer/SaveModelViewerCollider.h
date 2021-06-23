@@ -13,7 +13,4 @@ public:
 private:
     SaveModelViewerCollider(const SaveModelViewerCollider&) = delete;
     SaveModelViewerCollider& operator=(const SaveModelViewerCollider&) = delete;
-
-private:
-    static constexpr char EXTENSION[] = ".json";
 };

@@ -8,8 +8,8 @@ void SaveModelViewerCollider::save(const GameObject& target) {
     std::string filePath, filename;
     if (FileUtil::saveFileDialog(filePath, filename)) {
         //拡張子が指定されていなければ付け足す
-        if (filename.rfind(EXTENSION) == std::string::npos) {
-            filename += EXTENSION;
+        if (filename.rfind('.') == std::string::npos) {
+            filename += ".json";
         }
 
         //ファイルパスから必要な部分を抜き出す
