@@ -87,6 +87,18 @@
             ],
             "spriteButtonFilePath": "System/add_mesh.png"
         },
+        "assetsRenderTextureAdder": {
+            "directionDrawPosition": [
+                30.0,
+                20.0,
+                0.0
+            ],
+            "direction": [
+                44.999996185302737,
+                0.000005008955213270383,
+                0.000005008955213270383
+            ]
+        },
         "shadowMap": {
             "shadowTextureSize": 8192,
             "lightDistance": 290.0,

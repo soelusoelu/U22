@@ -87,6 +87,25 @@
             ],
             "spriteButtonFilePath": "System/add_mesh.png"
         },
+        "modelViewerLight": {
+            "direction": [
+                -0.9238805770874023,
+                -3.078413044477202e-7,
+                8.239695716838469e-7,
+                -0.38268086314201357
+            ],
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "directionDrawPosition": [
+                30.0,
+                20.0,
+                0.0
+            ],
+            "lengthDirection": 5.0
+        },
         "shadowMap": {
             "shadowTextureSize": 8192,
             "lightDistance": 290.0,

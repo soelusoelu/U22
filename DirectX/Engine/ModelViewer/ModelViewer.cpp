@@ -34,6 +34,11 @@ ModelViewer::~ModelViewer() = default;
 
 void ModelViewer::loadProperties(const rapidjson::Value& inObj) {
     mMeshManager->loadProperties(inObj);
+    mLight->loadProperties(inObj);
+}
+
+void ModelViewer::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) {
+    mLight->saveProperties(alloc, inObj);
 }
 
 void ModelViewer::initialize(

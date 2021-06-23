@@ -83,7 +83,7 @@ void LevelLoader::saveGameObject(
     const GameObject& gameObject,
     const std::string& directoryPath
 ) {
-    saveGameObject(gameObject, gameObject.name(), directoryPath);
+    saveGameObject(gameObject, gameObject.name() + ".json", directoryPath);
 }
 
 void LevelLoader::saveGameObject(
@@ -150,7 +150,7 @@ void LevelLoader::writeBuffer(
     const char* output = buffer.GetString();
 
     //文字列をファイルに書き込む
-    std::ofstream outFile(filePath + ".json");
+    std::ofstream outFile(filePath);
     if (outFile.is_open()) {
         outFile << output;
     }

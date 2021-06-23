@@ -58,6 +58,7 @@ void EngineFunctionManager::saveProperties(rapidjson::Document::AllocatorType& a
     mPause->saveProperties(alloc, inObj);
     mFunctionChanger->saveProperties(alloc, inObj);
     mAssetsRenderTextureManager->saveProperties(alloc, inObj);
+    mModelViewer->saveProperties(alloc, inObj);
 }
 
 void EngineFunctionManager::initialize(
