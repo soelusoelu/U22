@@ -25,7 +25,7 @@ void MapEditorMeshManager::loadProperties(const rapidjson::Value& inObj) {
 }
 
 void MapEditorMeshManager::initialize(
-    IInspectorTargetSetter* inspector,
+    IInspector* inspector,
     IEngineManagingClassGetter* managingGetter,
     IEngineFunctionChanger* modeChanger,
     const ICurrentSelectTextureGetter* textureGetter

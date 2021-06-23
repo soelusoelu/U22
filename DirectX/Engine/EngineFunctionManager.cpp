@@ -71,10 +71,21 @@ void EngineFunctionManager::initialize(
     mDebugManager->initialize(gameObjctsGetter, fpsGetter, mPause.get());
     mFunctionChanger->initialize();
     mPause->initialize(mFunctionChanger.get());
-    mMapEditor->initialize(mDebugManager->getDebugLayer().inspector(), this, mFunctionChanger.get(), mAssetsRenderTextureManager.get());
+    mMapEditor->initialize(
+        mDebugManager->getDebugLayer().inspector(),
+        this,
+        mFunctionChanger.get(),
+        mAssetsRenderTextureManager.get()
+    );
     mAssetsRenderTextureManager->initialize(getModeChanger());
     mSceneMeshOperator->initialize(camera, meshesGetter);
-    mModelViewer->initialize(engineModeGetter, mAssetsRenderTextureManager.get(), mAssetsRenderTextureManager->getCallbackSelectAssetsTexture(), mFunctionChanger.get());
+    mModelViewer->initialize(
+        engineModeGetter,
+        mAssetsRenderTextureManager.get(),
+        mAssetsRenderTextureManager->getCallbackSelectAssetsTexture(),
+        mFunctionChanger.get(),
+        this
+    );
 #endif // _DEBUG
 }
 
@@ -112,7 +123,7 @@ void EngineFunctionManager::draw3D(
 #ifdef _DEBUG
     mAssetsRenderTextureManager->drawMeshes(mode);
     mMapEditor->draw(mode, dirLight.getDirection(), dirLight.getLightColor());
-    mModelViewer->draw(mode, dirLight.getDirection(), dirLight.getLightColor());
+    mModelViewer->draw(mode);
     mDebugManager->draw3D(mode, renderer, camera.getViewProjection());
 #endif // _DEBUG
 }

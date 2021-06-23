@@ -4,7 +4,7 @@
 #include "../IEngineFunctionChanger.h"
 #include "../IEngineManagingClassGetter.h"
 #include "../AssetsRenderer/ICurrentSelectTextureGetter.h"
-#include "../DebugManager/DebugLayer/Inspector/IInspectorTargetSetter.h"
+#include "../DebugManager/DebugLayer/Inspector/IInspector.h"
 #include "../../GameObject/IGameObjectsGetter.h"
 #include "../../Math/Math.h"
 #include <rapidjson/document.h>
@@ -22,7 +22,7 @@ public:
     void loadProperties(const rapidjson::Value& inObj);
 
     void initialize(
-        IInspectorTargetSetter* inspector,
+        IInspector* inspector,
         IEngineManagingClassGetter* managingGetter,
         IEngineFunctionChanger* modeChanger,
         const ICurrentSelectTextureGetter* textureGetter

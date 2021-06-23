@@ -6,9 +6,11 @@
 #include "../../../../Imgui/imgui_impl_dx11.h"
 #include "../../../../Imgui/imgui_impl_win32.h"
 #include "../../../../Input/Input.h"
+#include "../../../../Math/Math.h"
 #include "../../../../System/Window.h"
 #include "../../../../Transform/Transform3D.h"
 #include "../../../../Utility/LevelLoader.h"
+#include <string>
 
 ImGuiInspector::ImGuiInspector()
     : mInspectorPositionX(0.f)
@@ -19,6 +21,10 @@ ImGuiInspector::~ImGuiInspector() = default;
 
 void ImGuiInspector::setTarget(const std::shared_ptr<GameObject>& target) {
     mTarget = target;
+}
+
+float ImGuiInspector::getInspectorPositionX() const {
+    return mInspectorPositionX;
 }
 
 void ImGuiInspector::loadProperties(const rapidjson::Value& inObj) {

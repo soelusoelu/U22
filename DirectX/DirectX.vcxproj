@@ -180,6 +180,8 @@
     <ClCompile Include="Component\Game\Enemy\EnemyMove.cpp" />
     <ClCompile Include="Component\Engine\Collider\OBBCollider.cpp" />
     <ClCompile Include="Engine\ModelViewer\SaveModelViewerCollider.cpp" />
+    <ClCompile Include="Engine\ModelViewer\ModelViewerLight.cpp" />
+    <ClCompile Include="Engine\ModelViewer\ModelViewerPlane.cpp" />
     <ClCompile Include="System\Shader\DataTransfer.cpp" />
     <ClCompile Include="Engine\Camera\EngineCamera.cpp" />
     <ClCompile Include="Engine\EngineFuctionChanger.cpp" />
@@ -445,8 +447,11 @@
     <ClInclude Include="Component\Game\Enemy\EnemyAI.h" />
     <ClInclude Include="Component\Game\Enemy\EnemyMove.h" />
     <ClInclude Include="Component\Engine\Collider\OBBCollider.h" />
+    <ClInclude Include="Engine\DebugManager\DebugLayer\Inspector\IInspector.h" />
     <ClInclude Include="Engine\IEngineManagingClassGetter.h" />
     <ClInclude Include="Engine\ModelViewer\SaveModelViewerCollider.h" />
+    <ClInclude Include="Engine\ModelViewer\ModelViewerLight.h" />
+    <ClInclude Include="Engine\ModelViewer\ModelViewerPlane.h" />
     <ClInclude Include="System\Shader\DataTransfer.h" />
     <ClInclude Include="Engine\Camera\EngineCamera.h" />
     <ClInclude Include="Engine\EngineFuctionChanger.h" />
@@ -459,7 +464,6 @@
     <ClInclude Include="Component\Engine\Camera\CameraHelper.h" />
     <ClInclude Include="Engine\DebugManager\DebugManager.h" />
     <ClInclude Include="Engine\DebugManager\DebugLayer\DebugLayer.h" />
-    <ClInclude Include="Engine\DebugManager\DebugLayer\Inspector\IInspectorTargetSetter.h" />
     <ClInclude Include="Engine\EngineFunctionManager.h" />
     <ClInclude Include="Engine\AssetsRenderer\AssetsRenderTextureDeleter.h" />
     <ClInclude Include="Collision\RaycastHit.h" />

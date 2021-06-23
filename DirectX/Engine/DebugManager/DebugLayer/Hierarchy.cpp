@@ -11,7 +11,7 @@
 
 Hierarchy::Hierarchy() :
     mGameObjectsGetter(nullptr),
-    mInspectorTargetSetter(nullptr),
+    mInspector(nullptr),
     mNumRowsToDisplay(0),
     mLineSpace(0.f),
     mInspectorPositionX(0.f),
@@ -52,9 +52,9 @@ void Hierarchy::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidj
     inObj.AddMember("hierarchy", props, alloc);
 }
 
-void Hierarchy::initialize(const IGameObjectsGetter* getter, IInspectorTargetSetter* setter) {
+void Hierarchy::initialize(const IGameObjectsGetter* getter, IInspector* inspector) {
     mGameObjectsGetter = getter;
-    mInspectorTargetSetter = setter;
+    mInspector = inspector;
 
     mCharWidth = DrawString::WIDTH * mScale.x;
     mCharHeight = DrawString::HEIGHT * mScale.y;
@@ -88,7 +88,7 @@ void Hierarchy::update() {
             continue;
         }
         if (b.second) {
-            mInspectorTargetSetter->setTarget(b.second);
+            mInspector->setTarget(b.second);
             break;
         }
     }

@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Inspector/IInspectorTargetSetter.h"
+#include "Inspector/IInspector.h"
 #include "../../../GameObject/IGameObjectsGetter.h"
 #include "../../../Math/Math.h"
 #include <rapidjson/document.h>
@@ -22,7 +22,7 @@ public:
     ~Hierarchy();
     void loadProperties(const rapidjson::Value& inObj);
     void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
-    void initialize(const IGameObjectsGetter* getter, IInspectorTargetSetter* setter);
+    void initialize(const IGameObjectsGetter* getter, IInspector* inspector);
     void update();
     //マネージャーに登録されてる全ゲームオブジェクトを表示
     void drawGameObjects(DrawString& drawString) const;
@@ -49,7 +49,7 @@ private:
 
 private:
     const IGameObjectsGetter* mGameObjectsGetter;
-    IInspectorTargetSetter* mInspectorTargetSetter;
+    IInspector* mInspector;
     ButtonGameObjectPairList mButtons;
     //画面に表示する行数
     int mNumRowsToDisplay;

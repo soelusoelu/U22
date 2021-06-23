@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Inspector/IInspectorTargetSetter.h"
+#include "Inspector/IInspector.h"
 #include "../../EngineMode.h"
 #include "../../../GameObject/IGameObjectsGetter.h"
 #include "../../../Math/Math.h"
@@ -25,7 +25,7 @@ public:
     void draw(EngineMode mode, DrawString& drawer, Matrix4& proj) const;
     FixedDebugInformation& fixedDebugInfo() const;
     Hierarchy& hierarchy() const;
-    IInspectorTargetSetter* inspector() const;
+    IInspector* inspector() const;
 
 private:
     DebugLayer(const DebugLayer&) = delete;

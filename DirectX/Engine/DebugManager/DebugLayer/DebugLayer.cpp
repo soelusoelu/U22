@@ -52,6 +52,6 @@ Hierarchy& DebugLayer::hierarchy() const {
     return *mHierarchy;
 }
 
-IInspectorTargetSetter* DebugLayer::inspector() const {
+IInspector* DebugLayer::inspector() const {
     return mInspector.get();
 }

@@ -64,20 +64,16 @@ void DebugUtility::draw(EngineMode mode, DrawString& drawer) const {
 }
 
 void DebugUtility::drawLine2D(EngineMode mode, const Renderer& renderer, Matrix4& proj) const {
-    if (mode == EngineMode::GAME) {
-        renderer.renderLine2D(proj);
-        mLineRenderer2D->draw(proj);
-    }
+    renderer.renderLine2D(proj);
+    mLineRenderer2D->draw(proj);
 }
 
 void DebugUtility::draw3D(EngineMode mode, const Renderer& renderer, const Matrix4& viewProj) const {
-    if (mode == EngineMode::GAME) {
-        renderer.renderPointLine3D();
-        renderer.renderPoint3D();
-        mPointRenderer->draw(viewProj);
-        renderer.renderLine3D();
-        mLineRenderer3D->draw(viewProj);
-    }
+    renderer.renderPointLine3D();
+    renderer.renderPoint3D();
+    mPointRenderer->draw(viewProj);
+    renderer.renderLine3D();
+    mLineRenderer3D->draw(viewProj);
 }
 
 Log& DebugUtility::log() const {
