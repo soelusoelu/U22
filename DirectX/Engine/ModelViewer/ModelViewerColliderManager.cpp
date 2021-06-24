@@ -35,6 +35,10 @@ void ModelViewerColliderManager::update(LineRenderer3D& line, const SimpleCamera
 }
 
 void ModelViewerColliderManager::drawTPoseBone(LineRenderer3D& line) const {
+    if (!isAnimation()) {
+        return;
+    }
+
     auto boneCount = mAnimation->getBoneCount();
 
     for (unsigned i = 0; i < boneCount; ++i) {
@@ -53,6 +57,10 @@ void ModelViewerColliderManager::drawTPoseBone(LineRenderer3D& line) const {
     }
 }
 
+bool ModelViewerColliderManager::isAnimation() const {
+    return (mSkinMesh) ? true : false;
+}
+
 void ModelViewerColliderManager::onChangeModel(const GameObject& newModel) {
     const auto& cm = newModel.componentManager();
     mMesh = cm.getComponent<MeshComponent>();
@@ -64,14 +72,17 @@ void ModelViewerColliderManager::onModeChange(ModelViewerMode mode) {
     FillMode fillMode = FillMode::SOLID;
 
     if (mode == ModelViewerMode::COLLIDER_OPERATE) {
-        //強制的にTポーズに変更する
-        mSkinMesh->tPose();
+        if (isAnimation()) {
+            //強制的にTポーズに変更する
+            mSkinMesh->tPose();
+        }
+
         //ワイヤーフレーム表示に変更する
         fillMode = FillMode::WIREFRAME;
     }
 
     //描画方法を変更する
-    mSkinMesh->getComponent<MeshRenderer>()->setFillMode(fillMode);
+    mMesh->getComponent<MeshRenderer>()->setFillMode(fillMode);
 }
 
 const Vector3 ModelViewerColliderManager::COLORS[] = {

@@ -24,6 +24,8 @@ private:
 
     //Tポーズ状態のボーンを描画する
     void drawTPoseBone(LineRenderer3D& line) const;
+    //アニメーション付きのモデルか
+    bool isAnimation() const;
     void onChangeModel(const GameObject& newModel);
     void onModeChange(ModelViewerMode mode);
 

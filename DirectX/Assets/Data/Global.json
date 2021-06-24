@@ -21,7 +21,7 @@
             "enterPad": "A"
         },
         "sceneManager": {
-            "beginScene": "Title",
+            "beginScene": "ModelViewer",
             "releaseScene": "Title",
             "removeExclusionTag": [
                 "Camera",
@@ -76,7 +76,10 @@
         "assetsRenderTextureList": {
             "textureSize": 64,
             "textureDisplayInterval": 32,
-            "texturesFilePath": []
+            "texturesFilePath": [
+                "Assets\\Model\\Shape\\box.fbx",
+                "Assets\\Model\\Player\\U22_player_whiteanime.fbx"
+            ]
         },
         "assetsRenderTextureAdder": {
             "renderPosition": [

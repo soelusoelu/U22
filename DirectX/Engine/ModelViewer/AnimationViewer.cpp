@@ -30,10 +30,6 @@ void AnimationViewer::update() {
 }
 
 void AnimationViewer::setTPose() {
-    if (!mAnimation) {
-        return;
-    }
-
     if (Input::keyboard().getKeyDown(KeyCode::Alpha0)) {
         mAnimation->tPose();
     }
@@ -67,6 +63,8 @@ bool AnimationViewer::isChangeMotion(int& nextMotionNumber) const {
 
 void AnimationViewer::onChangeModel(const GameObject& newModel) {
     mAnimation = newModel.componentManager().getComponent<SkinMeshComponent>();
-    //初期姿勢はTポーズ
-    mAnimation->tPose();
+    if (mAnimation) {
+        //初期姿勢はTポーズ
+        mAnimation->tPose();
+    }
 }
