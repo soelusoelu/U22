@@ -102,7 +102,7 @@ bool Intersect::intersectRayPolygon(const Ray& ray, const Triangle& polygon, Vec
     return intersectRayPolygon(ray, polygon.p0, polygon.p1, polygon.p2, intersectPoint);
 }
 
-bool Intersect::intersectRaySphere(const Ray& ray, const Sphere& sphere, Vector3& intersectPoint) {
+bool Intersect::intersectRaySphere(const Ray& ray, const Sphere& sphere, Vector3* intersectPoint) {
     //方程式のX, Y, a, b, cを計算
     Vector3 X = ray.start - sphere.center;
     Vector3 Y = ray.end - ray.start;
@@ -121,10 +121,14 @@ bool Intersect::intersectRaySphere(const Ray& ray, const Sphere& sphere, Vector3
     float tMax = (-b + disc) / (2.f * a);
     //tが線分の領域にあるのかチェック
     if (tMin >= 0.f && tMin <= 1.f) {
-        intersectPoint = ray.pointOnSegment(tMin);
+        if (intersectPoint) {
+            *intersectPoint = ray.pointOnSegment(tMin);
+        }
         return true;
     } else if (tMax >= 0.f && tMax <= 1.f) {
-        intersectPoint = ray.pointOnSegment(tMax);
+        if (intersectPoint) {
+            *intersectPoint = ray.pointOnSegment(tMax);
+        }
         return true;
     }
 

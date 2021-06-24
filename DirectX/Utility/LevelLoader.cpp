@@ -191,7 +191,7 @@ bool JsonHelper::getFloat(const rapidjson::Value& inObject, const char* inProper
     return true;
 }
 
-bool JsonHelper::getString(const rapidjson::Value& inObject, const char* inProperty, std::string * out) {
+bool JsonHelper::getString(const rapidjson::Value& inObject, const char* inProperty, std::string* out) {
     auto itr = inObject.FindMember(inProperty);
     if (itr == inObject.MemberEnd()) {
         return false;

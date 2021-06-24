@@ -6,15 +6,17 @@
 #include <memory>
 
 class GameObject;
+class MeshComponent;
 class SkinMeshComponent;
 class LineRenderer3D;
+class SimpleCamera;
 
 class ModelViewerColliderManager {
 public:
     ModelViewerColliderManager();
     ~ModelViewerColliderManager();
     void initialize(IModelViewerCallback* callback);
-    void update(LineRenderer3D& line);
+    void update(LineRenderer3D& line, const SimpleCamera& camera);
 
 private:
     ModelViewerColliderManager(const ModelViewerColliderManager&) = delete;
@@ -26,6 +28,7 @@ private:
     void onModeChange(ModelViewerMode mode);
 
 private:
+    std::shared_ptr<MeshComponent> mMesh;
     std::shared_ptr<SkinMeshComponent> mSkinMesh;
     IAnimation* mAnimation;
 

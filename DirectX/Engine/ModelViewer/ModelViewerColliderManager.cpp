@@ -1,11 +1,15 @@
 ﻿#include "ModelViewerColliderManager.h"
+#include "VertexSelector.h"
+#include "../Camera/SimpleCamera.h"
 #include "../DebugManager/DebugUtility/LineRenderer/LineRenderer3D.h"
 #include "../../Component/Engine/Mesh/MeshComponent.h"
 #include "../../Component/Engine/Mesh/MeshRenderer.h"
 #include "../../Component/Engine/Mesh/SkinMeshComponent.h"
+#include "../../Input/Input.h"
 
 ModelViewerColliderManager::ModelViewerColliderManager()
-    : mSkinMesh(nullptr)
+    : mMesh(nullptr)
+    , mSkinMesh(nullptr)
     , mAnimation(nullptr)
 {
 }
@@ -17,8 +21,17 @@ void ModelViewerColliderManager::initialize(IModelViewerCallback* callback) {
     callback->callbackModelChange([&](GameObject& newModel) { onChangeModel(newModel); });
 }
 
-void ModelViewerColliderManager::update(LineRenderer3D& line) {
+void ModelViewerColliderManager::update(LineRenderer3D& line, const SimpleCamera& camera) {
     drawTPoseBone(line);
+
+    Vector3 selected;
+    if (VertexSelector::selectVertexFromModel(selected, mMesh->getMesh(), camera, 0.05f)) {
+        if (Input::mouse().getMouseButton(MouseCode::LeftButton)) {
+            line.renderLine(selected, selected + Vector3::right * 3.f, ColorPalette::red);
+            line.renderLine(selected, selected + Vector3::up * 3.f, ColorPalette::red);
+            line.renderLine(selected, selected + Vector3::forward * 3.f, ColorPalette::red);
+        }
+    }
 }
 
 void ModelViewerColliderManager::drawTPoseBone(LineRenderer3D& line) const {
@@ -42,8 +55,9 @@ void ModelViewerColliderManager::drawTPoseBone(LineRenderer3D& line) const {
 
 void ModelViewerColliderManager::onChangeModel(const GameObject& newModel) {
     const auto& cm = newModel.componentManager();
+    mMesh = cm.getComponent<MeshComponent>();
     mSkinMesh = cm.getComponent<SkinMeshComponent>();
-    mAnimation = cm.getComponent<MeshComponent>()->getAnimation();
+    mAnimation = mMesh->getAnimation();
 }
 
 void ModelViewerColliderManager::onModeChange(ModelViewerMode mode) {

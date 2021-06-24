@@ -30,7 +30,7 @@ bool intersectRayPolygon(const Ray& ray, const Vector3& p0, const Vector3& p1, c
 bool intersectRayPolygon(const Ray& ray, const Triangle& polygon, Vector3* intersectPoint = nullptr);
 
 //球とレイの衝突判定を行う
-bool intersectRaySphere(const Ray& ray, const Sphere& sphere, Vector3& intersectPoint);
+bool intersectRaySphere(const Ray& ray, const Sphere& sphere, Vector3* intersectPoint = nullptr);
 
 //AABBとレイの衝突判定を行う
 bool intersectRayAABB(const Ray& ray, const AABB& aabb);

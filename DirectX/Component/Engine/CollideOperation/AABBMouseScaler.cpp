@@ -90,9 +90,8 @@ void AABBMouseScaler::selectBoxPoint() {
 
     //すべての面の中心位置を球に見立ててレイと球の当たり判定を行う
     Ray cameraToMousePos = mCamera->screenToRay(Input::mouse().getMousePosition());
-    Vector3 intersectPoint;
     for (const auto& surface : surfaces) {
-        if (Intersect::intersectRaySphere(cameraToMousePos, { surface.first, mEditPointRadius }, intersectPoint)) {
+        if (Intersect::intersectRaySphere(cameraToMousePos, { surface.first, mEditPointRadius })) {
             mSelectSurface = surface;
             mSelectedEditPoint = true;
             return;

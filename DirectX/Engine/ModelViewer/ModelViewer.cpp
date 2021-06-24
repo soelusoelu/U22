@@ -103,7 +103,7 @@ void ModelViewer::update(EngineMode mode) {
     if (mMode == ModelViewerMode::MODEL_VIEW) {
         mAnimationViewer->update();
     } else if (mMode == ModelViewerMode::COLLIDER_OPERATE) {
-        mColliderManager->update(*mLineRenderer3D);
+        mColliderManager->update(*mLineRenderer3D, mModelViewCamera->getCamera());
     }
 
     //全モード共通処理
