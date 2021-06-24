@@ -22,5 +22,5 @@ private:
 private:
     std::shared_ptr<GameObject> mShield;
 
-    static constexpr unsigned LEFT_HAND_BONE_NO = 14;
+    static constexpr unsigned LEFT_HAND_BONE_NO = 17;
 };

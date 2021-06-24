@@ -980,7 +980,6 @@
     <None Include="Assets\Data\Player.json" />
     <None Include="Assets\Data\PlayerUI.json" />
     <None Include="Assets\Data\Shield.json" />
-    <None Include="Assets\Data\Test.json" />
     <None Include="Assets\Data\Title.json" />
     <None Include="Assets\Data\Waveform.json" />
     <None Include="Assets\Data\Weapon.json" />
