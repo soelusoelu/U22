@@ -10,6 +10,10 @@ AnimationViewer::AnimationViewer()
 
 AnimationViewer::~AnimationViewer() = default;
 
+void AnimationViewer::initialize(IModelViewerCallback* callback) {
+    callback->callbackModelChange([&](GameObject& newModel) { onChangeModel(newModel); });
+}
+
 void AnimationViewer::update() {
     if (!mAnimation) {
         return;
@@ -23,10 +27,6 @@ void AnimationViewer::update() {
 
     //Tポーズ
     setTPose();
-}
-
-void AnimationViewer::onChangeModel(const GameObject& newModel) {
-    mAnimation = newModel.componentManager().getComponent<SkinMeshComponent>();
 }
 
 void AnimationViewer::setTPose() {
@@ -63,4 +63,10 @@ bool AnimationViewer::isChangeMotion(int& nextMotionNumber) const {
 
     nextMotionNumber = nextNum;
     return true;
+}
+
+void AnimationViewer::onChangeModel(const GameObject& newModel) {
+    mAnimation = newModel.componentManager().getComponent<SkinMeshComponent>();
+    //初期姿勢はTポーズ
+    mAnimation->tPose();
 }

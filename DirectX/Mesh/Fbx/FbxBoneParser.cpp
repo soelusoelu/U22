@@ -129,7 +129,7 @@ void FbxBoneParser::setParentChildren(
             break;
         }
     }
-    calcRelativeMatrix(*root, nullptr);
+    //calcRelativeMatrix(*root, nullptr);
 }
 
 void FbxBoneParser::calcRelativeMatrix(

@@ -182,6 +182,7 @@
     <ClCompile Include="Engine\ModelViewer\SaveModelViewerCollider.cpp" />
     <ClCompile Include="Engine\ModelViewer\ModelViewerLight.cpp" />
     <ClCompile Include="Engine\ModelViewer\ModelViewerPlane.cpp" />
+    <ClCompile Include="Engine\ModelViewer\ModelViewerColliderManager.cpp" />
     <ClCompile Include="System\Shader\DataTransfer.cpp" />
     <ClCompile Include="Engine\Camera\EngineCamera.cpp" />
     <ClCompile Include="Engine\EngineFuctionChanger.cpp" />
@@ -449,9 +450,12 @@
     <ClInclude Include="Component\Engine\Collider\OBBCollider.h" />
     <ClInclude Include="Engine\DebugManager\DebugLayer\Inspector\IInspector.h" />
     <ClInclude Include="Engine\IEngineManagingClassGetter.h" />
+    <ClInclude Include="Engine\ModelViewer\IModelViewerCallback.h" />
+    <ClInclude Include="Engine\ModelViewer\ModelViewerMode.h" />
     <ClInclude Include="Engine\ModelViewer\SaveModelViewerCollider.h" />
     <ClInclude Include="Engine\ModelViewer\ModelViewerLight.h" />
     <ClInclude Include="Engine\ModelViewer\ModelViewerPlane.h" />
+    <ClInclude Include="Engine\ModelViewer\ModelViewerColliderManager.h" />
     <ClInclude Include="System\Shader\DataTransfer.h" />
     <ClInclude Include="Engine\Camera\EngineCamera.h" />
     <ClInclude Include="Engine\EngineFuctionChanger.h" />

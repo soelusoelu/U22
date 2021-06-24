@@ -1,7 +1,7 @@
 ﻿#pragma once
 
+#include "IModelViewerCallback.h"
 #include "../IEngineFunctionChanger.h"
-#include "../../Mesh/IMesh.h"
 #include <memory>
 
 class GameObject;
@@ -13,16 +13,17 @@ public:
     ~ModelViewerPlane();
     void initialize(
         MeshManager& meshManager,
+        IModelViewerCallback* callback,
         IEngineFunctionChanger* modeChanger
     );
     void update();
     void drawGUI();
-    void onChangeModel(const IMesh& newModel);
 
 private:
     ModelViewerPlane(const ModelViewerPlane&) = delete;
     ModelViewerPlane& operator=(const ModelViewerPlane&) = delete;
 
+    void onChangeModel(const GameObject& newModel);
     void onModeChange(EngineMode mode);
 
 private:

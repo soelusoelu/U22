@@ -77,7 +77,8 @@
             "textureSize": 64,
             "textureDisplayInterval": 32,
             "texturesFilePath": [
-                "Assets\\Model\\Practice\\test.fbx"
+                "Assets\\Model\\Practice\\test.fbx",
+                "Assets\\Model\\Player\\U22_player_whiteanime.fbx"
             ]
         },
         "assetsRenderTextureAdder": {
@@ -89,10 +90,10 @@
         },
         "modelViewerLight": {
             "direction": [
-                -0.9238805770874023,
-                -3.078413044477202e-7,
-                8.239695716838469e-7,
-                -0.38268086314201357
+                0.9238795042037964,
+                -0.0000011889238749063225,
+                -0.0000011889238749063225,
+                -0.3826834559440613
             ],
             "color": [
                 1.0,

@@ -96,11 +96,11 @@ void GBuffer::renderToTexture() {
     dx.clearDepthStencilView();
 
     //デプステスト有効化
-    dx.depthStencilState()->depthTest(true);
+    dx.depthStencilState().depthTest(true);
     //デプスマスク有効化
-    dx.depthStencilState()->depthMask(true);
+    dx.depthStencilState().depthMask(true);
     //通常合成
-    dx.blendState()->normal();
+    dx.blendState().normal();
 }
 
 void GBuffer::renderFromTexture(const Camera& camera, const LightManager& lightManager) {
@@ -135,7 +135,7 @@ void GBuffer::renderFromTexture(const Camera& camera, const LightManager& lightM
     //インデックスバッファをセット
     mIndexBuffer->setIndexBuffer();
     //デプステスト無効化
-    dx.depthStencilState()->depthTest(false);
+    dx.depthStencilState().depthTest(false);
 
     dx.drawIndexed(6);
 }

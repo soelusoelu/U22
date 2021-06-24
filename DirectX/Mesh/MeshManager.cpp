@@ -56,13 +56,14 @@ void MeshManager::draw(
         return;
     }
 
-    MyDirectX::DirectX::instance().rasterizerState()->setCulling(CullMode::BACK);
-
     if (mShadowMap) {
         drawShadow(view, projection, cameraPosition, dirLightDirection, dirLightColor);
     }
 
     drawMeshes(view, projection, cameraPosition, dirLightDirection, dirLightColor);
+
+    //ワイヤーフレームになっているかも知れないからソリッドに戻す
+    MyDirectX::DirectX::instance().rasterizerState().setFillMode(FillMode::SOLID);
 }
 
 void MeshManager::clear() {

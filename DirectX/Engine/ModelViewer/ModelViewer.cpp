@@ -1,6 +1,7 @@
 ﻿#include "ModelViewer.h"
 #include "AnimationViewer.h"
 #include "ModelViewCamera.h"
+#include "ModelViewerColliderManager.h"
 #include "ModelViewerLight.h"
 #include "ModelViewerPlane.h"
 #include "SaveModelViewerCollider.h"
@@ -9,8 +10,10 @@
 #include "../DebugManager/DebugManager.h"
 #include "../DebugManager/DebugLayer/DebugLayer.h"
 #include "../DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
+#include "../DebugManager/DebugUtility/LineRenderer/LineRenderer3D.h"
 #include "../../Component/Engine/Mesh/MeshComponent.h"
 #include "../../Component/Engine/Mesh/MeshRenderer.h"
+#include "../../Device/Renderer.h"
 #include "../../GameObject/GameObject.h"
 #include "../../Input/Input.h"
 #include "../../Mesh/MeshManager.h"
@@ -22,15 +25,26 @@ ModelViewer::ModelViewer()
     : mEngineModeGetter(nullptr)
     , mAssetsTextureGetter(nullptr)
     , mMeshManager(std::make_unique<MeshManager>())
+    , mLineRenderer3D(std::make_unique<LineRenderer3D>())
     , mPlane(std::make_unique<ModelViewerPlane>())
     , mModelViewCamera(std::make_unique<ModelViewCamera>())
-    , mAnimationViewer(std::make_unique<AnimationViewer>())
     , mLight(std::make_unique<ModelViewerLight>())
+    , mAnimationViewer(std::make_unique<AnimationViewer>())
+    , mColliderManager(std::make_unique<ModelViewerColliderManager>())
+    , mMode(ModelViewerMode::MODEL_VIEW)
     , mGuiSizeX(0.f)
 {
 }
 
 ModelViewer::~ModelViewer() = default;
+
+void ModelViewer::callbackModeChange(const std::function<void(ModelViewerMode)>& f) {
+    mCallbackModeChange += f;
+}
+
+void ModelViewer::callbackModelChange(const std::function<void(GameObject&)>& f) {
+    mCallbackModelChange += f;
+}
 
 void ModelViewer::loadProperties(const rapidjson::Value& inObj) {
     mMeshManager->loadProperties(inObj);
@@ -52,30 +66,55 @@ void ModelViewer::initialize(
     mAssetsTextureGetter = assetsTextureGetter;
 
     mMeshManager->initialize();
-    mModelViewCamera->initialize();
-    mPlane->initialize(*mMeshManager, engineFunctionChanger);
+    mLineRenderer3D->initialize();
+    mModelViewCamera->initialize(this);
+    mAnimationViewer->initialize(this);
+    mPlane->initialize(*mMeshManager, this, engineFunctionChanger);
+    mColliderManager->initialize(this);
 
     callbackSelectAssetsTexture->callbackSelectTexture([&] { onSelectAssetsTexture(); });
     engineFunctionChanger->callbackChangeMode([&](EngineMode mode) { onChangeMode(mode); });
 
     auto inspectorPosX = engineManagingClassGetter->debug().getDebugLayer().inspector()->getInspectorPositionX();
     mGuiSizeX = inspectorPosX - Window::width();
-
 }
 
 void ModelViewer::update(EngineMode mode) {
-    if (mode == EngineMode::MODEL_VIEWER) {
-        if (mTarget.first) {
-            mTarget.first->update();
-            mTarget.first->lateUpdate();
-        }
-        mPlane->update();
+    //バッファ削除
+    mLineRenderer3D->clear();
 
-        mModelViewCamera->update();
-        mAnimationViewer->update();
-
-        saveModel();
+    if (mode != EngineMode::MODEL_VIEWER) {
+        return;
     }
+    if (!mTarget.first) {
+        return;
+    }
+
+    //タブキーが押されたらモードを切り替える
+    if (Input::keyboard().getKeyDown(KeyCode::Tab)) {
+        changeMode(
+            (mMode == ModelViewerMode::MODEL_VIEW)
+            ? ModelViewerMode::COLLIDER_OPERATE
+            : ModelViewerMode::MODEL_VIEW
+        );
+    }
+
+    //選択されているモードに応じて処理を分ける
+    if (mMode == ModelViewerMode::MODEL_VIEW) {
+        mAnimationViewer->update();
+    } else if (mMode == ModelViewerMode::COLLIDER_OPERATE) {
+        mColliderManager->update(*mLineRenderer3D);
+    }
+
+    //全モード共通処理
+    if (mTarget.first) {
+        mTarget.first->update();
+        mTarget.first->lateUpdate();
+    }
+    mPlane->update();
+    mModelViewCamera->update();
+
+    saveModel();
 }
 
 void ModelViewer::setTarget(
@@ -89,13 +128,13 @@ void ModelViewer::setTarget(
     mTarget = std::make_pair(targetObj, targetMesh);
     mMeshManager->add(targetMesh, true);
 
-    auto mesh = targetMesh->getMeshComponent().getMesh();
-    mModelViewCamera->onChangeModel(*mesh);
-    mAnimationViewer->onChangeModel(*targetObj);
-    mPlane->onChangeModel(*mesh);
+    mCallbackModelChange(*targetObj);
+
+    //強制的にビューモードにする
+    changeMode(ModelViewerMode::MODEL_VIEW);
 }
 
-void ModelViewer::draw(EngineMode mode) const {
+void ModelViewer::draw(EngineMode mode, const Renderer& renderer) const {
     if (mode == EngineMode::MODEL_VIEWER) {
         //パラメータ調整用GUI描画
         drawGUI();
@@ -109,6 +148,11 @@ void ModelViewer::draw(EngineMode mode) const {
             mLight->getDirection(),
             mLight->getColor()
         );
+
+        //ライン描画
+        renderer.renderPointLight();
+        renderer.renderLine3D();
+        mLineRenderer3D->draw(camera.getViewProjection());
     }
 }
 
@@ -128,6 +172,11 @@ void ModelViewer::drawGUI() const {
     mPlane->drawGUI();
 
     ImGui::End();
+}
+
+void ModelViewer::changeMode(ModelViewerMode mode) {
+    mMode = mode;
+    mCallbackModeChange(mode);
 }
 
 void ModelViewer::saveModel() {

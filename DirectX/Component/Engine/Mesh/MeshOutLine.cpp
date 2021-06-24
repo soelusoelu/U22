@@ -86,13 +86,14 @@ void MeshOutLine::drawBefore(
 ) const {
     if (mIsDrawOutLine) {
         //裏面のみ描画したいから
-        MyDirectX::DirectX::instance().rasterizerState()->setCulling(CullMode::FRONT);
+        auto& rs = MyDirectX::DirectX::instance().rasterizerState();
+        rs.setCulling(CullMode::FRONT);
 
         //アウトライン描画
         drawOutLine(view, projection);
 
         //設定を戻す
-        MyDirectX::DirectX::instance().rasterizerState()->setCulling(CullMode::BACK);
+        rs.setCulling(CullMode::BACK);
     }
 }
 

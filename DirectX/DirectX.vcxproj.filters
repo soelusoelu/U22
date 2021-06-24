@@ -281,6 +281,7 @@
     <ClCompile Include="Engine\ModelViewer\SaveModelViewerCollider.cpp" />
     <ClCompile Include="Engine\ModelViewer\ModelViewerLight.cpp" />
     <ClCompile Include="Engine\ModelViewer\ModelViewerPlane.cpp" />
+    <ClCompile Include="Engine\ModelViewer\ModelViewerColliderManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -626,6 +627,9 @@
     <ClInclude Include="Engine\ModelViewer\ModelViewerLight.h" />
     <ClInclude Include="Engine\DebugManager\DebugLayer\Inspector\IInspector.h" />
     <ClInclude Include="Engine\ModelViewer\ModelViewerPlane.h" />
+    <ClInclude Include="Engine\ModelViewer\ModelViewerColliderManager.h" />
+    <ClInclude Include="Engine\ModelViewer\ModelViewerMode.h" />
+    <ClInclude Include="Engine\ModelViewer\IModelViewerCallback.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />

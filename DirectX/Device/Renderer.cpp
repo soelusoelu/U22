@@ -32,11 +32,13 @@ void Renderer::renderMesh() const {
     //プリミティブ・トポロジーをセット
     dx.setPrimitive(PrimitiveType::TRIANGLE_LIST);
     //デプステスト有効化
-    dx.depthStencilState()->depthTest(true);
+    dx.depthStencilState().depthTest(true);
     //デプスマスク有効化
-    dx.depthStencilState()->depthMask(true);
+    dx.depthStencilState().depthMask(true);
     //半透明合成
-    dx.blendState()->translucent();
+    dx.blendState().translucent();
+    //裏面カリング
+    dx.rasterizerState().setCulling(CullMode::BACK);
 }
 
 void Renderer::renderLine2D(Matrix4& proj) const {
@@ -48,7 +50,7 @@ void Renderer::renderLine2D(Matrix4& proj) const {
     proj.m[1][1] = -2.f / Window::height();
 
     //デプステスト無効化
-    MyDirectX::DirectX::instance().depthStencilState()->depthTest(false);
+    MyDirectX::DirectX::instance().depthStencilState().depthTest(false);
 }
 
 void Renderer::renderPointLine3D() const {
@@ -56,10 +58,10 @@ void Renderer::renderPointLine3D() const {
     //ビューポートの設定
     dx.setViewport(Window::width(), Window::height());
     //半透明合成
-    dx.blendState()->translucent();
+    dx.blendState().translucent();
     //デプステスト有効化
-    dx.depthStencilState()->depthTest(true);
-    dx.depthStencilState()->depthMask(true);
+    dx.depthStencilState().depthTest(true);
+    dx.depthStencilState().depthMask(true);
 }
 
 void Renderer::renderLine3D() const {
@@ -82,9 +84,7 @@ void Renderer::renderSprite() const {
     //インデックスバッファーをセット
     Texture::indexBuffer->setIndexBuffer();
     //半透明合成
-    dx.blendState()->translucent();
-    //カリングオフ
-    dx.rasterizerState()->setCulling(CullMode::NONE);
+    dx.blendState().translucent();
 }
 
 void Renderer::renderSprite2D(Matrix4& proj) const {
@@ -98,7 +98,7 @@ void Renderer::renderSprite2D(Matrix4& proj) const {
     //バーテックスバッファーをセット
     Texture::vertexBuffer->setVertexBuffer();
     //デプステスト無効化
-    MyDirectX::DirectX::instance().depthStencilState()->depthTest(false);
+    MyDirectX::DirectX::instance().depthStencilState().depthTest(false);
 }
 
 void Renderer::renderSprite3D() const {
@@ -106,8 +106,10 @@ void Renderer::renderSprite3D() const {
     Texture::vertexBuffer3D->setVertexBuffer();
     //デプステスト有効化
     auto& dx = MyDirectX::DirectX::instance();
-    dx.depthStencilState()->depthTest(true);
-    dx.depthStencilState()->depthMask(true);
+    dx.depthStencilState().depthTest(true);
+    dx.depthStencilState().depthMask(true);
+    //カリングオフ
+    dx.rasterizerState().setCulling(CullMode::NONE);
 }
 
 void Renderer::renderToDebug(Matrix4& proj) const {
@@ -126,7 +128,7 @@ void Renderer::renderToDebug(Matrix4& proj) const {
     //バーテックスバッファーをセット
     Texture::vertexBuffer->setVertexBuffer();
     //デプステスト無効化
-    dx.depthStencilState()->depthTest(false);
+    dx.depthStencilState().depthTest(false);
 }
 
 void Renderer::renderPointLight() const {

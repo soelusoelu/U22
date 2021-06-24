@@ -16,8 +16,10 @@ ModelViewerPlane::~ModelViewerPlane() = default;
 
 void ModelViewerPlane::initialize(
     MeshManager& meshManager,
+    IModelViewerCallback* callback,
     IEngineFunctionChanger* modeChanger
 ) {
+    callback->callbackModelChange([&](const GameObject& newModel) { onChangeModel(newModel); });
     modeChanger->callbackChangeMode([&](EngineMode mode) { onModeChange(mode); });
 
     mPlane = std::make_shared<GameObject>();
@@ -48,12 +50,13 @@ void ModelViewerPlane::drawGUI() {
     }
 }
 
-void ModelViewerPlane::onChangeModel(const IMesh& newModel) {
+void ModelViewerPlane::onChangeModel(const GameObject& newModel) {
     //床の位置となるメッシュのY軸最低値を求める
-    auto meshCount = newModel.getMeshCount();
+    auto mesh = newModel.componentManager().getComponent<MeshComponent>()->getMesh();
+    auto meshCount = mesh->getMeshCount();
     float minY = FLT_MAX;
     for (unsigned i = 0; i < meshCount; ++i) {
-        const auto& vertices = newModel.getMeshVerticesPosition(i);
+        const auto& vertices = mesh->getMeshVerticesPosition(i);
         for (const auto& v : vertices) {
             if (v.y < minY) {
                 minY = v.y;

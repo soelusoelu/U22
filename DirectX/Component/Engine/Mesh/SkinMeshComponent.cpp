@@ -43,7 +43,7 @@ void SkinMeshComponent::changeMotion(unsigned motionNo) {
 
 void SkinMeshComponent::changeMotion(const std::string& motionName) {
     for (unsigned i = 0; i < mAnimation->getMotionCount(); ++i) {
-        if (mAnimation->getMotion(i).name == motionName) {
+        if (getMotion(i).name == motionName) {
             changeMotion(i);
 
             return;
@@ -55,6 +55,7 @@ void SkinMeshComponent::changeMotion(const std::string& motionName) {
 
 void SkinMeshComponent::tPose() {
     mIsMotionUpdate = false;
+    mCurrentMotionNo = -1;
     mCurrentBones.assign(mCurrentBones.size(), Matrix4::identity);
 
     //通知を送る
@@ -88,7 +89,7 @@ const Motion& SkinMeshComponent::getMotion(unsigned motionNo) const {
 
 const Motion& SkinMeshComponent::getMotion(const std::string& motionName) const {
     for (unsigned i = 0; i < mAnimation->getMotionCount(); ++i) {
-        const auto& motion = mAnimation->getMotion(i);
+        const auto& motion = getMotion(i);
         if (motion.name == motionName) {
             return motion;
         }
@@ -99,7 +100,10 @@ const Motion& SkinMeshComponent::getMotion(const std::string& motionName) const 
 }
 
 const Motion& SkinMeshComponent::getCurrentMotion() const {
-    return mAnimation->getMotion(mCurrentMotionNo);
+    if (mCurrentMotionNo == -1) {
+        return getMotion(0);
+    }
+    return getMotion(mCurrentMotionNo);
 }
 
 int SkinMeshComponent::getCurrentMotionNumber() const {

@@ -11,6 +11,7 @@ MeshRenderer::MeshRenderer()
     , mBeforeDrawer(nullptr)
     , mMeshComponent(nullptr)
     , mMeshShader(nullptr)
+    , mFillMode(FillMode::SOLID)
 {
 }
 
@@ -59,6 +60,14 @@ void MeshRenderer::setDrawBefore(const IDrawBefore* drawer) {
     mBeforeDrawer = drawer;
 }
 
+void MeshRenderer::setFillMode(FillMode mode) {
+    mFillMode = mode;
+}
+
+FillMode MeshRenderer::getFillMode() const {
+    return mFillMode;
+}
+
 const MeshComponent& MeshRenderer::getMeshComponent() const {
     return *mMeshComponent;
 }
@@ -80,6 +89,9 @@ void MeshRenderer::drawMesh(
 ) const {
     //描画前準備
     mMeshShader->bindShader();
+
+    //ポリゴン描画方法を指定する
+    MyDirectX::DirectX::instance().rasterizerState().setFillMode(mFillMode);
 
     //メッシュ共通の値を設定する
     mMeshShader->setCommonValue(view, projection, cameraPosition, dirLightDirection, dirLightColor);

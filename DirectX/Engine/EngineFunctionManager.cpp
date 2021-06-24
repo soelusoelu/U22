@@ -124,7 +124,7 @@ void EngineFunctionManager::draw3D(
 #ifdef _DEBUG
     mAssetsRenderTextureManager->drawMeshes(mode);
     mMapEditor->draw(mode, dirLight.getDirection(), dirLight.getLightColor());
-    mModelViewer->draw(mode);
+    mModelViewer->draw(mode, renderer);
     mDebugManager->draw3D(mode, renderer, camera.getViewProjection());
 #endif // _DEBUG
 }
