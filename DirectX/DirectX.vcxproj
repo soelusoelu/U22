@@ -166,6 +166,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Component\Engine\Collider\ColliderDrawer.cpp" />
     <ClCompile Include="Component\Game\UI\BossEnemyUIManager.cpp" />
     <ClCompile Include="Component\Game\UI\BossEnemyHitPointGauge.cpp" />
     <ClCompile Include="Collision\AABBCreater.cpp" />
@@ -430,6 +431,7 @@
     <ClCompile Include="Engine\ModelViewer\VertexSelector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component\Engine\Collider\ColliderDrawer.h" />
     <ClInclude Include="Component\Game\Enemy\EnemyMotions.h" />
     <ClInclude Include="Component\Game\UI\BossEnemyUIManager.h" />
     <ClInclude Include="Component\Game\UI\BossEnemyHitPointGauge.h" />

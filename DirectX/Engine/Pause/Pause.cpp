@@ -18,18 +18,18 @@ bool Pause::isPausing() const {
     return mIsPausing;
 }
 
-void Pause::loadProperties(const rapidjson::Value & inObj) {
+void Pause::loadProperties(const rapidjson::Value& inObj) {
     const auto& obj = inObj["pause"];
     if (obj.IsObject()) {
-        JsonHelper::getString(obj, "fileName", &mFileName);
-        JsonHelper::getVector2(obj, "offset", &mOffset);
+        JsonHelper::getString(obj, "fileName", mFileName);
+        JsonHelper::getVector2(obj, "offset", mOffset);
     }
 }
 
 void Pause::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setString(alloc, &props, "fileName", mFileName);
-    JsonHelper::setVector2(alloc, &props, "offset", mOffset);
+    JsonHelper::setString(alloc, props, "fileName", mFileName);
+    JsonHelper::setVector2(alloc, props, "offset", mOffset);
 
     inObj.AddMember("pause", props, alloc);
 }

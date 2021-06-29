@@ -35,10 +35,10 @@ void PointLightComponent::finalize() {
 }
 
 void PointLightComponent::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getVector3(inObj, "color", &mLightColor);
-    JsonHelper::getFloat(inObj, "innerRadius", &mInnerRadius);
-    JsonHelper::getFloat(inObj, "outerRadius", &mOuterRadius);
-    JsonHelper::getFloat(inObj, "intensity", &mIntensity);
+    JsonHelper::getVector3(inObj, "color", mLightColor);
+    JsonHelper::getFloat(inObj, "innerRadius", mInnerRadius);
+    JsonHelper::getFloat(inObj, "outerRadius", mOuterRadius);
+    JsonHelper::getFloat(inObj, "intensity", mIntensity);
 }
 
 void PointLightComponent::drawInspector() {

@@ -77,7 +77,6 @@
             "textureSize": 64,
             "textureDisplayInterval": 32,
             "texturesFilePath": [
-                "Assets\\Model\\Shape\\box.fbx",
                 "Assets\\Model\\Player\\U22_player_whiteanime.fbx"
             ]
         },
@@ -97,8 +96,8 @@
             ],
             "color": [
                 1.0,
-                1.0,
-                1.0
+                0.9999899864196777,
+                0.9999899864196777
             ],
             "directionDrawPosition": [
                 30.0,

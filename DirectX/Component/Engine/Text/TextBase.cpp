@@ -20,15 +20,15 @@ void TextBase::onEnable(bool value) {
 }
 
 void TextBase::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getVector2(inObj, "position", &mPosition);
-    JsonHelper::getVector2(inObj, "scale", &mScale);
-    JsonHelper::getVector3(inObj, "color", &mColor);
-    JsonHelper::getFloat(inObj, "alpha", &mAlpha);
+    JsonHelper::getVector2(inObj, "position", mPosition);
+    JsonHelper::getVector2(inObj, "scale", mScale);
+    JsonHelper::getVector3(inObj, "color", mColor);
+    JsonHelper::getFloat(inObj, "alpha", mAlpha);
     std::string src;
-    if (JsonHelper::getString(inObj, "pivot", &src)) {
+    if (JsonHelper::getString(inObj, "pivot", src)) {
         PivotFunc::stringToPivot(src, &mPivot);
     }
-    JsonHelper::getBool(inObj, "isActive", &mIsActive);
+    JsonHelper::getBool(inObj, "isActive", mIsActive);
 }
 
 void TextBase::drawInspector() {

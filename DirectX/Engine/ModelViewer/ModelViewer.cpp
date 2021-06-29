@@ -15,11 +15,13 @@
 #include "../../Component/Engine/Mesh/MeshRenderer.h"
 #include "../../Device/Renderer.h"
 #include "../../GameObject/GameObject.h"
+#include "../../GameObject/GameObjectFactory.h"
 #include "../../Input/Input.h"
 #include "../../Mesh/MeshManager.h"
 #include "../../System/Window.h"
 #include "../../System/Texture/MeshRenderOnTexture.h"
 #include "../../Transform/Transform3D.h"
+#include "../../Utility/FileUtil.h"
 
 ModelViewer::ModelViewer()
     : mEngineModeGetter(nullptr)
@@ -211,10 +213,21 @@ void ModelViewer::onSelectAssetsTexture() {
         return;
     }
 
-    const auto& newTarget = std::make_shared<GameObject>();
-    const auto& newMesh = Component::addComponent<MeshComponent>(*newTarget, "MeshComponent");
-    newMesh->createMeshFromFilePath(mAssetsTextureGetter->getCurrentSelectTexture().getTexture().getFilePath());
-    const auto& meshRenderer = newMesh->getComponent<MeshRenderer>();
+    GameObjectPtr newTarget = nullptr;
+
+    const auto& texFilePath = mAssetsTextureGetter->getCurrentSelectTexture().getTexture().getFilePath();
+    if (FileUtil::getFileExtension(texFilePath) == ".json") {
+        auto filePath = texFilePath.substr(0, texFilePath.length() - 5);
+        auto filename = FileUtil::getFileNameFromDirectry(filePath);
+        auto directoryPath = FileUtil::getDirectryFromFilePath(filePath);
+        newTarget = GameObjectCreater::create(filename, directoryPath);
+    } else {
+        newTarget = std::make_shared<GameObject>();
+        auto newMesh = Component::addComponent<MeshComponent>(*newTarget, "MeshComponent");
+        newMesh->createMeshFromFilePath(texFilePath);
+    }
+
+    auto meshRenderer = newTarget->componentManager().getComponent<MeshRenderer>();
 
     setTarget(newTarget, meshRenderer);
 }

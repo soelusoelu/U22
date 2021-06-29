@@ -152,15 +152,15 @@ Vector2 Window::getWindowCorrect() {
 void Window::loadProperties(const rapidjson::Value& inObj) {
     const auto& windowObj = inObj["window"];
     if (windowObj.IsObject()) {
-        JsonHelper::getString(windowObj, "title", &mTitle);
-        JsonHelper::getInt(windowObj, "windowWidth", &mWidth);
-        JsonHelper::getInt(windowObj, "windowHeight", &mHeight);
-        JsonHelper::getInt(windowObj, "releaseWindowWidth", &mReleaseWidth);
-        JsonHelper::getInt(windowObj, "releaseWindowHeight", &mReleaseHeight);
-        JsonHelper::getInt(windowObj, "windowStandardWidth", &mStandardWidth);
-        JsonHelper::getInt(windowObj, "windowStandardHeight", &mStandardHeight);
-        JsonHelper::getInt(windowObj, "windowDebugWidth", &mDebugWidth);
-        JsonHelper::getInt(windowObj, "windowDebugHeight", &mDebugHeight);
+        JsonHelper::getString(windowObj, "title", mTitle);
+        JsonHelper::getInt(windowObj, "windowWidth", mWidth);
+        JsonHelper::getInt(windowObj, "windowHeight", mHeight);
+        JsonHelper::getInt(windowObj, "releaseWindowWidth", mReleaseWidth);
+        JsonHelper::getInt(windowObj, "releaseWindowHeight", mReleaseHeight);
+        JsonHelper::getInt(windowObj, "windowStandardWidth", mStandardWidth);
+        JsonHelper::getInt(windowObj, "windowStandardHeight", mStandardHeight);
+        JsonHelper::getInt(windowObj, "windowDebugWidth", mDebugWidth);
+        JsonHelper::getInt(windowObj, "windowDebugHeight", mDebugHeight);
 
 #ifdef _DEBUG
         mGameWidth = mWidth;
@@ -174,15 +174,15 @@ void Window::loadProperties(const rapidjson::Value& inObj) {
 
 void Window::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setString(alloc, &props, "title", mTitle);
-    JsonHelper::setInt(alloc, &props, "windowWidth", mWidth);
-    JsonHelper::setInt(alloc, &props, "windowHeight", mHeight);
-    JsonHelper::setInt(alloc, &props, "releaseWindowWidth", mReleaseWidth);
-    JsonHelper::setInt(alloc, &props, "releaseWindowHeight", mReleaseHeight);
-    JsonHelper::setInt(alloc, &props, "windowStandardWidth", mStandardWidth);
-    JsonHelper::setInt(alloc, &props, "windowStandardHeight", mStandardHeight);
-    JsonHelper::setInt(alloc, &props, "windowDebugWidth", mDebugWidth);
-    JsonHelper::setInt(alloc, &props, "windowDebugHeight", mDebugHeight);
+    JsonHelper::setString(alloc, props, "title", mTitle);
+    JsonHelper::setInt(alloc, props, "windowWidth", mWidth);
+    JsonHelper::setInt(alloc, props, "windowHeight", mHeight);
+    JsonHelper::setInt(alloc, props, "releaseWindowWidth", mReleaseWidth);
+    JsonHelper::setInt(alloc, props, "releaseWindowHeight", mReleaseHeight);
+    JsonHelper::setInt(alloc, props, "windowStandardWidth", mStandardWidth);
+    JsonHelper::setInt(alloc, props, "windowStandardHeight", mStandardHeight);
+    JsonHelper::setInt(alloc, props, "windowDebugWidth", mDebugWidth);
+    JsonHelper::setInt(alloc, props, "windowDebugHeight", mDebugHeight);
 
     inObj.AddMember("window", props, alloc);
 }

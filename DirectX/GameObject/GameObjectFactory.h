@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../Math/Math.h"
+#include "../System/AssetsDirectoryPath.h"
 #include <rapidjson/document.h>
 #include <functional>
 #include <memory>
@@ -16,7 +17,7 @@ public:
     GameObjectFactory();
     ~GameObjectFactory();
     //ファイルからゲームオブジェクト生成
-    std::shared_ptr<GameObject> createGameObjectFromFile(const std::string& type, const std::string& directoryPath = "Assets\\Data\\");
+    std::shared_ptr<GameObject> createGameObjectFromFile(const std::string& type, const std::string& directoryPath = AssetsDirectoryPath::DATA_PATH);
 
 private:
     GameObjectFactory(const GameObjectFactory&) = delete;
@@ -48,7 +49,7 @@ class GameObjectCreater {
 public:
     static void initialize();
     static void finalize();
-    static std::shared_ptr<GameObject> create(const std::string& type);
+    static std::shared_ptr<GameObject> create(const std::string& type, const std::string& directoryPath = AssetsDirectoryPath::DATA_PATH);
 
 private:
     GameObjectCreater() = delete;

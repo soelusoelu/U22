@@ -35,7 +35,7 @@ void PlayerGuard::update() {
 }
 
 void PlayerGuard::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "guardingStaminaHealRate", &mGuardingStaminaHealRate);
+    JsonHelper::getFloat(inObj, "guardingStaminaHealRate", mGuardingStaminaHealRate);
 }
 
 void PlayerGuard::originalUpdate() {

@@ -29,25 +29,25 @@ Hierarchy::~Hierarchy() = default;
 void Hierarchy::loadProperties(const rapidjson::Value& inObj) {
     const auto& obj = inObj["hierarchy"];
     if (obj.IsObject()) {
-        JsonHelper::getVector2(obj, "scale", &mScale);
-        JsonHelper::getInt(obj, "offsetCharCountX", &mOffsetCharCountX);
-        JsonHelper::getInt(obj, "offsetCharCountY", &mOffsetCharCountY);
-        JsonHelper::getFloat(obj, "lineSpace", &mLineSpace);
-        JsonHelper::getFloat(obj, "nonActiveAlpha", &mNonActiveAlpha);
+        JsonHelper::getVector2(obj, "scale", mScale);
+        JsonHelper::getInt(obj, "offsetCharCountX", mOffsetCharCountX);
+        JsonHelper::getInt(obj, "offsetCharCountY", mOffsetCharCountY);
+        JsonHelper::getFloat(obj, "lineSpace", mLineSpace);
+        JsonHelper::getFloat(obj, "nonActiveAlpha", mNonActiveAlpha);
     }
     const auto& inspector = inObj["inspector"];
     if (inspector.IsObject()) {
-        JsonHelper::getFloat(inspector, "inspectorPositionX", &mInspectorPositionX);
+        JsonHelper::getFloat(inspector, "inspectorPositionX", mInspectorPositionX);
     }
 }
 
 void Hierarchy::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setVector2(alloc, &props, "scale", mScale);
-    JsonHelper::setInt(alloc, &props, "offsetCharCountX", mOffsetCharCountX);
-    JsonHelper::setInt(alloc, &props, "offsetCharCountY", mOffsetCharCountY);
-    JsonHelper::setFloat(alloc, &props, "lineSpace", mLineSpace);
-    JsonHelper::setFloat(alloc, &props, "nonActiveAlpha", mNonActiveAlpha);
+    JsonHelper::setVector2(alloc, props, "scale", mScale);
+    JsonHelper::setInt(alloc, props, "offsetCharCountX", mOffsetCharCountX);
+    JsonHelper::setInt(alloc, props, "offsetCharCountY", mOffsetCharCountY);
+    JsonHelper::setFloat(alloc, props, "lineSpace", mLineSpace);
+    JsonHelper::setFloat(alloc, props, "nonActiveAlpha", mNonActiveAlpha);
 
     inObj.AddMember("hierarchy", props, alloc);
 }

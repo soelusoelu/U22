@@ -21,8 +21,8 @@ void TextFloat::lateUpdate() {
 void TextFloat::loadProperties(const rapidjson::Value& inObj) {
     TextBase::loadProperties(inObj);
 
-    JsonHelper::getFloat(inObj, "number", &mNumber);
-    JsonHelper::getInt(inObj, "decimalDigits", &mDecimalDigits);
+    JsonHelper::getFloat(inObj, "number", mNumber);
+    JsonHelper::getInt(inObj, "decimalDigits", mDecimalDigits);
 }
 
 void TextFloat::drawInspector() {

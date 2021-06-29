@@ -75,8 +75,8 @@ void PlayerRoll::lateUpdate() {
 }
 
 void PlayerRoll::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "rollingDistance", &mRollingDistance);
-    JsonHelper::getFloat(inObj, "rollingStaminaAmount", &mRollingStaminaAmount);
+    JsonHelper::getFloat(inObj, "rollingDistance", mRollingDistance);
+    JsonHelper::getFloat(inObj, "rollingStaminaAmount", mRollingStaminaAmount);
 }
 
 void PlayerRoll::originalUpdate() {

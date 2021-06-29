@@ -18,10 +18,10 @@ void DirectionalLight::lateUpdate() {
 }
 
 void DirectionalLight::loadProperties(const rapidjson::Value& inObj) {
-    if (JsonHelper::getVector3(inObj, "direction", &mDirection)) {
+    if (JsonHelper::getVector3(inObj, "direction", mDirection)) {
         transform().rotate(mDirection);
     }
-    JsonHelper::getVector3(inObj, "color", &mLightColor);
+    JsonHelper::getVector3(inObj, "color", mLightColor);
 }
 
 void DirectionalLight::drawInspector() {

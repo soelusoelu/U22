@@ -12,7 +12,7 @@ public:
     GameObjectSaveAndLoader();
     ~GameObjectSaveAndLoader();
     virtual void loadProperties(const rapidjson::Value& inObj) override;
-    virtual void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const override;
+    virtual void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const override;
 
     //保存するゲームオブジェクトを追加する
     void addSaveGameObject(const std::string& name);

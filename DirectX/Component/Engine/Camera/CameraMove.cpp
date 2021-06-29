@@ -49,11 +49,11 @@ void CameraMove::update() {
 }
 
 void CameraMove::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "cameraSpeed", &mCameraSpeed);
-    JsonHelper::getFloat(inObj, "rotateSpeed", &mRotateSpeed);
+    JsonHelper::getFloat(inObj, "cameraSpeed", mCameraSpeed);
+    JsonHelper::getFloat(inObj, "rotateSpeed", mRotateSpeed);
 }
 
-void CameraMove::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const {
+void CameraMove::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     JsonHelper::setFloat(alloc, inObj, "cameraSpeed", mCameraSpeed);
     JsonHelper::setFloat(alloc, inObj, "rotateSpeed", mRotateSpeed);
 }

@@ -283,6 +283,7 @@
     <ClCompile Include="Engine\ModelViewer\ModelViewerPlane.cpp" />
     <ClCompile Include="Engine\ModelViewer\ModelViewerColliderManager.cpp" />
     <ClCompile Include="Engine\ModelViewer\VertexSelector.cpp" />
+    <ClCompile Include="Component\Engine\Collider\ColliderDrawer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -632,6 +633,7 @@
     <ClInclude Include="Engine\ModelViewer\ModelViewerMode.h" />
     <ClInclude Include="Engine\ModelViewer\IModelViewerCallback.h" />
     <ClInclude Include="Engine\ModelViewer\VertexSelector.h" />
+    <ClInclude Include="Component\Engine\Collider\ColliderDrawer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />

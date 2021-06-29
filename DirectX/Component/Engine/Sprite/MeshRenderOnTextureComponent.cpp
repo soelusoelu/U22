@@ -43,11 +43,11 @@ void MeshRenderOnTextureComponent::onEnable(bool value) {
 }
 
 void MeshRenderOnTextureComponent::loadProperties(const rapidjson::Value& inObj) {
-    if (std::string path; JsonHelper::getString(inObj, "filePath", &path)) {
+    if (std::string path; JsonHelper::getString(inObj, "filePath", path)) {
         int width = DEFAULT_SPRITE_WIDTH;
         int height = DEFAULT_SPRITE_HEIGHT;
-        JsonHelper::getInt(inObj, "width", &width);
-        JsonHelper::getInt(inObj, "height", &height);
+        JsonHelper::getInt(inObj, "width", width);
+        JsonHelper::getInt(inObj, "height", height);
 
         mMeshRenderOnTexture = std::make_unique<MeshRenderOnTexture>(path, width, height);
         calcView();

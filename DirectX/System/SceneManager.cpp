@@ -25,6 +25,7 @@
 #include "../Sprite/Sprite.h"
 #include "../Sprite/SpriteManager.h"
 #include "../Utility/LevelLoader.h"
+#include <vector>
 
 SceneManager::SceneManager()
     : mRenderer(std::make_unique<Renderer>())
@@ -53,9 +54,15 @@ SceneManager::~SceneManager() {
 void SceneManager::loadProperties(const rapidjson::Value& inObj) {
     const auto& sceneObj = inObj["sceneManager"];
     if (sceneObj.IsObject()) {
-        JsonHelper::getString(sceneObj, "beginScene", &mBeginScene);
-        JsonHelper::getString(sceneObj, "releaseScene", &mReleaseScene);
-        JsonHelper::getStringArray(sceneObj, "removeExclusionTag", &mRemoveExclusionTags);
+        JsonHelper::getString(sceneObj, "beginScene", mBeginScene);
+        JsonHelper::getString(sceneObj, "releaseScene", mReleaseScene);
+
+        std::vector<std::string> temp;
+        if (JsonHelper::getStringArray(sceneObj, "removeExclusionTag", temp)) {
+            for (const auto& x : temp) {
+                mRemoveExclusionTags.emplace(x);
+            }
+        }
     }
 
     mEngineManager->loadProperties(inObj);
@@ -66,9 +73,10 @@ void SceneManager::loadProperties(const rapidjson::Value& inObj) {
 
 void SceneManager::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setString(alloc, &props, "beginScene", mBeginScene);
-    JsonHelper::setString(alloc, &props, "releaseScene", mReleaseScene);
-    JsonHelper::setStringArray(alloc, &props, "removeExclusionTag", mRemoveExclusionTags);
+    JsonHelper::setString(alloc, props, "beginScene", mBeginScene);
+    JsonHelper::setString(alloc, props, "releaseScene", mReleaseScene);
+    std::vector<std::string> temp(mRemoveExclusionTags.begin(), mRemoveExclusionTags.end());
+    JsonHelper::setStringArray(alloc, props, "removeExclusionTag", temp);
     inObj.AddMember("sceneManager", props, alloc);
 
     mEngineManager->saveProperties(alloc, inObj);

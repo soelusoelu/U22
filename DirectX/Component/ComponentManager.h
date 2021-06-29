@@ -66,14 +66,14 @@ public:
     }
 
     //すべてのコンポーネントを保存する
-    void saveComponents(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const;
+    void saveComponents(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
 
 private:
     ComponentManager(const ComponentManager&) = delete;
     ComponentManager& operator=(const ComponentManager&) = delete;
 
     //各コンポーネントを保存する
-    void saveComponent(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* outArray, const Component& component) const;
+    void saveComponent(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& outArray, const Component& component) const;
 
 private:
     ComponentPtrArray mComponents;

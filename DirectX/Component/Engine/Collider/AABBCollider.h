@@ -21,7 +21,7 @@ public:
     virtual void finalize() override;
     virtual void onEnable(bool value) override;
     virtual void loadProperties(const rapidjson::Value& inObj) override;
-    virtual void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const override;
+    virtual void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const override;
     virtual void drawInspector() override;
 
     //AABBの最小と最大点を直接設定する

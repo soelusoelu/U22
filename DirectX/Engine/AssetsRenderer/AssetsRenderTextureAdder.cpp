@@ -17,15 +17,15 @@ AssetsRenderTextureAdder::~AssetsRenderTextureAdder() = default;
 void AssetsRenderTextureAdder::loadProperties(const rapidjson::Value& inObj) {
     const auto& artaObj = inObj["assetsRenderTextureAdder"];
     if (artaObj.IsObject()) {
-        JsonHelper::getVector2(artaObj, "renderPosition", &mRenderPosition);
-        JsonHelper::getString(artaObj, "spriteButtonFilePath", &mSpriteFilePath);
+        JsonHelper::getVector2(artaObj, "renderPosition", mRenderPosition);
+        JsonHelper::getString(artaObj, "spriteButtonFilePath", mSpriteFilePath);
     }
 }
 
 void AssetsRenderTextureAdder::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setVector2(alloc, &props, "renderPosition", mRenderPosition);
-    JsonHelper::setString(alloc, &props, "spriteButtonFilePath", mSpriteFilePath);
+    JsonHelper::setVector2(alloc, props, "renderPosition", mRenderPosition);
+    JsonHelper::setString(alloc, props, "spriteButtonFilePath", mSpriteFilePath);
 
     inObj.AddMember("assetsRenderTextureAdder", props, alloc);
 }

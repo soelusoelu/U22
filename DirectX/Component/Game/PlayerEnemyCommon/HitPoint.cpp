@@ -12,8 +12,8 @@ HitPoint::HitPoint()
 HitPoint::~HitPoint() = default;
 
 void HitPoint::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getInt(inObj, "HP", &mHp);
-    JsonHelper::getInt(inObj, "maxHP", &mMaxHp);
+    JsonHelper::getInt(inObj, "HP", mHp);
+    JsonHelper::getInt(inObj, "maxHP", mMaxHp);
     if (mMaxHp < mHp) {
         mMaxHp = mHp;
     }

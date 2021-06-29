@@ -26,7 +26,7 @@ void PlayerWalk::start() {
 }
 
 void PlayerWalk::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "walkSpeed", &mWalkSpeed);
+    JsonHelper::getFloat(inObj, "walkSpeed", mWalkSpeed);
 }
 
 void PlayerWalk::walk(IPlayerMove& playerMove) {

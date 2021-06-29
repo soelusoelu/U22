@@ -20,13 +20,13 @@ float FPSCounter::getFps() const {
 void FPSCounter::loadProperties(const rapidjson::Value& inObj) {
     const auto& fpsObj = inObj["fpsCounter"];
     if (fpsObj.IsObject()) {
-        JsonHelper::getFloat(fpsObj, "fps", &mFixedFrame);
+        JsonHelper::getFloat(fpsObj, "fps", mFixedFrame);
     }
 }
 
 void FPSCounter::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setFloat(alloc, &props, "fps", mFixedFrame);
+    JsonHelper::setFloat(alloc, props, "fps", mFixedFrame);
 
     inObj.AddMember("fpsCounter", props, alloc);
 }

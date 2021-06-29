@@ -29,13 +29,13 @@ Inspector::Inspector(DrawString* drawString) :
 
 Inspector::~Inspector() = default;
 
-void Inspector::loadProperties(const rapidjson::Value & inObj) {
+void Inspector::loadProperties(const rapidjson::Value& inObj) {
     const auto& obj = inObj["inspector"];
     if (obj.IsObject()) {
-        JsonHelper::getFloat(obj, "inspectorPositionX", &mInspectorPositionX);
-        JsonHelper::getVector2(obj, "nameScale", &mNameScale);
-        JsonHelper::getVector2(obj, "elementScale", &mElementScale);
-        JsonHelper::getInt(obj, "offsetCharCountX", &mOffsetCharCountX);
+        JsonHelper::getFloat(obj, "inspectorPositionX", mInspectorPositionX);
+        JsonHelper::getVector2(obj, "nameScale", mNameScale);
+        JsonHelper::getVector2(obj, "elementScale", mElementScale);
+        JsonHelper::getInt(obj, "offsetCharCountX", mOffsetCharCountX);
     }
 }
 

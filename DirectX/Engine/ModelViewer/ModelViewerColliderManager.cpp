@@ -2,6 +2,8 @@
 #include "VertexSelector.h"
 #include "../Camera/SimpleCamera.h"
 #include "../DebugManager/DebugUtility/LineRenderer/LineRenderer3D.h"
+#include "../../Component/Engine/Collider/ColliderDrawer.h"
+#include "../../Component/Engine/Collider/OBBCollider.h"
 #include "../../Component/Engine/Mesh/MeshComponent.h"
 #include "../../Component/Engine/Mesh/MeshRenderer.h"
 #include "../../Component/Engine/Mesh/SkinMeshComponent.h"
@@ -10,7 +12,6 @@
 ModelViewerColliderManager::ModelViewerColliderManager()
     : mMesh(nullptr)
     , mSkinMesh(nullptr)
-    , mAnimation(nullptr)
 {
 }
 
@@ -25,12 +26,14 @@ void ModelViewerColliderManager::update(LineRenderer3D& line, const SimpleCamera
     drawTPoseBone(line);
 
     Vector3 selected;
-    if (VertexSelector::selectVertexFromModel(selected, mMesh->getMesh(), camera, 0.05f)) {
-        if (Input::mouse().getMouseButton(MouseCode::LeftButton)) {
-            line.renderLine(selected, selected + Vector3::right * 3.f, ColorPalette::red);
-            line.renderLine(selected, selected + Vector3::up * 3.f, ColorPalette::red);
-            line.renderLine(selected, selected + Vector3::forward * 3.f, ColorPalette::red);
-        }
+    //if (VertexSelector::selectVertexFromModel(selected, mMesh->getMesh(), camera, 0.05f)) {
+    //    if (Input::mouse().getMouseButtonDown(MouseCode::LeftButton) && Input::keyboard().getKey(KeyCode::LeftShift)) {
+    //        mObbCollider->addVertex(selected);
+    //    }
+    //}
+
+    for (const auto& obb : mObbColliders) {
+        ColliderDrawer::drawOBB(line, obb->getOBB());
     }
 }
 
@@ -39,10 +42,11 @@ void ModelViewerColliderManager::drawTPoseBone(LineRenderer3D& line) const {
         return;
     }
 
-    auto boneCount = mAnimation->getBoneCount();
+    auto animation = mMesh->getAnimation();
+    auto boneCount = animation->getBoneCount();
 
     for (unsigned i = 0; i < boneCount; ++i) {
-        const auto& bone = mAnimation->getBone(i);
+        const auto& bone = animation->getBone(i);
         //親がいないなら次へ
         if (!bone.parent) {
             continue;
@@ -57,6 +61,33 @@ void ModelViewerColliderManager::drawTPoseBone(LineRenderer3D& line) const {
     }
 }
 
+void ModelViewerColliderManager::createObbCollider() {
+    mObbColliders = mMesh->getComponents<OBBCollider>();
+
+    //元があるなら終了
+    if (!mObbColliders.empty()) {
+        return;
+    }
+    //アニメーションしないなら終了
+    if (!isAnimation()) {
+        return;
+    }
+
+    auto animation = mMesh->getAnimation();
+    auto boneCount = animation->getBoneCount();
+    for (unsigned i = 0; i < boneCount; ++i) {
+        const auto& bone = animation->getBone(i);
+        //ボーンの親がいないなら次へ
+        if (!bone.parent) {
+            continue;
+        }
+
+        auto obb = mMesh->addComponent<OBBCollider>("OBBCollider");
+        obb->setBone(i);
+        mObbColliders.emplace_back(obb);
+    }
+}
+
 bool ModelViewerColliderManager::isAnimation() const {
     return (mSkinMesh) ? true : false;
 }
@@ -65,10 +96,13 @@ void ModelViewerColliderManager::onChangeModel(const GameObject& newModel) {
     const auto& cm = newModel.componentManager();
     mMesh = cm.getComponent<MeshComponent>();
     mSkinMesh = cm.getComponent<SkinMeshComponent>();
-    mAnimation = mMesh->getAnimation();
+
+    if (!mObbColliders.empty()) {
+        mObbColliders.clear();
+    }
 }
 
-void ModelViewerColliderManager::onModeChange(ModelViewerMode mode) {
+void ModelViewerColliderManager::onModeChange(ModelViewerMode mode) { 
     FillMode fillMode = FillMode::SOLID;
 
     if (mode == ModelViewerMode::COLLIDER_OPERATE) {
@@ -76,6 +110,9 @@ void ModelViewerColliderManager::onModeChange(ModelViewerMode mode) {
             //強制的にTポーズに変更する
             mSkinMesh->tPose();
         }
+
+        //OBB作成
+        createObbCollider();
 
         //ワイヤーフレーム表示に変更する
         fillMode = FillMode::WIREFRAME;

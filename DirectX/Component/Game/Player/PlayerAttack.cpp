@@ -70,14 +70,14 @@ void PlayerAttack::loadProperties(const rapidjson::Value& inObj) {
     JsonHelper::getFloat(
         inObj,
         "firstLowestCoolTimeUpToAdditionalAttack",
-        &mCoolTimeUntilAdditionalAttack[FIRST_ATTACK_START_NO]
+        mCoolTimeUntilAdditionalAttack[FIRST_ATTACK_START_NO]
     );
     JsonHelper::getFloat(
         inObj,
         "secondLowestCoolTimeUpToAdditionalAttack",
-        &mCoolTimeUntilAdditionalAttack[SECOND_ATTACK_START_NO]
+        mCoolTimeUntilAdditionalAttack[SECOND_ATTACK_START_NO]
     );
-    JsonHelper::getFloat(inObj, "attackStaminaAmount", &mAttackStaminaAmount);
+    JsonHelper::getFloat(inObj, "attackStaminaAmount", mAttackStaminaAmount);
 }
 
 void PlayerAttack::originalUpdate() {

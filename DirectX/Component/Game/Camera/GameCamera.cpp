@@ -68,11 +68,11 @@ void GameCamera::lateUpdate() {
 }
 
 void GameCamera::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "rotateSpeed", &mRotateSpeed);
-    JsonHelper::getFloat(inObj, "cameraToPlayerDistance", &mToPlayerDistance);
-    JsonHelper::getFloat(inObj, "lookAtOffsetY", &mLookAtOffsetY);
-    JsonHelper::getFloat(inObj, "startPositionY", &mStartPositionY);
-    if (float time = 0.f; JsonHelper::getFloat(inObj, "unlockOnLerpTimer", &time)) {
+    JsonHelper::getFloat(inObj, "rotateSpeed", mRotateSpeed);
+    JsonHelper::getFloat(inObj, "cameraToPlayerDistance", mToPlayerDistance);
+    JsonHelper::getFloat(inObj, "lookAtOffsetY", mLookAtOffsetY);
+    JsonHelper::getFloat(inObj, "startPositionY", mStartPositionY);
+    if (float time = 0.f; JsonHelper::getFloat(inObj, "unlockOnLerpTimer", time)) {
         mUnlockOnLerpTimer->setLimitTime(time);
         mUnlockOnLerpTimer->forceOverlimit();
     }

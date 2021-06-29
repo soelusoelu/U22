@@ -173,19 +173,19 @@ ParentChildRelationship& Transform3D::getParentChildRelation() const {
 
 void Transform3D::loadProperties(const rapidjson::Value& inObj) {
     //位置、回転、スケールを読み込む
-    JsonHelper::getVector3(inObj, "position", &mPosition);
+    JsonHelper::getVector3(inObj, "position", mPosition);
     Vector3 rot;
-    if (JsonHelper::getVector3(inObj, "rotation", &rot)) {
+    if (JsonHelper::getVector3(inObj, "rotation", rot)) {
         setRotation(rot);
     }
-    JsonHelper::getVector3(inObj, "scale", &mScale);
-    JsonHelper::getVector3(inObj, "pivot", &mPivot);
+    JsonHelper::getVector3(inObj, "scale", mScale);
+    JsonHelper::getVector3(inObj, "pivot", mPivot);
 
     computeLocalMatrix();
     computeWorldMatrix();
 }
 
-void Transform3D::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const {
+void Transform3D::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     //位置、回転、スケールを書き込む
     JsonHelper::setVector3(alloc, inObj, "position", mPosition);
     JsonHelper::setVector3(alloc, inObj, "rotation", mRotation.euler());

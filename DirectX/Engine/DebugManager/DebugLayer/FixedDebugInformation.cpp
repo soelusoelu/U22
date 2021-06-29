@@ -15,13 +15,13 @@ FixedDebugInformation::~FixedDebugInformation() = default;
 void FixedDebugInformation::loadProperties(const rapidjson::Value& inObj) {
     const auto& obj = inObj["fixedDebugInfo"];
     if (obj.IsObject()) {
-        JsonHelper::getVector2(obj, "scale", &mScale);
+        JsonHelper::getVector2(obj, "scale", mScale);
     }
 }
 
 void FixedDebugInformation::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setVector2(alloc, &props, "scale", mScale);
+    JsonHelper::setVector2(alloc, props, "scale", mScale);
 
     inObj.AddMember("fixedDebugInfo", props, alloc);
 }

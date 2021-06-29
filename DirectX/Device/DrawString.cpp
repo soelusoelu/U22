@@ -26,15 +26,15 @@ void DrawString::initialize() {
 void DrawString::loadProperties(const rapidjson::Value& inObj) {
     const auto& obj = inObj["drawString"];
     if (obj.IsObject()) {
-        JsonHelper::getString(obj, "number", &mNumberFileName);
-        JsonHelper::getString(obj, "font", &mFontFileName);
+        JsonHelper::getString(obj, "number", mNumberFileName);
+        JsonHelper::getString(obj, "font", mFontFileName);
     }
 }
 
 void DrawString::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setString(alloc, &props, "number", mNumberFileName);
-    JsonHelper::setString(alloc, &props, "font", mFontFileName);
+    JsonHelper::setString(alloc, props, "number", mNumberFileName);
+    JsonHelper::setString(alloc, props, "font", mFontFileName);
 
     inObj.AddMember("drawString", props, alloc);
 }

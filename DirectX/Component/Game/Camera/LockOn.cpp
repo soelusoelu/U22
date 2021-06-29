@@ -53,10 +53,10 @@ void LockOn::lateUpdate() {
 }
 
 void LockOn::loadProperties(const rapidjson::Value & inObj) {
-    JsonHelper::getFloat(inObj, "lockOnAngle", &mLockOnAngle);
-    JsonHelper::getFloat(inObj, "lookAtOffsetY", &mLookAtOffsetY);
-    JsonHelper::getFloat(inObj, "cameraOffsetY", &mCameraOffsetY);
-    if (float time = 0.f; JsonHelper::getFloat(inObj, "lerpTime", &time)) {
+    JsonHelper::getFloat(inObj, "lockOnAngle", mLockOnAngle);
+    JsonHelper::getFloat(inObj, "lookAtOffsetY", mLookAtOffsetY);
+    JsonHelper::getFloat(inObj, "cameraOffsetY", mCameraOffsetY);
+    if (float time = 0.f; JsonHelper::getFloat(inObj, "lerpTime", time)) {
         mLerpTimer->setLimitTime(time);
     }
 }

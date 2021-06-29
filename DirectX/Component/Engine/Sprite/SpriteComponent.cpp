@@ -34,45 +34,45 @@ void SpriteComponent::onEnable(bool value) {
 }
 
 void SpriteComponent::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getInt(inObj, "drawOrder", &mDrawOrder);
+    JsonHelper::getInt(inObj, "drawOrder", mDrawOrder);
     std::string str;
-    if (JsonHelper::getString(inObj, "fileName", &str)) {
+    if (JsonHelper::getString(inObj, "fileName", str)) {
         setTextureFromFileName(str);
     }
     bool isActive = true;
-    if (JsonHelper::getBool(inObj, "isActive", &isActive)) {
+    if (JsonHelper::getBool(inObj, "isActive", isActive)) {
         setActive(isActive);
     }
     Vector2 vec2;
-    if (JsonHelper::getVector2(inObj, "position", &vec2)) {
+    if (JsonHelper::getVector2(inObj, "position", vec2)) {
         transform().setPosition(vec2);
     }
     float value;
-    if (JsonHelper::getFloat(inObj, "rotation", &value)) {
+    if (JsonHelper::getFloat(inObj, "rotation", value)) {
         transform().setRotation(value);
     }
-    if (JsonHelper::getVector2(inObj, "scale", &vec2)) {
+    if (JsonHelper::getVector2(inObj, "scale", vec2)) {
         transform().setScale(vec2);
     }
     Vector3 vec3;
-    if (JsonHelper::getVector3(inObj, "color", &vec3)) {
+    if (JsonHelper::getVector3(inObj, "color",vec3)) {
         setColor(vec3);
     }
-    if (JsonHelper::getFloat(inObj, "alpha", &value)) {
+    if (JsonHelper::getFloat(inObj, "alpha", value)) {
         setAlpha(value);
     }
     Vector4 vec4;
-    if (JsonHelper::getVector4(inObj, "uv", &vec4)) {
+    if (JsonHelper::getVector4(inObj, "uv", vec4)) {
         setUV(vec4.x, vec4.y, vec4.z, vec4.w);
     }
-    if (JsonHelper::getString(inObj, "pivot", &str)) {
+    if (JsonHelper::getString(inObj, "pivot", str)) {
         Pivot pivot = Pivot::NONE;
         PivotFunc::stringToPivot(str, &pivot);
         transform().setPivot(pivot);
     }
 }
 
-void SpriteComponent::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const {
+void SpriteComponent::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     JsonHelper::setInt(alloc, inObj, "drawOrder", mDrawOrder);
     JsonHelper::setString(alloc, inObj, "fileName", fileName());
     JsonHelper::setBool(alloc, inObj, "isActive", getActive());

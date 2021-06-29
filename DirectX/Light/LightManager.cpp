@@ -32,10 +32,10 @@ void LightManager::createDirectionalLight() {
     mDirectionalLight->lateUpdate();
 }
 
-void LightManager::loadProperties(const rapidjson::Value & inObj) {
+void LightManager::loadProperties(const rapidjson::Value& inObj) {
     const auto& obj = inObj["lightManager"];
     if (obj.IsObject()) {
-        JsonHelper::getVector3(obj, "ambientLight", &mAmbientLight);
+        JsonHelper::getVector3(obj, "ambientLight", mAmbientLight);
     }
 
     mPointLight->loadProperties(inObj);
@@ -43,7 +43,7 @@ void LightManager::loadProperties(const rapidjson::Value & inObj) {
 
 void LightManager::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setVector3(alloc, &props, "ambientLight", mAmbientLight);
+    JsonHelper::setVector3(alloc, props, "ambientLight", mAmbientLight);
     inObj.AddMember("lightManager", props, alloc);
 
     mPointLight->saveProperties(alloc, inObj);
@@ -53,7 +53,7 @@ const DirectionalLight& LightManager::getDirectionalLight() const {
     return *mDirectionalLight;
 }
 
-void LightManager::setAmbientLight(const Vector3 & ambient) {
+void LightManager::setAmbientLight(const Vector3& ambient) {
     mAmbientLight = ambient;
 }
 

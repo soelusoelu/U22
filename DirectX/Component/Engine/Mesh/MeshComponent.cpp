@@ -48,15 +48,15 @@ void MeshComponent::onEnable(bool value) {
 
 void MeshComponent::loadProperties(const rapidjson::Value& inObj) {
     //ファイル名からメッシュを生成
-    if (JsonHelper::getString(inObj, "fileName", &mFileName)) {
-        JsonHelper::getString(inObj, "directoryPath", &mDirectoryPath);
+    if (JsonHelper::getString(inObj, "fileName", mFileName)) {
+        JsonHelper::getString(inObj, "directoryPath", mDirectoryPath);
         createMesh(mFileName, mDirectoryPath);
     }
 
-    JsonHelper::getBool(inObj, "shadowHandle", &mShadowHandle);
+    JsonHelper::getBool(inObj, "shadowHandle", mShadowHandle);
 }
 
-void MeshComponent::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const {
+void MeshComponent::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     JsonHelper::setString(alloc, inObj, "fileName", mFileName);
     JsonHelper::setString(alloc, inObj, "directoryPath", mDirectoryPath);
 }

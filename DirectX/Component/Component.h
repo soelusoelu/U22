@@ -42,7 +42,7 @@ public:
     virtual void onCollisionExit(Collider& other) {};
     //ロード/セーブ
     virtual void loadProperties(const rapidjson::Value& inObj) {};
-    virtual void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const {};
+    virtual void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {};
     //Inspectorに表示する情報
     virtual void drawInspector() {};
 

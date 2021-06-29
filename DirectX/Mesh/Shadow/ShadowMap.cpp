@@ -42,19 +42,19 @@ void ShadowMap::initialize() {
 void ShadowMap::loadProperties(const rapidjson::Value& inObj) {
     const auto& obj = inObj["shadowMap"];
     if (obj.IsObject()) {
-        JsonHelper::getInt(obj, "shadowTextureSize", &mShadowTextureSize);
-        JsonHelper::getFloat(obj, "lightDistance", &mLightDistance);
-        JsonHelper::getFloat(obj, "nearClip", &mNearClip);
-        JsonHelper::getFloat(obj, "farClip", &mFarClip);
+        JsonHelper::getInt(obj, "shadowTextureSize", mShadowTextureSize);
+        JsonHelper::getFloat(obj, "lightDistance", mLightDistance);
+        JsonHelper::getFloat(obj, "nearClip", mNearClip);
+        JsonHelper::getFloat(obj, "farClip", mFarClip);
     }
 }
 
 void ShadowMap::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) {
     rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setInt(alloc, &props, "shadowTextureSize", mShadowTextureSize);
-    JsonHelper::setFloat(alloc, &props, "lightDistance", mLightDistance);
-    JsonHelper::setFloat(alloc, &props, "nearClip", mNearClip);
-    JsonHelper::setFloat(alloc, &props, "farClip", mFarClip);
+    JsonHelper::setInt(alloc, props, "shadowTextureSize", mShadowTextureSize);
+    JsonHelper::setFloat(alloc, props, "lightDistance", mLightDistance);
+    JsonHelper::setFloat(alloc, props, "nearClip", mNearClip);
+    JsonHelper::setFloat(alloc, props, "farClip", mFarClip);
 
     inObj.AddMember("shadowMap", props, alloc);
 }

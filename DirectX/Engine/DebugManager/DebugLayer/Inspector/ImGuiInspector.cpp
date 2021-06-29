@@ -30,13 +30,13 @@ float ImGuiInspector::getInspectorPositionX() const {
 void ImGuiInspector::loadProperties(const rapidjson::Value& inObj) {
     const auto& obj = inObj["inspector"];
     if (obj.IsObject()) {
-        JsonHelper::getFloat(obj, "inspectorPositionX", &mInspectorPositionX);
+        JsonHelper::getFloat(obj, "inspectorPositionX", mInspectorPositionX);
     }
 }
 
 void ImGuiInspector::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setFloat(alloc, &props, "inspectorPositionX", mInspectorPositionX);
+    JsonHelper::setFloat(alloc, props, "inspectorPositionX", mInspectorPositionX);
 
     inObj.AddMember("inspector", props, alloc);
 }

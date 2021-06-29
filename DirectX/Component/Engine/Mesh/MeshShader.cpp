@@ -24,9 +24,8 @@ MeshShader::MeshShader()
 MeshShader::~MeshShader() = default;
 
 void MeshShader::loadProperties(const rapidjson::Value& inObj) {
-    std::string shader;
     //シェーダー名が取得できたら読み込む
-    if (JsonHelper::getString(inObj, "shaderName", &shader)) {
+    if (std::string shader; JsonHelper::getString(inObj, "shaderName", shader)) {
         //シェーダーを生成する
         mShaderID = AssetsManager::instance().createShader(shader);
     } else {
@@ -35,7 +34,7 @@ void MeshShader::loadProperties(const rapidjson::Value& inObj) {
     }
 }
 
-void MeshShader::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const {
+void MeshShader::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     JsonHelper::setString(alloc, inObj, "shaderName", AssetsManager::instance().getShaderFormID(mShaderID).getShaderName());
 }
 

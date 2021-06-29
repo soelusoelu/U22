@@ -30,7 +30,7 @@ void Text::lateUpdate() {
 void Text::loadProperties(const rapidjson::Value& inObj) {
     TextBase::loadProperties(inObj);
 
-    JsonHelper::getString(inObj, "text", &mText);
+    JsonHelper::getString(inObj, "text", mText);
 }
 
 void Text::drawInspector() {

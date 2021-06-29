@@ -24,9 +24,9 @@ void EnemyMove::start() {
 }
 
 void EnemyMove::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "walkSpeed", &mWalkSpeed);
-    JsonHelper::getFloat(inObj, "rotateSpeed", &mRotateSpeed);
-    JsonHelper::getFloat(inObj, "toPlayerLimitDistance", &mToPlayerLimitDistance);
+    JsonHelper::getFloat(inObj, "walkSpeed", mWalkSpeed);
+    JsonHelper::getFloat(inObj, "rotateSpeed", mRotateSpeed);
+    JsonHelper::getFloat(inObj, "toPlayerLimitDistance", mToPlayerLimitDistance);
 }
 
 void EnemyMove::originalUpdate(const Transform3D& player) {

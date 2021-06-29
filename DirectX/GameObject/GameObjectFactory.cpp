@@ -199,7 +199,7 @@ std::string GameObjectFactory::loadTag(const rapidjson::Document& inDocument) {
     //初期タグをNoneにする
     std::string tag = "None";
     //タグ属性があれば読み込む
-    JsonHelper::getString(inDocument, "tag", &tag);
+    JsonHelper::getString(inDocument, "tag", tag);
 
     return tag;
 }
@@ -218,7 +218,7 @@ void GameObjectFactory::loadPrototypeComponents(GameObject& gameObject, const ra
 
     //継承コンポーネントのファイル名を取得する
     std::string prototype;
-    JsonHelper::getString(inDocument, "prototype", &prototype);
+    JsonHelper::getString(inDocument, "prototype", prototype);
 
     rapidjson::Document document;
     const auto& fileName = prototype + ".json";
@@ -275,7 +275,7 @@ void GameObjectFactory::loadComponent(GameObject& gameObject, const rapidjson::V
 }
 
 bool GameObjectFactory::isValidType(std::string& outType, const rapidjson::Value& inObj) const {
-    return (JsonHelper::getString(inObj, "type", &outType));
+    return (JsonHelper::getString(inObj, "type", outType));
 }
 
 
@@ -288,6 +288,6 @@ void GameObjectCreater::finalize() {
     safeDelete(mFactory);
 }
 
-std::shared_ptr<GameObject> GameObjectCreater::create(const std::string& type) {
-    return mFactory->createGameObjectFromFile(type);
+std::shared_ptr<GameObject> GameObjectCreater::create(const std::string& type, const std::string& directoryPath) {
+    return mFactory->createGameObjectFromFile(type, directoryPath);
 }

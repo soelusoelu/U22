@@ -99,18 +99,18 @@ void LevelLoader::saveGameObject(
     rapidjson::Document::AllocatorType& alloc = doc.GetAllocator();
 
     //タグを追加
-    JsonHelper::setString(alloc, &doc, "tag", gameObject.tag());
+    JsonHelper::setString(alloc, doc, "tag", gameObject.tag());
 
     //トランスフォーム用のjsonオブジェクトを作る
     rapidjson::Value props(rapidjson::kObjectType);
     //トランスフォームを保存
-    gameObject.saveProperties(alloc, &props);
+    gameObject.saveProperties(alloc, props);
     //トランスフォームをゲームオブジェクトのjsonオブジェクトに追加
     doc.AddMember("transform", props, alloc);
 
     //コンポーネントを保存
     rapidjson::Value components(rapidjson::kArrayType);
-    gameObject.componentManager().saveComponents(alloc, &components);
+    gameObject.componentManager().saveComponents(alloc, components);
     doc.AddMember("components", components, alloc);
 
     //文字列をファイルに書き込む
@@ -131,7 +131,7 @@ void LevelLoader::saveOnlyComponents(
 
     //コンポーネントを保存
     rapidjson::Value components(rapidjson::kArrayType);
-    gameObject.componentManager().saveComponents(alloc, &components);
+    gameObject.componentManager().saveComponents(alloc, components);
     doc.AddMember("components", components, alloc);
 
     //文字列をファイルに書き込む
@@ -158,7 +158,7 @@ void LevelLoader::writeBuffer(
 
 
 
-bool JsonHelper::getInt(const rapidjson::Value& inObject, const char* inProperty, int* out) {
+bool JsonHelper::getInt(const rapidjson::Value& inObject, const char* inProperty, int& out) {
     //プロパティが存在するか
     auto itr = inObject.FindMember(inProperty);
     if (itr == inObject.MemberEnd()) {
@@ -172,11 +172,11 @@ bool JsonHelper::getInt(const rapidjson::Value& inObject, const char* inProperty
     }
 
     //プロパティの取得に成功
-    *out = property.GetInt();
+    out = property.GetInt();
     return true;
 }
 
-bool JsonHelper::getFloat(const rapidjson::Value& inObject, const char* inProperty, float* out) {
+bool JsonHelper::getFloat(const rapidjson::Value& inObject, const char* inProperty, float& out) {
     auto itr = inObject.FindMember(inProperty);
     if (itr == inObject.MemberEnd()) {
         return false;
@@ -187,11 +187,11 @@ bool JsonHelper::getFloat(const rapidjson::Value& inObject, const char* inProper
         return false;
     }
 
-    *out = static_cast<float>(property.GetDouble());
+    out = static_cast<float>(property.GetDouble());
     return true;
 }
 
-bool JsonHelper::getString(const rapidjson::Value& inObject, const char* inProperty, std::string* out) {
+bool JsonHelper::getString(const rapidjson::Value& inObject, const char* inProperty, std::string& out) {
     auto itr = inObject.FindMember(inProperty);
     if (itr == inObject.MemberEnd()) {
         return false;
@@ -202,11 +202,11 @@ bool JsonHelper::getString(const rapidjson::Value& inObject, const char* inPrope
         return false;
     }
 
-    *out = property.GetString();
+    out = property.GetString();
     return true;
 }
 
-bool JsonHelper::getBool(const rapidjson::Value& inObject, const char* inProperty, bool* out) {
+bool JsonHelper::getBool(const rapidjson::Value& inObject, const char* inProperty, bool& out) {
     auto itr = inObject.FindMember(inProperty);
     if (itr == inObject.MemberEnd()) {
         return false;
@@ -217,11 +217,11 @@ bool JsonHelper::getBool(const rapidjson::Value& inObject, const char* inPropert
         return false;
     }
 
-    *out = property.GetBool();
+    out = property.GetBool();
     return true;
 }
 
-bool JsonHelper::getVector2(const rapidjson::Value& inObject, const char* inProperty, Vector2* out) {
+bool JsonHelper::getVector2(const rapidjson::Value& inObject, const char* inProperty, Vector2& out) {
     auto itr = inObject.FindMember(inProperty);
     if (itr == inObject.MemberEnd()) {
         return false;
@@ -238,13 +238,13 @@ bool JsonHelper::getVector2(const rapidjson::Value& inObject, const char* inProp
         }
     }
 
-    out->x = static_cast<float>(property[0].GetDouble());
-    out->y = static_cast<float>(property[1].GetDouble());
+    out.x = static_cast<float>(property[0].GetDouble());
+    out.y = static_cast<float>(property[1].GetDouble());
 
     return true;
 }
 
-bool JsonHelper::getVector3(const rapidjson::Value& inObject, const char* inProperty, Vector3* out) {
+bool JsonHelper::getVector3(const rapidjson::Value& inObject, const char* inProperty, Vector3& out) {
     auto itr = inObject.FindMember(inProperty);
     if (itr == inObject.MemberEnd()) {
         return false;
@@ -261,14 +261,14 @@ bool JsonHelper::getVector3(const rapidjson::Value& inObject, const char* inProp
         }
     }
 
-    out->x = static_cast<float>(property[0].GetDouble());
-    out->y = static_cast<float>(property[1].GetDouble());
-    out->z = static_cast<float>(property[2].GetDouble());
+    out.x = static_cast<float>(property[0].GetDouble());
+    out.y = static_cast<float>(property[1].GetDouble());
+    out.z = static_cast<float>(property[2].GetDouble());
 
     return true;
 }
 
-bool JsonHelper::getVector4(const rapidjson::Value& inObject, const char* inProperty, Vector4* out) {
+bool JsonHelper::getVector4(const rapidjson::Value& inObject, const char* inProperty, Vector4& out) {
     auto itr = inObject.FindMember(inProperty);
     if (itr == inObject.MemberEnd()) {
         return false;
@@ -285,15 +285,15 @@ bool JsonHelper::getVector4(const rapidjson::Value& inObject, const char* inProp
         }
     }
 
-    out->x = static_cast<float>(property[0].GetDouble());
-    out->y = static_cast<float>(property[1].GetDouble());
-    out->z = static_cast<float>(property[2].GetDouble());
-    out->w = static_cast<float>(property[3].GetDouble());
+    out.x = static_cast<float>(property[0].GetDouble());
+    out.y = static_cast<float>(property[1].GetDouble());
+    out.z = static_cast<float>(property[2].GetDouble());
+    out.w = static_cast<float>(property[3].GetDouble());
 
     return true;
 }
 
-bool JsonHelper::getQuaternion(const rapidjson::Value& inObject, const char* inProperty, Quaternion* out) {
+bool JsonHelper::getQuaternion(const rapidjson::Value& inObject, const char* inProperty, Quaternion& out) {
     auto itr = inObject.FindMember(inProperty);
     if (itr == inObject.MemberEnd()) {
         return false;
@@ -310,15 +310,15 @@ bool JsonHelper::getQuaternion(const rapidjson::Value& inObject, const char* inP
         }
     }
 
-    out->x = static_cast<float>(property[0].GetDouble());
-    out->y = static_cast<float>(property[1].GetDouble());
-    out->z = static_cast<float>(property[2].GetDouble());
-    out->w = static_cast<float>(property[3].GetDouble());
+    out.x = static_cast<float>(property[0].GetDouble());
+    out.y = static_cast<float>(property[1].GetDouble());
+    out.z = static_cast<float>(property[2].GetDouble());
+    out.w = static_cast<float>(property[3].GetDouble());
 
     return true;
 }
 
-bool JsonHelper::getStringArray(const rapidjson::Value& inObject, const char* inProperty, std::vector<std::string>* out) {
+bool JsonHelper::getStringArray(const rapidjson::Value& inObject, const char* inProperty, std::vector<std::string>& out) {
     auto itr = inObject.FindMember(inProperty);
     if (itr == inObject.MemberEnd()) {
         return false;
@@ -337,57 +337,62 @@ bool JsonHelper::getStringArray(const rapidjson::Value& inObject, const char* in
         temp.emplace_back(property[i].GetString());
     }
 
-    *out = temp;
+    out = temp;
 
     return true;
 }
 
-bool JsonHelper::getStringArray(const rapidjson::Value& inObject, const char* inProperty, std::unordered_set<std::string>* out) {
+bool JsonHelper::getVector3Array(const rapidjson::Value& inObject, const char* inProperty, std::vector<Vector3>& out) {
     auto itr = inObject.FindMember(inProperty);
     if (itr == inObject.MemberEnd()) {
         return false;
     }
 
     auto& property = itr->value;
-    if (!property.IsArray()) {
+    if (!property.IsArray() || property.Size() % 3 != 0) {
         return false;
     }
 
-    std::unordered_set<std::string> temp;
-    for (rapidjson::SizeType i = 0; i < property.Size(); i++) {
-        if (!property[i].IsString()) {
+    std::vector<Vector3> temp;
+    auto size = property.Size() / 3;
+    for (rapidjson::SizeType i = 0; i < size; i++) {
+        if (!property[i].IsDouble()) {
             return false;
         }
-        temp.emplace(property[i].GetString());
+        temp.emplace_back(Vector3(
+            property[i * 3].GetDouble(),
+            property[i * 3 + 1].GetDouble(),
+            property[i * 3 + 2].GetDouble()
+        ));
     }
 
-    *out = temp;
+    out = temp;
 
     return true;
 }
 
-void JsonHelper::setInt(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObject, const char* name, int value) {
+void JsonHelper::setInt(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObject, const char* name, int value) {
     rapidjson::Value v(value);
-    inObject->AddMember(rapidjson::StringRef(name), v, alloc);
+    inObject.AddMember(rapidjson::StringRef(name), v, alloc);
 }
 
-void JsonHelper::setFloat(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObject, const char* name, float value) {
+void JsonHelper::setFloat(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObject, const char* name, float value) {
     rapidjson::Value v(value);
-    inObject->AddMember(rapidjson::StringRef(name), v, alloc);
+    inObject.AddMember(rapidjson::StringRef(name), v, alloc);
 }
 
-void JsonHelper::setString(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObject, const char* name, const std::string& value) {
+void JsonHelper::setString(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObject, const char* name, const std::string& value) {
     rapidjson::Value v;
     v.SetString(value.c_str(), static_cast<rapidjson::SizeType>(value.length()), alloc);
-    inObject->AddMember(rapidjson::StringRef(name), v, alloc);
+    inObject.AddMember(rapidjson::StringRef(name), v, alloc);
 }
 
-void JsonHelper::setBool(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObject, const char* name, bool value) {
+void JsonHelper::setBool(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObject, const char* name, bool value) {
     rapidjson::Value v(value);
-    inObject->AddMember(rapidjson::StringRef(name), v, alloc);
+    inObject.AddMember(rapidjson::StringRef(name), v, alloc);
 }
 
-void JsonHelper::setVector2(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObject, const char* name, const Vector2& value) {
+void JsonHelper::setVector2(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObject, const char* name, const Vector2& value) {
     //配列を生成
     rapidjson::Value v(rapidjson::kArrayType);
     //x, y, zそれぞれ追加
@@ -395,10 +400,10 @@ void JsonHelper::setVector2(rapidjson::Document::AllocatorType& alloc, rapidjson
     v.PushBack(rapidjson::Value(value.y).Move(), alloc);
 
     //inObjectに配列として追加
-    inObject->AddMember(rapidjson::StringRef(name), v, alloc);
+    inObject.AddMember(rapidjson::StringRef(name), v, alloc);
 }
 
-void JsonHelper::setVector3(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObject, const char* name, const Vector3& value) {
+void JsonHelper::setVector3(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObject, const char* name, const Vector3& value) {
     //配列を生成
     rapidjson::Value v(rapidjson::kArrayType);
     //x, y, zそれぞれ追加
@@ -407,10 +412,10 @@ void JsonHelper::setVector3(rapidjson::Document::AllocatorType& alloc, rapidjson
     v.PushBack(rapidjson::Value(value.z).Move(), alloc);
 
     //inObjectに配列として追加
-    inObject->AddMember(rapidjson::StringRef(name), v, alloc);
+    inObject.AddMember(rapidjson::StringRef(name), v, alloc);
 }
 
-void JsonHelper::setVector4(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObject, const char* name, const Vector4& value) {
+void JsonHelper::setVector4(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObject, const char* name, const Vector4& value) {
     //配列を生成
     rapidjson::Value v(rapidjson::kArrayType);
     //x, y, z, wそれぞれ追加
@@ -420,10 +425,10 @@ void JsonHelper::setVector4(rapidjson::Document::AllocatorType& alloc, rapidjson
     v.PushBack(rapidjson::Value(value.w).Move(), alloc);
 
     //inObjectに配列として追加
-    inObject->AddMember(rapidjson::StringRef(name), v, alloc);
+    inObject.AddMember(rapidjson::StringRef(name), v, alloc);
 }
 
-void JsonHelper::setQuaternion(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObject, const char* name, const Quaternion& value) {
+void JsonHelper::setQuaternion(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObject, const char* name, const Quaternion& value) {
     //配列を生成
     rapidjson::Value v(rapidjson::kArrayType);
     //x, y, z, wそれぞれ追加
@@ -433,10 +438,10 @@ void JsonHelper::setQuaternion(rapidjson::Document::AllocatorType& alloc, rapidj
     v.PushBack(rapidjson::Value(value.w).Move(), alloc);
 
     //inObjectに配列として追加
-    inObject->AddMember(rapidjson::StringRef(name), v, alloc);
+    inObject.AddMember(rapidjson::StringRef(name), v, alloc);
 }
 
-void JsonHelper::setStringArray(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObject, const char* name, const std::vector<std::string>& values) {
+void JsonHelper::setStringArray(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObject, const char* name, const std::vector<std::string>& values) {
     //配列を生成
     rapidjson::Value v(rapidjson::kArrayType);
 
@@ -448,20 +453,20 @@ void JsonHelper::setStringArray(rapidjson::Document::AllocatorType& alloc, rapid
     }
 
     //inObjectに配列として追加
-    inObject->AddMember(rapidjson::StringRef(name), v, alloc);
+    inObject.AddMember(rapidjson::StringRef(name), v, alloc);
 }
 
-void JsonHelper::setStringArray(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObject, const char* name, const std::unordered_set<std::string>& values) {
+void JsonHelper::setVector3Array(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObject, const char* name, const std::vector<Vector3>& values) {
     //配列を生成
     rapidjson::Value v(rapidjson::kArrayType);
 
-    //配列要素を順に追加していく
-    rapidjson::Value temp;
     for (const auto& value : values) {
-        temp.SetString(value.c_str(), static_cast<rapidjson::SizeType>(value.length()), alloc);
-        v.PushBack(temp, alloc);
+        //x, y, zそれぞれ追加
+        v.PushBack(rapidjson::Value(value.x).Move(), alloc);
+        v.PushBack(rapidjson::Value(value.y).Move(), alloc);
+        v.PushBack(rapidjson::Value(value.z).Move(), alloc);
     }
 
     //inObjectに配列として追加
-    inObject->AddMember(rapidjson::StringRef(name), v, alloc);
+    inObject.AddMember(rapidjson::StringRef(name), v, alloc);
 }

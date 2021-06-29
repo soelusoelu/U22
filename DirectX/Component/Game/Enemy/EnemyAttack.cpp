@@ -37,8 +37,8 @@ void EnemyAttack::update() {
 }
 
 void EnemyAttack::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getInt(inObj, "damage", &mDamage);
-    JsonHelper::getFloat(inObj, "attackRangeDistance", &mAttackRangeDistance);
+    JsonHelper::getInt(inObj, "damage", mDamage);
+    JsonHelper::getFloat(inObj, "attackRangeDistance", mAttackRangeDistance);
 }
 
 void EnemyAttack::attack(const Transform3D& player) {

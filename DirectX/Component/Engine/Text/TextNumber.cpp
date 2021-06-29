@@ -20,7 +20,7 @@ void TextNumber::lateUpdate() {
 void TextNumber::loadProperties(const rapidjson::Value& inObj) {
     TextBase::loadProperties(inObj);
 
-    JsonHelper::getInt(inObj, "number", &mNumber);
+    JsonHelper::getInt(inObj, "number", mNumber);
 }
 
 void TextNumber::drawInspector() {

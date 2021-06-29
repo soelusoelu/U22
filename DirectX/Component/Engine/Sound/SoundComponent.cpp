@@ -43,11 +43,11 @@ void SoundComponent::finalize() {
 }
 
 void SoundComponent::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getString(inObj, "fileName", &mFileName);
-    JsonHelper::getBool(inObj, "use3D", &mUse3DSound);
+    JsonHelper::getString(inObj, "fileName", mFileName);
+    JsonHelper::getBool(inObj, "use3D", mUse3DSound);
 }
 
-void SoundComponent::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const {
+void SoundComponent::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     JsonHelper::setString(alloc, inObj, "fileName", mFileName);
     JsonHelper::setBool(alloc, inObj, "use3D", mUse3DSound);
 }

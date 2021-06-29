@@ -49,7 +49,7 @@ bool JoyPad::initialize(const HWND& hWnd, IDirectInput8* directInput) {
 void JoyPad::loadProperties(const rapidjson::Value& inObj) {
     const auto& padObj = inObj["joyPad"];
     if (padObj.IsObject()) {
-        if (JsonHelper::getString(padObj, "enterPad", &mEnterPadStr)) {
+        if (JsonHelper::getString(padObj, "enterPad", mEnterPadStr)) {
             stringToJoyCode(mEnterPadStr, &mEnterPad);
         }
     }
@@ -57,7 +57,7 @@ void JoyPad::loadProperties(const rapidjson::Value& inObj) {
 
 void JoyPad::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setString(alloc, &props, "enterPad", mEnterPadStr);
+    JsonHelper::setString(alloc, props, "enterPad", mEnterPadStr);
 
     inObj.AddMember("joyPad", props, alloc);
 }

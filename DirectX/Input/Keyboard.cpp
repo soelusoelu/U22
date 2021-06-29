@@ -100,7 +100,7 @@ bool Keyboard::initialize(const HWND& hWnd, IDirectInput8* directInput) {
 void Keyboard::loadProperties(const rapidjson::Value& inObj) {
     const auto& keyObj = inObj["keyboard"];
     if (keyObj.IsObject()) {
-        if (JsonHelper::getString(keyObj, "enterKey", &mEnterKeyStr)) {
+        if (JsonHelper::getString(keyObj, "enterKey", mEnterKeyStr)) {
             stringToKeyCode(mEnterKeyStr, &mEnterKey);
         }
     }
@@ -108,7 +108,7 @@ void Keyboard::loadProperties(const rapidjson::Value& inObj) {
 
 void Keyboard::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setString(alloc, &props, "enterKey", mEnterKeyStr);
+    JsonHelper::setString(alloc, props, "enterKey", mEnterKeyStr);
 
     inObj.AddMember("keyboard", props, alloc);
 }

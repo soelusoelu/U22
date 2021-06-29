@@ -32,10 +32,10 @@ void Stamina::lateUpdate() {
 }
 
 void Stamina::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "stamina", &mCurrentStamina);
+    JsonHelper::getFloat(inObj, "stamina", mCurrentStamina);
     mMaxStamina = mCurrentStamina;
-    JsonHelper::getFloat(inObj, "healAmount", &mHealAmount);
-    if (float time = 0.f; JsonHelper::getFloat(inObj, "coolTime", &time)) {
+    JsonHelper::getFloat(inObj, "healAmount", mHealAmount);
+    if (float time = 0.f; JsonHelper::getFloat(inObj, "coolTime", time)) {
         mCoolTime->setLimitTime(time);
     }
 }

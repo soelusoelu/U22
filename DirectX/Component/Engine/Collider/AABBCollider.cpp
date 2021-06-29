@@ -70,18 +70,18 @@ void AABBCollider::onEnable(bool value) {
 void AABBCollider::loadProperties(const rapidjson::Value& inObj) {
     Collider::loadProperties(inObj);
 
-    if (JsonHelper::getVector3(inObj, "min", &mDefaultMin)) {
+    if (JsonHelper::getVector3(inObj, "min", mDefaultMin)) {
         mAABB.min = mDefaultMin;
         mLoadedProperties = true;
     }
-    if (JsonHelper::getVector3(inObj, "max", &mDefaultMax)) {
+    if (JsonHelper::getVector3(inObj, "max", mDefaultMax)) {
         mAABB.max = mDefaultMax;
         mLoadedProperties = true;
     }
-    JsonHelper::getBool(inObj, "isRenderCollision", &mIsRenderCollision);
+    JsonHelper::getBool(inObj, "isRenderCollision", mIsRenderCollision);
 }
 
-void AABBCollider::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const {
+void AABBCollider::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     Collider::saveProperties(alloc, inObj);
 
     JsonHelper::setVector3(alloc, inObj, "min", mDefaultMin);

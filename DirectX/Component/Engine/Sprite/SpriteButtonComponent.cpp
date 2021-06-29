@@ -57,7 +57,7 @@ void SpriteButtonComponent::lateUpdate() {
 }
 
 void SpriteButtonComponent::loadProperties(const rapidjson::Value& inObj) {
-    if (std::string fileName;  JsonHelper::getString(inObj, "selectingSpriteFileName", &fileName)) {
+    if (std::string fileName;  JsonHelper::getString(inObj, "selectingSpriteFileName", fileName)) {
         mSelectingSprite = addComponent<SpriteComponent>("SpriteComponent");
         mSelectingSprite->setTextureFromFileName(fileName);
     }

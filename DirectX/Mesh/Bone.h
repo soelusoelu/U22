@@ -14,7 +14,7 @@ struct Bone {
     Matrix4 offsetMat;
 
     //親ノード
-    Bone* parent;
+    const Bone* parent;
     //小ボーンたち
     std::vector<Bone*> children;
 };

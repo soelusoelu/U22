@@ -58,11 +58,11 @@ void AABBMouseScaler::update() {
 }
 
 void AABBMouseScaler::loadProperties(const rapidjson::Value & inObj) {
-    JsonHelper::getFloat(inObj, "editPointRadius", &mEditPointRadius);
-    JsonHelper::getFloat(inObj, "collisionExpantionAmount", &mCollisionExpantionAmount);
+    JsonHelper::getFloat(inObj, "editPointRadius", mEditPointRadius);
+    JsonHelper::getFloat(inObj, "collisionExpantionAmount", mCollisionExpantionAmount);
 }
 
-void AABBMouseScaler::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const {
+void AABBMouseScaler::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     JsonHelper::setFloat(alloc, inObj, "editPointRadius", mEditPointRadius);
     JsonHelper::setFloat(alloc, inObj, "collisionExpantionAmount", mCollisionExpantionAmount);
 }

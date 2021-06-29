@@ -41,11 +41,11 @@ void PlayerDash::lateUpdate() {
 }
 
 void PlayerDash::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "dashSpeed", &mDashSpeed);
-    if (float time = 0.f; JsonHelper::getFloat(inObj, "dashMigrationTime", &time)) {
+    JsonHelper::getFloat(inObj, "dashSpeed", mDashSpeed);
+    if (float time = 0.f; JsonHelper::getFloat(inObj, "dashMigrationTime", time)) {
         mDashMigrationTimer->setLimitTime(time);
     }
-    JsonHelper::getFloat(inObj, "dashStaminaAmount", &mDashStaminaAmount);
+    JsonHelper::getFloat(inObj, "dashStaminaAmount", mDashStaminaAmount);
 }
 
 void PlayerDash::dash(IPlayerMove& playerMove) {

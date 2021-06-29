@@ -2,14 +2,16 @@
 
 #include "IModelViewerCallback.h"
 #include "ModelViewerMode.h"
-#include "../../Mesh/IAnimation.h"
+#include "../../Math/Math.h"
 #include <memory>
+#include <vector>
 
 class GameObject;
 class MeshComponent;
 class SkinMeshComponent;
 class LineRenderer3D;
 class SimpleCamera;
+class OBBCollider;
 
 class ModelViewerColliderManager {
 public:
@@ -24,6 +26,8 @@ private:
 
     //Tポーズ状態のボーンを描画する
     void drawTPoseBone(LineRenderer3D& line) const;
+    //ボーンの数だけOBBを作成する
+    void createObbCollider();
     //アニメーション付きのモデルか
     bool isAnimation() const;
     void onChangeModel(const GameObject& newModel);
@@ -32,7 +36,7 @@ private:
 private:
     std::shared_ptr<MeshComponent> mMesh;
     std::shared_ptr<SkinMeshComponent> mSkinMesh;
-    IAnimation* mAnimation;
+    std::vector<std::shared_ptr<OBBCollider>> mObbColliders;
 
     static const Vector3 COLORS[];
 };

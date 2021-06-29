@@ -57,13 +57,13 @@ void MeshOutLine::start() {
 }
 
 void MeshOutLine::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getVector3(inObj, "outLineColor", &mOutLineColor);
-    JsonHelper::getFloat(inObj, "outLineColorThickness", &mOutLineThickness);
-    JsonHelper::getBool(inObj, "isDrawOutLine", &mIsDrawOutLine);
-    JsonHelper::getFloat(inObj, "offset", &mOffset);
+    JsonHelper::getVector3(inObj, "outLineColor", mOutLineColor);
+    JsonHelper::getFloat(inObj, "outLineColorThickness", mOutLineThickness);
+    JsonHelper::getBool(inObj, "isDrawOutLine", mIsDrawOutLine);
+    JsonHelper::getFloat(inObj, "offset", mOffset);
 }
 
-void MeshOutLine::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const {
+void MeshOutLine::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     JsonHelper::setVector3(alloc, inObj, "outLineColor", mOutLineColor);
     JsonHelper::setFloat(alloc, inObj, "outLineColorThickness", mOutLineThickness);
     JsonHelper::setBool(alloc, inObj, "isDrawOutLine", mIsDrawOutLine);

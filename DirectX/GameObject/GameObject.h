@@ -28,7 +28,7 @@ public:
 
     //ロード/セーブ
     void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const;
+    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
 
     //アクティブ指定
     void setActive(bool value);

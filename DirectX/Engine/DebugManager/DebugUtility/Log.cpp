@@ -10,16 +10,16 @@ Log::Log() :
 
 Log::~Log() = default;
 
-void Log::loadProperties(const rapidjson::Value & inObj) {
+void Log::loadProperties(const rapidjson::Value& inObj) {
     const auto& logObj = inObj["log"];
     if (logObj.IsObject()) {
-        JsonHelper::getVector2(logObj, "scale", &mScale);
+        JsonHelper::getVector2(logObj, "scale", mScale);
     }
 }
 
 void Log::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setVector2(alloc, &props, "scale", mScale);
+    JsonHelper::setVector2(alloc, props, "scale", mScale);
 
     inObj.AddMember("log", props, alloc);
 }
@@ -28,15 +28,15 @@ void Log::initialize() {
     mNumRowsToDisplay = (Window::debugHeight() - Window::height() - DRAW_OFFSET_Y) / (DrawString::HEIGHT * mScale.y);
 }
 
-void Log::log(const std::string & message) {
+void Log::log(const std::string& message) {
     addLog(message, ColorPalette::white);
 }
 
-void Log::logError(const std::string & message) {
+void Log::logError(const std::string& message) {
     addLog(message, ColorPalette::red);
 }
 
-void Log::logWarning(const std::string & message) {
+void Log::logWarning(const std::string& message) {
     addLog(message, ColorPalette::yellow);
 }
 

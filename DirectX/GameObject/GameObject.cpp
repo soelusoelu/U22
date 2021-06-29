@@ -42,7 +42,7 @@ void GameObject::loadProperties(const rapidjson::Value& inObj) {
     mTransform->loadProperties(inObj);
 }
 
-void GameObject::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value* inObj) const {
+void GameObject::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
     mTransform->saveProperties(alloc, inObj);
 }
 

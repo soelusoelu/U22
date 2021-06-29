@@ -10,7 +10,7 @@ WeaponDamage::WeaponDamage()
 WeaponDamage::~WeaponDamage() = default;
 
 void WeaponDamage::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getInt(inObj, "damage", &mDamage);
+    JsonHelper::getInt(inObj, "damage", mDamage);
 }
 
 int WeaponDamage::getDamage() const {
