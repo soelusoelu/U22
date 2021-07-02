@@ -14,7 +14,7 @@ public:
     EnemyMove();
     ~EnemyMove();
     virtual void start() override;
-    virtual void loadProperties(const rapidjson::Value& inObj) override;
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
     void originalUpdate(const Transform3D& player);
 
 private:

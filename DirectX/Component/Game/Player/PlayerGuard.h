@@ -15,7 +15,7 @@ public:
     ~PlayerGuard();
     virtual void start() override;
     virtual void update() override;
-    virtual void loadProperties(const rapidjson::Value& inObj) override;
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
     void originalUpdate();
     bool isGuarding() const;
 

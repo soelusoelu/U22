@@ -2,7 +2,7 @@
 #include "../../../Device/Time.h"
 #include "../../../Engine/DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
 #include "../../../Math/Math.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 Stamina::Stamina()
     : Component()
@@ -31,13 +31,11 @@ void Stamina::lateUpdate() {
     }
 }
 
-void Stamina::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "stamina", mCurrentStamina);
+void Stamina::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetFloat(mCurrentStamina, "stamina", inObj, alloc, mode);
     mMaxStamina = mCurrentStamina;
-    JsonHelper::getFloat(inObj, "healAmount", mHealAmount);
-    if (float time = 0.f; JsonHelper::getFloat(inObj, "coolTime", time)) {
-        mCoolTime->setLimitTime(time);
-    }
+    JsonHelper::getSetFloat(mHealAmount, "healAmount", inObj, alloc, mode);
+    mCoolTime->saveAndLoad(inObj, alloc, mode);
 }
 
 void Stamina::drawInspector() {

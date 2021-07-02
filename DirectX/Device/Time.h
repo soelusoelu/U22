@@ -1,9 +1,14 @@
 ﻿#pragma once
 
+#include "../Utility/FileMode.h"
+#include <rapidjson/document.h>
+
 class Time {
 public:
     Time();
     ~Time();
+    //保存と読み込み
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     //内部時間を進める
     void update();
     //設定を最初の状態に戻す

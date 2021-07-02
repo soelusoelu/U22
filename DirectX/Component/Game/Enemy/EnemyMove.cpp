@@ -3,9 +3,7 @@
 #include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Device/Time.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
-#include "../../../Engine/DebugManager/DebugUtility/Debug.h"
-#include "../../../Utility/StringUtil.h"
+#include "../../../Utility/JsonHelper.h"
 
 EnemyMove::EnemyMove()
     : Component()
@@ -23,10 +21,10 @@ void EnemyMove::start() {
     mAnimation->changeMotion(EnemyMotions::WALK);
 }
 
-void EnemyMove::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "walkSpeed", mWalkSpeed);
-    JsonHelper::getFloat(inObj, "rotateSpeed", mRotateSpeed);
-    JsonHelper::getFloat(inObj, "toPlayerLimitDistance", mToPlayerLimitDistance);
+void EnemyMove::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetFloat(mWalkSpeed, "walkSpeed", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mRotateSpeed, "rotateSpeed", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mToPlayerLimitDistance, "toPlayerLimitDistance", inObj, alloc, mode);
 }
 
 void EnemyMove::originalUpdate(const Transform3D& player) {
@@ -56,7 +54,6 @@ void EnemyMove::rotate(const Vector3& playerPosition) {
 
     ////角度に変換する
     //auto angle = Math::acos(dot);
-    //Debug::log(StringUtil::floatToString(dot));
     //auto axis = (dot > 0.f) ? Vector3::up : Vector3::up;
     //t.rotate(axis, mRotateSpeed * Time::deltaTime);
 }

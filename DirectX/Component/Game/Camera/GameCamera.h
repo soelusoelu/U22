@@ -3,6 +3,7 @@
 #include "ILockOn.h"
 #include "../../Component.h"
 #include "../../../Math/Math.h"
+#include <rapidjson/document.h>
 #include <memory>
 
 class Camera;
@@ -16,7 +17,7 @@ public:
     ~GameCamera();
     virtual void start() override;
     virtual void lateUpdate() override;
-    virtual void loadProperties(const rapidjson::Value& inObj) override;
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
     //カメラの注視点となるプレイヤーを設定する
     void setPlayer(const std::shared_ptr<GameObject>& player);

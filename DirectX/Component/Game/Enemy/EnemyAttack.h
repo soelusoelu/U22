@@ -15,7 +15,7 @@ public:
     ~EnemyAttack();
     virtual void start() override;
     virtual void update() override;
-    virtual void loadProperties(const rapidjson::Value& inObj) override;
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
     void attack(const Transform3D& player);
     bool isAttacking() const;
     int getDamage() const;

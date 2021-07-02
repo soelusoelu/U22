@@ -16,7 +16,7 @@ public:
     PlayerWalk();
     ~PlayerWalk();
     virtual void start() override;
-    virtual void loadProperties(const rapidjson::Value& inObj) override;
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
     //歩行処理
     void walk(IPlayerMove& playerMove);
     //歩いているか

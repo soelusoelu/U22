@@ -1,6 +1,6 @@
 ﻿#include "HitPoint.h"
 #include "../../../Engine/DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 HitPoint::HitPoint()
     : Component()
@@ -11,11 +11,14 @@ HitPoint::HitPoint()
 
 HitPoint::~HitPoint() = default;
 
-void HitPoint::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getInt(inObj, "HP", mHp);
-    JsonHelper::getInt(inObj, "maxHP", mMaxHp);
-    if (mMaxHp < mHp) {
-        mMaxHp = mHp;
+void HitPoint::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetInt(mHp, "HP", inObj, alloc, mode);
+    JsonHelper::getSetInt(mMaxHp, "maxHP", inObj, alloc, mode);
+
+    if (mode == FileMode::LOAD) {
+        if (mMaxHp < mHp) {
+            mMaxHp = mHp;
+        }
     }
 }
 

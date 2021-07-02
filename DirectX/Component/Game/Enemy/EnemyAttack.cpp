@@ -3,7 +3,7 @@
 #include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Device/Time.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 EnemyAttack::EnemyAttack()
     : Component()
@@ -36,9 +36,9 @@ void EnemyAttack::update() {
     }
 }
 
-void EnemyAttack::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getInt(inObj, "damage", mDamage);
-    JsonHelper::getFloat(inObj, "attackRangeDistance", mAttackRangeDistance);
+void EnemyAttack::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetInt(mDamage, "damage", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mAttackRangeDistance, "attackRangeDistance", inObj, alloc, mode);
 }
 
 void EnemyAttack::attack(const Transform3D& player) {

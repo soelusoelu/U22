@@ -8,7 +8,7 @@ class WeaponDamage
 public:
     WeaponDamage();
     ~WeaponDamage();
-    virtual void loadProperties(const rapidjson::Value& inObj) override;
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
     int getDamage() const;
 
 private:

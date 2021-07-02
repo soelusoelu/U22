@@ -19,7 +19,7 @@ public:
     ~PlayerDash();
     virtual void start() override;
     virtual void lateUpdate() override;
-    virtual void loadProperties(const rapidjson::Value& inObj) override;
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
     //ダッシュ処理
     void dash(IPlayerMove& playerMove);
     //走っているか

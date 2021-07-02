@@ -11,7 +11,7 @@ class HitPoint
 public:
     HitPoint();
     ~HitPoint();
-    virtual void loadProperties(const rapidjson::Value& inObj) override;
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
     virtual void drawInspector() override;
 
     //ダメージに応じてHPを減らす

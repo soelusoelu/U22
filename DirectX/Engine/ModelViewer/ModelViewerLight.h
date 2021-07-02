@@ -1,14 +1,14 @@
 ﻿#pragma once
 
 #include "../../Math/Math.h"
+#include "../../Utility/FileMode.h"
 #include <rapidjson/document.h>
 
 class ModelViewerLight {
 public:
     ModelViewerLight();
     ~ModelViewerLight();
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj);
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void drawGUI();
     Vector3 getDirection() const;
     const Vector3& getColor() const;

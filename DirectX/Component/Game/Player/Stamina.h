@@ -14,7 +14,7 @@ public:
     Stamina();
     ~Stamina();
     virtual void lateUpdate() override;
-    virtual void loadProperties(const rapidjson::Value& inObj) override;
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
     virtual void drawInspector() override;
     //スタミナをamountに応じて使用する
     //スタミナが1でもあれば消費量に関わらず使用する

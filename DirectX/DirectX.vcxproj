@@ -184,6 +184,7 @@
     <ClCompile Include="Engine\ModelViewer\ModelViewerLight.cpp" />
     <ClCompile Include="Engine\ModelViewer\ModelViewerPlane.cpp" />
     <ClCompile Include="Engine\ModelViewer\ModelViewerColliderManager.cpp" />
+    <ClCompile Include="Utility\JsonHelper.cpp" />
     <ClCompile Include="System\Shader\DataTransfer.cpp" />
     <ClCompile Include="Engine\Camera\EngineCamera.cpp" />
     <ClCompile Include="Engine\EngineFuctionChanger.cpp" />
@@ -459,6 +460,7 @@
     <ClInclude Include="Engine\ModelViewer\ModelViewerLight.h" />
     <ClInclude Include="Engine\ModelViewer\ModelViewerPlane.h" />
     <ClInclude Include="Engine\ModelViewer\ModelViewerColliderManager.h" />
+    <ClInclude Include="Utility\JsonHelper.h" />
     <ClInclude Include="System\Shader\DataTransfer.h" />
     <ClInclude Include="Engine\Camera\EngineCamera.h" />
     <ClInclude Include="Engine\EngineFuctionChanger.h" />
@@ -712,6 +714,7 @@
     <ClInclude Include="Engine\DebugManager\DebugUtility\Debug.h" />
     <ClInclude Include="Collision\Triangle.h" />
     <ClInclude Include="Utility\Easing.h" />
+    <ClInclude Include="Utility\FileMode.h" />
     <ClInclude Include="Utility\FileUtil.h" />
     <ClInclude Include="Utility\LevelLoader.h" />
     <ClInclude Include="DirectX\RenderTargetView.h" />

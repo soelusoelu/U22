@@ -8,7 +8,7 @@
 #include "../../../Device/Time.h"
 #include "../../../Input/Input.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 PlayerRoll::PlayerRoll()
     : Component()
@@ -74,9 +74,9 @@ void PlayerRoll::lateUpdate() {
     }
 }
 
-void PlayerRoll::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "rollingDistance", mRollingDistance);
-    JsonHelper::getFloat(inObj, "rollingStaminaAmount", mRollingStaminaAmount);
+void PlayerRoll::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetFloat(mRollingDistance, "rollingDistance", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mRollingStaminaAmount, "rollingStaminaAmount", inObj, alloc, mode);
 }
 
 void PlayerRoll::originalUpdate() {

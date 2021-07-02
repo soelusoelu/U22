@@ -2,7 +2,7 @@
 #include "PlayerMotions.h"
 #include "Stamina.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 PlayerGuard::PlayerGuard()
     : Component()
@@ -34,8 +34,8 @@ void PlayerGuard::update() {
     }
 }
 
-void PlayerGuard::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "guardingStaminaHealRate", mGuardingStaminaHealRate);
+void PlayerGuard::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetFloat(mGuardingStaminaHealRate, "guardingStaminaHealRate", inObj, alloc, mode);
 }
 
 void PlayerGuard::originalUpdate() {

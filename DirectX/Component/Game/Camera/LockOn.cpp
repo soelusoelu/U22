@@ -6,7 +6,7 @@
 #include "../../../GameObject/GameObjectManager.h"
 #include "../../../Input/Input.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 LockOn::LockOn()
     : Component()
@@ -52,13 +52,11 @@ void LockOn::lateUpdate() {
     }
 }
 
-void LockOn::loadProperties(const rapidjson::Value & inObj) {
-    JsonHelper::getFloat(inObj, "lockOnAngle", mLockOnAngle);
-    JsonHelper::getFloat(inObj, "lookAtOffsetY", mLookAtOffsetY);
-    JsonHelper::getFloat(inObj, "cameraOffsetY", mCameraOffsetY);
-    if (float time = 0.f; JsonHelper::getFloat(inObj, "lerpTime", time)) {
-        mLerpTimer->setLimitTime(time);
-    }
+void LockOn::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetFloat(mLockOnAngle, "lockOnAngle", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mLookAtOffsetY, "lookAtOffsetY", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mCameraOffsetY, "cameraOffsetY", inObj, alloc, mode);
+    mLerpTimer->saveAndLoad(inObj, alloc, mode);
 }
 
 bool LockOn::isLockOn() const {

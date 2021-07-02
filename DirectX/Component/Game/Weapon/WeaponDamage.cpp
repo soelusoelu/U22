@@ -1,5 +1,5 @@
 ﻿#include "WeaponDamage.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 WeaponDamage::WeaponDamage()
     : Component()
@@ -9,8 +9,8 @@ WeaponDamage::WeaponDamage()
 
 WeaponDamage::~WeaponDamage() = default;
 
-void WeaponDamage::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getInt(inObj, "damage", mDamage);
+void WeaponDamage::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetInt(mDamage, "damage", inObj, alloc, mode);
 }
 
 int WeaponDamage::getDamage() const {

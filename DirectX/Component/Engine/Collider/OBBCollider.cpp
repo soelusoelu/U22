@@ -3,7 +3,7 @@
 #include "../Mesh/MeshComponent.h"
 #include "../Mesh/SkinMeshComponent.h"
 #include "../../../Engine/DebugManager/DebugUtility/DebugUtility.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 OBBCollider::OBBCollider()
     : Collider()
@@ -44,14 +44,7 @@ void OBBCollider::lateUpdate() {
     //ColliderDrawer::drawOBB(DebugUtility::instance().lineRenderer3D(), mOBB);
 }
 
-void OBBCollider::loadProperties(const rapidjson::Value& inObj) {
-    //if (JsonHelper::getVector3Array(inObj, "vertices", &mVertices)) {
-    //    mOBB = OBBCreater::create(mVertices);
-    //}
-}
-
-void OBBCollider::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    //JsonHelper::setVector3Array(alloc, inObj, "vertices", mVertices);
+void OBBCollider::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
 }
 
 const OBB& OBBCollider::getOBB() const {

@@ -4,7 +4,7 @@
 #include "PlayerMove.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 PlayerWalk::PlayerWalk()
     : Component()
@@ -25,8 +25,8 @@ void PlayerWalk::start() {
     getComponent<PlayerMove>()->callbackToStop([&] { mIsWalking = false; });
 }
 
-void PlayerWalk::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "walkSpeed", mWalkSpeed);
+void PlayerWalk::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetFloat(mWalkSpeed, "walkSpeed", inObj, alloc, mode);
 }
 
 void PlayerWalk::walk(IPlayerMove& playerMove) {

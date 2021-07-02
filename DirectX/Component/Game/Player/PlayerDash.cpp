@@ -6,7 +6,7 @@
 #include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Device/Time.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 PlayerDash::PlayerDash()
     : Component()
@@ -40,12 +40,10 @@ void PlayerDash::lateUpdate() {
     }
 }
 
-void PlayerDash::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "dashSpeed", mDashSpeed);
-    if (float time = 0.f; JsonHelper::getFloat(inObj, "dashMigrationTime", time)) {
-        mDashMigrationTimer->setLimitTime(time);
-    }
-    JsonHelper::getFloat(inObj, "dashStaminaAmount", mDashStaminaAmount);
+void PlayerDash::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetFloat(mDashSpeed, "dashSpeed", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mDashStaminaAmount, "dashStaminaAmount", inObj, alloc, mode);
+    mDashMigrationTimer->saveAndLoad(inObj, alloc, mode);
 }
 
 void PlayerDash::dash(IPlayerMove& playerMove) {

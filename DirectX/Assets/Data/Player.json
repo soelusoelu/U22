@@ -37,8 +37,8 @@
       "type": "PlayerDash",
       "properties": {
         "dashSpeed": 90.0,
-        "dashMigrationTime": 0.25,
-        "dashStaminaAmount": 0.3
+        "dashStaminaAmount": 0.3,
+        "limitTime": 0.25
       }
     },
     {
@@ -73,7 +73,7 @@
       "properties": {
         "stamina": 100.0,
         "healAmount": 15.0,
-        "coolTime": 1.0
+        "limitTime": 1.0
       }
     },
     {

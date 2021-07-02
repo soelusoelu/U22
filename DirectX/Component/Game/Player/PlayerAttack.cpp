@@ -6,7 +6,7 @@
 #include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Device/Time.h"
 #include "../../../Input/Input.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 PlayerAttack::PlayerAttack()
     : Component()
@@ -66,18 +66,22 @@ void PlayerAttack::update() {
     }
 }
 
-void PlayerAttack::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(
-        inObj,
+void PlayerAttack::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetFloat(
+        mCoolTimeUntilAdditionalAttack[FIRST_ATTACK_START_NO],
         "firstLowestCoolTimeUpToAdditionalAttack",
-        mCoolTimeUntilAdditionalAttack[FIRST_ATTACK_START_NO]
-    );
-    JsonHelper::getFloat(
         inObj,
-        "secondLowestCoolTimeUpToAdditionalAttack",
-        mCoolTimeUntilAdditionalAttack[SECOND_ATTACK_START_NO]
+        alloc,
+        mode
     );
-    JsonHelper::getFloat(inObj, "attackStaminaAmount", mAttackStaminaAmount);
+    JsonHelper::getSetFloat(
+        mCoolTimeUntilAdditionalAttack[SECOND_ATTACK_START_NO],
+        "secondLowestCoolTimeUpToAdditionalAttack",
+        inObj,
+        alloc,
+        mode
+    );
+    JsonHelper::getSetFloat(mAttackStaminaAmount, "attackStaminaAmount", inObj, alloc, mode);
 }
 
 void PlayerAttack::originalUpdate() {

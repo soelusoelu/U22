@@ -16,7 +16,7 @@
 #include "../../../System/Shader/ShaderBinder.h"
 #include "../../../System/Texture/TextureFromFile.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 MeshOutLine::MeshOutLine()
     : Component()
@@ -56,18 +56,11 @@ void MeshOutLine::start() {
     getComponent<MeshRenderer>()->setDrawBefore(this);
 }
 
-void MeshOutLine::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getVector3(inObj, "outLineColor", mOutLineColor);
-    JsonHelper::getFloat(inObj, "outLineColorThickness", mOutLineThickness);
-    JsonHelper::getBool(inObj, "isDrawOutLine", mIsDrawOutLine);
-    JsonHelper::getFloat(inObj, "offset", mOffset);
-}
-
-void MeshOutLine::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    JsonHelper::setVector3(alloc, inObj, "outLineColor", mOutLineColor);
-    JsonHelper::setFloat(alloc, inObj, "outLineColorThickness", mOutLineThickness);
-    JsonHelper::setBool(alloc, inObj, "isDrawOutLine", mIsDrawOutLine);
-    JsonHelper::setFloat(alloc, inObj, "offset", mOffset);
+void MeshOutLine::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetVector3(mOutLineColor, "outLineColor", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mOutLineThickness, "outLineColorThickness", inObj, alloc, mode);
+    JsonHelper::getSetBool(mIsDrawOutLine, "isDrawOutLine", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mOffset, "offset", inObj, alloc, mode);
 }
 
 void MeshOutLine::drawInspector() {

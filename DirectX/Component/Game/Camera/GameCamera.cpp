@@ -6,7 +6,7 @@
 #include "../../../GameObject/GameObjectManager.h"
 #include "../../../Input/Input.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 GameCamera::GameCamera()
     : Component()
@@ -67,15 +67,13 @@ void GameCamera::lateUpdate() {
     mCamera->setPosition(cameraPos);
 }
 
-void GameCamera::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "rotateSpeed", mRotateSpeed);
-    JsonHelper::getFloat(inObj, "cameraToPlayerDistance", mToPlayerDistance);
-    JsonHelper::getFloat(inObj, "lookAtOffsetY", mLookAtOffsetY);
-    JsonHelper::getFloat(inObj, "startPositionY", mStartPositionY);
-    if (float time = 0.f; JsonHelper::getFloat(inObj, "unlockOnLerpTimer", time)) {
-        mUnlockOnLerpTimer->setLimitTime(time);
-        mUnlockOnLerpTimer->forceOverlimit();
-    }
+void GameCamera::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetFloat(mRotateSpeed, "rotateSpeed", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mToPlayerDistance, "cameraToPlayerDistance", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mLookAtOffsetY, "lookAtOffsetY", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mStartPositionY, "startPositionY", inObj, alloc, mode);
+    mUnlockOnLerpTimer->saveAndLoad(inObj, alloc, mode);
+    mUnlockOnLerpTimer->forceOverlimit();
 }
 
 void GameCamera::setPlayer(const std::shared_ptr<GameObject>& player) {

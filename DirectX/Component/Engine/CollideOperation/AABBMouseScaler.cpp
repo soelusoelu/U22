@@ -9,7 +9,7 @@
 #include "../../../Imgui/imgui.h"
 #include "../../../Input/Input.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 AABBMouseScaler::AABBMouseScaler()
     : Component()
@@ -57,14 +57,9 @@ void AABBMouseScaler::update() {
     }
 }
 
-void AABBMouseScaler::loadProperties(const rapidjson::Value & inObj) {
-    JsonHelper::getFloat(inObj, "editPointRadius", mEditPointRadius);
-    JsonHelper::getFloat(inObj, "collisionExpantionAmount", mCollisionExpantionAmount);
-}
-
-void AABBMouseScaler::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    JsonHelper::setFloat(alloc, inObj, "editPointRadius", mEditPointRadius);
-    JsonHelper::setFloat(alloc, inObj, "collisionExpantionAmount", mCollisionExpantionAmount);
+void AABBMouseScaler::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetFloat(mEditPointRadius, "editPointRadius", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mCollisionExpantionAmount, "collisionExpantionAmount", inObj, alloc, mode);
 }
 
 void AABBMouseScaler::drawInspector() {

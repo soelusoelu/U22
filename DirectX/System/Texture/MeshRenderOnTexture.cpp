@@ -10,6 +10,18 @@
 #include "../../Mesh/MeshCommonShaderSetter.h"
 #include "../../Sprite/Sprite.h"
 #include "../../Transform/Transform2D.h"
+#include "../../Utility/JsonHelper.h"
+
+MeshRenderOnTexture::MeshRenderOnTexture()
+    : mRenderTexture(nullptr)
+    , mSprite(std::make_unique<Sprite>())
+    , mMesh(nullptr)
+    , mMeshShaderID(AssetsManager::instance().createShader("SimpleMeshTexture.hlsl"))
+    , mFilePath()
+    , mWidth(DEFAULT_SPRITE_WIDTH)
+    , mHeight(DEFAULT_SPRITE_HEIGHT)
+{
+}
 
 MeshRenderOnTexture::MeshRenderOnTexture(const std::string& filePath, int width, int height)
     : mRenderTexture(std::make_unique<RenderTexture>(width, height, Format::FORMAT_D16_UNORM, Format::FORMAT_RGBA8_UNORM))
@@ -24,9 +36,20 @@ MeshRenderOnTexture::MeshRenderOnTexture(const std::string& filePath, int width,
     mSprite->setTexture(tex);
 }
 
-MeshRenderOnTexture::MeshRenderOnTexture(const std::string& fileName, const std::string& directoryPath, int width, int height)
-    : MeshRenderOnTexture(directoryPath + fileName, width, height)
-{
+//MeshRenderOnTexture::MeshRenderOnTexture(const std::string& fileName, const std::string& directoryPath, int width, int height)
+//    : MeshRenderOnTexture(directoryPath + fileName, width, height)
+//{
+//}
+
+void MeshRenderOnTexture::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetString(mFilePath, "filePath", inObj, alloc, mode);
+    JsonHelper::getSetInt(mWidth, "width", inObj, alloc, mode);
+    JsonHelper::getSetInt(mHeight, "height", inObj, alloc, mode);
+
+    mRenderTexture = std::make_unique<RenderTexture>(mWidth, mHeight, Format::FORMAT_D16_UNORM, Format::FORMAT_RGBA8_UNORM);
+    mMesh = AssetsManager::instance().createMeshFromFilePath(mFilePath);
+    const auto& tex = std::make_shared<Texture>(mRenderTexture->getShaderResourceView(), Vector2(mWidth, mHeight));
+    mSprite->setTexture(tex);
 }
 
 MeshRenderOnTexture::~MeshRenderOnTexture() = default;

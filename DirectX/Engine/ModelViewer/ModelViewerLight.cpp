@@ -2,7 +2,7 @@
 #include "../../Engine/DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
 #include "../../Engine/DebugManager/DebugUtility/Debug.h"
 #include "../../System/Window.h"
-#include "../../Utility/LevelLoader.h"
+#include "../../Utility/JsonHelper.h"
 
 ModelViewerLight::ModelViewerLight()
     : mDirection()
@@ -14,24 +14,24 @@ ModelViewerLight::ModelViewerLight()
 
 ModelViewerLight::~ModelViewerLight() = default;
 
-void ModelViewerLight::loadProperties(const rapidjson::Value& inObj) {
-    const auto& obj = inObj["modelViewerLight"];
-    if (obj.IsObject()) {
-        JsonHelper::getQuaternion(obj, "direction", mDirection);
-        JsonHelper::getVector3(obj, "color", mColor);
-        JsonHelper::getVector3(obj, "directionDrawPosition", mDirectionDrawPosition);
-        JsonHelper::getFloat(obj, "lengthDirection", mLengthDirection);
+void ModelViewerLight::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        rapidjson::Value props(rapidjson::kObjectType);
+        JsonHelper::setQuaternion(mDirection, "direction", props, alloc);
+        JsonHelper::setVector3(mColor, "color", props, alloc);
+        JsonHelper::setVector3(alloc, props, "directionDrawPosition", mDirectionDrawPosition);
+        JsonHelper::setFloat(alloc, props, "lengthDirection", mLengthDirection);
+
+        inObj.AddMember("modelViewerLight", props, alloc);
+    } else {
+        const auto& obj = inObj["modelViewerLight"];
+        if (obj.IsObject()) {
+            JsonHelper::getQuaternion(obj, "direction", mDirection);
+            JsonHelper::getVector3(obj, "color", mColor);
+            JsonHelper::getVector3(obj, "directionDrawPosition", mDirectionDrawPosition);
+            JsonHelper::getFloat(obj, "lengthDirection", mLengthDirection);
+        }
     }
-}
-
-void ModelViewerLight::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) {
-    rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setQuaternion(alloc, props, "direction", mDirection);
-    JsonHelper::setVector3(alloc, props, "color", mColor);
-    JsonHelper::setVector3(alloc, props, "directionDrawPosition", mDirectionDrawPosition);
-    JsonHelper::setFloat(alloc, props, "lengthDirection", mLengthDirection);
-
-    inObj.AddMember("modelViewerLight", props, alloc);
 }
 
 void ModelViewerLight::drawGUI() {

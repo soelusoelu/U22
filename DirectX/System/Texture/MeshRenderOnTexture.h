@@ -3,6 +3,8 @@
 #include "../AssetsDirectoryPath.h"
 #include "../../Math/Math.h"
 #include "../../Mesh/IMesh.h"
+#include "../../Utility/FileMode.h"
+#include <rapidjson/document.h>
 #include <memory>
 #include <string>
 
@@ -13,9 +15,13 @@ class Mesh;
 //メッシュをテクスチャ上に描画する
 class MeshRenderOnTexture {
 public:
+    //saveAndLoad関数で値を受け取る前提のコンストラクタ
+    MeshRenderOnTexture();
     MeshRenderOnTexture(const std::string& filePath, int width, int height);
-    MeshRenderOnTexture(const std::string& fileName, const std::string& directoryPath, int width, int height);
+    //MeshRenderOnTexture(const std::string& fileName, const std::string& directoryPath, int width, int height);
     ~MeshRenderOnTexture();
+    //保存と読み込み
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     //メッシュをテクスチャ上に描画する
     void drawMeshOnTexture(const Matrix4& viewProj) const;
     //メッシュ描画済みテクスチャを描画する
@@ -50,4 +56,7 @@ private:
     std::string mFilePath;
     int mWidth;
     int mHeight;
+
+    static constexpr int DEFAULT_SPRITE_WIDTH = 128;
+    static constexpr int DEFAULT_SPRITE_HEIGHT = 128;
 };

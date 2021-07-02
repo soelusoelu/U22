@@ -4,7 +4,7 @@
 #include "../../../Input/Input.h"
 #include "../../../Sprite/SpriteUtility.h"
 #include "../../../Transform/Transform2D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 #include <string>
 
 SpriteButtonComponent::SpriteButtonComponent()
@@ -56,10 +56,16 @@ void SpriteButtonComponent::lateUpdate() {
     }
 }
 
-void SpriteButtonComponent::loadProperties(const rapidjson::Value& inObj) {
-    if (std::string fileName;  JsonHelper::getString(inObj, "selectingSpriteFileName", fileName)) {
-        mSelectingSprite = addComponent<SpriteComponent>("SpriteComponent");
-        mSelectingSprite->setTextureFromFileName(fileName);
+void SpriteButtonComponent::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        if (std::string filename;  JsonHelper::getString(filename, "selectingSpriteFilename", inObj)) {
+            mSelectingSprite = addComponent<SpriteComponent>("SpriteComponent");
+            mSelectingSprite->setTextureFromFileName(filename);
+        }
+    } else {
+        if (mSelectingSprite) {
+            JsonHelper::setString(mSelectingSprite->fileName(), "selectingSpriteFilename", inObj, alloc);
+        }
     }
 }
 

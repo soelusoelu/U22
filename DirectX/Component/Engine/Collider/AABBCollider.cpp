@@ -6,7 +6,7 @@
 #include "../../../Imgui/imgui.h"
 #include "../../../Transform/ParentChildRelationship.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 AABBCollider::AABBCollider()
     : Collider()
@@ -67,26 +67,23 @@ void AABBCollider::onEnable(bool value) {
     setRenderCollision(value);
 }
 
-void AABBCollider::loadProperties(const rapidjson::Value& inObj) {
-    Collider::loadProperties(inObj);
+void AABBCollider::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    Collider::saveAndLoad(inObj, alloc, mode);
 
-    if (JsonHelper::getVector3(inObj, "min", mDefaultMin)) {
-        mAABB.min = mDefaultMin;
-        mLoadedProperties = true;
+    if (mode == FileMode::SAVE) {
+        JsonHelper::setVector3(mDefaultMin, "min", inObj, alloc);
+        JsonHelper::setVector3(mDefaultMax, "max", inObj, alloc);
+    } else {
+        if (JsonHelper::getVector3(mDefaultMin, "min", inObj)) {
+            mAABB.min = mDefaultMin;
+            mLoadedProperties = true;
+        }
+        if (JsonHelper::getVector3(mDefaultMax, "max", inObj)) {
+            mAABB.max = mDefaultMax;
+            mLoadedProperties = true;
+        }
     }
-    if (JsonHelper::getVector3(inObj, "max", mDefaultMax)) {
-        mAABB.max = mDefaultMax;
-        mLoadedProperties = true;
-    }
-    JsonHelper::getBool(inObj, "isRenderCollision", mIsRenderCollision);
-}
-
-void AABBCollider::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    Collider::saveProperties(alloc, inObj);
-
-    JsonHelper::setVector3(alloc, inObj, "min", mDefaultMin);
-    JsonHelper::setVector3(alloc, inObj, "max", mDefaultMax);
-    JsonHelper::setBool(alloc, inObj, "isRenderCollision", mIsRenderCollision);
+    JsonHelper::getSetBool(mIsRenderCollision, "isRenderCollision", inObj, alloc, mode);
 }
 
 void AABBCollider::drawInspector() {

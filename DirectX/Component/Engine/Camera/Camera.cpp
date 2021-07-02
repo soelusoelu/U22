@@ -3,7 +3,7 @@
 #include "../../../Imgui/imgui.h"
 #include "../../../System/Window.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 Camera::Camera() :
     Component(),
@@ -26,16 +26,10 @@ void Camera::lateUpdate() {
     calcView();
 }
 
-void Camera::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getFloat(inObj, "fov", mFOV);
-    JsonHelper::getFloat(inObj, "nearClip", mNearClip);
-    JsonHelper::getFloat(inObj, "farClip", mFarClip);
-}
-
-void Camera::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    JsonHelper::setFloat(alloc, inObj, "fov", mFOV);
-    JsonHelper::setFloat(alloc, inObj, "nearClip", mNearClip);
-    JsonHelper::setFloat(alloc, inObj, "farClip", mFarClip);
+void Camera::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetFloat(mFOV, "fov", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mNearClip, "nearClip", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mFarClip, "farClip", inObj, alloc, mode);
 }
 
 void Camera::drawInspector() {

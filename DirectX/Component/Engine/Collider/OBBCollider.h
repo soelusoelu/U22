@@ -14,8 +14,7 @@ public:
     ~OBBCollider();
     virtual void start() override;
     virtual void lateUpdate() override;
-    virtual void loadProperties(const rapidjson::Value& inObj) override;
-    virtual void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const override;
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
     //OBBを取得する
     const OBB& getOBB() const;

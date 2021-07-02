@@ -1,12 +1,18 @@
 ﻿#include "Time.h"
 #include "../System/SystemInclude.h"
+#include "../Utility/JsonHelper.h"
 
-Time::Time() :
-    mCurrentTimer(0.f),
-    mLimitTime(0.f) {
+Time::Time()
+    : mCurrentTimer(0.f)
+    , mLimitTime(0.f)
+{
 }
 
 Time::~Time() = default;
+
+void Time::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetFloat(mLimitTime, "limitTime", inObj, alloc, mode);
+}
 
 void Time::update() {
     mCurrentTimer += Time::deltaTime;

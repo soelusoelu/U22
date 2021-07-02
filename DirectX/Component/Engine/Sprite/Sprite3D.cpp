@@ -12,7 +12,7 @@
 #include "../../../System/Texture/Texture.h"
 #include "../../../System/Texture/TextureBinder.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 #include <cassert>
 
 Sprite3D::Sprite3D()
@@ -67,35 +67,29 @@ void Sprite3D::onEnable(bool value) {
     setActive(value);
 }
 
-void Sprite3D::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getString(inObj, "fileName", mFileName);
-    JsonHelper::getBool(inObj, "isActive", mIsActive);
-    JsonHelper::getBool(inObj, "isBillboard", mIsBillboard);
-    Vector3 vec3;
-    if (JsonHelper::getVector3(inObj, "position", vec3)) {
-        mTransform->setPosition(vec3);
+void Sprite3D::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetString(mFileName, "filename", inObj, alloc, mode);
+    JsonHelper::getSetBool(mIsActive, "isActive", inObj, alloc, mode);
+    JsonHelper::getSetBool(mIsBillboard, "isBillboard", inObj, alloc, mode);
+    if (mode == FileMode::SAVE) {
+        JsonHelper::setVector3(mTransform->getPosition(), "position", inObj, alloc);
+        JsonHelper::setVector3(mTransform->getRotation().euler(), "rotation", inObj, alloc);
+        JsonHelper::setVector3(mTransform->getScale(), "scale", inObj, alloc);
+    } else {
+        Vector3 vec3;
+        if (JsonHelper::getVector3(vec3, "position", inObj)) {
+            mTransform->setPosition(vec3);
+        }
+        if (JsonHelper::getVector3(vec3, "rotation", inObj)) {
+            mTransform->setRotation(vec3);
+        }
+        if (JsonHelper::getVector3(vec3, "scale", inObj)) {
+            mTransform->setScale(vec3);
+        }
     }
-    if (JsonHelper::getVector3(inObj, "rotation", vec3)) {
-        mTransform->setRotation(vec3);
-    }
-    if (JsonHelper::getVector3(inObj, "scale", vec3)) {
-        mTransform->setScale(vec3);
-    }
-    JsonHelper::getVector3(inObj, "color", mColor);
-    JsonHelper::getFloat(inObj, "alpha", mAlpha);
-    JsonHelper::getVector4(inObj, "uv", mUV);
-}
-
-void Sprite3D::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    JsonHelper::setString(alloc, inObj, "fileName", mFileName);
-    JsonHelper::setBool(alloc, inObj, "isActive", mIsActive);
-    JsonHelper::setBool(alloc, inObj, "isBillboard", mIsBillboard);
-    JsonHelper::setVector3(alloc, inObj, "position", mTransform->getPosition());
-    JsonHelper::setVector3(alloc, inObj, "rotation", mTransform->getRotation().euler());
-    JsonHelper::setVector3(alloc, inObj, "scale", mTransform->getScale());
-    JsonHelper::setVector3(alloc, inObj, "color", mColor);
-    JsonHelper::setFloat(alloc, inObj, "alpha", mAlpha);
-    JsonHelper::setVector4(alloc, inObj, "uv", mUV);
+    JsonHelper::getSetVector3(mColor, "color", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mAlpha, "alpha", inObj, alloc, mode);
+    JsonHelper::getSetVector4(mUV, "uv", inObj, alloc, mode);
 }
 
 void Sprite3D::drawInspector() {
