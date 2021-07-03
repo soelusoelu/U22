@@ -1,27 +1,26 @@
 ﻿#include "Log.h"
 #include "../../../Device/DrawString.h"
 #include "../../../System/Window.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
-Log::Log() :
-    mScale(Vector2::one),
-    mNumRowsToDisplay(0) {
+Log::Log()
+    : mScale(Vector2::one)
+    , mNumRowsToDisplay(0)
+{
 }
 
 Log::~Log() = default;
 
-void Log::loadProperties(const rapidjson::Value& inObj) {
-    const auto& logObj = inObj["log"];
-    if (logObj.IsObject()) {
-        JsonHelper::getVector2(logObj, "scale", mScale);
+void Log::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        rapidjson::Value props(rapidjson::kObjectType);
+        JsonHelper::setVector2(mScale, "scale", props, alloc);
+
+        inObj.AddMember("log", props, alloc);
+    } else {
+        const auto& logObj = inObj["log"];
+        JsonHelper::getVector2(mScale, "scale", logObj);
     }
-}
-
-void Log::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setVector2(alloc, props, "scale", mScale);
-
-    inObj.AddMember("log", props, alloc);
 }
 
 void Log::initialize() {

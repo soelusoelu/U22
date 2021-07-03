@@ -1,5 +1,7 @@
 ﻿#include "LevelLoader.h"
+#include "FileMode.h"
 #include "FileUtil.h"
+#include "JsonHelper.h"
 #include "../Component/ComponentManager.h"
 #include "../Engine/DebugManager/DebugUtility/Debug.h"
 #include "../GameObject/GameObject.h"
@@ -51,16 +53,16 @@ void LevelLoader::loadGlobal(
         return;
     }
 
-    const rapidjson::Value& globals = doc["globalProperties"];
+    rapidjson::Value& globals = doc["globalProperties"];
     if (!globals.IsObject()) {
         Debug::windowMessage(filePath + ": [globalProperties]が見つからないか、正しいオブジェクトではありません");
     }
 
-    root->loadProperties(globals);
+    root->saveAndLoad(globals, doc.GetAllocator(), FileMode::LOAD);
 }
 
 void LevelLoader::saveGlobal(
-    const Game* root,
+    Game* root,
     const std::string& fileName,
     const std::string& directoryPath
 ) {
@@ -72,7 +74,7 @@ void LevelLoader::saveGlobal(
     rapidjson::Document::AllocatorType& alloc = doc.GetAllocator();
 
     rapidjson::Value props(rapidjson::kObjectType);
-    root->saveProperties(alloc, props);
+    root->saveAndLoad(props, alloc, FileMode::SAVE);
     doc.AddMember("globalProperties", props, alloc);
 
     //文字列をファイルに書き込む
@@ -80,14 +82,14 @@ void LevelLoader::saveGlobal(
 }
 
 void LevelLoader::saveGameObject(
-    const GameObject& gameObject,
+    GameObject& gameObject,
     const std::string& directoryPath
 ) {
     saveGameObject(gameObject, gameObject.name() + ".json", directoryPath);
 }
 
 void LevelLoader::saveGameObject(
-    const GameObject& gameObject,
+    GameObject& gameObject,
     const std::string& filename,
     const std::string& directoryPath
 ) {
@@ -99,12 +101,12 @@ void LevelLoader::saveGameObject(
     rapidjson::Document::AllocatorType& alloc = doc.GetAllocator();
 
     //タグを追加
-    JsonHelper::setString(alloc, doc, "tag", gameObject.tag());
+    JsonHelper::setString(gameObject.tag(), "tag", doc, alloc);
 
     //トランスフォーム用のjsonオブジェクトを作る
     rapidjson::Value props(rapidjson::kObjectType);
     //トランスフォームを保存
-    gameObject.saveProperties(alloc, props);
+    gameObject.saveAndLoad(props, alloc, FileMode::SAVE);
     //トランスフォームをゲームオブジェクトのjsonオブジェクトに追加
     doc.AddMember("transform", props, alloc);
 

@@ -10,7 +10,7 @@
 #include "../../../System/Window.h"
 #include "../../../System/Shader/Shader.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 PointLightComponent::PointLightComponent() :
     Component(),
@@ -34,11 +34,11 @@ void PointLightComponent::finalize() {
     }
 }
 
-void PointLightComponent::loadProperties(const rapidjson::Value& inObj) {
-    JsonHelper::getVector3(inObj, "color", mLightColor);
-    JsonHelper::getFloat(inObj, "innerRadius", mInnerRadius);
-    JsonHelper::getFloat(inObj, "outerRadius", mOuterRadius);
-    JsonHelper::getFloat(inObj, "intensity", mIntensity);
+void PointLightComponent::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetVector3(mLightColor, "color", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mInnerRadius, "innerRadius", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mOuterRadius, "outerRadius", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mIntensity, "intensity", inObj, alloc, mode);
 }
 
 void PointLightComponent::drawInspector() {

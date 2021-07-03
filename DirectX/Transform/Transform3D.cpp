@@ -3,7 +3,7 @@
 #include "../Engine/DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
 #include "../GameObject/GameObject.h"
 #include "../Imgui/imgui.h"
-#include "../Utility/LevelLoader.h"
+#include "../Utility/JsonHelper.h"
 
 Transform3D::Transform3D(GameObject* gameObject)
     : mGameObject(gameObject)
@@ -171,26 +171,16 @@ ParentChildRelationship& Transform3D::getParentChildRelation() const {
     return *mParentChildRelation;
 }
 
-void Transform3D::loadProperties(const rapidjson::Value& inObj) {
-    //位置、回転、スケールを読み込む
-    JsonHelper::getVector3(inObj, "position", mPosition);
-    Vector3 rot;
-    if (JsonHelper::getVector3(inObj, "rotation", rot)) {
-        setRotation(rot);
+void Transform3D::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetVector3(mPosition, "position", inObj, alloc, mode);
+    JsonHelper::getSetQuaternion(mRotation, "rotation", inObj, alloc, mode);
+    JsonHelper::getSetVector3(mScale, "scale", inObj, alloc, mode);
+    JsonHelper::getSetVector3(mPivot, "pivot", inObj, alloc, mode);
+
+    if (mode == FileMode::LOAD) {
+        computeLocalMatrix();
+        computeWorldMatrix();
     }
-    JsonHelper::getVector3(inObj, "scale", mScale);
-    JsonHelper::getVector3(inObj, "pivot", mPivot);
-
-    computeLocalMatrix();
-    computeWorldMatrix();
-}
-
-void Transform3D::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    //位置、回転、スケールを書き込む
-    JsonHelper::setVector3(alloc, inObj, "position", mPosition);
-    JsonHelper::setVector3(alloc, inObj, "rotation", mRotation.euler());
-    JsonHelper::setVector3(alloc, inObj, "scale", mScale);
-    JsonHelper::setVector3(alloc, inObj, "pivot", mPivot);
 }
 
 void Transform3D::drawInspector() {

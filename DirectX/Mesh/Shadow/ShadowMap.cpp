@@ -14,7 +14,7 @@
 #include "../../System/Texture/RenderTexture.h"
 #include "../../Transform/Transform2D.h"
 #include "../../Transform/Transform3D.h"
-#include "../../Utility/LevelLoader.h"
+#include "../../Utility/JsonHelper.h"
 
 ShadowMap::ShadowMap()
     : mDepthTextureCreateShaderID(-1)
@@ -39,24 +39,22 @@ void ShadowMap::initialize() {
     //t.setScale(0.5f);
 }
 
-void ShadowMap::loadProperties(const rapidjson::Value& inObj) {
-    const auto& obj = inObj["shadowMap"];
-    if (obj.IsObject()) {
-        JsonHelper::getInt(obj, "shadowTextureSize", mShadowTextureSize);
-        JsonHelper::getFloat(obj, "lightDistance", mLightDistance);
-        JsonHelper::getFloat(obj, "nearClip", mNearClip);
-        JsonHelper::getFloat(obj, "farClip", mFarClip);
+void ShadowMap::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        rapidjson::Value props(rapidjson::kObjectType);
+        JsonHelper::setInt(mShadowTextureSize, "shadowTextureSize", props, alloc);
+        JsonHelper::setFloat(mLightDistance, "lightDistance", props, alloc);
+        JsonHelper::setFloat(mNearClip, "nearClip", props, alloc);
+        JsonHelper::setFloat(mFarClip, "farClip", props, alloc);
+
+        inObj.AddMember("shadowMap", props, alloc);
+    } else {
+        const auto& obj = inObj["shadowMap"];
+        JsonHelper::getInt(mShadowTextureSize, "shadowTextureSize", obj);
+        JsonHelper::getFloat(mLightDistance, "lightDistance", obj);
+        JsonHelper::getFloat(mNearClip, "nearClip", obj);
+        JsonHelper::getFloat(mFarClip, "farClip", obj);
     }
-}
-
-void ShadowMap::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) {
-    rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setInt(alloc, props, "shadowTextureSize", mShadowTextureSize);
-    JsonHelper::setFloat(alloc, props, "lightDistance", mLightDistance);
-    JsonHelper::setFloat(alloc, props, "nearClip", mNearClip);
-    JsonHelper::setFloat(alloc, props, "farClip", mFarClip);
-
-    inObj.AddMember("shadowMap", props, alloc);
 }
 
 void ShadowMap::drawBegin(const Vector3& dirLightDirection) {

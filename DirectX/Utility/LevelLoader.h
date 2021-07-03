@@ -32,18 +32,18 @@ public:
     );
     //グローバルデータを書き込む
     static void saveGlobal(
-        const Game* root,
+        Game* root,
         const std::string& fileName,
         const std::string& directoryPath = AssetsDirectoryPath::DATA_PATH
     );
     //ゲームオブジェクトを保存する
     static void saveGameObject(
-        const GameObject& gameObject,
+        GameObject& gameObject,
         const std::string& directoryPath = AssetsDirectoryPath::DATA_PATH
     );
     //ゲームオブジェクトをファイル名を指定して保存する
     static void saveGameObject(
-        const GameObject& gameObject,
+        GameObject& gameObject,
         const std::string& filename,
         const std::string& directoryPath
     );

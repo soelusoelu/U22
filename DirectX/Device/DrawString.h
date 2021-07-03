@@ -2,6 +2,7 @@
 
 #include "../Math/Math.h"
 #include "../Transform/Pivot.h"
+#include "../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <list>
 #include <memory>
@@ -15,8 +16,7 @@ public:
     DrawString();
     ~DrawString();
     void initialize();
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     //保持してる文字列を一括描画
     void drawAll(const Matrix4& proj) const;
     //保持してる文字列をすべて削除

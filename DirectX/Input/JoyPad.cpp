@@ -3,7 +3,7 @@
 #include "InputUtility.h"
 #include "../Math/Math.h"
 #include "../System/GlobalFunction.h"
-#include "../Utility/LevelLoader.h"
+#include "../Utility/JsonHelper.h"
 
 BOOL CALLBACK enumJoysticksCallback(const DIDEVICEINSTANCE*, VOID*);
 BOOL CALLBACK enumObjectsCallback(const DIDEVICEOBJECTINSTANCE*, VOID*);
@@ -46,20 +46,18 @@ bool JoyPad::initialize(const HWND& hWnd, IDirectInput8* directInput) {
     return true;
 }
 
-void JoyPad::loadProperties(const rapidjson::Value& inObj) {
-    const auto& padObj = inObj["joyPad"];
-    if (padObj.IsObject()) {
-        if (JsonHelper::getString(padObj, "enterPad", mEnterPadStr)) {
+void JoyPad::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        rapidjson::Value props(rapidjson::kObjectType);
+        JsonHelper::setString(mEnterPadStr, "enterPad", props, alloc);
+
+        inObj.AddMember("joyPad", props, alloc);
+    } else {
+        const auto& padObj = inObj["joyPad"];
+        if (JsonHelper::getString(mEnterPadStr, "enterPad", padObj)) {
             stringToJoyCode(mEnterPadStr, &mEnterPad);
         }
     }
-}
-
-void JoyPad::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setString(alloc, props, "enterPad", mEnterPadStr);
-
-    inObj.AddMember("joyPad", props, alloc);
 }
 
 BOOL CALLBACK enumJoysticksCallback(const DIDEVICEINSTANCE* pdidInstance, VOID* pContext) {

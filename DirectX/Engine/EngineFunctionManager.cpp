@@ -44,21 +44,13 @@ MapEditorMeshManager& EngineFunctionManager::getMapEditorMeshManager() const {
     return *mMapEditor;
 }
 
-void EngineFunctionManager::loadProperties(const rapidjson::Value& inObj) {
-    mDebugManager->loadProperties(inObj);
-    mPause->loadProperties(inObj);
-    mFunctionChanger->loadProperties(inObj);
-    mMapEditor->loadProperties(inObj);
-    mAssetsRenderTextureManager->loadProperties(inObj);
-    mModelViewer->loadProperties(inObj);
-}
-
-void EngineFunctionManager::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) {
-    mDebugManager->saveProperties(alloc, inObj);
-    mPause->saveProperties(alloc, inObj);
-    mFunctionChanger->saveProperties(alloc, inObj);
-    mAssetsRenderTextureManager->saveProperties(alloc, inObj);
-    mModelViewer->saveProperties(alloc, inObj);
+void EngineFunctionManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    mDebugManager->saveAndLoad(inObj, alloc, mode);
+    mPause->saveAndLoad(inObj, alloc, mode);
+    mFunctionChanger->saveAndLoad(inObj, alloc, mode);
+    mMapEditor->saveAndLoad(inObj, alloc, mode);
+    mAssetsRenderTextureManager->saveAndLoad(inObj, alloc, mode);
+    mModelViewer->saveAndLoad(inObj, alloc, mode);
 }
 
 void EngineFunctionManager::initialize(

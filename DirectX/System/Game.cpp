@@ -59,18 +59,11 @@ void Game::run(HINSTANCE hInstance) {
     }
 }
 
-void Game::loadProperties(const rapidjson::Value& inObj) {
-    mWindow->loadProperties(inObj);
-    mFPSCounter->loadProperties(inObj);
-    InputManager::loadProperties(inObj);
-    mSceneManager->loadProperties(inObj);
-}
-
-void Game::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    mWindow->saveProperties(alloc, inObj);
-    mFPSCounter->saveProperties(alloc, inObj);
-    InputManager::saveProperties(alloc, inObj);
-    mSceneManager->saveProperties(alloc, inObj);
+void Game::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    mWindow->saveAndLoad(inObj, alloc, mode);
+    mFPSCounter->saveAndLoad(inObj, alloc, mode);
+    InputManager::saveAndLoad(inObj, alloc, mode);
+    mSceneManager->saveAndLoad(inObj, alloc, mode);
 }
 
 void Game::quit() {

@@ -6,50 +6,48 @@
 #include "../../../System/Window.h"
 #include "../../../Transform/ParentChildRelationship.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 #include <string>
 
-Hierarchy::Hierarchy() :
-    mGameObjectsGetter(nullptr),
-    mInspector(nullptr),
-    mNumRowsToDisplay(0),
-    mLineSpace(0.f),
-    mInspectorPositionX(0.f),
-    mPosition(Vector2::zero),
-    mScale(Vector2::one),
-    mOffsetCharCountX(0),
-    mOffsetCharCountY(0),
-    mCharWidth(0.f),
-    mCharHeight(0.f),
-    mNonActiveAlpha(0.5f) {
+Hierarchy::Hierarchy()
+    : mGameObjectsGetter(nullptr)
+    , mInspector(nullptr)
+    , mNumRowsToDisplay(0)
+    , mLineSpace(0.f)
+    , mInspectorPositionX(0.f)
+    , mPosition(Vector2::zero)
+    , mScale(Vector2::one)
+    , mOffsetCharCountX(0)
+    , mOffsetCharCountY(0)
+    , mCharWidth(0.f)
+    , mCharHeight(0.f)
+    , mNonActiveAlpha(0.5f)
+{
 }
 
 Hierarchy::~Hierarchy() = default;
 
-void Hierarchy::loadProperties(const rapidjson::Value& inObj) {
-    const auto& obj = inObj["hierarchy"];
-    if (obj.IsObject()) {
-        JsonHelper::getVector2(obj, "scale", mScale);
-        JsonHelper::getInt(obj, "offsetCharCountX", mOffsetCharCountX);
-        JsonHelper::getInt(obj, "offsetCharCountY", mOffsetCharCountY);
-        JsonHelper::getFloat(obj, "lineSpace", mLineSpace);
-        JsonHelper::getFloat(obj, "nonActiveAlpha", mNonActiveAlpha);
-    }
-    const auto& inspector = inObj["inspector"];
-    if (inspector.IsObject()) {
-        JsonHelper::getFloat(inspector, "inspectorPositionX", mInspectorPositionX);
-    }
-}
+void Hierarchy::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        rapidjson::Value props(rapidjson::kObjectType);
+        JsonHelper::setVector2(mScale, "scale", props, alloc);
+        JsonHelper::setInt(mOffsetCharCountX, "offsetCharCountX", props, alloc);
+        JsonHelper::setInt(mOffsetCharCountY, "offsetCharCountY", props, alloc);
+        JsonHelper::setFloat(mLineSpace, "lineSpace", props, alloc);
+        JsonHelper::setFloat(mNonActiveAlpha, "nonActiveAlpha", props, alloc);
 
-void Hierarchy::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setVector2(alloc, props, "scale", mScale);
-    JsonHelper::setInt(alloc, props, "offsetCharCountX", mOffsetCharCountX);
-    JsonHelper::setInt(alloc, props, "offsetCharCountY", mOffsetCharCountY);
-    JsonHelper::setFloat(alloc, props, "lineSpace", mLineSpace);
-    JsonHelper::setFloat(alloc, props, "nonActiveAlpha", mNonActiveAlpha);
+        inObj.AddMember("hierarchy", props, alloc);
+    } else {
+        const auto& obj = inObj["hierarchy"];
+        JsonHelper::getVector2(mScale, "scale", obj);
+        JsonHelper::getInt(mOffsetCharCountX, "offsetCharCountX", obj);
+        JsonHelper::getInt(mOffsetCharCountY, "offsetCharCountY", obj);
+        JsonHelper::getFloat(mLineSpace, "lineSpace", obj);
+        JsonHelper::getFloat(mNonActiveAlpha, "nonActiveAlpha", obj);
 
-    inObj.AddMember("hierarchy", props, alloc);
+        const auto& inspector = inObj["inspector"];
+        JsonHelper::getFloat(mInspectorPositionX, "inspectorPositionX", inspector);
+    }
 }
 
 void Hierarchy::initialize(const IGameObjectsGetter* getter, IInspector* inspector) {

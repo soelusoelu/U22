@@ -1,6 +1,6 @@
 ﻿#include "ComponentManager.h"
 #include "Component.h"
-#include "../Utility/LevelLoader.h"
+#include "../Utility/JsonHelper.h"
 
 ComponentManager::ComponentManager() = default;
 ComponentManager::~ComponentManager() = default;
@@ -71,16 +71,16 @@ void ComponentManager::saveComponents(rapidjson::Document::AllocatorType& alloc,
     }
 }
 
-void ComponentManager::saveComponent(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& outArray, const Component& component) const {
+void ComponentManager::saveComponent(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& outArray, Component& component) const {
     //Jsonオブジェクトを作成する
     rapidjson::Value obj(rapidjson::kObjectType);
     //コンポーネント名を保存
-    JsonHelper::setString(alloc, obj, "type", component.getComponentName());
+    JsonHelper::setString(component.getComponentName(), "type", obj, alloc);
 
     //プロパティ用オブジェクトを作成
     rapidjson::Value props(rapidjson::kObjectType);
     //コンポーネントのプロパティを保存する
-    component.saveProperties(alloc, props);
+    component.saveAndLoad(props, alloc, FileMode::SAVE);
     //Jsonオブジェクトに追加
     obj.AddMember("properties", props, alloc);
 

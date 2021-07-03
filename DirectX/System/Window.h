@@ -3,6 +3,7 @@
 #include "SystemInclude.h"
 #include "../Input/IMouseWheelScrollValueSetter.h"
 #include "../Math/Math.h"
+#include "../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <string>
 
@@ -24,8 +25,7 @@ public:
     static Vector2 windowToClientSize();
     //ゲームウィンドウをフルHDサイズに変える補正値を取得する
     static Vector2 getWindowCorrect();
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
 
 private:
     void updateWindowToClientSize();

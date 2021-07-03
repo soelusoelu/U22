@@ -11,7 +11,7 @@
 #include "../../../System/Shader/ShaderBinder.h"
 #include "../../../System/Texture/Texture.h"
 #include "../../../Transform/Transform3D.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 
 MeshShader::MeshShader()
     : Component()
@@ -23,19 +23,19 @@ MeshShader::MeshShader()
 
 MeshShader::~MeshShader() = default;
 
-void MeshShader::loadProperties(const rapidjson::Value& inObj) {
-    //シェーダー名が取得できたら読み込む
-    if (std::string shader; JsonHelper::getString(inObj, "shaderName", shader)) {
-        //シェーダーを生成する
-        mShaderID = AssetsManager::instance().createShader(shader);
+void MeshShader::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        JsonHelper::setString(AssetsManager::instance().getShaderFormID(mShaderID).getShaderName(), "shaderName", inObj, alloc);
     } else {
-        //できなかったらデフォルトを使う
-        setDefaultShader();
+        //シェーダー名が取得できたら読み込む
+        if (std::string shader; JsonHelper::getString(shader, "shaderName", inObj)) {
+            //シェーダーを生成する
+            mShaderID = AssetsManager::instance().createShader(shader);
+        } else {
+            //できなかったらデフォルトを使う
+            setDefaultShader();
+        }
     }
-}
-
-void MeshShader::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    JsonHelper::setString(alloc, inObj, "shaderName", AssetsManager::instance().getShaderFormID(mShaderID).getShaderName());
 }
 
 void MeshShader::drawInspector() {

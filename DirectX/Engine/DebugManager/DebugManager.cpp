@@ -13,15 +13,12 @@ DebugManager::~DebugManager() {
     DebugUtility::instance().finalize();
 }
 
-void DebugManager::loadProperties(const rapidjson::Value& inObj) {
-    mStringDrawer->loadProperties(inObj);
-    mDebugLayer->loadProperties(inObj);
-    DebugUtility::instance().loadProperties(inObj);
-}
-
-void DebugManager::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) {
-    mDebugLayer->saveProperties(alloc, inObj);
-    DebugUtility::instance().saveProperties(alloc, inObj);
+void DebugManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::LOAD) {
+        mStringDrawer->saveAndLoad(inObj, alloc, mode);
+    }
+    mDebugLayer->saveAndLoad(inObj, alloc, mode);
+    DebugUtility::instance().saveAndLoad(inObj, alloc, mode);
 }
 
 void DebugManager::initialize(

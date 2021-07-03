@@ -5,6 +5,7 @@
 #include "../../../GameObject/IGameObjectsGetter.h"
 #include "../../../Math/Math.h"
 #include "../../../System/FpsCounter/IFpsGetter.h"
+#include "../../../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <memory>
 #include <string>
@@ -18,8 +19,7 @@ class DebugLayer {
 public:
     DebugLayer();
     ~DebugLayer();
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj);
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void initialize(const IGameObjectsGetter* gameObjectsGetter, const IFpsGetter* fpsGetter);
     void update();
     void draw(EngineMode mode, DrawString& drawer, Matrix4& proj) const;

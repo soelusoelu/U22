@@ -11,7 +11,7 @@
 class GameObject;
 
 class GameObjectFactory {
-    using ComponentFunc = std::function<void(GameObject&, const std::string&, const rapidjson::Value&)>;
+    using ComponentFunc = std::function<void(GameObject&, const std::string&, rapidjson::Value&, rapidjson::Document::AllocatorType&)>;
 
 public:
     GameObjectFactory();
@@ -24,17 +24,17 @@ private:
     GameObjectFactory& operator=(const GameObjectFactory&) = delete;
 
     //ゲームオブジェクトを生成する
-    std::shared_ptr<GameObject> createGameObject(const rapidjson::Document& inDocument, const std::string& type, const std::string& directoryPath);
+    std::shared_ptr<GameObject> createGameObject(rapidjson::Document& inDocument, const std::string& type, const std::string& directoryPath);
     //ゲームオブジェクトのタグを取得する
     std::string loadTag(const rapidjson::Document& inDocument);
     //ゲームオブジェクトプロパティの読み込み
-    void loadGameObjectProperties(GameObject& gameObject, const rapidjson::Document& inDocument);
+    void loadGameObjectProperties(GameObject& gameObject, rapidjson::Document& inDocument);
     //継承コンポーネントの読み込み
     void loadPrototypeComponents(GameObject& gameObject, const rapidjson::Document& inDocument, const std::string& directoryPath) const;
     //コンポーネントの読み込み
-    void loadComponents(GameObject& gameObject, const rapidjson::Document& inDocument) const;
+    void loadComponents(GameObject& gameObject, rapidjson::Document& inDocument) const;
     //各コンポーネントの読み込み
-    void loadComponent(GameObject& gameObject, const rapidjson::Value& component) const;
+    void loadComponent(GameObject& gameObject, rapidjson::Value& component, rapidjson::Document::AllocatorType& alloc) const;
 
     //有効な型か
     bool isValidType(std::string& outType, const rapidjson::Value& inObj) const;

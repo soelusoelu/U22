@@ -81,12 +81,12 @@ public:
 
     //指定されたプロパティでコンポーネントを生成
     template <typename T>
-    static void create(GameObject& gameObject, const std::string& componentName, const rapidjson::Value& inObj) {
+    static void create(GameObject& gameObject, const std::string& componentName, rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc) {
         auto t = std::make_shared<T>();
         t->mGameObjectGetter = &gameObject;
         t->mComponentName = componentName;
         t->componentManager().addComponent(t);
-        t->loadProperties(inObj);
+        t->saveAndLoad(inObj, alloc, FileMode::LOAD);
         t->awake();
     }
 

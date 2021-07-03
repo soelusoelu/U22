@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "IInspector.h"
+#include "../../../../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <memory>
 
@@ -17,8 +18,7 @@ public:
     virtual void setTarget(const std::shared_ptr<GameObject>& target) override;
     virtual float getInspectorPositionX() const override;
 
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void drawInspect() const;
 
 private:

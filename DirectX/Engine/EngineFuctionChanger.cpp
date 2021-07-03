@@ -1,7 +1,7 @@
 ﻿#include "EngineFuctionChanger.h"
 #include "../Device/Button.h"
 #include "../Input/Input.h"
-#include "../Utility/LevelLoader.h"
+#include "../Utility/JsonHelper.h"
 
 EngineFuctionChanger::EngineFuctionChanger()
     : mStartRenderPosition()
@@ -19,22 +19,20 @@ void EngineFuctionChanger::callbackChangeMode(const std::function<void(EngineMod
     mCallbackChangeMode += f;
 }
 
-void EngineFuctionChanger::loadProperties(const rapidjson::Value& inObj) {
-    const auto& efcObj = inObj["engineFuctionChanger"];
-    if (efcObj.IsObject()) {
-        JsonHelper::getVector2(efcObj, "startRenderPosition", mStartRenderPosition);
-        JsonHelper::getStringArray(efcObj, "spritesFilePath", mSpritesFilePath);
-        JsonHelper::getFloat(efcObj, "spriteSpace", mSpriteSpace);
+void EngineFuctionChanger::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        rapidjson::Value props(rapidjson::kObjectType);
+        JsonHelper::setVector2(mStartRenderPosition, "startRenderPosition", props, alloc);
+        JsonHelper::setStringArray(mSpritesFilePath, "spritesFilePath", props, alloc);
+        JsonHelper::setFloat(mSpriteSpace, "spriteSpace", props, alloc);
+
+        inObj.AddMember("engineFuctionChanger", props, alloc);
+    } else {
+        const auto& efcObj = inObj["engineFuctionChanger"];
+        JsonHelper::getVector2(mStartRenderPosition, "startRenderPosition", efcObj);
+        JsonHelper::getStringArray(mSpritesFilePath, "spritesFilePath", efcObj);
+        JsonHelper::getFloat(mSpriteSpace, "spriteSpace", efcObj);
     }
-}
-
-void EngineFuctionChanger::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setVector2(alloc, props, "startRenderPosition", mStartRenderPosition);
-    JsonHelper::setStringArray(alloc, props, "spritesFilePath", mSpritesFilePath);
-    JsonHelper::setFloat(alloc, props, "spriteSpace", mSpriteSpace);
-
-    inObj.AddMember("engineFuctionChanger", props, alloc);
 }
 
 void EngineFuctionChanger::initialize() {

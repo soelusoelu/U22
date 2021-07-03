@@ -2,11 +2,14 @@
 
 #include "IKeyboard.h"
 #include "../System/SystemInclude.h"
+#include "../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <dinput.h>
 #include <string>
 
-class Keyboard : public IKeyboard {
+class Keyboard
+    : public IKeyboard
+{
 public:
     Keyboard();
     ~Keyboard();
@@ -19,8 +22,7 @@ public:
     virtual bool getEnter() const override;
 
     bool initialize(const HWND& hWnd, IDirectInput8* directInput);
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void update();
     //文字列をKeyCodeに変換
     static void stringToKeyCode(const std::string& src, KeyCode* dst);

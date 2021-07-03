@@ -25,12 +25,8 @@ DebugUtility& DebugUtility::instance() {
     return *mInstance;
 }
 
-void DebugUtility::loadProperties(const rapidjson::Value& inObj) {
-    mLog->loadProperties(inObj);
-}
-
-void DebugUtility::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) {
-    mLog->saveProperties(alloc, inObj);
+void DebugUtility::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    mLog->saveAndLoad(inObj, alloc, mode);
 }
 
 void DebugUtility::initialize(const IPause* pause) {

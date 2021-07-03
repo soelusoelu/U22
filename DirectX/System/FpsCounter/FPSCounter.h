@@ -2,6 +2,7 @@
 
 #include "IFpsGetter.h"
 #include "../SystemInclude.h"
+#include "../../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <memory>
 
@@ -12,8 +13,8 @@ public:
     FPSCounter();
     ~FPSCounter();
     virtual float getFps() const override;
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
+
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     //設定したフレームレートに固定する
     void fixedFrame();
     //固定フレーム値を設定する

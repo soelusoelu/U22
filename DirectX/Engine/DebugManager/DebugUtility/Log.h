@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../../../Math/Math.h"
+#include "../../../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <list>
 #include <string>
@@ -12,8 +13,7 @@ class Log {
 public:
     Log();
     ~Log();
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void initialize();
     void log(const std::string& message);
     void logError(const std::string& message);

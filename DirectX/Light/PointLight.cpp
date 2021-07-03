@@ -4,7 +4,7 @@
 #include "../Mesh/Material.h"
 #include "../System/AssetsManager.h"
 #include "../System/Shader/Shader.h"
-#include "../Utility/LevelLoader.h"
+#include "../Utility/JsonHelper.h"
 
 PointLight::PointLight() :
     shader(nullptr),
@@ -14,18 +14,16 @@ PointLight::PointLight() :
 
 PointLight::~PointLight() = default;
 
-void PointLight::loadProperties(const rapidjson::Value& inObj) {
-    const auto& obj = inObj["pointLight"];
-    if (obj.IsObject()) {
-        JsonHelper::getString(obj, "pointLightMeshFileName", mMeshFileName);
+void PointLight::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        rapidjson::Value props(rapidjson::kObjectType);
+        JsonHelper::setString(mMeshFileName, "pointLightMeshFileName", props, alloc);
+
+        inObj.AddMember("pointLight", props, alloc);
+    } else {
+        const auto& obj = inObj["pointLight"];
+        JsonHelper::getString(mMeshFileName, "pointLightMeshFileName", obj);
     }
-}
-
-void PointLight::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setString(alloc, props, "pointLightMeshFileName", mMeshFileName);
-
-    inObj.AddMember("pointLight", props, alloc);
 }
 
 void PointLight::initialize() {

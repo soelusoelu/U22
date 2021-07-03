@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../../../../Math/Math.h"
+#include "../../../../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <any>
 #include <memory>
@@ -17,7 +18,7 @@ class Inspector {
 public:
     Inspector(DrawString* drawString);
     ~Inspector();
-    void loadProperties(const rapidjson::Value& inObj);
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void initialize();
     void setTarget(const GameObjectPtr& target);
     void drawInspect() const;

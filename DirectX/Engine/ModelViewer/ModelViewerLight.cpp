@@ -19,17 +19,17 @@ void ModelViewerLight::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document:
         rapidjson::Value props(rapidjson::kObjectType);
         JsonHelper::setQuaternion(mDirection, "direction", props, alloc);
         JsonHelper::setVector3(mColor, "color", props, alloc);
-        JsonHelper::setVector3(alloc, props, "directionDrawPosition", mDirectionDrawPosition);
-        JsonHelper::setFloat(alloc, props, "lengthDirection", mLengthDirection);
+        JsonHelper::setVector3(mDirectionDrawPosition, "directionDrawPosition", props, alloc);
+        JsonHelper::setFloat(mLengthDirection, "lengthDirection", props, alloc);
 
         inObj.AddMember("modelViewerLight", props, alloc);
     } else {
         const auto& obj = inObj["modelViewerLight"];
         if (obj.IsObject()) {
-            JsonHelper::getQuaternion(obj, "direction", mDirection);
-            JsonHelper::getVector3(obj, "color", mColor);
-            JsonHelper::getVector3(obj, "directionDrawPosition", mDirectionDrawPosition);
-            JsonHelper::getFloat(obj, "lengthDirection", mLengthDirection);
+            JsonHelper::getQuaternion(mDirection, "direction", obj);
+            JsonHelper::getVector3(mColor, "color", obj);
+            JsonHelper::getVector3(mDirectionDrawPosition, "directionDrawPosition", obj);
+            JsonHelper::getFloat(mLengthDirection, "lengthDirection", obj);
         }
     }
 }

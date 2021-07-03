@@ -6,36 +6,45 @@
 #include "../../../../GameObject/GameObject.h"
 #include "../../../../System/Window.h"
 #include "../../../../Transform/Transform3D.h"
-#include "../../../../Utility/LevelLoader.h"
+#include "../../../../Utility/JsonHelper.h"
 #include "../../../../Utility/StringUtil.h"
 #include <list>
 
-Inspector::Inspector(DrawString* drawString) :
-    mDrawString(drawString),
-    mInspectorPositionX(0.f),
-    mNameScale(Vector2::one),
-    mElementScale(Vector2::one),
-    mTagPosition(Vector2::zero),
-    mTransformPosition(Vector2::zero),
-    mComponentPosition(Vector2::zero),
-    mElementPositionX(0.f),
-    mValuePositionX(0.f),
-    mOffsetCharCountX(0),
-    mOffsetX(0.f),
-    mCharWidth(0.f),
-    mCharHeight(0.f),
-    mMaxElementCharCount(0) {
+Inspector::Inspector(DrawString* drawString)
+    : mDrawString(drawString)
+    , mInspectorPositionX(0.f)
+    , mNameScale(Vector2::one)
+    , mElementScale(Vector2::one)
+    , mTagPosition(Vector2::zero)
+    , mTransformPosition(Vector2::zero)
+    , mComponentPosition(Vector2::zero)
+    , mElementPositionX(0.f)
+    , mValuePositionX(0.f)
+    , mOffsetCharCountX(0)
+    , mOffsetX(0.f)
+    , mCharWidth(0.f)
+    , mCharHeight(0.f)
+    , mMaxElementCharCount(0)
+{
 }
 
 Inspector::~Inspector() = default;
 
-void Inspector::loadProperties(const rapidjson::Value& inObj) {
-    const auto& obj = inObj["inspector"];
-    if (obj.IsObject()) {
-        JsonHelper::getFloat(obj, "inspectorPositionX", mInspectorPositionX);
-        JsonHelper::getVector2(obj, "nameScale", mNameScale);
-        JsonHelper::getVector2(obj, "elementScale", mElementScale);
-        JsonHelper::getInt(obj, "offsetCharCountX", mOffsetCharCountX);
+void Inspector::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        rapidjson::Value props(rapidjson::kObjectType);
+        JsonHelper::setFloat(mInspectorPositionX, "inspectorPositionX", props, alloc);
+        JsonHelper::setVector2(mNameScale, "nameScale", props, alloc);
+        JsonHelper::setVector2(mElementScale, "elementScale", props, alloc);
+        JsonHelper::setInt(mOffsetCharCountX, "offsetCharCountX", props, alloc);
+
+        inObj.AddMember("inspector", props, alloc);
+    } else {
+        const auto& obj = inObj["inspector"];
+        JsonHelper::getFloat(mInspectorPositionX, "inspectorPositionX", obj);
+        JsonHelper::getVector2(mNameScale, "nameScale", obj);
+        JsonHelper::getVector2(mElementScale, "elementScale", obj);
+        JsonHelper::getInt(mOffsetCharCountX, "offsetCharCountX", obj);
     }
 }
 

@@ -3,12 +3,13 @@
 #include "../Transform/Transform3D.h"
 #include "../Component/ComponentManager.h"
 
-GameObject::GameObject() :
-    mTransform(std::make_unique<Transform3D>(this)),
-    mComponentManager(std::make_unique<ComponentManager>()),
-    mName(),
-    mTag(),
-    mIsActive(true) {
+GameObject::GameObject()
+    : mTransform(std::make_unique<Transform3D>(this))
+    , mComponentManager(std::make_unique<ComponentManager>())
+    , mName()
+    , mTag()
+    , mIsActive(true)
+{
 }
 
 GameObject::~GameObject() {
@@ -38,12 +39,8 @@ void GameObject::lateUpdate() {
     }
 }
 
-void GameObject::loadProperties(const rapidjson::Value& inObj) {
-    mTransform->loadProperties(inObj);
-}
-
-void GameObject::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    mTransform->saveProperties(alloc, inObj);
+void GameObject::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    mTransform->saveAndLoad(inObj, alloc, mode);
 }
 
 void GameObject::setActive(bool value) {

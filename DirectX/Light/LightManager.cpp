@@ -9,7 +9,7 @@
 #include "../Mesh/IMeshLoader.h"
 #include "../System/SystemInclude.h"
 #include "../System/Shader/Shader.h"
-#include "../Utility/LevelLoader.h"
+#include "../Utility/JsonHelper.h"
 
 LightManager::LightManager() :
     mAmbientLight(Vector3::zero),
@@ -32,21 +32,17 @@ void LightManager::createDirectionalLight() {
     mDirectionalLight->lateUpdate();
 }
 
-void LightManager::loadProperties(const rapidjson::Value& inObj) {
-    const auto& obj = inObj["lightManager"];
-    if (obj.IsObject()) {
-        JsonHelper::getVector3(obj, "ambientLight", mAmbientLight);
+void LightManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        rapidjson::Value props(rapidjson::kObjectType);
+        JsonHelper::setVector3(mAmbientLight, "ambientLight", props, alloc);
+        inObj.AddMember("lightManager", props, alloc);
+    } else {
+        const auto& obj = inObj["lightManager"];
+        JsonHelper::getVector3(mAmbientLight, "ambientLight", obj);
     }
 
-    mPointLight->loadProperties(inObj);
-}
-
-void LightManager::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setVector3(alloc, props, "ambientLight", mAmbientLight);
-    inObj.AddMember("lightManager", props, alloc);
-
-    mPointLight->saveProperties(alloc, inObj);
+    mPointLight->saveAndLoad(inObj, alloc, mode);
 }
 
 const DirectionalLight& LightManager::getDirectionalLight() const {

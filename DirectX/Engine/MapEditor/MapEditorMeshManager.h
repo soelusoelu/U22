@@ -7,6 +7,7 @@
 #include "../DebugManager/DebugLayer/Inspector/IInspector.h"
 #include "../../GameObject/IGameObjectsGetter.h"
 #include "../../Math/Math.h"
+#include "../../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <memory>
 
@@ -19,7 +20,7 @@ class MapEditorMeshManager {
 public:
     MapEditorMeshManager();
     ~MapEditorMeshManager();
-    void loadProperties(const rapidjson::Value& inObj);
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
 
     void initialize(
         IInspector* inspector,

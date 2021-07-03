@@ -23,14 +23,9 @@ bool AssetsRenderTextureManager::selectedTexture() const {
     return (mCurrentSelectTexture) ? true : false;
 }
 
-void AssetsRenderTextureManager::loadProperties(const rapidjson::Value& inObj) {
-    mTextureList->loadProperties(inObj);
-    mTextureAdder->loadProperties(inObj);
-}
-
-void AssetsRenderTextureManager::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    mTextureList->saveProperties(alloc, inObj);
-    mTextureAdder->saveProperties(alloc, inObj);
+void AssetsRenderTextureManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    mTextureList->saveAndLoad(inObj, alloc, mode);
+    mTextureAdder->saveAndLoad(inObj, alloc, mode);
 }
 
 void AssetsRenderTextureManager::initialize(IEngineFunctionChanger& changer) {

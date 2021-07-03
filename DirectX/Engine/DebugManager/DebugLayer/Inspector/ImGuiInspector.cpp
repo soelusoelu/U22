@@ -9,7 +9,7 @@
 #include "../../../../Math/Math.h"
 #include "../../../../System/Window.h"
 #include "../../../../Transform/Transform3D.h"
-#include "../../../../Utility/LevelLoader.h"
+#include "../../../../Utility/JsonHelper.h"
 #include <string>
 
 ImGuiInspector::ImGuiInspector()
@@ -27,18 +27,16 @@ float ImGuiInspector::getInspectorPositionX() const {
     return mInspectorPositionX;
 }
 
-void ImGuiInspector::loadProperties(const rapidjson::Value& inObj) {
-    const auto& obj = inObj["inspector"];
-    if (obj.IsObject()) {
-        JsonHelper::getFloat(obj, "inspectorPositionX", mInspectorPositionX);
+void ImGuiInspector::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        rapidjson::Value props(rapidjson::kObjectType);
+        JsonHelper::setFloat(mInspectorPositionX, "inspectorPositionX", props, alloc);
+
+        inObj.AddMember("inspector", props, alloc);
+    } else {
+        const auto& obj = inObj["inspector"];
+        JsonHelper::getFloat(mInspectorPositionX, "inspectorPositionX", obj);
     }
-}
-
-void ImGuiInspector::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setFloat(alloc, props, "inspectorPositionX", mInspectorPositionX);
-
-    inObj.AddMember("inspector", props, alloc);
 }
 
 void ImGuiInspector::drawInspect() const {

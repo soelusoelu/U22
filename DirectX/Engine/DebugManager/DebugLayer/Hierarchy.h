@@ -3,6 +3,7 @@
 #include "Inspector/IInspector.h"
 #include "../../../GameObject/IGameObjectsGetter.h"
 #include "../../../Math/Math.h"
+#include "../../../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <list>
 #include <memory>
@@ -20,8 +21,7 @@ class Hierarchy {
 public:
     Hierarchy();
     ~Hierarchy();
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void initialize(const IGameObjectsGetter* getter, IInspector* inspector);
     void update();
     //マネージャーに登録されてる全ゲームオブジェクトを表示

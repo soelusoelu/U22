@@ -3,6 +3,7 @@
 #include "../../EngineMode.h"
 #include "../../Pause/IPause.h"
 #include "../../../Math/Math.h"
+#include "../../../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <memory>
 
@@ -20,8 +21,7 @@ private:
 public:
     ~DebugUtility();
     static DebugUtility& instance();
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj);
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void initialize(const IPause* pause);
     void finalize();
     void preUpdateProcess();

@@ -1,7 +1,7 @@
 ﻿#include "Keyboard.h"
 #include "InputUtility.h"
 #include "../System/GlobalFunction.h"
-#include "../Utility/LevelLoader.h"
+#include "../Utility/JsonHelper.h"
 
 Keyboard::Keyboard()
     : mKeyDevice(nullptr)
@@ -97,20 +97,18 @@ bool Keyboard::initialize(const HWND& hWnd, IDirectInput8* directInput) {
     return true;
 }
 
-void Keyboard::loadProperties(const rapidjson::Value& inObj) {
-    const auto& keyObj = inObj["keyboard"];
-    if (keyObj.IsObject()) {
-        if (JsonHelper::getString(keyObj, "enterKey", mEnterKeyStr)) {
+void Keyboard::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        rapidjson::Value props(rapidjson::kObjectType);
+        JsonHelper::setString(mEnterKeyStr, "enterKey", props, alloc);
+
+        inObj.AddMember("keyboard", props, alloc);
+    } else {
+        const auto& keyObj = inObj["keyboard"];
+        if (JsonHelper::getString(mEnterKeyStr, "enterKey", keyObj)) {
             stringToKeyCode(mEnterKeyStr, &mEnterKey);
         }
     }
-}
-
-void Keyboard::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setString(alloc, props, "enterKey", mEnterKeyStr);
-
-    inObj.AddMember("keyboard", props, alloc);
 }
 
 void Keyboard::update() {

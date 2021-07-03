@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <dinput.h>
 #include <string>
@@ -26,8 +27,7 @@ public:
     JoyPad();
     ~JoyPad();
     bool initialize(const HWND& hWnd, IDirectInput8* directInput);
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void update();
     //キーが押された瞬間
     bool getJoyDown(JoyCode joy) const;

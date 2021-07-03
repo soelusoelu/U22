@@ -4,6 +4,7 @@
 #include "IEngineFunctionChanger.h"
 #include "../Device/Function.h"
 #include "../Math/Math.h"
+#include "../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <memory>
 #include <string>
@@ -23,8 +24,7 @@ public:
     ~EngineFuctionChanger();
     virtual void changeMode(EngineMode mode) override;
     virtual void callbackChangeMode(const std::function<void(EngineMode)>& f) override;
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void initialize();
     void update();
 

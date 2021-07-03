@@ -2,7 +2,7 @@
 #include "../Imgui/imgui.h"
 #include "../Imgui/imgui_impl_dx11.h"
 #include "../Imgui/imgui_impl_win32.h"
-#include "../Utility/LevelLoader.h"
+#include "../Utility/JsonHelper.h"
 #include "../Utility/StringUtil.h"
 
 Window* gWindow = nullptr;
@@ -149,42 +149,42 @@ Vector2 Window::getWindowCorrect() {
     );
 }
 
-void Window::loadProperties(const rapidjson::Value& inObj) {
-    const auto& windowObj = inObj["window"];
-    if (windowObj.IsObject()) {
-        JsonHelper::getString(windowObj, "title", mTitle);
-        JsonHelper::getInt(windowObj, "windowWidth", mWidth);
-        JsonHelper::getInt(windowObj, "windowHeight", mHeight);
-        JsonHelper::getInt(windowObj, "releaseWindowWidth", mReleaseWidth);
-        JsonHelper::getInt(windowObj, "releaseWindowHeight", mReleaseHeight);
-        JsonHelper::getInt(windowObj, "windowStandardWidth", mStandardWidth);
-        JsonHelper::getInt(windowObj, "windowStandardHeight", mStandardHeight);
-        JsonHelper::getInt(windowObj, "windowDebugWidth", mDebugWidth);
-        JsonHelper::getInt(windowObj, "windowDebugHeight", mDebugHeight);
+void Window::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        rapidjson::Value props(rapidjson::kObjectType);
+        JsonHelper::setString(mTitle, "title", props, alloc);
+        JsonHelper::setInt(mWidth, "windowWidth", props, alloc);
+        JsonHelper::setInt(mHeight, "windowHeight", props, alloc);
+        JsonHelper::setInt(mReleaseWidth, "releaseWindowWidth", props, alloc);
+        JsonHelper::setInt(mReleaseHeight, "releaseWindowHeight", props, alloc);
+        JsonHelper::setInt(mStandardWidth, "windowStandardWidth", props, alloc);
+        JsonHelper::setInt(mStandardHeight, "windowStandardHeight", props, alloc);
+        JsonHelper::setInt(mDebugWidth, "windowDebugWidth", props, alloc);
+        JsonHelper::setInt(mDebugHeight, "windowDebugHeight", props, alloc);
+
+        inObj.AddMember("window", props, alloc);
+    } else {
+        const auto& windowObj = inObj["window"];
+        if (windowObj.IsObject()) {
+            JsonHelper::getString(mTitle, "title", windowObj);
+            JsonHelper::getInt(mWidth, "windowWidth", windowObj);
+            JsonHelper::getInt(mHeight, "windowHeight", windowObj);
+            JsonHelper::getInt(mReleaseWidth, "releaseWindowWidth", windowObj);
+            JsonHelper::getInt(mReleaseHeight, "releaseWindowHeight", windowObj);
+            JsonHelper::getInt(mStandardWidth, "windowStandardWidth", windowObj);
+            JsonHelper::getInt(mStandardHeight, "windowStandardHeight", windowObj);
+            JsonHelper::getInt(mDebugWidth, "windowDebugWidth", windowObj);
+            JsonHelper::getInt(mDebugHeight, "windowDebugHeight", windowObj);
 
 #ifdef _DEBUG
-        mGameWidth = mWidth;
-        mGameHeight = mHeight;
+            mGameWidth = mWidth;
+            mGameHeight = mHeight;
 #else
-        mGameWidth = mReleaseWidth;
-        mGameHeight = mReleaseHeight;
+            mGameWidth = mReleaseWidth;
+            mGameHeight = mReleaseHeight;
 #endif // _DEBUG
+        }
     }
-}
-
-void Window::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setString(alloc, props, "title", mTitle);
-    JsonHelper::setInt(alloc, props, "windowWidth", mWidth);
-    JsonHelper::setInt(alloc, props, "windowHeight", mHeight);
-    JsonHelper::setInt(alloc, props, "releaseWindowWidth", mReleaseWidth);
-    JsonHelper::setInt(alloc, props, "releaseWindowHeight", mReleaseHeight);
-    JsonHelper::setInt(alloc, props, "windowStandardWidth", mStandardWidth);
-    JsonHelper::setInt(alloc, props, "windowStandardHeight", mStandardHeight);
-    JsonHelper::setInt(alloc, props, "windowDebugWidth", mDebugWidth);
-    JsonHelper::setInt(alloc, props, "windowDebugHeight", mDebugHeight);
-
-    inObj.AddMember("window", props, alloc);
 }
 
 void Window::updateWindowToClientSize() {

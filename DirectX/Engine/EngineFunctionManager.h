@@ -7,6 +7,7 @@
 #include "../Math/Math.h"
 #include "../Mesh/IMeshesGetter.h"
 #include "../System/FpsCounter/IFpsGetter.h"
+#include "../Utility/FileMode.h"
 #include <memory>
 #include <string>
 #include <rapidjson/document.h>
@@ -33,8 +34,7 @@ public:
     virtual AssetsRenderTextureManager& getAssetsRenderTextureManager() const override;
     virtual MapEditorMeshManager& getMapEditorMeshManager() const override;
 
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj);
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
 
     //初期化
     void initialize(

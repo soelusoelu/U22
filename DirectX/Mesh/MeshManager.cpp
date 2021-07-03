@@ -29,12 +29,8 @@ void MeshManager::add(const MeshPtr& mesh, bool handleShadow) {
     }
 }
 
-void MeshManager::loadProperties(const rapidjson::Value& inObj) {
-    mShadowMap->loadProperties(inObj);
-}
-
-void MeshManager::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) {
-    mShadowMap->saveProperties(alloc, inObj);
+void MeshManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    mShadowMap->saveAndLoad(inObj, alloc, mode);
 }
 
 void MeshManager::initialize() {

@@ -1,29 +1,30 @@
 ﻿#include "FixedDebugInformation.h"
 #include "../../../Device/DrawString.h"
 #include "../../../System/Window.h"
-#include "../../../Utility/LevelLoader.h"
+#include "../../../Utility/JsonHelper.h"
 #include "../../../Utility/StringUtil.h"
 
-FixedDebugInformation::FixedDebugInformation() :
-    mFpsGetter(nullptr),
-    mScale(Vector2::one),
-    mFPSPos(Vector2::zero) {
+FixedDebugInformation::FixedDebugInformation()
+    : mFpsGetter(nullptr)
+    , mScale(Vector2::one)
+    , mFPSPos(Vector2::zero)
+{
 }
 
 FixedDebugInformation::~FixedDebugInformation() = default;
 
-void FixedDebugInformation::loadProperties(const rapidjson::Value& inObj) {
-    const auto& obj = inObj["fixedDebugInfo"];
-    if (obj.IsObject()) {
-        JsonHelper::getVector2(obj, "scale", mScale);
+void FixedDebugInformation::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        rapidjson::Value props(rapidjson::kObjectType);
+        JsonHelper::setVector2(mScale, "scale", props, alloc);
+
+        inObj.AddMember("fixedDebugInfo", props, alloc);
+    } else {
+        const auto& obj = inObj["fixedDebugInfo"];
+        if (obj.IsObject()) {
+            JsonHelper::getVector2(mScale, "scale", obj);
+        }
     }
-}
-
-void FixedDebugInformation::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setVector2(alloc, props, "scale", mScale);
-
-    inObj.AddMember("fixedDebugInfo", props, alloc);
 }
 
 void FixedDebugInformation::initialize(const IFpsGetter* getter) {

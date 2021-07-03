@@ -73,7 +73,7 @@ private:
     ComponentManager& operator=(const ComponentManager&) = delete;
 
     //各コンポーネントを保存する
-    void saveComponent(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& outArray, const Component& component) const;
+    void saveComponent(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& outArray, Component& component) const;
 
 private:
     ComponentPtrArray mComponents;

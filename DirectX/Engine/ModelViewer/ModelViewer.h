@@ -10,6 +10,7 @@
 #include "../AssetsRenderer/ICurrentSelectTextureGetter.h"
 #include "../../Device/Function.h"
 #include "../../Math/Math.h"
+#include "../../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <memory>
 #include <utility>
@@ -39,8 +40,7 @@ public:
     virtual void callbackModeChange(const std::function<void(ModelViewerMode)>& f) override;
     virtual void callbackModelChange(const std::function<void(GameObject&)>& f) override;
 
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj);
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
 
     //初期化
     void initialize(

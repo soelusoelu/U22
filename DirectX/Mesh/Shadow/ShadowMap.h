@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../../System/Shader/ConstantBuffers.h"
+#include "../../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <memory>
 
@@ -13,8 +14,7 @@ public:
     ShadowMap();
     ~ShadowMap();
     void initialize();
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj);
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
 
     //描画準備
     void drawBegin(const Vector3& dirLightDirection);

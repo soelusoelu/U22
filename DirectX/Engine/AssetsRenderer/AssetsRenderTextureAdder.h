@@ -4,6 +4,7 @@
 #include "../EngineMode.h"
 #include "../IEngineFunctionChanger.h"
 #include "../../Math/Math.h"
+#include "../../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <memory>
 #include <string>
@@ -15,8 +16,7 @@ class AssetsRenderTextureAdder {
 public:
     AssetsRenderTextureAdder();
     ~AssetsRenderTextureAdder();
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void initialize(IAddAssets* adder, IEngineFunctionChanger& changer);
     void update();
 

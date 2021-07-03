@@ -3,6 +3,7 @@
 #include "FpsCounter/IFpsGetter.h"
 #include "../Engine/EngineMode.h"
 #include "../Engine/IEngineModeGetter.h"
+#include "../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <memory>
 #include <string>
@@ -26,8 +27,7 @@ class SceneManager
 public:
     SceneManager();
     ~SceneManager();
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void initialize(const IFpsGetter* fpsGetter);
     void update();
     void draw() const;

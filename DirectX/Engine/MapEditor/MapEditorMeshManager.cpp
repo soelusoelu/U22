@@ -20,8 +20,10 @@ MapEditorMeshManager::MapEditorMeshManager()
 
 MapEditorMeshManager::~MapEditorMeshManager() = default;
 
-void MapEditorMeshManager::loadProperties(const rapidjson::Value& inObj) {
-    mMeshManager->loadProperties(inObj);
+void MapEditorMeshManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::LOAD) {
+        mMeshManager->saveAndLoad(inObj, alloc, mode);
+    }
 }
 
 void MapEditorMeshManager::initialize(

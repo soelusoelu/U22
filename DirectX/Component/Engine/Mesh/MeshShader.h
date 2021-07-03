@@ -8,12 +8,13 @@
 #include <utility>
 
 //メッシュのシェーダーを扱うクラス
-class MeshShader : public Component {
+class MeshShader
+    : public Component
+{
 public:
     MeshShader();
     ~MeshShader();
-    virtual void loadProperties(const rapidjson::Value& inObj) override;
-    virtual void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const override;
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
     virtual void drawInspector() override;
 
     //シェーダーをバインドする

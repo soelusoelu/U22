@@ -4,7 +4,7 @@
 #include "../../System/Window.h"
 #include "../../System/Texture/MeshRenderOnTexture.h"
 #include "../../Utility/FileUtil.h"
-#include "../../Utility/LevelLoader.h"
+#include "../../Utility/JsonHelper.h"
 #include <vector>
 
 AssetsRenderTextureList::AssetsRenderTextureList()
@@ -61,30 +61,26 @@ void AssetsRenderTextureList::initialize() {
     //drawMeshOnTexture();
 }
 
-void AssetsRenderTextureList::loadProperties(const rapidjson::Value& inObj) {
-    const auto& artlObj = inObj["assetsRenderTextureList"];
-    if (artlObj.IsObject()) {
-        JsonHelper::getInt(artlObj, "textureSize", mTextureSize);
-        JsonHelper::getInt(artlObj, "textureDisplayInterval", mTextureDisplayInterval);
+void AssetsRenderTextureList::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::SAVE) {
+        rapidjson::Value props(rapidjson::kObjectType);
+        JsonHelper::setInt(mTextureSize, "textureSize", props, alloc);
+        JsonHelper::setInt(mTextureDisplayInterval, "textureDisplayInterval", props, alloc);
+        std::vector<std::string> temp(mTexturesFilePath.cbegin(), mTexturesFilePath.cend());
+        JsonHelper::setStringArray(temp, "texturesFilePath", props, alloc);
+
+        inObj.AddMember("assetsRenderTextureList", props, alloc);
+    } else {
+        const auto& artlObj = inObj["assetsRenderTextureList"];
+        JsonHelper::getInt(mTextureSize, "textureSize", artlObj);
+        JsonHelper::getInt(mTextureDisplayInterval, "textureDisplayInterval", artlObj);
         mColumnDisplayLimit = Window::width() / (mTextureSize + mTextureDisplayInterval);
 
         std::vector<std::string> temp;
-        if (JsonHelper::getStringArray(artlObj, "texturesFilePath", temp)) {
-            for (const auto& x : temp) {
-                mTexturesFilePath.emplace(x);
-            }
+        if (JsonHelper::getStringArray(temp, "texturesFilePath", artlObj)) {
+            mTexturesFilePath.insert(temp.cbegin(), temp.cend());
         }
     }
-}
-
-void AssetsRenderTextureList::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const {
-    rapidjson::Value props(rapidjson::kObjectType);
-    JsonHelper::setInt(alloc, props, "textureSize", mTextureSize);
-    JsonHelper::setInt(alloc, props, "textureDisplayInterval", mTextureDisplayInterval);
-    std::vector<std::string> temp(mTexturesFilePath.begin(), mTexturesFilePath.end());
-    JsonHelper::setStringArray(alloc, props, "texturesFilePath", temp);
-
-    inObj.AddMember("assetsRenderTextureList", props, alloc);
 }
 
 void AssetsRenderTextureList::drawMeshOnTexture() {

@@ -12,16 +12,10 @@ DebugLayer::DebugLayer()
 
 DebugLayer::~DebugLayer() = default;
 
-void DebugLayer::loadProperties(const rapidjson::Value& inObj) {
-    mFixedDebugInfo->loadProperties(inObj);
-    mHierarchy->loadProperties(inObj);
-    mInspector->loadProperties(inObj);
-}
-
-void DebugLayer::saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) {
-    mFixedDebugInfo->saveProperties(alloc, inObj);
-    mHierarchy->saveProperties(alloc, inObj);
-    mInspector->saveProperties(alloc, inObj);
+void DebugLayer::saveAndLoad(rapidjson::Value & inObj, rapidjson::Document::AllocatorType & alloc, FileMode mode) {
+    mFixedDebugInfo->saveAndLoad(inObj, alloc, mode);
+    mHierarchy->saveAndLoad(inObj, alloc, mode);
+    mInspector->saveAndLoad(inObj, alloc, mode);
 }
 
 void DebugLayer::initialize(const IGameObjectsGetter* gameObjectsGetter, const IFpsGetter* fpsGetter) {

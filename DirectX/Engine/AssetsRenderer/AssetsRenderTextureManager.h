@@ -5,6 +5,7 @@
 #include "../EngineMode.h"
 #include "../IEngineFunctionChanger.h"
 #include "../../Math/Math.h"
+#include "../../Utility/FileMode.h"
 #include <rapidjson/document.h>
 #include <memory>
 
@@ -23,8 +24,8 @@ public:
     ~AssetsRenderTextureManager();
     virtual const AssetsRenderTexture& getCurrentSelectTexture() const override;
     virtual bool selectedTexture() const override;
-    void loadProperties(const rapidjson::Value& inObj);
-    void saveProperties(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& inObj) const;
+
+    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     //初期化
     void initialize(IEngineFunctionChanger& changer);
     //毎フレーム更新

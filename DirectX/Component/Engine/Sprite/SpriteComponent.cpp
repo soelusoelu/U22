@@ -78,8 +78,8 @@ void SpriteComponent::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::
             setUV(vec4.x, vec4.y, vec4.z, vec4.w);
         }
         if (JsonHelper::getString(str, "pivot", inObj)) {
-            Pivot pivot = Pivot::NONE;
-            PivotFunc::stringToPivot(str, &pivot);
+            auto pivot = Pivot::LEFT_TOP;
+            PivotFunc::stringToPivot(str, pivot);
             transform().setPivot(pivot);
         }
     }
