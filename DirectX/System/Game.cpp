@@ -60,10 +60,10 @@ void Game::run(HINSTANCE hInstance) {
 }
 
 void Game::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    mWindow->saveAndLoad(inObj, alloc, mode);
-    mFPSCounter->saveAndLoad(inObj, alloc, mode);
+    mWindow->writeAndRead(inObj, alloc, mode);
+    mFPSCounter->writeAndRead(inObj, alloc, mode);
     InputManager::saveAndLoad(inObj, alloc, mode);
-    mSceneManager->saveAndLoad(inObj, alloc, mode);
+    mSceneManager->writeAndRead(inObj, alloc, mode);
 }
 
 void Game::quit() {

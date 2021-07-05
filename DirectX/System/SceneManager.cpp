@@ -28,7 +28,8 @@
 #include <vector>
 
 SceneManager::SceneManager()
-    : mRenderer(std::make_unique<Renderer>())
+    : FileOperator("SceneManager")
+    , mRenderer(std::make_unique<Renderer>())
     , mCurrentScene(nullptr)
     , mCamera(nullptr)
     , mEngineManager(std::make_unique<EngineFunctionManager>())
@@ -49,33 +50,6 @@ SceneManager::~SceneManager() {
     safeDelete(mTextDrawer);
 
     TextBase::setDrawString(nullptr);
-}
-
-void SceneManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setString(mBeginScene, "beginScene", props, alloc);
-        JsonHelper::setString(mReleaseScene, "releaseScene", props, alloc);
-        std::vector<std::string> temp(mRemoveExclusionTags.cbegin(), mRemoveExclusionTags.cend());
-        JsonHelper::setStringArray(temp, "removeExclusionTag", props, alloc);
-        inObj.AddMember("sceneManager", props, alloc);
-    } else {
-        const auto& sceneObj = inObj["sceneManager"];
-        if (sceneObj.IsObject()) {
-            JsonHelper::getString(mBeginScene, "beginScene", sceneObj);
-            JsonHelper::getString(mReleaseScene, "releaseScene", sceneObj);
-
-            std::vector<std::string> temp;
-            if (JsonHelper::getStringArray(temp, "removeExclusionTag", sceneObj)) {
-                mRemoveExclusionTags.insert(temp.cbegin(), temp.cend());
-            }
-        }
-    }
-
-    mEngineManager->saveAndLoad(inObj, alloc, mode);
-    mMeshManager->saveAndLoad(inObj, alloc, mode);
-    mLightManager->saveAndLoad(inObj, alloc, mode);
-    mTextDrawer->saveAndLoad(inObj, alloc, mode);
 }
 
 void SceneManager::initialize(const IFpsGetter* fpsGetter) {
@@ -213,6 +187,28 @@ void SceneManager::draw() const {
     mSpriteManager->draw(proj2D);
     mEngineManager->draw(mMode, *mRenderer, proj2D);
 #endif // _DEBUG
+}
+
+void SceneManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetString(mBeginScene, "beginScene", inObj, alloc, mode);
+    JsonHelper::getSetString(mReleaseScene, "releaseScene", inObj, alloc, mode);
+
+    if (mode == FileMode::SAVE) {
+        std::vector<std::string> temp(mRemoveExclusionTags.cbegin(), mRemoveExclusionTags.cend());
+        JsonHelper::setStringArray(temp, "removeExclusionTag", inObj, alloc);
+    } else {
+        std::vector<std::string> temp;
+        if (JsonHelper::getStringArray(temp, "removeExclusionTag", inObj)) {
+            mRemoveExclusionTags.insert(temp.cbegin(), temp.cend());
+        }
+    }
+}
+
+void SceneManager::childSaveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    mEngineManager->writeAndRead(inObj, alloc, mode);
+    mMeshManager->saveAndLoad(inObj, alloc, mode);
+    mLightManager->writeAndRead(inObj, alloc, mode);
+    mTextDrawer->writeAndRead(inObj, alloc, mode);
 }
 
 EngineMode SceneManager::getMode() const {

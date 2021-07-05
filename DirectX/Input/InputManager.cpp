@@ -24,8 +24,8 @@ bool InputManager::initialize(const HWND& hWnd) {
 }
 
 void InputManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    mKeyboard->saveAndLoad(inObj, alloc, mode);
-    mJoyPad->saveAndLoad(inObj, alloc, mode);
+    mKeyboard->writeAndRead(inObj, alloc, mode);
+    mJoyPad->writeAndRead(inObj, alloc, mode);
 }
 
 void InputManager::finalize() {

@@ -1,14 +1,14 @@
 ﻿#pragma once
 
+#include "../../Device/FileOperator.h"
 #include "../../Math/Math.h"
-#include "../../Utility/FileMode.h"
-#include <rapidjson/document.h>
 
-class ModelViewerLight {
+class ModelViewerLight
+    : public FileOperator
+{
 public:
     ModelViewerLight();
     ~ModelViewerLight();
-    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void drawGUI();
     Vector3 getDirection() const;
     const Vector3& getColor() const;
@@ -16,6 +16,8 @@ public:
 private:
     ModelViewerLight(const ModelViewerLight&) = delete;
     ModelViewerLight& operator=(const ModelViewerLight&) = delete;
+
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
 private:
     Quaternion mDirection;

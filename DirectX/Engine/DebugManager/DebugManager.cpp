@@ -4,21 +4,14 @@
 #include "../../Device/DrawString.h"
 
 DebugManager::DebugManager()
-    : mStringDrawer(std::make_unique<DrawString>())
+    : FileOperator("DebugManager")
+    , mStringDrawer(std::make_unique<DrawString>())
     , mDebugLayer(std::make_unique<DebugLayer>())
 {
 }
 
 DebugManager::~DebugManager() {
     DebugUtility::instance().finalize();
-}
-
-void DebugManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::LOAD) {
-        mStringDrawer->saveAndLoad(inObj, alloc, mode);
-    }
-    mDebugLayer->saveAndLoad(inObj, alloc, mode);
-    DebugUtility::instance().saveAndLoad(inObj, alloc, mode);
 }
 
 void DebugManager::initialize(
@@ -62,4 +55,12 @@ void DebugManager::draw3D(
 
 DebugLayer& DebugManager::getDebugLayer() const {
     return *mDebugLayer;
+}
+
+void DebugManager::childSaveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    if (mode == FileMode::LOAD) {
+        mStringDrawer->writeAndRead(inObj, alloc, mode);
+    }
+    mDebugLayer->writeAndRead(inObj, alloc, mode);
+    DebugUtility::instance().writeAndRead(inObj, alloc, mode);
 }

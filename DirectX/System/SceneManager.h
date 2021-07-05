@@ -1,10 +1,9 @@
 ﻿#pragma once
 
 #include "FpsCounter/IFpsGetter.h"
+#include "../Device/FileOperator.h"
 #include "../Engine/EngineMode.h"
 #include "../Engine/IEngineModeGetter.h"
-#include "../Utility/FileMode.h"
-#include <rapidjson/document.h>
 #include <memory>
 #include <string>
 #include <unordered_set>
@@ -22,17 +21,20 @@ class MeshRenderOnTextureManager;
 class DrawString;
 
 class SceneManager
-    : public IEngineModeGetter
+    : public FileOperator
+    , public IEngineModeGetter
 {
 public:
     SceneManager();
     ~SceneManager();
-    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void initialize(const IFpsGetter* fpsGetter);
     void update();
     void draw() const;
 
 private:
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
+    virtual void childSaveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
+
     virtual EngineMode getMode() const override;
 
     //シーン変更時

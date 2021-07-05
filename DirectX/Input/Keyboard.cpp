@@ -4,7 +4,8 @@
 #include "../Utility/JsonHelper.h"
 
 Keyboard::Keyboard()
-    : mKeyDevice(nullptr)
+    : FileOperator("Keyboard")
+    , mKeyDevice(nullptr)
     , mCurrentKeys()
     , mPreviousKeys()
     , mEnterKey(KeyCode::None)
@@ -97,20 +98,6 @@ bool Keyboard::initialize(const HWND& hWnd, IDirectInput8* directInput) {
     return true;
 }
 
-void Keyboard::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setString(mEnterKeyStr, "enterKey", props, alloc);
-
-        inObj.AddMember("keyboard", props, alloc);
-    } else {
-        const auto& keyObj = inObj["keyboard"];
-        if (JsonHelper::getString(mEnterKeyStr, "enterKey", keyObj)) {
-            stringToKeyCode(mEnterKeyStr, &mEnterKey);
-        }
-    }
-}
-
 void Keyboard::update() {
     memcpy_s(mPreviousKeys, sizeof(mPreviousKeys), mCurrentKeys, sizeof(mCurrentKeys));
 
@@ -120,7 +107,7 @@ void Keyboard::update() {
     }
 }
 
-void Keyboard::stringToKeyCode(const std::string& src, KeyCode* dst) {
+void Keyboard::stringToKeyCode(const std::string& src, KeyCode& dst) {
     auto key = KeyCode::None;
 
     if (src == "A") {
@@ -250,6 +237,14 @@ void Keyboard::stringToKeyCode(const std::string& src, KeyCode* dst) {
     }
 
     if (key != KeyCode::None) {
-        *dst = key;
+        dst = key;
+    }
+}
+
+void Keyboard::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetString(mEnterKeyStr, "enterKey", inObj, alloc, mode);
+
+    if (mode == FileMode::LOAD) {
+        stringToKeyCode(mEnterKeyStr, mEnterKey);
     }
 }

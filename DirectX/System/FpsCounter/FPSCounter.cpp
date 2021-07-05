@@ -3,7 +3,8 @@
 #include "../../Utility/JsonHelper.h"
 
 FPSCounter::FPSCounter()
-    : mDrawUpdateTimer(std::make_unique<Time>())
+    : FileOperator("FPSCounter")
+    , mDrawUpdateTimer(std::make_unique<Time>())
     , mFixedFrame(60.f)
     , mCurrentFPS(60.f)
     , mFrequency()
@@ -16,18 +17,6 @@ FPSCounter::~FPSCounter() = default;
 
 float FPSCounter::getFps() const {
     return mCurrentFPS;
-}
-
-void FPSCounter::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setFloat(mFixedFrame, "fps", props, alloc);
-
-        inObj.AddMember("fpsCounter", props, alloc);
-    } else {
-        const auto& fpsObj = inObj["fpsCounter"];
-        JsonHelper::getFloat(mFixedFrame, "fps", fpsObj);
-    }
 }
 
 void FPSCounter::fixedFrame() {
@@ -55,6 +44,10 @@ void FPSCounter::fixedFrame() {
 
 void FPSCounter::setFixedFrame(float fixedFrame) {
     mFixedFrame = fixedFrame;
+}
+
+void FPSCounter::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetFloat(mFixedFrame, "fps", inObj, alloc, mode);
 }
 
 void FPSCounter::computeFps(float time) {

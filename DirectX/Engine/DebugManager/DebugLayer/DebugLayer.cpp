@@ -4,19 +4,14 @@
 #include "Inspector/ImGuiInspector.h"
 
 DebugLayer::DebugLayer()
-    : mFixedDebugInfo(std::make_unique<FixedDebugInformation>())
+    : FileOperator("DebugLayer")
+    , mFixedDebugInfo(std::make_unique<FixedDebugInformation>())
     , mHierarchy(std::make_unique<Hierarchy>())
     , mInspector(std::make_unique<ImGuiInspector>())
 {
 }
 
 DebugLayer::~DebugLayer() = default;
-
-void DebugLayer::saveAndLoad(rapidjson::Value & inObj, rapidjson::Document::AllocatorType & alloc, FileMode mode) {
-    mFixedDebugInfo->saveAndLoad(inObj, alloc, mode);
-    mHierarchy->saveAndLoad(inObj, alloc, mode);
-    mInspector->saveAndLoad(inObj, alloc, mode);
-}
 
 void DebugLayer::initialize(const IGameObjectsGetter* gameObjectsGetter, const IFpsGetter* fpsGetter) {
     mFixedDebugInfo->initialize(fpsGetter);
@@ -48,4 +43,10 @@ Hierarchy& DebugLayer::hierarchy() const {
 
 IInspector* DebugLayer::inspector() const {
     return mInspector.get();
+}
+
+void DebugLayer::childSaveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    mFixedDebugInfo->writeAndRead(inObj, alloc, mode);
+    mHierarchy->writeAndRead(inObj, alloc, mode);
+    mInspector->writeAndRead(inObj, alloc, mode);
 }

@@ -8,7 +8,8 @@
 #include "../../../System/GlobalFunction.h"
 
 DebugUtility::DebugUtility()
-    : mPause(nullptr)
+    : FileOperator("DebugUtility")
+    , mPause(nullptr)
     , mLog(std::make_unique<Log>())
     , mPointRenderer(std::make_unique<PointRenderer>())
     , mLineRenderer2D(std::make_unique<LineRenderer2D>())
@@ -23,10 +24,6 @@ DebugUtility& DebugUtility::instance() {
         mInstance = new DebugUtility();
     }
     return *mInstance;
-}
-
-void DebugUtility::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    mLog->saveAndLoad(inObj, alloc, mode);
 }
 
 void DebugUtility::initialize(const IPause* pause) {
@@ -86,4 +83,8 @@ LineRenderer2D& DebugUtility::lineRenderer2D() const {
 
 LineRenderer3D& DebugUtility::lineRenderer3D() const {
     return *mLineRenderer3D;
+}
+
+void DebugUtility::childSaveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    mLog->writeAndRead(inObj, alloc, mode);
 }

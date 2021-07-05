@@ -9,7 +9,8 @@ BOOL CALLBACK enumJoysticksCallback(const DIDEVICEINSTANCE*, VOID*);
 BOOL CALLBACK enumObjectsCallback(const DIDEVICEOBJECTINSTANCE*, VOID*);
 
 JoyPad::JoyPad()
-    : mCurrentJoyState()
+    : FileOperator("JoyPad")
+    , mCurrentJoyState()
     , mPreviousJoyState()
     , mEnterPad(JoyCode::None)
     , mEnterPadStr()
@@ -44,20 +45,6 @@ bool JoyPad::initialize(const HWND& hWnd, IDirectInput8* directInput) {
     mPadDevice->Acquire();
 
     return true;
-}
-
-void JoyPad::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setString(mEnterPadStr, "enterPad", props, alloc);
-
-        inObj.AddMember("joyPad", props, alloc);
-    } else {
-        const auto& padObj = inObj["joyPad"];
-        if (JsonHelper::getString(mEnterPadStr, "enterPad", padObj)) {
-            stringToJoyCode(mEnterPadStr, &mEnterPad);
-        }
-    }
 }
 
 BOOL CALLBACK enumJoysticksCallback(const DIDEVICEINSTANCE* pdidInstance, VOID* pContext) {
@@ -127,7 +114,7 @@ bool JoyPad::getEnter() const {
     return getJoyDown(mEnterPad);
 }
 
-void JoyPad::stringToJoyCode(const std::string& src, JoyCode* dst) {
+void JoyPad::stringToJoyCode(const std::string& src, JoyCode& dst) {
     auto joy = JoyCode::None;
 
     if (src == "A") {
@@ -153,8 +140,14 @@ void JoyPad::stringToJoyCode(const std::string& src, JoyCode* dst) {
     }
 
     if (joy != JoyCode::None) {
-        *dst = joy;
+        dst = joy;
     }
 }
 
-IDirectInputDevice8* JoyPad::mPadDevice = nullptr;
+void JoyPad::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetString(mEnterPadStr, "enterPad", inObj, alloc, mode);
+
+    if (mode == FileMode::LOAD) {
+        stringToJoyCode(mEnterPadStr, mEnterPad);
+    }
+}

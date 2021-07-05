@@ -17,7 +17,8 @@
 #include "../../Utility/JsonHelper.h"
 
 ShadowMap::ShadowMap()
-    : mDepthTextureCreateShaderID(-1)
+    : FileOperator("ShadowMap")
+    , mDepthTextureCreateShaderID(-1)
     , mRenderTexture(nullptr)
     , mShadowTextureSize(0)
     , mLightDistance(0.f)
@@ -37,24 +38,6 @@ void ShadowMap::initialize() {
     //s->setTexture(tex);
     //auto& t = s->transform();
     //t.setScale(0.5f);
-}
-
-void ShadowMap::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setInt(mShadowTextureSize, "shadowTextureSize", props, alloc);
-        JsonHelper::setFloat(mLightDistance, "lightDistance", props, alloc);
-        JsonHelper::setFloat(mNearClip, "nearClip", props, alloc);
-        JsonHelper::setFloat(mFarClip, "farClip", props, alloc);
-
-        inObj.AddMember("shadowMap", props, alloc);
-    } else {
-        const auto& obj = inObj["shadowMap"];
-        JsonHelper::getInt(mShadowTextureSize, "shadowTextureSize", obj);
-        JsonHelper::getFloat(mLightDistance, "lightDistance", obj);
-        JsonHelper::getFloat(mNearClip, "nearClip", obj);
-        JsonHelper::getFloat(mFarClip, "farClip", obj);
-    }
 }
 
 void ShadowMap::drawBegin(const Vector3& dirLightDirection) {
@@ -95,4 +78,11 @@ void ShadowMap::transferShadowTexture(unsigned constantBufferIndex) {
 
 void ShadowMap::drawEndShadowTexture() {
     mRenderTexture->drawEndTexture();
+}
+
+void ShadowMap::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetInt(mShadowTextureSize, "shadowTextureSize", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mLightDistance, "lightDistance", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mNearClip, "nearClip", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mFarClip, "farClip", inObj, alloc, mode);
 }

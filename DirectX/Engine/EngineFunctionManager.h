@@ -3,14 +3,13 @@
 #include "EngineMode.h"
 #include "IEngineManagingClassGetter.h"
 #include "IEngineModeGetter.h"
+#include "../Device/FileOperator.h"
 #include "../GameObject/IGameObjectsGetter.h"
 #include "../Math/Math.h"
 #include "../Mesh/IMeshesGetter.h"
 #include "../System/FpsCounter/IFpsGetter.h"
-#include "../Utility/FileMode.h"
 #include <memory>
 #include <string>
-#include <rapidjson/document.h>
 
 class Camera;
 class DirectionalLight;
@@ -22,7 +21,8 @@ class ModelViewer;
 
 //エンジン機能統括クラス
 class EngineFunctionManager
-    : public IEngineManagingClassGetter
+    : public FileOperator
+    , public IEngineManagingClassGetter
 {
 public:
     EngineFunctionManager();
@@ -33,8 +33,6 @@ public:
     virtual IPause& pause() const override;
     virtual AssetsRenderTextureManager& getAssetsRenderTextureManager() const override;
     virtual MapEditorMeshManager& getMapEditorMeshManager() const override;
-
-    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
 
     //初期化
     void initialize(
@@ -68,6 +66,8 @@ public:
 private:
     EngineFunctionManager(const EngineFunctionManager&) = delete;
     EngineFunctionManager& operator=(const EngineFunctionManager&) = delete;
+
+    virtual void childSaveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
 private:
     std::unique_ptr<DebugManager> mDebugManager;

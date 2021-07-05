@@ -8,7 +8,8 @@
 #include <vector>
 
 AssetsRenderTextureList::AssetsRenderTextureList()
-    : mTextureSize(0)
+    : FileOperator("AssetsRenderTextureList")
+    , mTextureSize(0)
     , mColumnDisplayLimit(0)
     , mTextureDisplayInterval(0)
 {
@@ -61,28 +62,6 @@ void AssetsRenderTextureList::initialize() {
     //drawMeshOnTexture();
 }
 
-void AssetsRenderTextureList::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setInt(mTextureSize, "textureSize", props, alloc);
-        JsonHelper::setInt(mTextureDisplayInterval, "textureDisplayInterval", props, alloc);
-        std::vector<std::string> temp(mTexturesFilePath.cbegin(), mTexturesFilePath.cend());
-        JsonHelper::setStringArray(temp, "texturesFilePath", props, alloc);
-
-        inObj.AddMember("assetsRenderTextureList", props, alloc);
-    } else {
-        const auto& artlObj = inObj["assetsRenderTextureList"];
-        JsonHelper::getInt(mTextureSize, "textureSize", artlObj);
-        JsonHelper::getInt(mTextureDisplayInterval, "textureDisplayInterval", artlObj);
-        mColumnDisplayLimit = Window::width() / (mTextureSize + mTextureDisplayInterval);
-
-        std::vector<std::string> temp;
-        if (JsonHelper::getStringArray(temp, "texturesFilePath", artlObj)) {
-            mTexturesFilePath.insert(temp.cbegin(), temp.cend());
-        }
-    }
-}
-
 void AssetsRenderTextureList::drawMeshOnTexture() {
     //まだ描画していないメッシュをテクスチャに描画する
     for (const auto& tex : mNonDrawTextures) {
@@ -97,6 +76,23 @@ void AssetsRenderTextureList::drawMeshOnTexture() {
 void AssetsRenderTextureList::drawTexture(const Matrix4& proj) const {
     for (const auto& tex : mTextures) {
         tex->getTexture().draw(proj);
+    }
+}
+
+void AssetsRenderTextureList::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetInt(mTextureSize, "textureSize", inObj, alloc, mode);
+    JsonHelper::getSetInt(mTextureDisplayInterval, "textureDisplayInterval", inObj, alloc, mode);
+
+    if (mode == FileMode::SAVE) {
+        std::vector<std::string> temp(mTexturesFilePath.cbegin(), mTexturesFilePath.cend());
+        JsonHelper::setStringArray(temp, "texturesFilePath", inObj, alloc);
+    } else {
+        mColumnDisplayLimit = Window::width() / (mTextureSize + mTextureDisplayInterval);
+
+        std::vector<std::string> temp;
+        if (JsonHelper::getStringArray(temp, "texturesFilePath", inObj)) {
+            mTexturesFilePath.insert(temp.cbegin(), temp.cend());
+        }
     }
 }
 

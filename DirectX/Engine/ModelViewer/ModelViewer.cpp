@@ -53,7 +53,7 @@ void ModelViewer::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::Allo
         mMeshManager->saveAndLoad(inObj, alloc, mode);
     }
 
-    mLight->saveAndLoad(inObj, alloc, mode);
+    mLight->writeAndRead(inObj, alloc, mode);
 }
 
 void ModelViewer::initialize(

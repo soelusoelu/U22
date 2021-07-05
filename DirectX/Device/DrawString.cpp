@@ -7,7 +7,8 @@
 #include "../Utility/StringUtil.h"
 
 DrawString::DrawString()
-    : mNumberSprite(nullptr)
+    : FileOperator("DrawString")
+    , mNumberSprite(nullptr)
     , mFontSprite(nullptr)
     , mNumberFileName("")
     , mFontFileName("")
@@ -21,22 +22,6 @@ void DrawString::initialize() {
     mNumberSprite = std::make_unique<Sprite>(mNumberFileName);
     mFontSprite = std::make_unique<Sprite>(mFontFileName, "SpriteInstancing.hlsl");
     mDrawer->initialize();
-}
-
-void DrawString::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setString(mNumberFileName, "number", props, alloc);
-        JsonHelper::setString(mFontFileName, "font", props, alloc);
-
-        inObj.AddMember("drawString", props, alloc);
-    } else {
-        const auto& obj = inObj["drawString"];
-        if (obj.IsObject()) {
-            JsonHelper::getString(mNumberFileName, "number", obj);
-            JsonHelper::getString(mFontFileName, "font", obj);
-        }
-    }
 }
 
 void DrawString::drawAll(const Matrix4& proj) const {
@@ -91,6 +76,11 @@ void DrawString::drawString(
     Pivot pivot
 ) {
     mParamsString.emplace_back(ParamString{ alphabet, position, scale, color, alpha, pivot });
+}
+
+void DrawString::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetString(mNumberFileName, "number", inObj, alloc, mode);
+    JsonHelper::getSetString(mFontFileName, "font", inObj, alloc, mode);
 }
 
 void DrawString::drawInt(const ParamInt& param, const Matrix4& proj) const {

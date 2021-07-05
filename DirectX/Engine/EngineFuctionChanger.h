@@ -2,10 +2,9 @@
 
 #include "EngineMode.h"
 #include "IEngineFunctionChanger.h"
+#include "../Device/FileOperator.h"
 #include "../Device/Function.h"
 #include "../Math/Math.h"
-#include "../Utility/FileMode.h"
-#include <rapidjson/document.h>
 #include <memory>
 #include <string>
 #include <vector>
@@ -13,7 +12,8 @@
 class SpriteButton;
 
 class EngineFuctionChanger
-    : public IEngineFunctionChanger
+    : public FileOperator
+    , public IEngineFunctionChanger
 {
     using SpriteButtonPtr = std::unique_ptr<SpriteButton>;
     using SpriteButtonPtrArray = std::vector<SpriteButtonPtr>;
@@ -24,13 +24,15 @@ public:
     ~EngineFuctionChanger();
     virtual void changeMode(EngineMode mode) override;
     virtual void callbackChangeMode(const std::function<void(EngineMode)>& f) override;
-    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
+
     void initialize();
     void update();
 
 private:
     EngineFuctionChanger(const EngineFuctionChanger&) = delete;
     EngineFuctionChanger& operator=(const EngineFuctionChanger&) = delete;
+
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
 private:
     SpriteButtonPtrArray mSpritesButton;

@@ -3,26 +3,28 @@
 #include "IAddAssets.h"
 #include "../EngineMode.h"
 #include "../IEngineFunctionChanger.h"
+#include "../../Device/FileOperator.h"
 #include "../../Math/Math.h"
-#include "../../Utility/FileMode.h"
-#include <rapidjson/document.h>
 #include <memory>
 #include <string>
 
 class SpriteButton;
 
 //メッシュを描画したテクスチャ追加クラス
-class AssetsRenderTextureAdder {
+class AssetsRenderTextureAdder
+    : public FileOperator
+{
 public:
     AssetsRenderTextureAdder();
     ~AssetsRenderTextureAdder();
-    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void initialize(IAddAssets* adder, IEngineFunctionChanger& changer);
     void update();
 
 private:
     AssetsRenderTextureAdder(const AssetsRenderTextureAdder&) = delete;
     AssetsRenderTextureAdder& operator=(const AssetsRenderTextureAdder&) = delete;
+
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
     void onClickButton();
     void onChangeMode(EngineMode mode);

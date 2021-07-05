@@ -13,10 +13,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 }
 
 Window::Window()
-    : mhWnd(nullptr)
+    : FileOperator("Window")
+    , mhWnd(nullptr)
     , mWndClass()
     , mMouseWheelScrollValueSetter(nullptr)
-    , mTitle("")
+    , mTitle()
 {
 }
 
@@ -150,40 +151,24 @@ Vector2 Window::getWindowCorrect() {
 }
 
 void Window::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setString(mTitle, "title", props, alloc);
-        JsonHelper::setInt(mWidth, "windowWidth", props, alloc);
-        JsonHelper::setInt(mHeight, "windowHeight", props, alloc);
-        JsonHelper::setInt(mReleaseWidth, "releaseWindowWidth", props, alloc);
-        JsonHelper::setInt(mReleaseHeight, "releaseWindowHeight", props, alloc);
-        JsonHelper::setInt(mStandardWidth, "windowStandardWidth", props, alloc);
-        JsonHelper::setInt(mStandardHeight, "windowStandardHeight", props, alloc);
-        JsonHelper::setInt(mDebugWidth, "windowDebugWidth", props, alloc);
-        JsonHelper::setInt(mDebugHeight, "windowDebugHeight", props, alloc);
+    JsonHelper::getSetString(mTitle, "title", inObj, alloc, mode);
+    JsonHelper::getSetInt(mWidth, "windowWidth", inObj, alloc, mode);
+    JsonHelper::getSetInt(mHeight, "windowHeight", inObj, alloc, mode);
+    JsonHelper::getSetInt(mReleaseWidth, "releaseWindowWidth", inObj, alloc, mode);
+    JsonHelper::getSetInt(mReleaseHeight, "releaseWindowHeight", inObj, alloc, mode);
+    JsonHelper::getSetInt(mStandardWidth, "windowStandardWidth", inObj, alloc, mode);
+    JsonHelper::getSetInt(mStandardHeight, "windowStandardHeight", inObj, alloc, mode);
+    JsonHelper::getSetInt(mDebugWidth, "windowDebugWidth", inObj, alloc, mode);
+    JsonHelper::getSetInt(mDebugHeight, "windowDebugHeight", inObj, alloc, mode);
 
-        inObj.AddMember("window", props, alloc);
-    } else {
-        const auto& windowObj = inObj["window"];
-        if (windowObj.IsObject()) {
-            JsonHelper::getString(mTitle, "title", windowObj);
-            JsonHelper::getInt(mWidth, "windowWidth", windowObj);
-            JsonHelper::getInt(mHeight, "windowHeight", windowObj);
-            JsonHelper::getInt(mReleaseWidth, "releaseWindowWidth", windowObj);
-            JsonHelper::getInt(mReleaseHeight, "releaseWindowHeight", windowObj);
-            JsonHelper::getInt(mStandardWidth, "windowStandardWidth", windowObj);
-            JsonHelper::getInt(mStandardHeight, "windowStandardHeight", windowObj);
-            JsonHelper::getInt(mDebugWidth, "windowDebugWidth", windowObj);
-            JsonHelper::getInt(mDebugHeight, "windowDebugHeight", windowObj);
-
+    if (mode == FileMode::LOAD) {
 #ifdef _DEBUG
-            mGameWidth = mWidth;
-            mGameHeight = mHeight;
+        mGameWidth = mWidth;
+        mGameHeight = mHeight;
 #else
-            mGameWidth = mReleaseWidth;
-            mGameHeight = mReleaseHeight;
+        mGameWidth = mReleaseWidth;
+        mGameHeight = mReleaseHeight;
 #endif // _DEBUG
-        }
     }
 }
 

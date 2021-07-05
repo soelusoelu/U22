@@ -2,11 +2,10 @@
 
 #include "../EngineMode.h"
 #include "../Pause/IPause.h"
+#include "../../Device/FileOperator.h"
 #include "../../GameObject/IGameObjectsGetter.h"
 #include "../../Math/Math.h"
 #include "../../System/FpsCounter/IFpsGetter.h"
-#include "../../Utility/FileMode.h"
-#include <rapidjson/document.h>
 #include <memory>
 
 class Camera;
@@ -15,11 +14,12 @@ class Renderer;
 class DrawString;
 class DebugLayer;
 
-class DebugManager {
+class DebugManager
+    : public FileOperator
+{
 public:
     DebugManager();
     ~DebugManager();
-    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
 
     //初期化
     void initialize(
@@ -53,6 +53,8 @@ public:
 private:
     DebugManager(const DebugManager&) = delete;
     DebugManager& operator=(const DebugManager&) = delete;
+
+    virtual void childSaveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
 private:
     std::unique_ptr<DrawString> mStringDrawer;

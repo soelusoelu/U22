@@ -5,7 +5,8 @@
 #include "../../Utility/JsonHelper.h"
 
 Pause::Pause()
-    : mButton(nullptr)
+    : FileOperator("Pause")
+    , mButton(nullptr)
     , mFileName("")
     , mOffset(Vector2::zero)
     , mIsPausing(false)
@@ -16,20 +17,6 @@ Pause::~Pause() = default;
 
 bool Pause::isPausing() const {
     return mIsPausing;
-}
-
-void Pause::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setString(mFileName, "fileName", props, alloc);
-        JsonHelper::setVector2(mOffset, "offset", props, alloc);
-
-        inObj.AddMember("pause", props, alloc);
-    } else {
-        const auto& obj = inObj["pause"];
-        JsonHelper::getString(mFileName, "fileName", obj);
-        JsonHelper::getVector2(mOffset, "offset", obj);
-    }
 }
 
 void Pause::initialize(IEngineFunctionChanger* modeChanger) {
@@ -52,6 +39,11 @@ void Pause::update() {
 
     //ボタンがクリックされた
     mIsPausing = !mIsPausing;
+}
+
+void Pause::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetString(mFileName, "fileName", inObj, alloc, mode);
+    JsonHelper::getSetVector2(mOffset, "offset", inObj, alloc, mode);
 }
 
 void Pause::onModeChange(EngineMode mode) {

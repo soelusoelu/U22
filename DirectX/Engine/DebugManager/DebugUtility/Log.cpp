@@ -4,24 +4,13 @@
 #include "../../../Utility/JsonHelper.h"
 
 Log::Log()
-    : mScale(Vector2::one)
+    : FileOperator("Log")
+    , mScale(Vector2::one)
     , mNumRowsToDisplay(0)
 {
 }
 
 Log::~Log() = default;
-
-void Log::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setVector2(mScale, "scale", props, alloc);
-
-        inObj.AddMember("log", props, alloc);
-    } else {
-        const auto& logObj = inObj["log"];
-        JsonHelper::getVector2(mScale, "scale", logObj);
-    }
-}
 
 void Log::initialize() {
     mNumRowsToDisplay = (Window::debugHeight() - Window::height() - DRAW_OFFSET_Y) / (DrawString::HEIGHT * mScale.y);
@@ -50,6 +39,10 @@ void Log::drawLogs(DrawString& drawString) const {
         drawString.drawString(log.first, pos, mScale, log.second);
         pos.y -= height;
     }
+}
+
+void Log::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetVector2(mScale, "scale", inObj, alloc, mode);
 }
 
 void Log::addLog(const std::string& message, const Vector3& color) {

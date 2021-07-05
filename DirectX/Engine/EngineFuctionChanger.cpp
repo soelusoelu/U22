@@ -4,7 +4,8 @@
 #include "../Utility/JsonHelper.h"
 
 EngineFuctionChanger::EngineFuctionChanger()
-    : mStartRenderPosition()
+    : FileOperator("EngineFuctionChanger")
+    , mStartRenderPosition()
     , mSpriteSpace(0.f)
 {
 }
@@ -17,22 +18,6 @@ void EngineFuctionChanger::changeMode(EngineMode mode) {
 
 void EngineFuctionChanger::callbackChangeMode(const std::function<void(EngineMode)>& f) {
     mCallbackChangeMode += f;
-}
-
-void EngineFuctionChanger::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setVector2(mStartRenderPosition, "startRenderPosition", props, alloc);
-        JsonHelper::setStringArray(mSpritesFilePath, "spritesFilePath", props, alloc);
-        JsonHelper::setFloat(mSpriteSpace, "spriteSpace", props, alloc);
-
-        inObj.AddMember("engineFuctionChanger", props, alloc);
-    } else {
-        const auto& efcObj = inObj["engineFuctionChanger"];
-        JsonHelper::getVector2(mStartRenderPosition, "startRenderPosition", efcObj);
-        JsonHelper::getStringArray(mSpritesFilePath, "spritesFilePath", efcObj);
-        JsonHelper::getFloat(mSpriteSpace, "spriteSpace", efcObj);
-    }
 }
 
 void EngineFuctionChanger::initialize() {
@@ -50,4 +35,10 @@ void EngineFuctionChanger::update() {
             return;
         }
     }
+}
+
+void EngineFuctionChanger::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetVector2(mStartRenderPosition, "startRenderPosition", inObj, alloc, mode);
+    JsonHelper::getSetStringArray(mSpritesFilePath, "spritesFilePath", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mSpriteSpace, "spriteSpace", inObj, alloc, mode);
 }

@@ -1,14 +1,14 @@
 ﻿#pragma once
 
 #include "IKeyboard.h"
+#include "../Device/FileOperator.h"
 #include "../System/SystemInclude.h"
-#include "../Utility/FileMode.h"
-#include <rapidjson/document.h>
 #include <dinput.h>
 #include <string>
 
 class Keyboard
-    : public IKeyboard
+    : public FileOperator
+    , public IKeyboard
 {
 public:
     Keyboard();
@@ -22,10 +22,15 @@ public:
     virtual bool getEnter() const override;
 
     bool initialize(const HWND& hWnd, IDirectInput8* directInput);
-    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void update();
     //文字列をKeyCodeに変換
-    static void stringToKeyCode(const std::string& src, KeyCode* dst);
+    static void stringToKeyCode(const std::string& src, KeyCode& dst);
+
+private:
+    Keyboard(const Keyboard&) = delete;
+    Keyboard& operator=(const Keyboard&) = delete;
+
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
 public:
     //無効な数字

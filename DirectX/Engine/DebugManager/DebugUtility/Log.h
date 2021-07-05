@@ -1,19 +1,19 @@
 ﻿#pragma once
 
+#include "../../../Device/FileOperator.h"
 #include "../../../Math/Math.h"
-#include "../../../Utility/FileMode.h"
-#include <rapidjson/document.h>
 #include <list>
 #include <string>
 #include <utility>
 
 class DrawString;
 
-class Log {
+class Log
+    : public FileOperator
+{
 public:
     Log();
     ~Log();
-    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void initialize();
     void log(const std::string& message);
     void logError(const std::string& message);
@@ -22,6 +22,11 @@ public:
     void drawLogs(DrawString& drawString) const;
 
 private:
+    Log(const Log&) = delete;
+    Log& operator=(const Log&) = delete;
+
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
+
     void addLog(const std::string& message, const Vector3& color);
     void adjustCapacity();
 

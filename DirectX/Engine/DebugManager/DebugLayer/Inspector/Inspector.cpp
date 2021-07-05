@@ -11,7 +11,8 @@
 #include <list>
 
 Inspector::Inspector(DrawString* drawString)
-    : mDrawString(drawString)
+    : FileOperator("Inspector")
+    , mDrawString(drawString)
     , mInspectorPositionX(0.f)
     , mNameScale(Vector2::one)
     , mElementScale(Vector2::one)
@@ -29,24 +30,6 @@ Inspector::Inspector(DrawString* drawString)
 }
 
 Inspector::~Inspector() = default;
-
-void Inspector::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setFloat(mInspectorPositionX, "inspectorPositionX", props, alloc);
-        JsonHelper::setVector2(mNameScale, "nameScale", props, alloc);
-        JsonHelper::setVector2(mElementScale, "elementScale", props, alloc);
-        JsonHelper::setInt(mOffsetCharCountX, "offsetCharCountX", props, alloc);
-
-        inObj.AddMember("inspector", props, alloc);
-    } else {
-        const auto& obj = inObj["inspector"];
-        JsonHelper::getFloat(mInspectorPositionX, "inspectorPositionX", obj);
-        JsonHelper::getVector2(mNameScale, "nameScale", obj);
-        JsonHelper::getVector2(mElementScale, "elementScale", obj);
-        JsonHelper::getInt(mOffsetCharCountX, "offsetCharCountX", obj);
-    }
-}
 
 void Inspector::initialize() {
     //1文字のサイズを基準に描画位置を決める
@@ -91,6 +74,13 @@ void Inspector::drawInspect() const {
         drawPos.x = mComponentPosition.x;
         drawPos.y += mCharHeight * 2;
     }
+}
+
+void Inspector::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetFloat(mInspectorPositionX, "inspectorPositionX", inObj, alloc, mode);
+    JsonHelper::getSetVector2(mNameScale, "nameScale", inObj, alloc, mode);
+    JsonHelper::getSetVector2(mElementScale, "elementScale", inObj, alloc, mode);
+    JsonHelper::getSetInt(mOffsetCharCountX, "offsetCharCountX", inObj, alloc, mode);
 }
 
 void Inspector::drawName(const GameObject& target) const {

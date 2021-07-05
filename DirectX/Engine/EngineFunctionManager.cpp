@@ -12,7 +12,8 @@
 #include "../Device/Renderer.h"
 
 EngineFunctionManager::EngineFunctionManager()
-    : mDebugManager(std::make_unique<DebugManager>())
+    : FileOperator("EngineFunctionManager")
+    , mDebugManager(std::make_unique<DebugManager>())
     , mPause(std::make_unique<Pause>())
     , mFunctionChanger(std::make_unique<EngineFuctionChanger>())
     , mMapEditor(std::make_unique<MapEditorMeshManager>())
@@ -42,15 +43,6 @@ AssetsRenderTextureManager& EngineFunctionManager::getAssetsRenderTextureManager
 
 MapEditorMeshManager& EngineFunctionManager::getMapEditorMeshManager() const {
     return *mMapEditor;
-}
-
-void EngineFunctionManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    mDebugManager->saveAndLoad(inObj, alloc, mode);
-    mPause->saveAndLoad(inObj, alloc, mode);
-    mFunctionChanger->saveAndLoad(inObj, alloc, mode);
-    mMapEditor->saveAndLoad(inObj, alloc, mode);
-    mAssetsRenderTextureManager->saveAndLoad(inObj, alloc, mode);
-    mModelViewer->saveAndLoad(inObj, alloc, mode);
 }
 
 void EngineFunctionManager::initialize(
@@ -119,4 +111,13 @@ void EngineFunctionManager::draw3D(
     mModelViewer->draw(mode, renderer);
     mDebugManager->draw3D(mode, renderer, camera.getViewProjection());
 #endif // _DEBUG
+}
+
+void EngineFunctionManager::childSaveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    mDebugManager->writeAndRead(inObj, alloc, mode);
+    mPause->writeAndRead(inObj, alloc, mode);
+    mFunctionChanger->writeAndRead(inObj, alloc, mode);
+    mMapEditor->saveAndLoad(inObj, alloc, mode);
+    mAssetsRenderTextureManager->saveAndLoad(inObj, alloc, mode);
+    mModelViewer->saveAndLoad(inObj, alloc, mode);
 }

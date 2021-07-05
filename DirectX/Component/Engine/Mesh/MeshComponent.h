@@ -12,7 +12,9 @@
 
 class Mesh;
 
-class MeshComponent : public Component {
+class MeshComponent
+    : public Component
+{
 public:
     MeshComponent();
     virtual ~MeshComponent();

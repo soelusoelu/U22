@@ -1,9 +1,8 @@
 ﻿#pragma once
 
+#include "../Device/FileOperator.h"
 #include "../Math/Math.h"
 #include "../Transform/Pivot.h"
-#include "../Utility/FileMode.h"
-#include <rapidjson/document.h>
 #include <list>
 #include <memory>
 #include <string>
@@ -11,12 +10,13 @@
 class Sprite;
 class SpriteInstancingDrawer;
 
-class DrawString {
+class DrawString
+    : public FileOperator
+{
 public:
     DrawString();
     ~DrawString();
     void initialize();
-    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     //保持してる文字列を一括描画
     void drawAll(const Matrix4& proj) const;
     //保持してる文字列をすべて削除
@@ -49,6 +49,9 @@ public:
     );
 
 private:
+    DrawString(const DrawString&) = delete;
+    DrawString& operator=(const DrawString&) = delete;
+
     struct ParamInt {
         int number;
         Vector2 position;
@@ -74,6 +77,8 @@ private:
         float alpha;
         Pivot pivot;
     };
+
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
     void drawInt(const ParamInt& param, const Matrix4& proj) const;
     void drawFloat(const ParamFloat& param, const Matrix4& proj) const;

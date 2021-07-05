@@ -11,9 +11,11 @@
 #include "../System/Shader/Shader.h"
 #include "../Utility/JsonHelper.h"
 
-LightManager::LightManager() :
-    mAmbientLight(Vector3::zero),
-    mPointLight(std::make_unique<PointLight>()) {
+LightManager::LightManager()
+    : FileOperator("LightManager")
+    , mAmbientLight(Vector3::zero)
+    , mPointLight(std::make_unique<PointLight>())
+{
     PointLightComponent::setLightManager(this);
 }
 
@@ -30,19 +32,6 @@ void LightManager::createDirectionalLight() {
     mDirectionalLight = dirLight->componentManager().getComponent<DirectionalLight>();
     //向き計算のために
     mDirectionalLight->lateUpdate();
-}
-
-void LightManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setVector3(mAmbientLight, "ambientLight", props, alloc);
-        inObj.AddMember("lightManager", props, alloc);
-    } else {
-        const auto& obj = inObj["lightManager"];
-        JsonHelper::getVector3(mAmbientLight, "ambientLight", obj);
-    }
-
-    mPointLight->saveAndLoad(inObj, alloc, mode);
 }
 
 const DirectionalLight& LightManager::getDirectionalLight() const {
@@ -94,4 +83,12 @@ void LightManager::drawPointLights(const Camera& camera) {
     //for (const auto& pointLight : mPointLights) {
     //    pointLight->draw(camera, *mPointLight);
     //}
+}
+
+void LightManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetVector3(mAmbientLight, "ambientLight", inObj, alloc, mode);
+}
+
+void LightManager::childSaveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    mPointLight->writeAndRead(inObj, alloc, mode);
 }

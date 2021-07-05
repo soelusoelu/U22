@@ -2,9 +2,8 @@
 
 #include "../../EngineMode.h"
 #include "../../Pause/IPause.h"
+#include "../../../Device/FileOperator.h"
 #include "../../../Math/Math.h"
-#include "../../../Utility/FileMode.h"
-#include <rapidjson/document.h>
 #include <memory>
 
 class DrawString;
@@ -14,14 +13,15 @@ class PointRenderer;
 class LineRenderer2D;
 class LineRenderer3D;
 
-class DebugUtility {
+class DebugUtility
+    : public FileOperator
+{
 private:
     DebugUtility();
 
 public:
     ~DebugUtility();
     static DebugUtility& instance();
-    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     void initialize(const IPause* pause);
     void finalize();
     void preUpdateProcess();
@@ -36,6 +36,8 @@ public:
 private:
     DebugUtility(const DebugUtility&) = delete;
     DebugUtility& operator=(const DebugUtility&) = delete;
+
+    virtual void childSaveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
 private:
     static inline DebugUtility* mInstance = nullptr;

@@ -10,11 +10,11 @@
 #include <string>
 
 Hierarchy::Hierarchy()
-    : mGameObjectsGetter(nullptr)
+    : FileOperator("Hierarchy")
+    , mGameObjectsGetter(nullptr)
     , mInspector(nullptr)
     , mNumRowsToDisplay(0)
     , mLineSpace(0.f)
-    , mInspectorPositionX(0.f)
     , mPosition(Vector2::zero)
     , mScale(Vector2::one)
     , mOffsetCharCountX(0)
@@ -26,29 +26,6 @@ Hierarchy::Hierarchy()
 }
 
 Hierarchy::~Hierarchy() = default;
-
-void Hierarchy::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setVector2(mScale, "scale", props, alloc);
-        JsonHelper::setInt(mOffsetCharCountX, "offsetCharCountX", props, alloc);
-        JsonHelper::setInt(mOffsetCharCountY, "offsetCharCountY", props, alloc);
-        JsonHelper::setFloat(mLineSpace, "lineSpace", props, alloc);
-        JsonHelper::setFloat(mNonActiveAlpha, "nonActiveAlpha", props, alloc);
-
-        inObj.AddMember("hierarchy", props, alloc);
-    } else {
-        const auto& obj = inObj["hierarchy"];
-        JsonHelper::getVector2(mScale, "scale", obj);
-        JsonHelper::getInt(mOffsetCharCountX, "offsetCharCountX", obj);
-        JsonHelper::getInt(mOffsetCharCountY, "offsetCharCountY", obj);
-        JsonHelper::getFloat(mLineSpace, "lineSpace", obj);
-        JsonHelper::getFloat(mNonActiveAlpha, "nonActiveAlpha", obj);
-
-        const auto& inspector = inObj["inspector"];
-        JsonHelper::getFloat(mInspectorPositionX, "inspectorPositionX", inspector);
-    }
-}
 
 void Hierarchy::initialize(const IGameObjectsGetter* getter, IInspector* inspector) {
     mGameObjectsGetter = getter;
@@ -64,10 +41,11 @@ void Hierarchy::initialize(const IGameObjectsGetter* getter, IInspector* inspect
     mNumRowsToDisplay = (Window::debugHeight() - mPosition.y) / getOneLineHeight();
 
     mButtons.resize(mNumRowsToDisplay);
+    auto inspectorPosX = mInspector->getInspectorPositionX();
     auto pos = mPosition;
     for (auto&& b : mButtons) {
         //全ボタンに当たり判定をつける
-        b.first = std::make_unique<Button>(nullptr, pos, Vector2(mInspectorPositionX - pos.x, mCharHeight));
+        b.first = std::make_unique<Button>(nullptr, pos, Vector2(inspectorPosX - pos.x, mCharHeight));
         b.second = nullptr;
         downDrawPositionOneLine(pos);
     }
@@ -114,6 +92,14 @@ void Hierarchy::drawGameObjects(DrawString& drawString) const {
 
 void Hierarchy::setGameObjectsGetter(const IGameObjectsGetter* getter) {
     mGameObjectsGetter = getter;
+}
+
+void Hierarchy::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetVector2(mScale, "scale", inObj, alloc, mode);
+    JsonHelper::getSetInt(mOffsetCharCountX, "offsetCharCountX", inObj, alloc, mode);
+    JsonHelper::getSetInt(mOffsetCharCountY, "offsetCharCountY", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mLineSpace, "lineSpace", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mNonActiveAlpha, "nonActiveAlpha", inObj, alloc, mode);
 }
 
 void Hierarchy::setGameObjectToButton() {

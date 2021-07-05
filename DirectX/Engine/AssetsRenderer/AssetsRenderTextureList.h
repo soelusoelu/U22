@@ -3,9 +3,8 @@
 #include "IAddAssets.h"
 #include "IAssetsRenderTextureDeleter.h"
 #include "IAssetsRenderTexturesGetter.h"
+#include "../../Device/FileOperator.h"
 #include "../../Math/Math.h"
-#include "../../Utility/FileMode.h"
-#include <rapidjson/document.h>
 #include <list>
 #include <memory>
 #include <string>
@@ -13,7 +12,8 @@
 
 //メッシュを描画したテクスチャ管理クラス
 class AssetsRenderTextureList
-    : public IAddAssets
+    : public FileOperator
+    , public IAddAssets
     , public IAssetsRenderTextureDeleter
     , public IAssetsRenderTexturesGetter
 {
@@ -26,7 +26,6 @@ public:
     virtual const AssetsRenderTexturePtrArray& getTextures() const override;
 
     void initialize();
-    void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
     //メッシュをテクスチャに描画する
     void drawMeshOnTexture();
     //メッシュ描画済みテクスチャを描画する
@@ -35,6 +34,8 @@ public:
 private:
     AssetsRenderTextureList(const AssetsRenderTextureList&) = delete;
     AssetsRenderTextureList& operator=(const AssetsRenderTextureList&) = delete;
+
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
     //テクスチャを作成し格納する
     void createTexture(const std::string& fileName, const std::string& directoryPath);

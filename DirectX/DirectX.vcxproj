@@ -167,6 +167,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Component\Engine\Collider\ColliderDrawer.cpp" />
+    <ClCompile Include="Component\Engine\Other\GameObjectSaveAndLoader.cpp" />
     <ClCompile Include="Component\Game\UI\BossEnemyUIManager.cpp" />
     <ClCompile Include="Component\Game\UI\BossEnemyHitPointGauge.cpp" />
     <ClCompile Include="Collision\AABBCreater.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="Engine\ModelViewer\ModelViewerLight.cpp" />
     <ClCompile Include="Engine\ModelViewer\ModelViewerPlane.cpp" />
     <ClCompile Include="Engine\ModelViewer\ModelViewerColliderManager.cpp" />
+    <ClCompile Include="Device\FileOperator.cpp" />
     <ClCompile Include="Utility\JsonHelper.cpp" />
     <ClCompile Include="System\Shader\DataTransfer.cpp" />
     <ClCompile Include="Engine\Camera\EngineCamera.cpp" />
@@ -216,7 +218,6 @@
     <ClCompile Include="Component\Engine\CollideOperation\MeshAdder.cpp" />
     <ClCompile Include="Engine\DebugManager\DebugLayer\Inspector\ImGuiInspector.cpp" />
     <ClCompile Include="Engine\DebugManager\DebugLayer\Inspector\ImGuiWrapper.cpp" />
-    <ClCompile Include="Component\Engine\Other\GameObjectSaveAndLoader.cpp" />
     <ClCompile Include="Component\Engine\Mesh\MeshOutLine.cpp" />
     <ClCompile Include="Component\Engine\Mesh\MeshShader.cpp" />
     <ClCompile Include="Component\Engine\Mesh\MeshRenderer.cpp" />
@@ -433,6 +434,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\Engine\Collider\ColliderDrawer.h" />
+    <ClInclude Include="Component\Engine\Other\GameObjectSaveAndLoader.h" />
     <ClInclude Include="Component\Game\Enemy\EnemyMotions.h" />
     <ClInclude Include="Component\Game\UI\BossEnemyUIManager.h" />
     <ClInclude Include="Component\Game\UI\BossEnemyHitPointGauge.h" />
@@ -460,6 +462,7 @@
     <ClInclude Include="Engine\ModelViewer\ModelViewerLight.h" />
     <ClInclude Include="Engine\ModelViewer\ModelViewerPlane.h" />
     <ClInclude Include="Engine\ModelViewer\ModelViewerColliderManager.h" />
+    <ClInclude Include="Device\FileOperator.h" />
     <ClInclude Include="Utility\JsonHelper.h" />
     <ClInclude Include="System\Shader\DataTransfer.h" />
     <ClInclude Include="Engine\Camera\EngineCamera.h" />
@@ -500,7 +503,6 @@
     <ClInclude Include="Engine\AssetsRenderer\ICurrentSelectTextureGetter.h" />
     <ClInclude Include="Engine\DebugManager\DebugLayer\Inspector\ImGuiInspector.h" />
     <ClInclude Include="Engine\DebugManager\DebugLayer\Inspector\ImGuiWrapper.h" />
-    <ClInclude Include="Component\Engine\Other\GameObjectSaveAndLoader.h" />
     <ClInclude Include="Component\Engine\Mesh\MeshOutLine.h" />
     <ClInclude Include="Component\Engine\Mesh\MeshShader.h" />
     <ClInclude Include="Component\Engine\Mesh\MeshRenderer.h" />

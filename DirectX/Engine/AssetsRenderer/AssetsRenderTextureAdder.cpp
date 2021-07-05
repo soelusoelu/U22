@@ -6,27 +6,14 @@
 #include "../../Utility/JsonHelper.h"
 
 AssetsRenderTextureAdder::AssetsRenderTextureAdder()
-    : mButton(nullptr)
+    : FileOperator("AssetsRenderTextureAdder")
+    , mButton(nullptr)
     , mAssetsAdder(nullptr)
     , mRenderPosition()
 {
 }
 
 AssetsRenderTextureAdder::~AssetsRenderTextureAdder() = default;
-
-void AssetsRenderTextureAdder::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setVector2(mRenderPosition, "renderPosition", props, alloc);
-        JsonHelper::setString(mSpriteFilePath, "spriteButtonFilePath", props, alloc);
-
-        inObj.AddMember("assetsRenderTextureAdder", props, alloc);
-    } else {
-        const auto& artaObj = inObj["assetsRenderTextureAdder"];
-        JsonHelper::getVector2(mRenderPosition, "renderPosition", artaObj);
-        JsonHelper::getString(mSpriteFilePath, "spriteButtonFilePath", artaObj);
-    }
-}
 
 void AssetsRenderTextureAdder::initialize(IAddAssets* adder, IEngineFunctionChanger& changer) {
     mAssetsAdder = adder;
@@ -36,6 +23,11 @@ void AssetsRenderTextureAdder::initialize(IAddAssets* adder, IEngineFunctionChan
 
 void AssetsRenderTextureAdder::update() {
     mButton->clickButton(Input::mouse().getMousePosition());
+}
+
+void AssetsRenderTextureAdder::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetVector2(mRenderPosition, "renderPosition", inObj, alloc, mode);
+    JsonHelper::getSetString(mSpriteFilePath, "spriteButtonFilePath", inObj, alloc, mode);
 }
 
 void AssetsRenderTextureAdder::onClickButton() {

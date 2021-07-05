@@ -30,7 +30,7 @@ void MeshManager::add(const MeshPtr& mesh, bool handleShadow) {
 }
 
 void MeshManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    mShadowMap->saveAndLoad(inObj, alloc, mode);
+    mShadowMap->writeAndRead(inObj, alloc, mode);
 }
 
 void MeshManager::initialize() {

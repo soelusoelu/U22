@@ -5,7 +5,8 @@
 #include "../../Utility/JsonHelper.h"
 
 ModelViewerLight::ModelViewerLight()
-    : mDirection()
+    : FileOperator("ModelViewerLight")
+    , mDirection()
     , mColor(ColorPalette::white)
     , mDirectionDrawPosition()
     , mLengthDirection(0.f)
@@ -13,26 +14,6 @@ ModelViewerLight::ModelViewerLight()
 }
 
 ModelViewerLight::~ModelViewerLight() = default;
-
-void ModelViewerLight::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::SAVE) {
-        rapidjson::Value props(rapidjson::kObjectType);
-        JsonHelper::setQuaternion(mDirection, "direction", props, alloc);
-        JsonHelper::setVector3(mColor, "color", props, alloc);
-        JsonHelper::setVector3(mDirectionDrawPosition, "directionDrawPosition", props, alloc);
-        JsonHelper::setFloat(mLengthDirection, "lengthDirection", props, alloc);
-
-        inObj.AddMember("modelViewerLight", props, alloc);
-    } else {
-        const auto& obj = inObj["modelViewerLight"];
-        if (obj.IsObject()) {
-            JsonHelper::getQuaternion(mDirection, "direction", obj);
-            JsonHelper::getVector3(mColor, "color", obj);
-            JsonHelper::getVector3(mDirectionDrawPosition, "directionDrawPosition", obj);
-            JsonHelper::getFloat(mLengthDirection, "lengthDirection", obj);
-        }
-    }
-}
 
 void ModelViewerLight::drawGUI() {
     ImGui::Text("DirectionalLight");
@@ -52,4 +33,11 @@ Vector3 ModelViewerLight::getDirection() const {
 
 const Vector3& ModelViewerLight::getColor() const {
     return mColor;
+}
+
+void ModelViewerLight::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetQuaternion(mDirection, "direction", inObj, alloc, mode);
+    JsonHelper::getSetVector3(mColor, "color", inObj, alloc, mode);
+    JsonHelper::getSetVector3(mDirectionDrawPosition, "directionDrawPosition", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mLengthDirection, "lengthDirection", inObj, alloc, mode);
 }
