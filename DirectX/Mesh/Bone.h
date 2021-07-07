@@ -6,6 +6,8 @@
 
 //ボーン構造体
 struct Bone {
+    //ボーン番号
+    unsigned short number;
     //ボーン名
     std::string name;
     //初期姿勢

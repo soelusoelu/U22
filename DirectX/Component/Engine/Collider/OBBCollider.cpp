@@ -1,5 +1,6 @@
 ﻿#include "OBBCollider.h"
 #include "ColliderDrawer.h"
+#include "../Mesh/AnimationCPU.h"
 #include "../Mesh/MeshComponent.h"
 #include "../Mesh/SkinMeshComponent.h"
 #include "../../../Engine/DebugManager/DebugUtility/DebugUtility.h"
@@ -9,6 +10,8 @@ OBBCollider::OBBCollider()
     : Collider()
     , mOBB()
     , mMesh(nullptr)
+    , mAnimation(nullptr)
+    , mAnimationCpu(nullptr)
     , mBoneNo(-1)
 {
 }
@@ -19,11 +22,15 @@ void OBBCollider::start() {
     Collider::start();
 
     mMesh = getComponent<MeshComponent>();
+    mAnimation = getComponent<SkinMeshComponent>();
+    mAnimationCpu = getComponent<AnimationCPU>();
     //mOBB = OBBCreater::create(mesh->getMesh()->getMeshVerticesPosition(0));
 }
 
 void OBBCollider::lateUpdate() {
     Collider::lateUpdate();
+
+    compute();
 
     //if (mBoneNo != -1) {
     //    const auto& bone = mMesh->getAnimation()->getBone(mBoneNo);
@@ -59,8 +66,6 @@ void OBBCollider::setBone(unsigned boneNo) {
     const auto parent = bone.parent;
     auto bonePos = bone.initMat.getTranslation();
     auto parentPos = parent->initMat.getTranslation();
-    auto toParent = (parentPos - bonePos);
-    auto center = (bonePos + parentPos) / 2.f;
 
     const auto mesh = mMesh->getMesh();
     const auto& vertices = mesh->getMeshVertices(0);
@@ -82,12 +87,52 @@ void OBBCollider::setBone(unsigned boneNo) {
             //mAffectedVertices.emplace_back(v.pos);
         }
     }
+}
+
+void OBBCollider::test(float& out, const Vector3& target, const Vector3& pos, const Vector3& axis, const Quaternion& rot, const Ray& ray) {
+    constexpr float angle1 = 60.f;
+    constexpr float angle2 = 180.f - angle1;
+
+    auto toVertPos = Vector3::normalize(target - pos);
+    float dot = Vector3::dot(toVertPos, Vector3::transform(axis, rot));
+    float angle = Math::acos(dot);
+    if (angle < angle1 || angle2 < angle) {
+        float length = ray.minDistanceSquare(target);
+        if (length > out) {
+            out = length;
+        }
+    }
+}
+
+float OBBCollider::min(float value1, float value2, float value3) {
+    if (Math::nearZero(value1)) {
+        value1 = value2;
+    }
+    if (Math::nearZero(value2)) {
+        value2 = value3;
+    }
+    if (Math::nearZero(value3)) {
+        return Math::Min(value1, value2);
+    } else {
+        return Math::Min(value1, Math::Min(value2, value3));
+    }
+}
+
+void OBBCollider::compute() {
+    const auto& bone = mMesh->getAnimation()->getBone(mBoneNo);
+    const auto parent = bone.parent;
+    const auto& curBones = mAnimation->getBoneCurrentFrameMatrix();
+    auto bonePos = Vector3::transform(bone.initMat.getTranslation(), curBones[mBoneNo]);
+    auto parentPos = Vector3::transform(parent->initMat.getTranslation(), curBones[parent->number]);
+    auto toParent = (parentPos - bonePos);
+    auto center = (bonePos + parentPos) / 2.f;
 
     Ray ray;
     ray.start = bonePos;
     ray.end = parentPos;
 
-    const auto& verticesPos = mesh->getMeshVerticesPosition(0);
+    const auto mesh = mMesh->getMesh();
+    const auto& verticesPos = mAnimationCpu->getCurrentMotionVertexPositions(0);
     auto rot = Quaternion::lookRotation(Vector3::normalize(toParent));
     float maxX = 0.f;
     float maxY = 0.f;
@@ -131,37 +176,6 @@ void OBBCollider::setBone(unsigned boneNo) {
     mOBB.rotation = rot;
     //mOBB.extents = Vector3(maxZ, maxY, maxX);
     //mOBB.extents = Vector3(maxX, maxY, maxZ);
-    mOBB.extents = Vector3(maxY, maxZ, toParent.length() / 2.f);
-    //mOBB.extents = Vector3(maxX, maxY, toParent.length() / 2.f);
-    //rot.conjugate();
-    //mOBB.extents = Vector3::transform(mOBB.extents, rot);
-}
-
-void OBBCollider::test(float& out, const Vector3& target, const Vector3& pos, const Vector3& axis, const Quaternion& rot, const Ray& ray) {
-    constexpr float angle1 = 60.f;
-    constexpr float angle2 = 180.f - angle1;
-
-    auto toVertPos = Vector3::normalize(target - pos);
-    float dot = Vector3::dot(toVertPos, Vector3::transform(axis, rot));
-    float angle = Math::acos(dot);
-    if (angle < angle1 || angle2 < angle) {
-        float length = ray.minDistanceSquare(target);
-        if (length > out) {
-            out = length;
-        }
-    }
-}
-
-float OBBCollider::min(float value1, float value2, float value3) {
-    if (Math::nearZero(value1)) {
-        value1 = value2;
-    }
-    if (Math::nearZero(value2)) {
-        value2 = value3;
-    }
-    if (Math::nearZero(value3)) {
-        return Math::Min(value1, value2);
-    } else {
-        return Math::Min(value1, Math::Min(value2, value3));
-    }
+    mOBB.extents = Vector3(maxZ, maxY, toParent.length() / 2.f);
+    //mOBB.extents = Vector3(maxY, maxZ, toParent.length() / 2.f);
 }

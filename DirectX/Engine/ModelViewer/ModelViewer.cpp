@@ -104,6 +104,7 @@ void ModelViewer::update(EngineMode mode) {
     if (mMode == ModelViewerMode::MODEL_VIEW) {
         mAnimationViewer->update();
     } else if (mMode == ModelViewerMode::COLLIDER_OPERATE) {
+        mAnimationViewer->update();
         mColliderManager->update(*mLineRenderer3D, mModelViewCamera->getCamera());
     }
 

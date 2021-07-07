@@ -37,6 +37,7 @@ void ModelViewerColliderManager::drawTPoseBone(LineRenderer3D& line) const {
     auto animation = mMesh->getAnimation();
     auto boneCount = animation->getBoneCount();
 
+    const auto& curBones = mSkinMesh->getBoneCurrentFrameMatrix();
     for (unsigned i = 0; i < boneCount; ++i) {
         const auto& bone = animation->getBone(i);
         //親がいないなら次へ
@@ -46,8 +47,8 @@ void ModelViewerColliderManager::drawTPoseBone(LineRenderer3D& line) const {
 
         //自身のボーンと親のボーンを線で繋ぐ
         line.renderLine(
-            bone.initMat.getTranslation(),
-            bone.parent->initMat.getTranslation(),
+            Vector3::transform(bone.initMat.getTranslation(), curBones[bone.number]),
+            Vector3::transform(bone.parent->initMat.getTranslation(), curBones[bone.parent->number]),
             COLORS[i % 7]
         );
     }

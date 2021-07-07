@@ -137,7 +137,8 @@ void SkinMeshComponent::calcNextPose() {
     const auto& motion = getCurrentMotion();
 
     //シェーダーにボーンのデータを渡す
-    for (size_t i = 0; i < mAnimation->getBoneCount(); ++i) {
+    unsigned boneCount = mAnimation->getBoneCount();
+    for (unsigned i = 0; i < boneCount; ++i) {
         mCurrentBones[i] = mAnimation->getBone(i).offsetMat * motion.frameMat[i][mCurrentFrame];
     }
 

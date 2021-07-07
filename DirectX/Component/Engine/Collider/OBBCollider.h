@@ -6,6 +6,8 @@
 #include <vector>
 
 class MeshComponent;
+class SkinMeshComponent;
+class AnimationCPU;
 
 class OBBCollider
     : public Collider
@@ -28,10 +30,13 @@ private:
 
     void test(float& out, const Vector3& target, const Vector3& pos, const Vector3& axis, const Quaternion& rot, const Ray& ray);
     float min(float value1, float value2, float value3);
+    void compute();
 
 private:
     OBB mOBB;
     std::shared_ptr<MeshComponent> mMesh;
+    std::shared_ptr<SkinMeshComponent> mAnimation;
+    std::shared_ptr<AnimationCPU> mAnimationCpu;
     //影響を受けるボーン
     int mBoneNo;
 

@@ -65,6 +65,8 @@ void FbxBoneParser::loadBone(
         mFbxClusterArray[i] = fbxCluster;
 
         auto& bone = bones[i];
+        //ボーン番号を設定する
+        bone.number = i;
         //ボーンにパラメータを設定する
         setBoneParameter(bone, fbxCluster);
 
