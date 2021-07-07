@@ -3,6 +3,7 @@
 #include "Collider.h"
 #include "../../../Collision/Collision.h"
 #include <memory>
+#include <vector>
 
 class MeshComponent;
 
@@ -25,8 +26,15 @@ private:
     OBBCollider(const OBBCollider&) = delete;
     OBBCollider& operator=(const OBBCollider&) = delete;
 
+    void test(float& out, const Vector3& target, const Vector3& pos, const Vector3& axis, const Quaternion& rot, const Ray& ray);
+    float min(float value1, float value2, float value3);
+
 private:
     OBB mOBB;
     std::shared_ptr<MeshComponent> mMesh;
+    //影響を受けるボーン
     int mBoneNo;
+
+    std::vector<unsigned> mAffectedVertices;
+    //std::vector<Vector3> mAffectedVertices;
 };

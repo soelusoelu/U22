@@ -1,5 +1,4 @@
 ﻿#include "ModelViewerColliderManager.h"
-#include "VertexSelector.h"
 #include "../Camera/SimpleCamera.h"
 #include "../DebugManager/DebugUtility/LineRenderer/LineRenderer3D.h"
 #include "../../Component/Engine/Collider/ColliderDrawer.h"
@@ -23,14 +22,7 @@ void ModelViewerColliderManager::initialize(IModelViewerCallback* callback) {
 }
 
 void ModelViewerColliderManager::update(LineRenderer3D& line, const SimpleCamera& camera) {
-    drawTPoseBone(line);
-
-    Vector3 selected;
-    //if (VertexSelector::selectVertexFromModel(selected, mMesh->getMesh(), camera, 0.05f)) {
-    //    if (Input::mouse().getMouseButtonDown(MouseCode::LeftButton) && Input::keyboard().getKey(KeyCode::LeftShift)) {
-    //        mObbCollider->addVertex(selected);
-    //    }
-    //}
+    //drawTPoseBone(line);
 
     for (const auto& obb : mObbColliders) {
         ColliderDrawer::drawOBB(line, obb->getOBB());
