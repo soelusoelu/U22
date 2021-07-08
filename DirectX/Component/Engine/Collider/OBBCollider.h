@@ -7,7 +7,6 @@
 
 class MeshComponent;
 class SkinMeshComponent;
-class AnimationCPU;
 
 class OBBCollider
     : public Collider
@@ -28,18 +27,16 @@ private:
     OBBCollider(const OBBCollider&) = delete;
     OBBCollider& operator=(const OBBCollider&) = delete;
 
+    void create(const std::vector<std::vector<unsigned>>& vertices);
     void test(float& out, const Vector3& target, const Vector3& pos, const Vector3& axis, const Quaternion& rot, const Ray& ray);
     float min(float value1, float value2, float value3);
-    void compute();
+
+    void beforeComputeWorldMatrix();
 
 private:
     OBB mOBB;
     std::shared_ptr<MeshComponent> mMesh;
     std::shared_ptr<SkinMeshComponent> mAnimation;
-    std::shared_ptr<AnimationCPU> mAnimationCpu;
     //影響を受けるボーン
     int mBoneNo;
-
-    std::vector<unsigned> mAffectedVertices;
-    //std::vector<Vector3> mAffectedVertices;
 };

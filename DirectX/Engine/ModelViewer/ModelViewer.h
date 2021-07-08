@@ -101,6 +101,8 @@ private:
     Function<void(GameObject&)> mCallbackModelChange;
     //現在の描画モード
     ModelViewerMode mMode;
+    //キャラクターをアップデートするか
+    bool mIsUpdate;
     //調整用GUIの横サイズ
     float mGuiSizeX;
 };

@@ -25,9 +25,11 @@ void Transform3D::computeMatrix() {
         return;
     }
 
-    //行列を計算する
+    //ローカル行列を計算する
     computeLocalMatrix();
+    //ワールド行列を計算する
     computeWorldMatrix();
+
     //子のワールド行列を計算する
     computeChildrenTransform();
 }
@@ -171,6 +173,10 @@ ParentChildRelationship& Transform3D::getParentChildRelation() const {
     return *mParentChildRelation;
 }
 
+void Transform3D::callbackBeforeComputeWorldMatrix(const std::function<void()>& f) {
+    mCallbackBeforeComputeWorldMatrix += f;
+}
+
 void Transform3D::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
     JsonHelper::getSetVector3(mPosition, "position", inObj, alloc, mode);
     JsonHelper::getSetQuaternion(mRotation, "rotation", inObj, alloc, mode);
@@ -203,6 +209,9 @@ void Transform3D::computeLocalMatrix() {
 
 void Transform3D::computeWorldMatrix() {
     mWorldTransform = mLocalTransform;
+
+    //ワールド行列計算前呼び出し
+    mCallbackBeforeComputeWorldMatrix();
 
     const auto ep = mParentChildRelation->getEquipmentPart();
     if (ep) {

@@ -1,8 +1,10 @@
 ﻿#pragma once
 
+#include "../Device/Function.h"
 #include "../Math/Math.h"
 #include "../Utility/FileMode.h"
 #include <rapidjson/document.h>
+#include <functional>
 #include <memory>
 
 class GameObject;
@@ -74,6 +76,9 @@ public:
     //親子関係統括クラスを取得する
     ParentChildRelationship& getParentChildRelation() const;
 
+    //ワールド行列計算前に呼ばれる
+    void callbackBeforeComputeWorldMatrix(const std::function<void()>& f);
+
     //ロード/セーブ
     void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode);
 
@@ -100,4 +105,5 @@ private:
     Quaternion mRotation;
     Vector3 mPivot;
     Vector3 mScale;
+    Function<void()> mCallbackBeforeComputeWorldMatrix;
 };

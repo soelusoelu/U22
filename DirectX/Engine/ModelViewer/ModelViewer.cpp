@@ -34,6 +34,7 @@ ModelViewer::ModelViewer()
     , mAnimationViewer(std::make_unique<AnimationViewer>())
     , mColliderManager(std::make_unique<ModelViewerColliderManager>())
     , mMode(ModelViewerMode::MODEL_VIEW)
+    , mIsUpdate(true)
     , mGuiSizeX(0.f)
 {
 }
@@ -109,9 +110,14 @@ void ModelViewer::update(EngineMode mode) {
     }
 
     //全モード共通処理
-    if (mTarget.first) {
-        mTarget.first->update();
-        mTarget.first->lateUpdate();
+    if (Input::keyboard().getKeyDown(KeyCode::Space)) {
+        mIsUpdate = !mIsUpdate;
+    }
+    if (mIsUpdate) {
+        if (mTarget.first) {
+            mTarget.first->update();
+            mTarget.first->lateUpdate();
+        }
     }
     mPlane->update();
     mModelViewCamera->update();
@@ -134,6 +140,7 @@ void ModelViewer::setTarget(
 
     //強制的にビューモードにする
     changeMode(ModelViewerMode::MODEL_VIEW);
+    mIsUpdate = true;
 }
 
 void ModelViewer::draw(EngineMode mode, const Renderer& renderer) const {
@@ -203,6 +210,8 @@ void ModelViewer::onChangeMode(EngineMode mode) {
     if (mTarget.first) {
         mTarget.first->setActive(isModelViewer);
     }
+
+    mIsUpdate = true;
 }
 
 void ModelViewer::onSelectAssetsTexture() {
