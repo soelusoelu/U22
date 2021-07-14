@@ -26,6 +26,12 @@ void ModelViewerColliderManager::update(LineRenderer3D& line, const SimpleCamera
 
     for (const auto& obb : mObbColliders) {
         ColliderDrawer::drawOBB(line, obb->getOBB());
+        const auto& target = obb->getOBB();
+        const auto& center = target.center;
+        const auto& rot = target.rotation;
+        //line.renderLine(center, center + Vector3::transform(Vector3::right, rot) * 0.25f, ColorPalette::red);
+        //line.renderLine(center, center + Vector3::transform(Vector3::up, rot) * 0.25f, ColorPalette::green);
+        //line.renderLine(center, center + Vector3::transform(Vector3::forward, rot) * 0.25f, ColorPalette::blue);
     }
 }
 
@@ -69,6 +75,15 @@ void ModelViewerColliderManager::createObbCollider() {
     auto animation = mMesh->getAnimation();
     auto boneCount = animation->getBoneCount();
     for (unsigned i = 0; i < boneCount; ++i) {
+        //胴
+        //if (i != 3) {
+        //    continue;
+        //}
+        //骨盤
+        //if (i == 26 || i == 30) {
+        //    continue;
+        //}
+
         const auto& bone = animation->getBone(i);
         //ボーンの親がいないなら次へ
         if (!bone.parent) {

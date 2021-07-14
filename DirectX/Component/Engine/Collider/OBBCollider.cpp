@@ -52,10 +52,12 @@ void OBBCollider::setBone(unsigned boneNo) {
     auto meshCount = mesh->getMeshCount();
     //ボックスを構成する頂点番号群
     std::vector<std::vector<unsigned>> affectedVertices(meshCount);
+    std::vector<std::vector<Vector3>> affectedVertices2(meshCount);
 
     for (unsigned i = 0; i < meshCount; ++i) {
         const auto& vertices = mesh->getMeshVertices(i);
         auto& affected = affectedVertices[i];
+        auto& affected2 = affectedVertices2[i];
 
         //ボーンが影響する頂点を取得する
         const auto size = vertices.size();
@@ -66,19 +68,23 @@ void OBBCollider::setBone(unsigned boneNo) {
                 if (v.index[idx] != mBoneNo) {
                     continue;
                 }
-                if (v.weight[idx] < 0.5f) {
-                    continue;
-                }
+                //if (v.weight[idx] < 0.05f) {
+                //    continue;
+                //}
 
                 affected.emplace_back(j);
+                affected2.emplace_back(v.pos);
             }
         }
     }
 
-    create(affectedVertices);
+    create(affectedVertices, affectedVertices2);
 }
 
-void OBBCollider::create(const std::vector<std::vector<unsigned>>& vertices) {
+void OBBCollider::create(
+    const std::vector<std::vector<unsigned>>& vertices,
+    const std::vector<std::vector<Vector3>>& vertices2
+) {
     const auto& bone = mMesh->getAnimation()->getBone(mBoneNo);
     const auto parent = bone.parent;
     const auto& curBones = mAnimation->getBoneCurrentFrameMatrix();
@@ -92,15 +98,12 @@ void OBBCollider::create(const std::vector<std::vector<unsigned>>& vertices) {
     ray.end = parentPos;
 
     auto rot = Quaternion::lookRotation(Vector3::normalize(toParent));
-    float maxX = 0.f;
-    float maxY = 0.f;
-    float maxZ = 0.f;
-    float maxStartX = 0.f;
-    float maxStartY = 0.f;
-    float maxStartZ = 0.f;
-    float maxEndX = 0.f;
-    float maxEndY = 0.f;
-    float maxEndZ = 0.f;
+    float minX = FLT_MAX;
+    float minY = FLT_MAX;
+    float minZ = FLT_MAX;
+    float maxX = FLT_MIN;
+    float maxY = FLT_MIN;
+    float maxZ = FLT_MIN;
 
     auto mesh = mMesh->getMesh();
     auto meshCount = mesh->getMeshCount();
@@ -110,66 +113,63 @@ void OBBCollider::create(const std::vector<std::vector<unsigned>>& vertices) {
         for (const auto& x : affected) {
             const auto& pos = verticesPos[x];
 
-            test(maxX, pos, center, Vector3::back, rot, ray);
-            test(maxY, pos, center, Vector3::right, rot, ray);
-            test(maxZ, pos, center, Vector3::down, rot, ray);
+            test(minX, maxX, pos, center, Vector3::right, rot, ray);
+            test(minY, maxY, pos, center, Vector3::up, rot, ray);
+            test(minZ, maxZ, pos, center, Vector3::forward, rot, ray);
 
-            test(maxStartX, pos, ray.start, Vector3::back, rot, ray);
-            test(maxStartY, pos, ray.start, Vector3::right, rot, ray);
-            test(maxStartZ, pos, ray.start, Vector3::down, rot, ray);
+            test(minX, maxX, pos, ray.start, Vector3::right, rot, ray);
+            test(minY, maxY, pos, ray.start, Vector3::up, rot, ray);
+            test(minZ, maxZ, pos, ray.start, Vector3::forward, rot, ray);
 
-            test(maxEndX, pos, ray.end, Vector3::back, rot, ray);
-            test(maxEndY, pos, ray.end, Vector3::right, rot, ray);
-            test(maxEndZ, pos, ray.end, Vector3::down, rot, ray);
+            test(minX, maxX, pos, ray.end, Vector3::right, rot, ray);
+            test(minY, maxY, pos, ray.end, Vector3::up, rot, ray);
+            test(minZ, maxZ, pos, ray.end, Vector3::forward, rot, ray);
         }
     }
 
-    maxX = min(maxX, maxStartX, maxEndX);
-    maxY = min(maxY, maxStartY, maxEndY);
-    maxZ = min(maxZ, maxStartZ, maxEndZ);
+    //最低と最高の平均
+    //maxX = (minX + maxX) / 2.f;
+    //maxY = (minY + maxY) / 2.f;
+    //maxZ = (minZ + maxZ) / 2.f;
+    //最低値に置き換える
+    maxX = minX;
+    maxY = minY;
+    maxZ = minZ;
 
-    constexpr int x = 2.f;
+    //2乗されている距離を正しい距離に直す
     maxX = Math::sqrt(maxX);
-    maxX /= x;
     maxY = Math::sqrt(maxY);
-    maxY /= x;
     maxZ = Math::sqrt(maxZ);
-    maxZ /= x;
 
     mOBB.center = center;
     mOBB.rotation = rot;
-    //mOBB.extents = Vector3(maxZ, maxY, maxX);
     //mOBB.extents = Vector3(maxX, maxY, maxZ);
-    mOBB.extents = Vector3(maxZ, maxY, toParent.length() / 2.f);
-    //mOBB.extents = Vector3(maxY, maxZ, toParent.length() / 2.f);
+    mOBB.extents = Vector3(maxX, maxY, toParent.length() / 2.f);
 }
 
-void OBBCollider::test(float& out, const Vector3& target, const Vector3& pos, const Vector3& axis, const Quaternion& rot, const Ray& ray) {
-    constexpr float angle1 = 60.f;
-    constexpr float angle2 = 180.f - angle1;
+void OBBCollider::test(
+    float& outMin,
+    float& outMax,
+    const Vector3& target,
+    const Vector3& pos,
+    const Vector3& axis,
+    const Quaternion& rot,
+    const Ray& ray
+) {
+    constexpr float ANGLE1 = 45.f;
+    constexpr float ANGLE2 = 180.f - ANGLE1;
 
     auto toVertPos = Vector3::normalize(target - pos);
     float dot = Vector3::dot(toVertPos, Vector3::transform(axis, rot));
     float angle = Math::acos(dot);
-    if (angle < angle1 || angle2 < angle) {
-        float length = ray.minDistanceSquare(target);
-        if (length > out) {
-            out = length;
+    if (angle < ANGLE1 || ANGLE2 < angle) {
+        float distSq = ray.minDistanceSquare(target);
+        if (distSq < outMin) {
+            outMin = distSq;
         }
-    }
-}
-
-float OBBCollider::min(float value1, float value2, float value3) {
-    if (Math::nearZero(value1)) {
-        value1 = value2;
-    }
-    if (Math::nearZero(value2)) {
-        value2 = value3;
-    }
-    if (Math::nearZero(value3)) {
-        return Math::Min(value1, value2);
-    } else {
-        return Math::Min(value1, Math::Min(value2, value3));
+        if (distSq > outMax) {
+            outMax = distSq;
+        }
     }
 }
 

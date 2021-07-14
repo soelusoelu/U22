@@ -27,9 +27,20 @@ private:
     OBBCollider(const OBBCollider&) = delete;
     OBBCollider& operator=(const OBBCollider&) = delete;
 
-    void create(const std::vector<std::vector<unsigned>>& vertices);
-    void test(float& out, const Vector3& target, const Vector3& pos, const Vector3& axis, const Quaternion& rot, const Ray& ray);
-    float min(float value1, float value2, float value3);
+    void create(
+        const std::vector<std::vector<unsigned>>& vertices,
+        const std::vector<std::vector<Vector3>>& vertices2
+    );
+
+    void test(
+        float& outMin,
+        float& outMax,
+        const Vector3& target,
+        const Vector3& pos,
+        const Vector3& axis,
+        const Quaternion& rot,
+        const Ray& ray
+    );
 
     void beforeComputeWorldMatrix();
 
