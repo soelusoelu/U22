@@ -1,6 +1,7 @@
 ﻿#include "Mesh.h"
 #include "OBJ.h"
 #include "FBX/FBX.h"
+#include "../Collision/Collision.h"
 #include "../DirectX/DirectXInclude.h"
 #include "../Engine/DebugManager/DebugUtility/Debug.h"
 #include "../System/AssetsManager.h"

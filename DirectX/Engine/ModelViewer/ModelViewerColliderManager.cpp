@@ -1,12 +1,15 @@
 ﻿#include "ModelViewerColliderManager.h"
 #include "../Camera/SimpleCamera.h"
+#include "../DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
 #include "../DebugManager/DebugUtility/LineRenderer/LineRenderer3D.h"
+#include "../../Collision/Collision.h"
 #include "../../Component/Engine/Collider/ColliderDrawer.h"
 #include "../../Component/Engine/Collider/OBBCollider.h"
 #include "../../Component/Engine/Mesh/MeshComponent.h"
 #include "../../Component/Engine/Mesh/MeshRenderer.h"
 #include "../../Component/Engine/Mesh/SkinMeshComponent.h"
 #include "../../Input/Input.h"
+#include "../../System/Window.h"
 
 ModelViewerColliderManager::ModelViewerColliderManager()
     : mMesh(nullptr)
@@ -24,15 +27,29 @@ void ModelViewerColliderManager::initialize(IModelViewerCallback* callback) {
 void ModelViewerColliderManager::update(LineRenderer3D& line, const SimpleCamera& camera) {
     //drawTPoseBone(line);
 
-    for (const auto& obb : mObbColliders) {
-        ColliderDrawer::drawOBB(line, obb->getOBB());
-        const auto& target = obb->getOBB();
-        const auto& center = target.center;
-        const auto& rot = target.rotation;
-        //line.renderLine(center, center + Vector3::transform(Vector3::right, rot) * 0.25f, ColorPalette::red);
-        //line.renderLine(center, center + Vector3::transform(Vector3::up, rot) * 0.25f, ColorPalette::green);
-        //line.renderLine(center, center + Vector3::transform(Vector3::forward, rot) * 0.25f, ColorPalette::blue);
+    const auto& mouse = Input::mouse();
+    const auto& mousePos = mouse.getMousePosition();
+    if (mousePos.x < Window::width() && mousePos.y < Window::height()) {
+        auto ray = camera.screenToRay(mousePos);
+        for (const auto& obb : mObbColliders) {
+            Vector3 color = ColorPalette::lightGreen;
+            if (Intersect::intersectRayOBB(ray, obb->getOBB())) {
+                color = ColorPalette::red;
+            }
+
+            ColliderDrawer::drawOBB(line, obb->getOBB(), color);
+        }
     }
+
+    //for (const auto& obb : mObbColliders) {
+    //    ColliderDrawer::drawOBB(line, obb->getOBB());
+    //}
+}
+
+void ModelViewerColliderManager::drawGUI() {
+    ImGui::Text("OBB");
+
+    mObbColliders[0]->drawInspector();
 }
 
 void ModelViewerColliderManager::drawTPoseBone(LineRenderer3D& line) const {
@@ -90,9 +107,15 @@ void ModelViewerColliderManager::createObbCollider() {
             continue;
         }
 
-        auto obb = mMesh->addComponent<OBBCollider>("OBBCollider");
-        obb->setBone(i);
-        mObbColliders.emplace_back(obb);
+        //OBB分割数
+        constexpr int DIV_COUNT = 1;
+        for (int j = 0; j < DIV_COUNT; ++j) {
+            auto obb = mMesh->addComponent<OBBCollider>("OBBCollider");
+            float start = static_cast<float>(j) / static_cast<float>(DIV_COUNT);
+            float end = static_cast<float>(j + 1) / static_cast<float>(DIV_COUNT);
+            obb->setBone(i, start, end);
+            mObbColliders.emplace_back(obb);
+        }
     }
 }
 

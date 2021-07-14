@@ -152,12 +152,12 @@ void AABBAnimationCollider::updatePoints() {
         const auto& max = aabb.max;
 
         auto& points = target.points;
-        points[BoxConstantGroup::BOX_NEAR_BOTTOM_LEFT] = min;
-        points[BoxConstantGroup::BOX_NEAR_BOTTOM_RIGHT] = Vector3(max.x, min.y, min.z);
+        points[BoxConstantGroup::BOX_FORE_BOTTOM_LEFT] = min;
+        points[BoxConstantGroup::BOX_FORE_BOTTOM_RIGHT] = Vector3(max.x, min.y, min.z);
         points[BoxConstantGroup::BOX_BACK_BOTTOM_LEFT] = Vector3(min.x, min.y, max.z);
         points[BoxConstantGroup::BOX_BACK_BOTTOM_RIGHT] = Vector3(max.x, min.y, max.z);
-        points[BoxConstantGroup::BOX_NEAR_TOP_LEFT] = Vector3(min.x, max.y, min.z);
-        points[BoxConstantGroup::BOX_NEAR_TOP_RIGHT] = Vector3(max.x, max.y, min.z);
+        points[BoxConstantGroup::BOX_FORE_TOP_LEFT] = Vector3(min.x, max.y, min.z);
+        points[BoxConstantGroup::BOX_FORE_TOP_RIGHT] = Vector3(max.x, max.y, min.z);
         points[BoxConstantGroup::BOX_BACK_TOP_LEFT] = Vector3(min.x, max.y, max.z);
         points[BoxConstantGroup::BOX_BACK_TOP_RIGHT] = max;
     }
@@ -179,18 +179,18 @@ void AABBAnimationCollider::renderCollision() {
         }
 
         const auto& points = target.points;
-        Debug::renderLine(points[BoxConstantGroup::BOX_NEAR_BOTTOM_LEFT], points[BoxConstantGroup::BOX_NEAR_BOTTOM_RIGHT], ColorPalette::lightGreen);
-        Debug::renderLine(points[BoxConstantGroup::BOX_NEAR_BOTTOM_LEFT], points[BoxConstantGroup::BOX_BACK_BOTTOM_LEFT], ColorPalette::lightGreen);
+        Debug::renderLine(points[BoxConstantGroup::BOX_FORE_BOTTOM_LEFT], points[BoxConstantGroup::BOX_FORE_BOTTOM_RIGHT], ColorPalette::lightGreen);
+        Debug::renderLine(points[BoxConstantGroup::BOX_FORE_BOTTOM_LEFT], points[BoxConstantGroup::BOX_BACK_BOTTOM_LEFT], ColorPalette::lightGreen);
         Debug::renderLine(points[BoxConstantGroup::BOX_BACK_BOTTOM_LEFT], points[BoxConstantGroup::BOX_BACK_BOTTOM_RIGHT], ColorPalette::lightGreen);
-        Debug::renderLine(points[BoxConstantGroup::BOX_NEAR_BOTTOM_RIGHT], points[BoxConstantGroup::BOX_BACK_BOTTOM_RIGHT], ColorPalette::lightGreen);
+        Debug::renderLine(points[BoxConstantGroup::BOX_FORE_BOTTOM_RIGHT], points[BoxConstantGroup::BOX_BACK_BOTTOM_RIGHT], ColorPalette::lightGreen);
 
-        Debug::renderLine(points[BoxConstantGroup::BOX_NEAR_TOP_LEFT], points[BoxConstantGroup::BOX_NEAR_TOP_RIGHT], ColorPalette::lightGreen);
-        Debug::renderLine(points[BoxConstantGroup::BOX_NEAR_TOP_LEFT], points[BoxConstantGroup::BOX_BACK_TOP_LEFT], ColorPalette::lightGreen);
+        Debug::renderLine(points[BoxConstantGroup::BOX_FORE_TOP_LEFT], points[BoxConstantGroup::BOX_FORE_TOP_RIGHT], ColorPalette::lightGreen);
+        Debug::renderLine(points[BoxConstantGroup::BOX_FORE_TOP_LEFT], points[BoxConstantGroup::BOX_BACK_TOP_LEFT], ColorPalette::lightGreen);
         Debug::renderLine(points[BoxConstantGroup::BOX_BACK_TOP_LEFT], points[BoxConstantGroup::BOX_BACK_TOP_RIGHT], ColorPalette::lightGreen);
-        Debug::renderLine(points[BoxConstantGroup::BOX_NEAR_TOP_RIGHT], points[BoxConstantGroup::BOX_BACK_TOP_RIGHT], ColorPalette::lightGreen);
+        Debug::renderLine(points[BoxConstantGroup::BOX_FORE_TOP_RIGHT], points[BoxConstantGroup::BOX_BACK_TOP_RIGHT], ColorPalette::lightGreen);
 
-        Debug::renderLine(points[BoxConstantGroup::BOX_NEAR_BOTTOM_LEFT], points[BoxConstantGroup::BOX_NEAR_TOP_LEFT], ColorPalette::lightGreen);
-        Debug::renderLine(points[BoxConstantGroup::BOX_NEAR_BOTTOM_RIGHT], points[BoxConstantGroup::BOX_NEAR_TOP_RIGHT], ColorPalette::lightGreen);
+        Debug::renderLine(points[BoxConstantGroup::BOX_FORE_BOTTOM_LEFT], points[BoxConstantGroup::BOX_FORE_TOP_LEFT], ColorPalette::lightGreen);
+        Debug::renderLine(points[BoxConstantGroup::BOX_FORE_BOTTOM_RIGHT], points[BoxConstantGroup::BOX_FORE_TOP_RIGHT], ColorPalette::lightGreen);
         Debug::renderLine(points[BoxConstantGroup::BOX_BACK_BOTTOM_LEFT], points[BoxConstantGroup::BOX_BACK_TOP_LEFT], ColorPalette::lightGreen);
         Debug::renderLine(points[BoxConstantGroup::BOX_BACK_BOTTOM_RIGHT], points[BoxConstantGroup::BOX_BACK_TOP_RIGHT], ColorPalette::lightGreen);
     }

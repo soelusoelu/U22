@@ -102,10 +102,7 @@ void ModelViewer::update(EngineMode mode) {
     }
 
     //選択されているモードに応じて処理を分ける
-    if (mMode == ModelViewerMode::MODEL_VIEW) {
-        mAnimationViewer->update();
-    } else if (mMode == ModelViewerMode::COLLIDER_OPERATE) {
-        mAnimationViewer->update();
+    if (mMode == ModelViewerMode::COLLIDER_OPERATE) {
         mColliderManager->update(*mLineRenderer3D, mModelViewCamera->getCamera());
     }
 
@@ -120,6 +117,7 @@ void ModelViewer::update(EngineMode mode) {
         }
     }
     mPlane->update();
+    mAnimationViewer->update();
     mModelViewCamera->update();
 
     saveModel();
@@ -179,6 +177,10 @@ void ModelViewer::drawGUI() const {
     mLight->drawGUI();
     ImGui::Separator(); //区切り線
     mPlane->drawGUI();
+    if (mMode == ModelViewerMode::COLLIDER_OPERATE) {
+        ImGui::Separator(); //区切り線
+        //mColliderManager->drawGUI();
+    }
 
     ImGui::End();
 }

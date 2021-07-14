@@ -3,8 +3,10 @@
 #include "../Mesh/MeshComponent.h"
 #include "../Mesh/SkinMeshComponent.h"
 #include "../../../Engine/DebugManager/DebugUtility/DebugUtility.h"
+#include "../../../Engine/DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
 #include "../../../Transform/Transform3D.h"
 #include "../../../Utility/JsonHelper.h"
+#include <cassert>
 
 OBBCollider::OBBCollider()
     : Collider()
@@ -12,6 +14,8 @@ OBBCollider::OBBCollider()
     , mMesh(nullptr)
     , mAnimation(nullptr)
     , mBoneNo(-1)
+    , mBoneStart(0.f)
+    , mBoneEnd(1.f)
 {
 }
 
@@ -36,12 +40,21 @@ void OBBCollider::lateUpdate() {
 void OBBCollider::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
 }
 
+void OBBCollider::drawInspector() {
+    ImGuiWrapper::dragVector3("center", mOBB.center, 0.1f);
+    auto euler = mOBB.rotation.euler();
+    ImGuiWrapper::dragVector3("rotation", euler, 0.1f);
+    ImGuiWrapper::dragVector3("extents", mOBB.extents, 0.1f);
+}
+
 const OBB& OBBCollider::getOBB() const {
     return mOBB;
 }
 
-void OBBCollider::setBone(unsigned boneNo) {
+void OBBCollider::setBone(unsigned boneNo, float start, float end) {
     mBoneNo = static_cast<int>(boneNo);
+    mBoneStart = start;
+    mBoneEnd = end;
 
     const auto& bone = mMesh->getAnimation()->getBone(mBoneNo);
     const auto parent = bone.parent;
@@ -85,11 +98,11 @@ void OBBCollider::create(
     const std::vector<std::vector<unsigned>>& vertices,
     const std::vector<std::vector<Vector3>>& vertices2
 ) {
-    const auto& bone = mMesh->getAnimation()->getBone(mBoneNo);
-    const auto parent = bone.parent;
-    const auto& curBones = mAnimation->getBoneCurrentFrameMatrix();
-    auto bonePos = Vector3::transform(bone.initMat.getTranslation(), curBones[mBoneNo]);
-    auto parentPos = Vector3::transform(parent->initMat.getTranslation(), curBones[parent->number]);
+    const auto& bone = getBone();
+    auto boneDefaultPos = getBonePosition(bone);
+    auto parentDefaultPos = getBonePosition(*bone.parent);
+    auto bonePos = Vector3::lerp(boneDefaultPos, parentDefaultPos, mBoneStart);
+    auto parentPos = Vector3::lerp(boneDefaultPos, parentDefaultPos, mBoneEnd);
     auto toParent = (parentPos - bonePos);
     auto center = (bonePos + parentPos) / 2.f;
 
@@ -105,7 +118,7 @@ void OBBCollider::create(
     float maxY = FLT_MIN;
     float maxZ = FLT_MIN;
 
-    auto mesh = mMesh->getMesh();
+    const auto mesh = mMesh->getMesh();
     auto meshCount = mesh->getMeshCount();
     for (unsigned i = 0; i < meshCount; ++i) {
         const auto& verticesPos = mesh->getMeshVerticesPosition(i);
@@ -127,10 +140,6 @@ void OBBCollider::create(
         }
     }
 
-    //最低と最高の平均
-    //maxX = (minX + maxX) / 2.f;
-    //maxY = (minY + maxY) / 2.f;
-    //maxZ = (minZ + maxZ) / 2.f;
     //最低値に置き換える
     maxX = minX;
     maxY = minY;
@@ -174,13 +183,25 @@ void OBBCollider::test(
 }
 
 void OBBCollider::beforeComputeWorldMatrix() {
-    const auto& bone = mMesh->getAnimation()->getBone(mBoneNo);
-    const auto parent = bone.parent;
-    const auto& curBones = mAnimation->getBoneCurrentFrameMatrix();
-    auto bonePos = Vector3::transform(bone.initMat.getTranslation(), curBones[mBoneNo]);
-    auto parentPos = Vector3::transform(parent->initMat.getTranslation(), curBones[parent->number]);
+    const auto& bone = getBone();
+    auto boneDefaultPos = getBonePosition(bone);
+    auto parentDefaultPos = getBonePosition(*bone.parent);
+    auto bonePos = Vector3::lerp(boneDefaultPos, parentDefaultPos, mBoneStart);
+    auto parentPos = Vector3::lerp(boneDefaultPos, parentDefaultPos, mBoneEnd);
     auto toParent = (parentPos - bonePos);
 
     mOBB.center = (bonePos + parentPos) / 2.f;
     mOBB.rotation = Quaternion::lookRotation(Vector3::normalize(toParent));
+}
+
+const Bone& OBBCollider::getBone() const {
+    assert(mBoneNo >= 0);
+    assert(mBoneNo < mMesh->getAnimation()->getBoneCount());
+
+    return mMesh->getAnimation()->getBone(mBoneNo);
+}
+
+Vector3 OBBCollider::getBonePosition(const Bone& bone) const {
+    const auto& curBones = mAnimation->getBoneCurrentFrameMatrix();
+    return Vector3::transform(bone.initMat.getTranslation(), curBones[bone.number]);
 }

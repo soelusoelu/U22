@@ -1,18 +1,21 @@
 ﻿#pragma once
 
-#include "../../../System/AssetsDirectoryPath.h"
 #include "../../Component.h"
+#include "../../../Collision/Collision.h"
 #include "../../../Math/Math.h"
 #include "../../../Mesh/IMesh.h"
+#include "../../../System/AssetsDirectoryPath.h"
 #include <memory>
 #include <string>
 
 class MeshRenderOnTexture;
 class MeshRenderOnTextureManager;
 class Sprite;
-struct Sphere;
 
-class MeshRenderOnTextureComponent : public Component, public std::enable_shared_from_this<MeshRenderOnTextureComponent> {
+class MeshRenderOnTextureComponent
+    : public Component
+    , public std::enable_shared_from_this<MeshRenderOnTextureComponent>
+{
 public:
     MeshRenderOnTextureComponent();
     ~MeshRenderOnTextureComponent();

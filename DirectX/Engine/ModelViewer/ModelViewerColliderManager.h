@@ -19,6 +19,7 @@ public:
     ~ModelViewerColliderManager();
     void initialize(IModelViewerCallback* callback);
     void update(LineRenderer3D& line, const SimpleCamera& camera);
+    void drawGUI();
 
 private:
     ModelViewerColliderManager(const ModelViewerColliderManager&) = delete;

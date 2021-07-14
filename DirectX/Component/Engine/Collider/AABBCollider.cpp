@@ -201,12 +201,12 @@ void AABBCollider::updateAABB() {
 void AABBCollider::updatePoints() {
     const auto& min = mAABB.min;
     const auto& max = mAABB.max;
-    mPoints[BoxConstantGroup::BOX_NEAR_BOTTOM_LEFT] = min;
-    mPoints[BoxConstantGroup::BOX_NEAR_BOTTOM_RIGHT] = Vector3(max.x, min.y, min.z);
+    mPoints[BoxConstantGroup::BOX_FORE_BOTTOM_LEFT] = min;
+    mPoints[BoxConstantGroup::BOX_FORE_BOTTOM_RIGHT] = Vector3(max.x, min.y, min.z);
     mPoints[BoxConstantGroup::BOX_BACK_BOTTOM_LEFT] = Vector3(min.x, min.y, max.z);
     mPoints[BoxConstantGroup::BOX_BACK_BOTTOM_RIGHT] = Vector3(max.x, min.y, max.z);
-    mPoints[BoxConstantGroup::BOX_NEAR_TOP_LEFT] = Vector3(min.x, max.y, min.z);
-    mPoints[BoxConstantGroup::BOX_NEAR_TOP_RIGHT] = Vector3(max.x, max.y, min.z);
+    mPoints[BoxConstantGroup::BOX_FORE_TOP_LEFT] = Vector3(min.x, max.y, min.z);
+    mPoints[BoxConstantGroup::BOX_FORE_TOP_RIGHT] = Vector3(max.x, max.y, min.z);
     mPoints[BoxConstantGroup::BOX_BACK_TOP_LEFT] = Vector3(min.x, max.y, max.z);
     mPoints[BoxConstantGroup::BOX_BACK_TOP_RIGHT] = max;
 }
@@ -243,18 +243,18 @@ void AABBCollider::renderCollision() const {
     }
 
     //デバッグ時のみ当たり判定を表示
-    Debug::renderLine(mPoints[BoxConstantGroup::BOX_NEAR_BOTTOM_LEFT], mPoints[BoxConstantGroup::BOX_NEAR_BOTTOM_RIGHT], ColorPalette::lightGreen);
-    Debug::renderLine(mPoints[BoxConstantGroup::BOX_NEAR_BOTTOM_LEFT], mPoints[BoxConstantGroup::BOX_BACK_BOTTOM_LEFT], ColorPalette::lightGreen);
+    Debug::renderLine(mPoints[BoxConstantGroup::BOX_FORE_BOTTOM_LEFT], mPoints[BoxConstantGroup::BOX_FORE_BOTTOM_RIGHT], ColorPalette::lightGreen);
+    Debug::renderLine(mPoints[BoxConstantGroup::BOX_FORE_BOTTOM_LEFT], mPoints[BoxConstantGroup::BOX_BACK_BOTTOM_LEFT], ColorPalette::lightGreen);
     Debug::renderLine(mPoints[BoxConstantGroup::BOX_BACK_BOTTOM_LEFT], mPoints[BoxConstantGroup::BOX_BACK_BOTTOM_RIGHT], ColorPalette::lightGreen);
-    Debug::renderLine(mPoints[BoxConstantGroup::BOX_NEAR_BOTTOM_RIGHT], mPoints[BoxConstantGroup::BOX_BACK_BOTTOM_RIGHT], ColorPalette::lightGreen);
+    Debug::renderLine(mPoints[BoxConstantGroup::BOX_FORE_BOTTOM_RIGHT], mPoints[BoxConstantGroup::BOX_BACK_BOTTOM_RIGHT], ColorPalette::lightGreen);
 
-    Debug::renderLine(mPoints[BoxConstantGroup::BOX_NEAR_TOP_LEFT], mPoints[BoxConstantGroup::BOX_NEAR_TOP_RIGHT], ColorPalette::lightGreen);
-    Debug::renderLine(mPoints[BoxConstantGroup::BOX_NEAR_TOP_LEFT], mPoints[BoxConstantGroup::BOX_BACK_TOP_LEFT], ColorPalette::lightGreen);
+    Debug::renderLine(mPoints[BoxConstantGroup::BOX_FORE_TOP_LEFT], mPoints[BoxConstantGroup::BOX_FORE_TOP_RIGHT], ColorPalette::lightGreen);
+    Debug::renderLine(mPoints[BoxConstantGroup::BOX_FORE_TOP_LEFT], mPoints[BoxConstantGroup::BOX_BACK_TOP_LEFT], ColorPalette::lightGreen);
     Debug::renderLine(mPoints[BoxConstantGroup::BOX_BACK_TOP_LEFT], mPoints[BoxConstantGroup::BOX_BACK_TOP_RIGHT], ColorPalette::lightGreen);
-    Debug::renderLine(mPoints[BoxConstantGroup::BOX_NEAR_TOP_RIGHT], mPoints[BoxConstantGroup::BOX_BACK_TOP_RIGHT], ColorPalette::lightGreen);
+    Debug::renderLine(mPoints[BoxConstantGroup::BOX_FORE_TOP_RIGHT], mPoints[BoxConstantGroup::BOX_BACK_TOP_RIGHT], ColorPalette::lightGreen);
 
-    Debug::renderLine(mPoints[BoxConstantGroup::BOX_NEAR_BOTTOM_LEFT], mPoints[BoxConstantGroup::BOX_NEAR_TOP_LEFT], ColorPalette::lightGreen);
-    Debug::renderLine(mPoints[BoxConstantGroup::BOX_NEAR_BOTTOM_RIGHT], mPoints[BoxConstantGroup::BOX_NEAR_TOP_RIGHT], ColorPalette::lightGreen);
+    Debug::renderLine(mPoints[BoxConstantGroup::BOX_FORE_BOTTOM_LEFT], mPoints[BoxConstantGroup::BOX_FORE_TOP_LEFT], ColorPalette::lightGreen);
+    Debug::renderLine(mPoints[BoxConstantGroup::BOX_FORE_BOTTOM_RIGHT], mPoints[BoxConstantGroup::BOX_FORE_TOP_RIGHT], ColorPalette::lightGreen);
     Debug::renderLine(mPoints[BoxConstantGroup::BOX_BACK_BOTTOM_LEFT], mPoints[BoxConstantGroup::BOX_BACK_TOP_LEFT], ColorPalette::lightGreen);
     Debug::renderLine(mPoints[BoxConstantGroup::BOX_BACK_BOTTOM_RIGHT], mPoints[BoxConstantGroup::BOX_BACK_TOP_RIGHT], ColorPalette::lightGreen);
 #endif // _DEBUG

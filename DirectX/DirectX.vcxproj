@@ -166,6 +166,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Collision\BoxHelper.cpp" />
     <ClCompile Include="Component\Engine\Collider\ColliderDrawer.cpp" />
     <ClCompile Include="Component\Engine\Other\GameObjectSaveAndLoader.cpp" />
     <ClCompile Include="Component\Game\UI\BossEnemyUIManager.cpp" />
@@ -433,6 +434,7 @@
     <ClCompile Include="Engine\ModelViewer\VertexSelector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision\BoxHelper.h" />
     <ClInclude Include="Component\Engine\Collider\ColliderDrawer.h" />
     <ClInclude Include="Component\Engine\Other\GameObjectSaveAndLoader.h" />
     <ClInclude Include="Component\Game\Enemy\EnemyMotions.h" />
@@ -991,6 +993,7 @@
     <None Include="Assets\Data\Waveform.json" />
     <None Include="Assets\Data\Weapon.json" />
     <None Include="Assets\Data\BossEnemyUI.json" />
+    <None Include="imgui.ini" />
     <None Include="Shader\MaterialHeader.hlsli" />
     <None Include="Shader\MeshCommonAndMaterialHeader.hlsli" />
     <None Include="Shader\MeshCommonHeader.hlsli" />

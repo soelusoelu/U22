@@ -1,16 +1,17 @@
 ﻿#pragma once
 
 #include "../Math/Math.h"
+#include "../Mesh/IMesh.h"
 #include "../Mesh/IMeshesGetter.h"
 
 struct AABB;
+struct OBB;
 struct Circle;
 struct Sphere;
 struct Triangle;
 struct Ray;
 struct RaycastHit;
 class Transform3D;
-class IMesh;
 
 namespace Intersect {
 //円同士の衝突判定を行う
@@ -35,6 +36,9 @@ bool intersectRaySphere(const Ray& ray, const Sphere& sphere, Vector3* intersect
 //AABBとレイの衝突判定を行う
 bool intersectRayAABB(const Ray& ray, const AABB& aabb);
 bool intersectRayAABB(const Ray& ray, const AABB& aabb, Vector3& intersectPoint);
+
+//OBBとレイの衝突判定を行う
+bool intersectRayOBB(const Ray& ray, const OBB& obb);
 
 //メッシュとレイの衝突判定を行う
 //めちゃめちゃ重い

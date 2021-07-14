@@ -2,9 +2,10 @@
 
 #include "IMeshLoader.h"
 #include "Material.h"
-#include "../Collision/Collision.h"
 #include "../Math/Math.h"
 #include <vector>
+
+struct Triangle;
 
 //外部公開用メッシュインターフェース
 class IMesh {

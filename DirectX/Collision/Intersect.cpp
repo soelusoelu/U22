@@ -1,7 +1,9 @@
 ﻿#include "Intersect.h"
 #include "AABB.h"
+#include "BoxHelper.h"
 #include "Circle.h"
 #include "IntersectHelper.h"
+#include "OBB.h"
 #include "Ray.h"
 #include "RaycastHit.h"
 #include "Sphere.h"
@@ -172,12 +174,11 @@ bool Intersect::intersectRayAABB(const Ray& ray, const AABB& aabb, Vector3& inte
     testSidePlane(ray.start.z, ray.end.z, aabb.max.z, tValues);
 
     //t値を昇順で並べ替える
-    std::sort(tValues.begin(), tValues.end(), [](
-        float a,
-        float b
-        ) {
-            return a < b;
-        });
+    std::sort(
+        tValues.begin(),
+        tValues.end(),
+        [&](float a, float b) { return a < b; }
+    );
 
     //ボックスに交点が含まれているか調べる
     for (const auto& t : tValues) {
@@ -189,6 +190,59 @@ bool Intersect::intersectRayAABB(const Ray& ray, const AABB& aabb, Vector3& inte
     }
 
     //衝突していない
+    return false;
+}
+
+bool Intersect::intersectRayOBB(const Ray& ray, const OBB& obb) {
+    auto points = BoxHelper::getPoints(obb);
+
+    const auto& ftr = points[BoxConstantGroup::BOX_BACK_TOP_RIGHT];
+    const auto& fbr = points[BoxConstantGroup::BOX_BACK_BOTTOM_RIGHT];
+    const auto& ftl = points[BoxConstantGroup::BOX_BACK_TOP_LEFT];
+    const auto& fbl = points[BoxConstantGroup::BOX_BACK_BOTTOM_LEFT];
+    const auto& btr = points[BoxConstantGroup::BOX_FORE_TOP_RIGHT];
+    const auto& bbr = points[BoxConstantGroup::BOX_FORE_BOTTOM_RIGHT];
+    const auto& btl = points[BoxConstantGroup::BOX_FORE_TOP_LEFT];
+    const auto& bbl = points[BoxConstantGroup::BOX_FORE_BOTTOM_LEFT];
+
+    //各面からポリゴンの衝突判定を行う
+    //上面
+    if (intersectRayPolygon(ray, ftr, ftl, btr)) {
+        return true;
+    } else if (intersectRayPolygon(ray, ftl, btr, btl)) {
+        return true;
+    }
+    //下面
+    if (intersectRayPolygon(ray, fbr, fbl, bbr)) {
+        return true;
+    } else if (intersectRayPolygon(ray, fbl, bbr, bbl)) {
+        return true;
+    }
+    //前面
+    if (intersectRayPolygon(ray, btr, btl, bbr)) {
+        return true;
+    } else if (intersectRayPolygon(ray, btl, bbr, bbl)) {
+        return true;
+    }
+    //奥面
+    if (intersectRayPolygon(ray, ftr, ftl, fbr)) {
+        return true;
+    } else if (intersectRayPolygon(ray, ftl, fbr, fbl)) {
+        return true;
+    }
+    //右面
+    if (intersectRayPolygon(ray, ftr, btr, fbr)) {
+        return true;
+    } else if (intersectRayPolygon(ray, btr, fbr, bbr)) {
+        return true;
+    }
+    //左面
+    if (intersectRayPolygon(ray, ftl, btl, bbl)) {
+        return true;
+    } else if (intersectRayPolygon(ray, btl, bbl, fbl)) {
+        return true;
+    }
+
     return false;
 }
 

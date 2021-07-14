@@ -2,41 +2,34 @@
 #include "../../../Engine/DebugManager/DebugUtility/LineRenderer/LineRenderer3D.h"
 #include "../../../Math/Math.h"
 
-void ColliderDrawer::drawOBB(LineRenderer3D& drawer, const OBB& obb) {
-    const auto& center = obb.center;
-    const auto& rot = obb.rotation;
-    const auto& extents = obb.extents;
+void ColliderDrawer::drawOBB(
+    LineRenderer3D& drawer,
+    const OBB& obb,
+    const Vector3& color
+) {
+    auto points = BoxHelper::getPoints(obb);
 
-    Vector3 ftr = extents;
-    ftr = Vector3::transform(ftr, rot) + center;
-    Vector3 fbr = Vector3(extents.x, -extents.y, extents.z);
-    fbr = Vector3::transform(fbr, rot) + center;
-    Vector3 ftl = Vector3(-extents.x, extents.y, extents.z);
-    ftl = Vector3::transform(ftl, rot) + center;
-    Vector3 fbl = Vector3(-extents.x, -extents.y, extents.z);
-    fbl = Vector3::transform(fbl, rot) + center;
+    const auto& ftr = points[BoxConstantGroup::BOX_BACK_TOP_RIGHT];
+    const auto& fbr = points[BoxConstantGroup::BOX_BACK_BOTTOM_RIGHT];
+    const auto& ftl = points[BoxConstantGroup::BOX_BACK_TOP_LEFT];
+    const auto& fbl = points[BoxConstantGroup::BOX_BACK_BOTTOM_LEFT];
+    const auto& btr = points[BoxConstantGroup::BOX_FORE_TOP_RIGHT];
+    const auto& bbr = points[BoxConstantGroup::BOX_FORE_BOTTOM_RIGHT];
+    const auto& btl = points[BoxConstantGroup::BOX_FORE_TOP_LEFT];
+    const auto& bbl = points[BoxConstantGroup::BOX_FORE_BOTTOM_LEFT];
 
-    Vector3 btr = Vector3(extents.x, extents.y, -extents.z);
-    btr = Vector3::transform(btr, rot) + center;
-    Vector3 bbr = Vector3(extents.x, -extents.y, -extents.z);
-    bbr = Vector3::transform(bbr, rot) + center;
-    Vector3 btl = Vector3(-extents.x, extents.y, -extents.z);
-    btl = Vector3::transform(btl, rot) + center;
-    Vector3 bbl = -extents;
-    bbl = Vector3::transform(bbl, rot) + center;
+    drawer.renderLine(ftr, fbr, color);
+    drawer.renderLine(ftr, ftl, color);
+    drawer.renderLine(ftl, fbl, color);
+    drawer.renderLine(fbl, fbr, color);
 
-    drawer.renderLine(ftr, fbr, ColorPalette::lightGreen);
-    drawer.renderLine(ftr, ftl, ColorPalette::lightGreen);
-    drawer.renderLine(ftl, fbl, ColorPalette::lightGreen);
-    drawer.renderLine(fbl, fbr, ColorPalette::lightGreen);
+    drawer.renderLine(btr, bbr, color);
+    drawer.renderLine(btr, btl, color);
+    drawer.renderLine(btl, bbl, color);
+    drawer.renderLine(bbl, bbr, color);
 
-    drawer.renderLine(btr, bbr, ColorPalette::lightGreen);
-    drawer.renderLine(btr, btl, ColorPalette::lightGreen);
-    drawer.renderLine(btl, bbl, ColorPalette::lightGreen);
-    drawer.renderLine(bbl, bbr, ColorPalette::lightGreen);
-
-    drawer.renderLine(ftr, btr, ColorPalette::lightGreen);
-    drawer.renderLine(ftl, btl, ColorPalette::lightGreen);
-    drawer.renderLine(fbr, bbr, ColorPalette::lightGreen);
-    drawer.renderLine(fbl, bbl, ColorPalette::lightGreen);
+    drawer.renderLine(ftr, btr, color);
+    drawer.renderLine(ftl, btl, color);
+    drawer.renderLine(fbr, bbr, color);
+    drawer.renderLine(fbl, bbl, color);
 }

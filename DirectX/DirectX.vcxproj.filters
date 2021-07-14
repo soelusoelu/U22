@@ -286,6 +286,7 @@
     <ClCompile Include="Utility\JsonHelper.cpp" />
     <ClCompile Include="Device\FileOperator.cpp" />
     <ClCompile Include="Component\Engine\Other\GameObjectSaveAndLoader.cpp" />
+    <ClCompile Include="Collision\BoxHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -639,6 +640,7 @@
     <ClInclude Include="Utility\JsonHelper.h" />
     <ClInclude Include="Device\FileOperator.h" />
     <ClInclude Include="Component\Engine\Other\GameObjectSaveAndLoader.h" />
+    <ClInclude Include="Collision\BoxHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />
@@ -663,5 +665,6 @@
     <None Include="Assets\Data\Weapon.json" />
     <None Include="Assets\Data\BossEnemyUI.json" />
     <None Include="Assets\Data\Shield.json" />
+    <None Include="imgui.ini" />
   </ItemGroup>
 </Project>
