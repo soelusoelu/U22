@@ -179,7 +179,7 @@ void ModelViewer::drawGUI() const {
     mPlane->drawGUI();
     if (mMode == ModelViewerMode::COLLIDER_OPERATE) {
         ImGui::Separator(); //区切り線
-        //mColliderManager->drawGUI();
+        mColliderManager->drawGUI();
     }
 
     ImGui::End();
@@ -227,8 +227,9 @@ void ModelViewer::onSelectAssetsTexture() {
     GameObjectPtr newTarget = nullptr;
 
     const auto& texFilePath = mAssetsTextureGetter->getCurrentSelectTexture().getTexture().getFilePath();
-    if (FileUtil::getFileExtension(texFilePath) == ".json") {
-        auto filePath = texFilePath.substr(0, texFilePath.length() - 5);
+    const std::string JSON = ".json";
+    if (FileUtil::getFileExtension(texFilePath) == JSON) {
+        auto filePath = texFilePath.substr(0, texFilePath.length() - JSON.length());
         auto filename = FileUtil::getFileNameFromDirectry(filePath);
         auto directoryPath = FileUtil::getDirectryFromFilePath(filePath);
         newTarget = GameObjectCreater::create(filename, directoryPath);

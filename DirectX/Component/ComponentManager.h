@@ -21,6 +21,8 @@ public:
     void update() const;
     //所有するすべてのコンポーネントを遅延更新
     void lateUpdate() const;
+    //所有するすべてのコンポーネントから削除命令が出ているものを削除
+    void destroy();
     //所有するすべてのコンポーネントの終了処理を実行
     void finalize();
     //コンポーネントの追加

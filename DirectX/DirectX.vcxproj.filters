@@ -287,6 +287,7 @@
     <ClCompile Include="Device\FileOperator.cpp" />
     <ClCompile Include="Component\Engine\Other\GameObjectSaveAndLoader.cpp" />
     <ClCompile Include="Collision\BoxHelper.cpp" />
+    <ClCompile Include="Engine\ModelViewer\ColliderOptionGUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -641,6 +642,7 @@
     <ClInclude Include="Device\FileOperator.h" />
     <ClInclude Include="Component\Engine\Other\GameObjectSaveAndLoader.h" />
     <ClInclude Include="Collision\BoxHelper.h" />
+    <ClInclude Include="Engine\ModelViewer\ColliderOptionGUI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />

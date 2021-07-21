@@ -7,7 +7,9 @@
 
 class Physics;
 
-class Collider : public Component {
+class Collider
+    : public Component
+{
     using CollPtr = std::shared_ptr<Collider>;
     using CollPtrList = std::list<CollPtr>;
 

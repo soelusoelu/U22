@@ -35,6 +35,8 @@ void GameObject::lateUpdate() {
     if (getActive()) {
         mComponentManager->lateUpdate();
 
+        mComponentManager->destroy();
+
         mTransform->computeMatrix();
     }
 }

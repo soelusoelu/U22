@@ -1,9 +1,10 @@
 ﻿#include "Object.h"
 #include "../Device/Time.h"
 
-Object::Object() :
-    mDestroyTimer(nullptr),
-    mIsDead(false) {
+Object::Object()
+    : mDestroyTimer(nullptr)
+    , mIsDead(false)
+{
 }
 
 Object::~Object() = default;

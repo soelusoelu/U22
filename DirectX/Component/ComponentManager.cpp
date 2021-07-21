@@ -15,13 +15,34 @@ void ComponentManager::start() {
 
 void ComponentManager::update() const {
     for (const auto& comp : mComponents) {
+        if (comp->isDead()) {
+            continue;
+        }
+
         comp->update();
+        comp->updateDestroyTimer();
     }
 }
 
 void ComponentManager::lateUpdate() const {
     for (const auto& comp : mComponents) {
+        if (comp->isDead()) {
+            continue;
+        }
+
         comp->lateUpdate();
+    }
+}
+
+void ComponentManager::destroy() {
+    auto itr = mComponents.begin();
+    while (itr != mComponents.end()) {
+        if ((*itr)->isDead()) {
+            (*itr)->finalize();
+            itr = mComponents.erase(itr);
+        } else {
+            ++itr;
+        }
     }
 }
 

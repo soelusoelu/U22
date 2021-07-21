@@ -81,7 +81,7 @@
             "textureSize": 64,
             "textureDisplayInterval": 32,
             "texturesFilePath": [
-                "Assets\\Model\\Player\\U22_player_whiteanime.fbx"
+                "Assets\\Model\\Enemy\\octpus_anime.fbx"
             ]
         },
         "AssetsRenderTextureAdder": {

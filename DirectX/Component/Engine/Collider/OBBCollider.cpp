@@ -27,17 +27,29 @@ void OBBCollider::start() {
     mMesh = getComponent<MeshComponent>();
     mAnimation = getComponent<SkinMeshComponent>();
 
-    transform().callbackBeforeComputeWorldMatrix([&] { beforeComputeWorldMatrix(); });
+    //transform().callbackBeforeComputeWorldMatrix([&] { beforeComputeWorldMatrix(); });
 }
 
 void OBBCollider::lateUpdate() {
     Collider::lateUpdate();
 
+    beforeComputeWorldMatrix();
+
     //当たり判定表示
     //ColliderDrawer::drawOBB(DebugUtility::instance().lineRenderer3D(), mOBB);
 }
 
+void OBBCollider::finalize() {
+    Collider::finalize();
+}
+
 void OBBCollider::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
+    JsonHelper::getSetInt(mBoneNo, "boneNo", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mBoneStart, "boneStart", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mBoneEnd, "boneEnd", inObj, alloc, mode);
+    JsonHelper::getSetVector3(mOBB.center, "center", inObj, alloc, mode);
+    JsonHelper::getSetQuaternion(mOBB.rotation, "rotation", inObj, alloc, mode);
+    JsonHelper::getSetVector3(mOBB.extents, "extents", inObj, alloc, mode);
 }
 
 void OBBCollider::drawInspector() {
@@ -52,6 +64,8 @@ const OBB& OBBCollider::getOBB() const {
 }
 
 void OBBCollider::setBone(unsigned boneNo, float start, float end) {
+    assert(boneNo < mMesh->getAnimation()->getBoneCount());
+
     mBoneNo = static_cast<int>(boneNo);
     mBoneStart = start;
     mBoneEnd = end;
@@ -81,7 +95,7 @@ void OBBCollider::setBone(unsigned boneNo, float start, float end) {
                 if (v.index[idx] != mBoneNo) {
                     continue;
                 }
-                //if (v.weight[idx] < 0.05f) {
+                //if (v.weight[idx] < 0.5f) {
                 //    continue;
                 //}
 
@@ -92,6 +106,11 @@ void OBBCollider::setBone(unsigned boneNo, float start, float end) {
     }
 
     create(affectedVertices, affectedVertices2);
+}
+
+
+const Bone& OBBCollider::getBone() const {
+    return mMesh->getAnimation()->getBone(mBoneNo);
 }
 
 void OBBCollider::create(
@@ -140,20 +159,22 @@ void OBBCollider::create(
         }
     }
 
-    //最低値に置き換える
-    maxX = minX;
-    maxY = minY;
-    maxZ = minZ;
+    if (Math::equal(minX, FLT_MAX)) {
+        minX = Math::epsilon;
+    }
+    if (Math::equal(minY, FLT_MAX)) {
+        minY = Math::epsilon;
+    }
 
     //2乗されている距離を正しい距離に直す
-    maxX = Math::sqrt(maxX);
-    maxY = Math::sqrt(maxY);
-    maxZ = Math::sqrt(maxZ);
+    minX = Math::sqrt(minX);
+    minY = Math::sqrt(minY);
+    minZ = Math::sqrt(minZ);
 
     mOBB.center = center;
     mOBB.rotation = rot;
     //mOBB.extents = Vector3(maxX, maxY, maxZ);
-    mOBB.extents = Vector3(maxX, maxY, toParent.length() / 2.f);
+    mOBB.extents = Vector3(minX, minY, toParent.length() / 2.f);
 }
 
 void OBBCollider::test(
@@ -192,13 +213,6 @@ void OBBCollider::beforeComputeWorldMatrix() {
 
     mOBB.center = (bonePos + parentPos) / 2.f;
     mOBB.rotation = Quaternion::lookRotation(Vector3::normalize(toParent));
-}
-
-const Bone& OBBCollider::getBone() const {
-    assert(mBoneNo >= 0);
-    assert(mBoneNo < mMesh->getAnimation()->getBoneCount());
-
-    return mMesh->getAnimation()->getBone(mBoneNo);
 }
 
 Vector3 OBBCollider::getBonePosition(const Bone& bone) const {

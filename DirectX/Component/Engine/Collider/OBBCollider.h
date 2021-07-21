@@ -17,6 +17,7 @@ public:
     ~OBBCollider();
     virtual void start() override;
     virtual void lateUpdate() override;
+    virtual void finalize() override;
     virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
     virtual void drawInspector() override;
 
@@ -24,6 +25,8 @@ public:
     const OBB& getOBB() const;
     //影響されるボーンとその長さ[0, 1]を設定する
     void setBone(unsigned boneNo, float start = 0.f, float end = 1.f);
+    //影響されるボーンを取得する
+    const Bone& getBone() const;
 
 private:
     OBBCollider(const OBBCollider&) = delete;
@@ -46,7 +49,6 @@ private:
 
     void beforeComputeWorldMatrix();
 
-    const Bone& getBone() const;
     Vector3 getBonePosition(const Bone& bone) const;
 
 private:

@@ -22,14 +22,14 @@ inline void safeRelease(T*& p) {
     }
 }
 
-template<typename TO, typename FROM>
-inline TO checkedCast(FROM obj) {
+template<typename To, typename From>
+inline To checkedCast(From obj) {
 #if _DEBUG
     if (obj) {
-        TO ret = dynamic_cast<TO>(obj);
+        To ret = dynamic_cast<To>(obj);
         assert(ret);
         return ret;
     }
 #endif // _DEBUG
-    return static_cast<TO>(obj);
+    return static_cast<To>(obj);
 }
