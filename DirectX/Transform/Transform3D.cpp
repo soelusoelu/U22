@@ -87,12 +87,12 @@ Quaternion Transform3D::getRotation() const {
 
     const auto ep = mParentChildRelation->getEquipmentPart();
     if (ep) {
-        rotation = Quaternion::concatenate(rotation, ep->getQuaternion());
+        rotation *= ep->getQuaternion();
     }
 
     auto parent = mParentChildRelation->parent();
     while (parent) {
-        rotation = Quaternion::concatenate(rotation, parent->transform().mRotation);
+        rotation = parent->transform().mRotation;
         parent = parent->parent();
     }
 
@@ -113,7 +113,8 @@ void Transform3D::rotate(const Vector3& axis, float angle) {
         axis.z * sinAngle,
         Math::cos(angle)
     );
-    mRotation = Quaternion::concatenate(mRotation, inc);
+
+    mRotation *= inc;
 }
 
 void Transform3D::rotate(const Vector3& eulers) {

@@ -50,7 +50,7 @@ public:
     ComponentManager& componentManager() const;
 
     //GameObjectManagerの取得
-    GameObjectManager& getGameObjectManager();
+    GameObjectManager& getGameObjectManager() const;
 
     //GameObjectManagerの登録
     static void setGameObjectManager(GameObjectManager* manager);

@@ -31,7 +31,7 @@ void PlayerWalk::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::Alloc
 
 void PlayerWalk::walk(IPlayerMove& playerMove) {
     playerMove.move(mWalkSpeed);
-    rotate(playerMove);
+    //rotate(playerMove);
 
     if (!mIsWalking) {
         mAnimation->changeMotion(PlayerMotions::WALK);

@@ -21,7 +21,7 @@
             "enterPad": "A"
         },
         "SceneManager": {
-            "beginScene": "ModelViewer",
+            "beginScene": "Title",
             "releaseScene": "Title",
             "removeExclusionTag": [
                 "Camera",

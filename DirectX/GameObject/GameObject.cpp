@@ -79,7 +79,7 @@ ComponentManager& GameObject::componentManager() const {
     return *mComponentManager;
 }
 
-GameObjectManager& GameObject::getGameObjectManager() {
+GameObjectManager& GameObject::getGameObjectManager() const {
     return *mGameObjectManager;
 }
 

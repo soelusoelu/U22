@@ -24,20 +24,20 @@ void PlayerAnimationController::start() {
 
     mMove = getComponent<PlayerMove>();
     mRoll = getComponent<PlayerRoll>();
-    mAttack = getComponent<PlayerAttack>();
-    mGuard = getComponent<PlayerGuard>();
+    //mAttack = getComponent<PlayerAttack>();
+    //mGuard = getComponent<PlayerGuard>();
 }
 
 void PlayerAnimationController::update() {
     if (canRoll()) {
         mRoll->originalUpdate();
     }
-    if (canAttack()) {
-        mAttack->originalUpdate();
-    }
-    if (canGuard()) {
-        mGuard->originalUpdate();
-    }
+    //if (canAttack()) {
+    //    mAttack->originalUpdate();
+    //}
+    //if (canGuard()) {
+    //    mGuard->originalUpdate();
+    //}
     if (canMove()) {
         mMove->originalUpdate();
     }
@@ -47,12 +47,12 @@ bool PlayerAnimationController::canMove() const {
     if (mRoll->isRolling()) {
         return false;
     }
-    if (mAttack->isAttackOperating()) {
-        return false;
-    }
-    if (mGuard->isGuarding()) {
-        return false;
-    }
+    //if (mAttack->isAttackOperating()) {
+    //    return false;
+    //}
+    //if (mGuard->isGuarding()) {
+    //    return false;
+    //}
 
     return true;
 }
@@ -65,9 +65,9 @@ bool PlayerAnimationController::canAttack() const {
     if (mRoll->isRolling()) {
         return false;
     }
-    if (mGuard->isGuarding()) {
-        return false;
-    }
+    //if (mGuard->isGuarding()) {
+    //    return false;
+    //}
 
     return true;
 }
@@ -76,9 +76,9 @@ bool PlayerAnimationController::canGuard() const {
     if (mRoll->isRolling()) {
         return false;
     }
-    if (mAttack->isAttackOperating()) {
-        return false;
-    }
+    //if (mAttack->isAttackOperating()) {
+    //    return false;
+    //}
 
     return true;
 }

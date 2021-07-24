@@ -1,0 +1,14 @@
+{
+  "tag": "GameCamera",
+  "components": [
+    {
+      "type": "TPSCamera",
+      "properties": {
+        "rotateSpeed": 10.0,
+        "cameraToPlayerDistance": 20.0,
+        "lookAtOffsetY": 8.0,
+        "startPositionY": 15.0
+      }
+    }
+  ]
+}

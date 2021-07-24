@@ -40,11 +40,13 @@
 #include "../Component/Engine/Text/TextNumber.h"
 #include "../Component/Game/Camera/GameCamera.h"
 #include "../Component/Game/Camera/LockOn.h"
+#include "../Component/Game/Camera/TPSCamera.h"
 #include "../Component/Game/Enemy/EnemyAI.h"
 #include "../Component/Game/Enemy/EnemyAnimationController.h"
 #include "../Component/Game/Enemy/EnemyAttack.h"
 #include "../Component/Game/Enemy/EnemyColliderController.h"
 #include "../Component/Game/Enemy/EnemyMove.h"
+#include "../Component/Game/Player/BulletShooter.h"
 #include "../Component/Game/Player/PlayerAnimationController.h"
 #include "../Component/Game/Player/PlayerAttack.h"
 #include "../Component/Game/Player/PlayerColliderController.h"
@@ -63,6 +65,7 @@
 #include "../Component/Game/UI/PlayerHitPointGauge.h"
 #include "../Component/Game/UI/PlayerUIManager.h"
 #include "../Component/Game/UI/StaminaGauge.h"
+#include "../Component/Game/Weapon/CrossHair.h"
 #include "../Component/Game/Weapon/WeaponDamage.h"
 #include "../Engine/DebugManager/DebugUtility/Debug.h"
 #include "../System/GlobalFunction.h"
@@ -129,6 +132,7 @@ GameObjectFactory::GameObjectFactory() {
 #pragma region Game
     ADD_COMPONENT(GameCamera);
     ADD_COMPONENT(LockOn);
+    ADD_COMPONENT(TPSCamera);
 
     ADD_COMPONENT(EnemyAI);
     ADD_COMPONENT(EnemyAnimationController);
@@ -136,6 +140,7 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(EnemyColliderController);
     ADD_COMPONENT(EnemyMove);
 
+    ADD_COMPONENT(BulletShooter);
     ADD_COMPONENT(PlayerAnimationController);
     ADD_COMPONENT(PlayerAttack);
     ADD_COMPONENT(PlayerColliderController);
@@ -158,6 +163,7 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(PlayerUIManager);
     ADD_COMPONENT(StaminaGauge);
 
+    ADD_COMPONENT(CrossHair);
     ADD_COMPONENT(WeaponDamage);
 #pragma endregion
 }

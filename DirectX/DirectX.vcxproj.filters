@@ -290,6 +290,9 @@
     <ClCompile Include="Collision\BoxHelper.cpp" />
     <ClCompile Include="Engine\ModelViewer\ColliderOptionGUI.cpp" />
     <ClCompile Include="Engine\DebugManager\DebugUtility\LineRenderer\LineInstancingDrawer.cpp" />
+    <ClCompile Include="Component\Game\Weapon\CrossHair.cpp" />
+    <ClCompile Include="Component\Game\Camera\TPSCamera.cpp" />
+    <ClCompile Include="Component\Game\Player\BulletShooter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -646,6 +649,9 @@
     <ClInclude Include="Collision\BoxHelper.h" />
     <ClInclude Include="Engine\ModelViewer\ColliderOptionGUI.h" />
     <ClInclude Include="Engine\DebugManager\DebugUtility\LineRenderer\LineInstancingDrawer.h" />
+    <ClInclude Include="Component\Game\Weapon\CrossHair.h" />
+    <ClInclude Include="Component\Game\Camera\TPSCamera.h" />
+    <ClInclude Include="Component\Game\Player\BulletShooter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />
@@ -673,5 +679,6 @@
     <None Include="imgui.ini" />
     <None Include="Assets\Data\imgui.ini" />
     <None Include="Assets\Data\Octopus.json" />
+    <None Include="Assets\Data\TPSCamera.json" />
   </ItemGroup>
 </Project>

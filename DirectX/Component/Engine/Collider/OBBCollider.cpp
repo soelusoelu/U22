@@ -28,6 +28,8 @@ void OBBCollider::start() {
     mMesh = getComponent<MeshComponent>();
     mAnimation = getComponent<SkinMeshComponent>();
 
+    mDefaultExtents = mOBB.extents;
+
     //transform().callbackBeforeComputeWorldMatrix([&] { beforeComputeWorldMatrix(); });
 }
 
@@ -37,7 +39,7 @@ void OBBCollider::lateUpdate() {
     beforeComputeWorldMatrix();
 
     //当たり判定表示
-    //ColliderDrawer::drawOBB(DebugUtility::instance().lineRenderer3D(), mOBB);
+    ColliderDrawer::drawOBB(DebugUtility::instance().lineRenderer3D(), mOBB);
 }
 
 void OBBCollider::finalize() {
@@ -216,10 +218,11 @@ void OBBCollider::beforeComputeWorldMatrix() {
     mOBB.center = (bonePos + parentPos) / 2.f;
     mOBB.rotation = Quaternion::lookRotation(Vector3::normalize(toParent));
 
-    //const auto& t = transform();
-    //mOBB.center += t.getWorldTransform().getTranslation();
-    //mOBB.rotation = Quaternion::concatenate(mOBB.rotation, t.getRotation());
-    //mOBB.extents = mDefaultExtents * t.getScale();
+    const auto& t = transform();
+    const auto& s = t.getScale();
+    mOBB.center = mOBB.center * s + t.getPosition();
+    mOBB.rotation *= t.getRotation();
+    mOBB.extents = mDefaultExtents * s;
 }
 
 Vector3 OBBCollider::getBonePosition(const Bone& bone) const {

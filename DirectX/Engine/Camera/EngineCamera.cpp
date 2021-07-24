@@ -80,7 +80,7 @@ void EngineCamera::computeRotation(const Vector2& mouseMoveAmount) {
     //回転軸とマウス移動量からクォータニオンを求める
     Quaternion r(rotAxis, mouseMoveAmount.length() * ROTATE_SPEED);
 
-    mCameraRotation = Quaternion::concatenate(mCameraRotation, r);
+    mCameraRotation *= r;
 }
 
 void EngineCamera::zoomCamera(const IMouse& mouse) {

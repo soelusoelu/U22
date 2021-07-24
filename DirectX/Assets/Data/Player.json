@@ -41,18 +41,8 @@
       }
     },
     {
-      "type": "PlayerAttack",
-      "properties": {
-        "firstLowestCoolTimeUpToAdditionalAttack": 0.55,
-        "secondLowestCoolTimeUpToAdditionalAttack": 0.45,
-        "attackStaminaAmount": 12.0
-      }
-    },
-    {
-      "type": "PlayerGuard",
-      "properties": {
-        "guardingStaminaHealRate": 0.4
-      }
+      "type": "BulletShooter",
+      "properties": {}
     },
     {
       "type": "PlayerRoll",
@@ -80,8 +70,11 @@
       "properties": {}
     },
     {
-      "type": "PlayerShield",
-      "properties": {}
+      "type": "CrossHair",
+      "properties": {
+        "offset": 8.0,
+        "length": 32.0
+      }
     }
   ]
 }

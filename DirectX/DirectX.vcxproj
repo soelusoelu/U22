@@ -166,6 +166,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Component\Game\Player\BulletShooter.cpp" />
+    <ClCompile Include="Component\Game\Weapon\CrossHair.cpp" />
     <ClCompile Include="Engine\ModelViewer\ColliderOptionGUI.cpp" />
     <ClCompile Include="Collision\BoxHelper.cpp" />
     <ClCompile Include="Component\Engine\Collider\ColliderDrawer.cpp" />
@@ -189,6 +191,7 @@
     <ClCompile Include="Engine\ModelViewer\ModelViewerColliderManager.cpp" />
     <ClCompile Include="Device\FileOperator.cpp" />
     <ClCompile Include="Engine\DebugManager\DebugUtility\LineRenderer\LineInstancingDrawer.cpp" />
+    <ClCompile Include="Component\Game\Camera\TPSCamera.cpp" />
     <ClCompile Include="Utility\JsonHelper.cpp" />
     <ClCompile Include="System\Shader\DataTransfer.cpp" />
     <ClCompile Include="Engine\Camera\EngineCamera.cpp" />
@@ -436,6 +439,8 @@
     <ClCompile Include="Engine\ModelViewer\VertexSelector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component\Game\Player\BulletShooter.h" />
+    <ClInclude Include="Component\Game\Weapon\CrossHair.h" />
     <ClInclude Include="Engine\ModelViewer\ColliderOptionGUI.h" />
     <ClInclude Include="Collision\BoxHelper.h" />
     <ClInclude Include="Component\Engine\Collider\ColliderDrawer.h" />
@@ -469,6 +474,7 @@
     <ClInclude Include="Engine\ModelViewer\ModelViewerColliderManager.h" />
     <ClInclude Include="Device\FileOperator.h" />
     <ClInclude Include="Engine\DebugManager\DebugUtility\LineRenderer\LineInstancingDrawer.h" />
+    <ClInclude Include="Component\Game\Camera\TPSCamera.h" />
     <ClInclude Include="Utility\JsonHelper.h" />
     <ClInclude Include="System\Shader\DataTransfer.h" />
     <ClInclude Include="Engine\Camera\EngineCamera.h" />
@@ -1006,6 +1012,7 @@
     <None Include="Assets\Data\PlayerUI.json" />
     <None Include="Assets\Data\Shield.json" />
     <None Include="Assets\Data\Title.json" />
+    <None Include="Assets\Data\TPSCamera.json" />
     <None Include="Assets\Data\Waveform.json" />
     <None Include="Assets\Data\Weapon.json" />
     <None Include="Assets\Data\BossEnemyUI.json" />
