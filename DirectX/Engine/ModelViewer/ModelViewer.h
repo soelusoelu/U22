@@ -18,7 +18,7 @@
 class GameObject;
 class Renderer;
 class MeshManager;
-class LineRenderer3D;
+class LineInstancingDrawer;
 class MeshRenderer;
 class ModelViewCamera;
 class AnimationViewer;
@@ -83,7 +83,7 @@ private:
     const ICurrentSelectTextureGetter* mAssetsTextureGetter;
     //モデルビューア独自の描画クラス
     std::unique_ptr<MeshManager> mMeshManager;
-    std::unique_ptr<LineRenderer3D> mLineRenderer3D;
+    std::unique_ptr<LineInstancingDrawer> mLineRenderer;
     //描画ターゲット
     GameObjectMeshRendererPair mTarget;
     //床

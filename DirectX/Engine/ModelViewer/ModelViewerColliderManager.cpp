@@ -2,7 +2,7 @@
 #include "ColliderOptionGUI.h"
 #include "../Camera/SimpleCamera.h"
 #include "../DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
-#include "../DebugManager/DebugUtility/LineRenderer/LineRenderer3D.h"
+#include "../DebugManager/DebugUtility/LineRenderer/LineInstancingDrawer.h"
 #include "../../Collision/Collision.h"
 #include "../../Component/Engine/Collider/ColliderDrawer.h"
 #include "../../Component/Engine/Collider/OBBCollider.h"
@@ -29,7 +29,7 @@ void ModelViewerColliderManager::initialize(IModelViewerCallback* callback) {
     callback->callbackModelChange([&](GameObject& newModel) { onChangeModel(newModel); });
 }
 
-void ModelViewerColliderManager::update(LineRenderer3D& line, const SimpleCamera& camera) {
+void ModelViewerColliderManager::update(LineInstancingDrawer& line, const SimpleCamera& camera) {
     drawTPoseBone(line);
     selectObb(camera);
 
@@ -54,7 +54,7 @@ void ModelViewerColliderManager::drawGUI() {
     mOptionGui->drawGui();
 }
 
-void ModelViewerColliderManager::drawTPoseBone(LineRenderer3D& line) const {
+void ModelViewerColliderManager::drawTPoseBone(LineInstancingDrawer& line) const {
     if (!isAnimation()) {
         return;
     }
@@ -76,7 +76,7 @@ void ModelViewerColliderManager::drawTPoseBone(LineRenderer3D& line) const {
         }
 
         //自身のボーンと親のボーンを線で繋ぐ
-        line.renderLine(
+        line.add(
             Vector3::transform(bone.initMat.getTranslation(), curBones[bone.number]),
             Vector3::transform(parent->initMat.getTranslation(), curBones[parent->number]),
             COLORS[i % colorSize]

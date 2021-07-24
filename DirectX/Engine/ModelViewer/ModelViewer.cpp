@@ -10,7 +10,7 @@
 #include "../DebugManager/DebugManager.h"
 #include "../DebugManager/DebugLayer/DebugLayer.h"
 #include "../DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
-#include "../DebugManager/DebugUtility/LineRenderer/LineRenderer3D.h"
+#include "../DebugManager/DebugUtility/LineRenderer/LineInstancingDrawer.h"
 #include "../../Component/Engine/Mesh/MeshComponent.h"
 #include "../../Component/Engine/Mesh/MeshRenderer.h"
 #include "../../Device/Renderer.h"
@@ -27,7 +27,7 @@ ModelViewer::ModelViewer()
     : mEngineModeGetter(nullptr)
     , mAssetsTextureGetter(nullptr)
     , mMeshManager(std::make_unique<MeshManager>())
-    , mLineRenderer3D(std::make_unique<LineRenderer3D>())
+    , mLineRenderer(std::make_unique<LineInstancingDrawer>())
     , mPlane(std::make_unique<ModelViewerPlane>())
     , mModelViewCamera(std::make_unique<ModelViewCamera>())
     , mLight(std::make_unique<ModelViewerLight>())
@@ -68,7 +68,7 @@ void ModelViewer::initialize(
     mAssetsTextureGetter = assetsTextureGetter;
 
     mMeshManager->initialize();
-    mLineRenderer3D->initialize();
+    mLineRenderer->initialize();
     mModelViewCamera->initialize(this);
     mAnimationViewer->initialize(this);
     mPlane->initialize(*mMeshManager, this, engineFunctionChanger);
@@ -83,7 +83,7 @@ void ModelViewer::initialize(
 
 void ModelViewer::update(EngineMode mode) {
     //バッファ削除
-    mLineRenderer3D->clear();
+    mLineRenderer->clear();
 
     if (mode != EngineMode::MODEL_VIEWER) {
         return;
@@ -103,7 +103,7 @@ void ModelViewer::update(EngineMode mode) {
 
     //選択されているモードに応じて処理を分ける
     if (mMode == ModelViewerMode::COLLIDER_OPERATE) {
-        mColliderManager->update(*mLineRenderer3D, mModelViewCamera->getCamera());
+        mColliderManager->update(*mLineRenderer, mModelViewCamera->getCamera());
     }
 
     //全モード共通処理
@@ -159,7 +159,7 @@ void ModelViewer::draw(EngineMode mode, const Renderer& renderer) const {
         //ライン描画
         renderer.renderPointLine3D();
         renderer.renderLine3D();
-        mLineRenderer3D->draw(camera.getViewProjection());
+        mLineRenderer->draw(camera.getViewProjection());
     }
 }
 

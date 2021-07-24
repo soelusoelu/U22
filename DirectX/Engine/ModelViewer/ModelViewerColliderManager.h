@@ -10,7 +10,7 @@
 class GameObject;
 class MeshComponent;
 class SkinMeshComponent;
-class LineRenderer3D;
+class LineInstancingDrawer;
 class SimpleCamera;
 class OBBCollider;
 class ColliderOptionGUI;
@@ -22,7 +22,7 @@ public:
     ModelViewerColliderManager();
     ~ModelViewerColliderManager();
     void initialize(IModelViewerCallback* callback);
-    void update(LineRenderer3D& line, const SimpleCamera& camera);
+    void update(LineInstancingDrawer& line, const SimpleCamera& camera);
     void drawGUI();
 
 private:
@@ -30,7 +30,7 @@ private:
     ModelViewerColliderManager& operator=(const ModelViewerColliderManager&) = delete;
 
     //Tポーズ状態のボーンを描画する
-    void drawTPoseBone(LineRenderer3D& line) const;
+    void drawTPoseBone(LineInstancingDrawer& line) const;
     //ボーンの数だけOBBを作成する
     void createObbCollider();
     //OBBをマウスで選択する
