@@ -8,10 +8,6 @@
 class LineRenderer3D
     : public LineRenderer
 {
-    struct Line3DVertex {
-        Vector3 pos;
-    };
-
     struct Line3DParam {
         Vector3 p1;
         Vector3 p2;
@@ -31,15 +27,12 @@ private:
     LineRenderer3D(const LineRenderer3D&) = delete;
     LineRenderer3D& operator=(const LineRenderer3D&) = delete;
 
-    virtual unsigned getParamSize() const override;
-    virtual const void* getVertexData() const override;
-    virtual void createShader() override;
+    virtual std::string getShaderName() override;
     virtual void drawLines(const Matrix4& proj) const override;
 
     //実際にラインを描画する
     void drawLine(const Line3DParam& param, const Matrix4& proj) const;
 
 private:
-    int mShaderID;
     std::list<Line3DParam> mLines;
 };

@@ -13,10 +13,10 @@ public:
     ID3D11Buffer* const* bufferAddres() const;
 
 private:
-    D3D11_BUFFER_DESC toBufferDesc(const BufferDesc& desc) const;
-
     Buffer(const Buffer&) = delete;
     Buffer& operator=(const Buffer&) = delete;
+
+    D3D11_BUFFER_DESC toBufferDesc(const BufferDesc& desc) const;
 
 protected:
     BufferDesc mDesc;

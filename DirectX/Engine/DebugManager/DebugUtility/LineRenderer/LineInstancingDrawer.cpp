@@ -6,16 +6,15 @@
 #include "../../../../Transform/Transform3D.h"
 
 LineInstancingDrawer::LineInstancingDrawer()
-    : mInputBuffer(nullptr)
-    , mShaderID(-1)
+    : LineRenderer(DimensionType::THREE)
+    , mInputBuffer(nullptr)
 {
 }
 
 LineInstancingDrawer::~LineInstancingDrawer() = default;
 
 void LineInstancingDrawer::initialize() {
-    //シェーダーIDの取得
-    mShaderID = AssetsManager::instance().createShader("Line3DInstancing.hlsl");
+    LineRenderer::initialize();
 
     //入力バッファの作成
     BufferDesc bd{};
@@ -40,26 +39,30 @@ void LineInstancingDrawer::add(const Vector3& p1, const Vector3& p2, const Vecto
     mInstancingData.emplace_back(lcb);
 }
 
-void LineInstancingDrawer::instancingDraw(const Matrix4& viewProj) {
-    if (mInstancingData.empty()) {
-        return;
-    }
+void LineInstancingDrawer::clear() {
+    mInstancingData.clear();
+}
 
+std::string LineInstancingDrawer::getShaderName() {
+    return "Line3DInstancing.hlsl";
+}
+
+void LineInstancingDrawer::drawingPreprocessing(const Matrix4& viewProj) {
     //全ての描画データに射影行列を掛ける
     for (auto&& data : mInstancingData) {
         data.wp *= viewProj;
     }
+}
+
+void LineInstancingDrawer::drawLines(const Matrix4& viewProj) const {
+    if (mInstancingData.empty()) {
+        return;
+    }
 
     //インスタンシング用頂点バッファを登録する
-    auto lineBuf = LineRenderer::vertexBuffer;
-    ID3D11Buffer* buffers[NUM_VERTEX_BUFFER] = { lineBuf->buffer(), mInputBuffer->buffer() };
-    unsigned strides[NUM_VERTEX_BUFFER] = { lineBuf->desc().oneSize, sizeof(LineConstantBuffer) };
-    lineBuf->setVertexBuffer(NUM_VERTEX_BUFFER, buffers, strides);
-    //インデックスバッファを登録する
-    LineRenderer::indexBuffer->setIndexBuffer();
-
-    //シェーダーを登録する
-    ShaderBinder::bind(mShaderID);
+    ID3D11Buffer* buffers[NUM_VERTEX_BUFFER] = { mVertexBuffer3D->buffer(), mInputBuffer->buffer() };
+    unsigned strides[NUM_VERTEX_BUFFER] = { mVertexBuffer3D->desc().oneSize, sizeof(LineConstantBuffer) };
+    mVertexBuffer3D->setVertexBuffer(NUM_VERTEX_BUFFER, buffers, strides);
 
     //シェーダーにデータ転送
     DataTransfer::transferData(
@@ -70,8 +73,4 @@ void LineInstancingDrawer::instancingDraw(const Matrix4& viewProj) {
 
     //描画
     MyDirectX::DirectX::instance().drawIndexedInstanced(2, mInstancingData.size());
-}
-
-void LineInstancingDrawer::clear() {
-    mInstancingData.clear();
 }

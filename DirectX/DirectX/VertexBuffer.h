@@ -4,7 +4,9 @@
 #include "BufferDesc.h"
 #include "SubResourceDesc.h"
 
-class VertexBuffer : public Buffer {
+class VertexBuffer
+    : public Buffer
+{
 public:
     VertexBuffer(const BufferDesc& desc, const SubResourceDesc* data = nullptr);
     ~VertexBuffer();
@@ -18,4 +20,8 @@ public:
     );
     //頂点バッファを更新する
     void updateVertexBuffer(const void* newVertices);
+
+private:
+    VertexBuffer(const VertexBuffer&) = delete;
+    VertexBuffer& operator=(const VertexBuffer&) = delete;
 };

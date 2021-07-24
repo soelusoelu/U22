@@ -44,7 +44,7 @@ void DepthStencilState::execute() const {
     dx.deviceContext()->OMSetDepthStencilState(depthStencilState.Get(), 0);
 }
 
-D3D11_DEPTH_STENCIL_DESC DepthStencilState::toDepthStencilDesc(const DepthStencilDesc & desc) const {
+D3D11_DEPTH_STENCIL_DESC DepthStencilState::toDepthStencilDesc(const DepthStencilDesc& desc) const {
     D3D11_DEPTH_STENCIL_DESC dsd{};
     dsd.DepthEnable = desc.depthEnable;
     dsd.DepthWriteMask = toDepthWriteMask(desc.depthWriteMask);

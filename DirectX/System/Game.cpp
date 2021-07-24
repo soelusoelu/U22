@@ -18,11 +18,12 @@
 #include "../Utility/LevelLoader.h"
 #include "../Utility/Random.h"
 
-Game::Game() :
-    mWindow(nullptr),
-    mFPSCounter(nullptr),
-    mSceneManager(nullptr),
-    mInstance(nullptr) {
+Game::Game()
+    : mWindow(nullptr)
+    , mFPSCounter(nullptr)
+    , mSceneManager(nullptr)
+    , mInstance(nullptr)
+{
 }
 
 Game::~Game() {

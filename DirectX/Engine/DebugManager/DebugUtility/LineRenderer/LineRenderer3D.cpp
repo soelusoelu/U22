@@ -1,14 +1,10 @@
 ﻿#include "LineRenderer3D.h"
 #include "../../../../DirectX/DirectXInclude.h"
-#include "../../../../System/AssetsManager.h"
 #include "../../../../System/Shader/ConstantBuffers.h"
 #include "../../../../System/Shader/DataTransfer.h"
-#include "../../../../System/Shader/ShaderBinder.h"
-#include <vector>
 
 LineRenderer3D::LineRenderer3D()
-    : LineRenderer()
-    , mShaderID(-1)
+    : LineRenderer(DimensionType::THREE)
 {
 }
 
@@ -22,26 +18,11 @@ void LineRenderer3D::renderLine(const Vector3& p1, const Vector3& p2, const Vect
     mLines.emplace_back(Line3DParam{ p1, p2, color });
 }
 
-unsigned LineRenderer3D::getParamSize() const {
-    return sizeof(Line3DVertex);
-}
-
-const void* LineRenderer3D::getVertexData() const {
-    static const Line3DVertex vert[] = {
-        Vector3::zero, Vector3::one
-    };
-    return vert;
-}
-
-void LineRenderer3D::createShader() {
-    //シェーダー作成
-    mShaderID = AssetsManager::instance().createShader("Line3D.hlsl");
+std::string LineRenderer3D::getShaderName() {
+    return "Line3D.hlsl";
 }
 
 void LineRenderer3D::drawLines(const Matrix4& proj) const {
-    //シェーダーを登録
-    ShaderBinder::bind(mShaderID);
-
     for (const auto& line : mLines) {
         drawLine(line, proj);
     }
