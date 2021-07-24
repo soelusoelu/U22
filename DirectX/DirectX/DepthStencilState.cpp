@@ -2,26 +2,33 @@
 #include "ComparisonFunc.h"
 #include "DirectX.h"
 
-DepthStencilState::DepthStencilState() :
-    mDesc() {
+DepthStencilState::DepthStencilState()
+    : mDesc()
+{
     execute();
 }
 
 DepthStencilState::~DepthStencilState() = default;
 
 void DepthStencilState::depthTest(bool value) {
-    mDesc.depthEnable = value;
-    execute();
+    if (mDesc.depthEnable != value) {
+        mDesc.depthEnable = value;
+        execute();
+    }
 }
 
 void DepthStencilState::depthMask(bool value) {
-    mDesc.depthWriteMask = value;
-    execute();
+    if (mDesc.depthWriteMask != value) {
+        mDesc.depthWriteMask = value;
+        execute();
+    }
 }
 
 void DepthStencilState::stencilTest(bool value) {
-    mDesc.stencilEnable = value;
-    execute();
+    if (mDesc.stencilEnable != value) {
+        mDesc.stencilEnable = value;
+        execute();
+    }
 }
 
 const DepthStencilDesc& DepthStencilState::desc() const {

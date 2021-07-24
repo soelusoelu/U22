@@ -34,7 +34,7 @@ void SpriteInstancingDrawer::add(const Sprite& sprite, const Matrix4& proj) {
     mInstancingData.emplace_back(tcb);
 }
 
-void SpriteInstancingDrawer::instancingDraw(const Sprite& sprite, const Matrix4& proj) const {
+void SpriteInstancingDrawer::instancingDraw(const Sprite& sprite) const {
     if (mInstancingData.empty()) {
         return;
     }
@@ -43,9 +43,10 @@ void SpriteInstancingDrawer::instancingDraw(const Sprite& sprite, const Matrix4&
     }
 
     //インスタンシング用頂点バッファを登録する
-    ID3D11Buffer* buffers[NUM_VERTEX_BUFFER] = { Texture::vertexBuffer->buffer(), mInputBuffer->buffer() };
-    unsigned strides[NUM_VERTEX_BUFFER] = { Texture::vertexBuffer->desc().oneSize, sizeof(TextureConstantBuffer) };
-    Texture::vertexBuffer->setVertexBuffer(NUM_VERTEX_BUFFER, buffers, strides);
+    auto texBuf = Texture::vertexBuffer;
+    ID3D11Buffer* buffers[NUM_VERTEX_BUFFER] = { texBuf->buffer(), mInputBuffer->buffer() };
+    unsigned strides[NUM_VERTEX_BUFFER] = { texBuf->desc().oneSize, sizeof(TextureConstantBuffer) };
+    texBuf->setVertexBuffer(NUM_VERTEX_BUFFER, buffers, strides);
 
     //テクスチャを登録する
     TextureBinder::bind(sprite.getTextureID());

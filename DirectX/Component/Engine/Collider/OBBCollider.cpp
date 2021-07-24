@@ -13,6 +13,7 @@ OBBCollider::OBBCollider()
     , mOBB()
     , mMesh(nullptr)
     , mAnimation(nullptr)
+    , mDefaultExtents()
     , mBoneNo(-1)
     , mBoneStart(0.f)
     , mBoneEnd(1.f)
@@ -174,7 +175,8 @@ void OBBCollider::create(
     mOBB.center = center;
     mOBB.rotation = rot;
     //mOBB.extents = Vector3(maxX, maxY, maxZ);
-    mOBB.extents = Vector3(minX, minY, toParent.length() / 2.f);
+    mDefaultExtents = Vector3(minX, minY, toParent.length() / 2.f);
+    mOBB.extents = mDefaultExtents;
 }
 
 void OBBCollider::test(
@@ -213,6 +215,11 @@ void OBBCollider::beforeComputeWorldMatrix() {
 
     mOBB.center = (bonePos + parentPos) / 2.f;
     mOBB.rotation = Quaternion::lookRotation(Vector3::normalize(toParent));
+
+    //const auto& t = transform();
+    //mOBB.center += t.getWorldTransform().getTranslation();
+    //mOBB.rotation = Quaternion::concatenate(mOBB.rotation, t.getRotation());
+    //mOBB.extents = mDefaultExtents * t.getScale();
 }
 
 Vector3 OBBCollider::getBonePosition(const Bone& bone) const {

@@ -92,10 +92,16 @@ void EngineFunctionManager::update(EngineMode mode) {
 #endif // _DEBUG
 }
 
-void EngineFunctionManager::draw(EngineMode mode, const Renderer& renderer, Matrix4& proj) const {
+void EngineFunctionManager::draw2D(const Renderer& renderer, Matrix4& proj) const {
+#ifdef _DEBUG
+    mDebugManager->draw2D(renderer, proj);
+#endif // _DEBUG
+}
+
+void EngineFunctionManager::drawDebug2D(EngineMode mode, Matrix4& proj) const {
 #ifdef _DEBUG
     mAssetsRenderTextureManager->drawTextures(mode, proj);
-    mDebugManager->draw(mode, renderer, proj);
+    mDebugManager->drawDebug2D(mode, proj);
 #endif // _DEBUG
 }
 

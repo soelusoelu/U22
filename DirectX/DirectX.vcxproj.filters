@@ -21,6 +21,7 @@
     <FxCompile Include="Shader\SkinMeshShadow.hlsl" />
     <FxCompile Include="Shader\SimpleMeshTexture.hlsl" />
     <FxCompile Include="Shader\SpriteInstancing.hlsl" />
+    <FxCompile Include="Shader\Line3DInstancing.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component\ComponentManager.cpp" />
@@ -288,6 +289,7 @@
     <ClCompile Include="Component\Engine\Other\GameObjectSaveAndLoader.cpp" />
     <ClCompile Include="Collision\BoxHelper.cpp" />
     <ClCompile Include="Engine\ModelViewer\ColliderOptionGUI.cpp" />
+    <ClCompile Include="Engine\DebugManager\DebugUtility\LineRenderer\LineInstancingDrawer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -643,6 +645,7 @@
     <ClInclude Include="Component\Engine\Other\GameObjectSaveAndLoader.h" />
     <ClInclude Include="Collision\BoxHelper.h" />
     <ClInclude Include="Engine\ModelViewer\ColliderOptionGUI.h" />
+    <ClInclude Include="Engine\DebugManager\DebugUtility\LineRenderer\LineInstancingDrawer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />
@@ -668,5 +671,7 @@
     <None Include="Assets\Data\BossEnemyUI.json" />
     <None Include="Assets\Data\Shield.json" />
     <None Include="imgui.ini" />
+    <None Include="Assets\Data\imgui.ini" />
+    <None Include="Assets\Data\Octopus.json" />
   </ItemGroup>
 </Project>

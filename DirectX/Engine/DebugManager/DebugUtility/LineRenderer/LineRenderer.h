@@ -10,6 +10,7 @@ class LineRenderer {
 public:
     LineRenderer();
     virtual ~LineRenderer();
+    static void finalize();
     void draw(const Matrix4& proj) const;
     void initialize();
 
@@ -33,7 +34,7 @@ private:
     //インデックスバッファを作成する
     void createIndexBuffer();
 
-protected:
-    std::unique_ptr<VertexBuffer> mVertexBuffer;
-    std::unique_ptr<IndexBuffer> mIndexBuffer;
+public:
+    inline static VertexBuffer* vertexBuffer = nullptr;
+    inline static IndexBuffer* indexBuffer = nullptr;
 };

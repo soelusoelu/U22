@@ -7,7 +7,9 @@
 
 class Transform2D;
 
-class LineRenderer2D : public LineRenderer {
+class LineRenderer2D
+    : public LineRenderer
+{
     struct Line2DVertex {
         Vector2 pos;
     };

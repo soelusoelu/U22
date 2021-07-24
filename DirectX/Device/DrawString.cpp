@@ -34,7 +34,7 @@ void DrawString::drawAll(const Matrix4& proj) const {
     for (const auto& param : mParamsString) {
         drawString(param, proj);
     }
-    mDrawer->instancingDraw(*mFontSprite, proj);
+    mDrawer->instancingDraw(*mFontSprite);
 }
 
 void DrawString::clear() {

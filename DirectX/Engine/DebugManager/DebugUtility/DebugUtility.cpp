@@ -56,7 +56,7 @@ void DebugUtility::draw(EngineMode mode, DrawString& drawer) const {
     }
 }
 
-void DebugUtility::drawLine2D(EngineMode mode, const Renderer& renderer, Matrix4& proj) const {
+void DebugUtility::drawLine2D(const Renderer& renderer, Matrix4& proj) const {
     renderer.renderLine2D(proj);
     mLineRenderer2D->draw(proj);
 }

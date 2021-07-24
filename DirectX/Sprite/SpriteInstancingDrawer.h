@@ -3,6 +3,7 @@
 #include "../DirectX/DirectXInclude.h"
 #include "../Math/Math.h"
 #include "../System/Shader/ConstantBuffers.h"
+#include <memory>
 #include <vector>
 
 class Sprite;
@@ -16,7 +17,7 @@ public:
     //インスタンスデータを登録する
     void add(const Sprite& sprite, const Matrix4& proj);
     //インスタンスを描画する
-    void instancingDraw(const Sprite& sprite, const Matrix4& proj) const;
+    void instancingDraw(const Sprite& sprite) const;
     //全バッファ削除
     void clear();
 

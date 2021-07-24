@@ -7,6 +7,7 @@
 #include "Shader/Shader.h"
 #include "Texture/Texture.h"
 #include "../DirectX/DirectX.h"
+#include "../Engine/DebugManager/DebugUtility/LineRenderer/LineRenderer.h"
 #include "../GameObject/GameObjectFactory.h"
 #include "../Imgui/imgui.h"
 #include "../Imgui/imgui_impl_dx11.h"
@@ -34,6 +35,7 @@ Game::~Game() {
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
 
+    LineRenderer::finalize();
     Shader::finalize();
     Texture::finalize();
     GameObjectCreater::finalize();

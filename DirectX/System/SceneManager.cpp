@@ -179,13 +179,17 @@ void SceneManager::draw() const {
         mSpriteManager->drawComponents(proj2D);
         //テキスト描画
         mTextDrawer->drawAll(proj2D);
+        //エンジン機能の2D描画
+        mEngineManager->draw2D(*mRenderer, proj2D);
     }
 
 #ifdef _DEBUG
     //レンダリング領域をデバッグに変更
+    mRenderer->renderSprite();
+    mRenderer->renderSprite2D(proj2D);
     mRenderer->renderToDebug(proj2D);
     mSpriteManager->draw(proj2D);
-    mEngineManager->draw(mMode, *mRenderer, proj2D);
+    mEngineManager->drawDebug2D(mMode, proj2D);
 #endif // _DEBUG
 }
 

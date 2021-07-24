@@ -26,7 +26,7 @@ public:
     void finalize();
     void preUpdateProcess();
     void draw(EngineMode mode, DrawString& drawer) const;
-    void drawLine2D(EngineMode mode, const Renderer& renderer, Matrix4& proj) const;
+    void drawLine2D(const Renderer& renderer, Matrix4& proj) const;
     void draw3D(EngineMode mode, const Renderer& renderer, const Matrix4& viewProj) const;
     Log& log() const;
     PointRenderer& pointRenderer() const;

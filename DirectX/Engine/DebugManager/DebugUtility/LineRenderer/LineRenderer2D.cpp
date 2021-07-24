@@ -7,10 +7,11 @@
 #include "../../../../Transform/Transform2D.h"
 #include <vector>
 
-LineRenderer2D::LineRenderer2D() :
-    LineRenderer(),
-    mShaderID(-1),
-    mTransform(std::make_unique<Transform2D>()) {
+LineRenderer2D::LineRenderer2D()
+    : LineRenderer()
+    , mShaderID(-1)
+    , mTransform(std::make_unique<Transform2D>())
+{
     //ラインのサイズはバーテックスバッファに合わせる
     mTransform->setSize(Vector2::one);
 }

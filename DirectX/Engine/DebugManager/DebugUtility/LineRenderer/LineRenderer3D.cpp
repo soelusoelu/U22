@@ -4,13 +4,12 @@
 #include "../../../../System/Shader/ConstantBuffers.h"
 #include "../../../../System/Shader/DataTransfer.h"
 #include "../../../../System/Shader/ShaderBinder.h"
-#include "../../../../Transform/Transform3D.h"
 #include <vector>
 
-LineRenderer3D::LineRenderer3D() :
-    LineRenderer(),
-    mShaderID(-1),
-    mTransform(std::make_unique<Transform3D>()) {
+LineRenderer3D::LineRenderer3D()
+    : LineRenderer()
+    , mShaderID(-1)
+{
 }
 
 LineRenderer3D::~LineRenderer3D() = default;
@@ -50,13 +49,12 @@ void LineRenderer3D::drawLines(const Matrix4& proj) const {
 
 void LineRenderer3D::drawLine(const Line3DParam& param, const Matrix4& proj) const {
     //パラメータからワールド行列を計算する
-    mTransform->setScale(param.p2 - param.p1);
-    mTransform->setPosition(param.p1);
-    mTransform->computeMatrix();
+    auto mat = Matrix4::createScale(param.p2 - param.p1);
+    mat *= Matrix4::createTranslation(param.p1);
 
     //シェーダーに値を渡す
     LineConstantBuffer cb;
-    cb.wp = mTransform->getWorldTransform() * proj;
+    cb.wp = mat * proj;
     cb.color = Vector4(param.color, 1.f);
 
     //シェーダーにデータ転送

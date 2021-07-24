@@ -49,11 +49,9 @@ public:
     void update(EngineMode mode);
 
     //2D関連の描画
-    void draw(
-        EngineMode mode,
-        const Renderer& renderer,
-        Matrix4& proj
-    ) const;
+    void draw2D(const Renderer& renderer, Matrix4& proj) const;
+    //2Dデバッグ関連の描画
+    void drawDebug2D(EngineMode mode, Matrix4& proj) const;
 
     //3D関連の描画
     void draw3D(

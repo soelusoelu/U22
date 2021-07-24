@@ -34,15 +34,14 @@ void DebugManager::update() {
     mDebugLayer->update();
 }
 
-void DebugManager::draw(
-    EngineMode mode,
-    const Renderer& renderer,
-    Matrix4& proj
-) const {
+void DebugManager::draw2D(const Renderer& renderer, Matrix4& proj) const {
+    DebugUtility::instance().drawLine2D(renderer, proj);
+}
+
+void DebugManager::drawDebug2D(EngineMode mode, Matrix4& proj) const {
     mDebugLayer->draw(mode, *mStringDrawer, proj);
     DebugUtility::instance().draw(mode, *mStringDrawer);
     mStringDrawer->drawAll(proj);
-    DebugUtility::instance().drawLine2D(mode, renderer, proj);
 }
 
 void DebugManager::draw3D(

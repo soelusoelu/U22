@@ -157,7 +157,7 @@ void ModelViewer::draw(EngineMode mode, const Renderer& renderer) const {
         );
 
         //ライン描画
-        renderer.renderPointLight();
+        renderer.renderPointLine3D();
         renderer.renderLine3D();
         mLineRenderer3D->draw(camera.getViewProjection());
     }

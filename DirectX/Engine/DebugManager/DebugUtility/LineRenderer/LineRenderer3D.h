@@ -5,9 +5,9 @@
 #include <list>
 #include <memory>
 
-class Transform3D;
-
-class LineRenderer3D : public LineRenderer {
+class LineRenderer3D
+    : public LineRenderer
+{
     struct Line3DVertex {
         Vector3 pos;
     };
@@ -42,5 +42,4 @@ private:
 private:
     int mShaderID;
     std::list<Line3DParam> mLines;
-    std::unique_ptr<Transform3D> mTransform;
 };

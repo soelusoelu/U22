@@ -1,19 +1,22 @@
 ﻿#include "LineRenderer.h"
 #include "../../../../DirectX/DirectXInclude.h"
+#include "../../../../System/GlobalFunction.h"
 
-LineRenderer::LineRenderer() :
-    mVertexBuffer(nullptr),
-    mIndexBuffer(nullptr) {
-}
+LineRenderer::LineRenderer() = default;
 
 LineRenderer::~LineRenderer() = default;
+
+void LineRenderer::finalize() {
+    safeDelete(vertexBuffer);
+    safeDelete(indexBuffer);
+}
 
 void LineRenderer::draw(const Matrix4& proj) const {
     //描画共通処理は最初に済ませる
     //バーテックスバッファーを登録
-    mVertexBuffer->setVertexBuffer();
+    vertexBuffer->setVertexBuffer();
     //インデックスバッファーを登録
-    mIndexBuffer->setIndexBuffer();
+    indexBuffer->setIndexBuffer();
 
     //描画指令を出す
     drawLines(proj);
@@ -21,9 +24,13 @@ void LineRenderer::draw(const Matrix4& proj) const {
 
 void LineRenderer::initialize() {
     //バーテックスバッファの作成
-    createVertexBuffer();
+    if (!vertexBuffer) {
+        createVertexBuffer();
+    }
     //インデックスバッファの作成
-    createIndexBuffer();
+    if (!indexBuffer) {
+        createIndexBuffer();
+    }
 
     //子クラスのシェーダーを作成する
     createShader();
@@ -39,7 +46,7 @@ void LineRenderer::createVertexBuffer() {
     SubResourceDesc sub;
     sub.data = getVertexData();
 
-    mVertexBuffer = std::make_unique<VertexBuffer>(bd, &sub);
+    vertexBuffer = new VertexBuffer(bd, &sub);
 }
 
 void LineRenderer::createIndexBuffer() {
@@ -54,5 +61,5 @@ void LineRenderer::createIndexBuffer() {
     SubResourceDesc sub;
     sub.data = indices;
 
-    mIndexBuffer = std::make_unique<IndexBuffer>(bd, sub);
+    indexBuffer = new IndexBuffer(bd, sub);
 }

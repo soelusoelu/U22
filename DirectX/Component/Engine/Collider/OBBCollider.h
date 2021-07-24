@@ -55,6 +55,8 @@ private:
     OBB mOBB;
     std::shared_ptr<MeshComponent> mMesh;
     std::shared_ptr<SkinMeshComponent> mAnimation;
+    //デフォルトの拡縮
+    Vector3 mDefaultExtents;
     //影響を受けるボーン
     int mBoneNo;
     //ボーンの開始地点

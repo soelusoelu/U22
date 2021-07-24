@@ -70,6 +70,16 @@ InputElementManager::InputElementManager() {
         { "POSITION", 0, VertexType::FLOAT3, 0, 0, SlotClass::VERTEX_DATA, 0 }
     });
 
+    mInputLayouts.emplace("Line3DInstancing.hlsl", InputLayout{
+        { "POSITION", 0, VertexType::FLOAT3, 0, 0, SlotClass::VERTEX_DATA, 0 },
+        //入力アセンブラにジオメトリ処理用の行列を追加設定する
+        { "MATRIX", 0, VertexType::FLOAT4, 1, 0, SlotClass::INSTANCE_DATA, 1 },
+        { "MATRIX", 1, VertexType::FLOAT4, 1, D3D11_APPEND_ALIGNED_ELEMENT, SlotClass::INSTANCE_DATA, 1 },
+        { "MATRIX", 2, VertexType::FLOAT4, 1, D3D11_APPEND_ALIGNED_ELEMENT, SlotClass::INSTANCE_DATA, 1 },
+        { "MATRIX", 3, VertexType::FLOAT4, 1, D3D11_APPEND_ALIGNED_ELEMENT, SlotClass::INSTANCE_DATA, 1 },
+        { "COLOR", 0, VertexType::FLOAT4, 1, D3D11_APPEND_ALIGNED_ELEMENT, SlotClass::INSTANCE_DATA, 1 }
+    });
+
     mInputLayouts.emplace("PointLight.hlsl", InputLayout{
         { "POSITION", 0, VertexType::FLOAT3, 0, 0, SlotClass::VERTEX_DATA, 0 },
         { "NORMAL", 0, VertexType::FLOAT3, 0, D3D11_APPEND_ALIGNED_ELEMENT, SlotClass::VERTEX_DATA, 0 },

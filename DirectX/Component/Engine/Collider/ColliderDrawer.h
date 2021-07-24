@@ -4,6 +4,7 @@
 #include "../../../Math/Math.h"
 
 class LineRenderer3D;
+class LineInstancingDrawer;
 
 class ColliderDrawer {
 private:
@@ -13,6 +14,11 @@ private:
 public:
     static void drawOBB(
         LineRenderer3D& drawer,
+        const OBB& obb,
+        const Vector3& color = ColorPalette::lightGreen
+    );
+    static void drawOBB(
+        LineInstancingDrawer& drawer,
         const OBB& obb,
         const Vector3& color = ColorPalette::lightGreen
     );

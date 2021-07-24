@@ -49,8 +49,11 @@ void Renderer::renderLine2D(Matrix4& proj) const {
     proj.m[0][0] = 2.f / Window::width();
     proj.m[1][1] = -2.f / Window::height();
 
+    auto& dx = MyDirectX::DirectX::instance();
+    //プリミティブ・トポロジーをセット
+    dx.setPrimitive(PrimitiveType::LINE_LIST);
     //デプステスト無効化
-    MyDirectX::DirectX::instance().depthStencilState().depthTest(false);
+    dx.depthStencilState().depthTest(false);
 }
 
 void Renderer::renderPointLine3D() const {
@@ -125,8 +128,6 @@ void Renderer::renderToDebug(Matrix4& proj) const {
     proj.m[0][0] = 2.f / Window::width();
     proj.m[1][1] = -2.f / Window::height();
 
-    //バーテックスバッファーをセット
-    Texture::vertexBuffer->setVertexBuffer();
     //デプステスト無効化
     dx.depthStencilState().depthTest(false);
 }

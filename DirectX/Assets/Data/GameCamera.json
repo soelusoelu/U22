@@ -5,7 +5,7 @@
       "type": "GameCamera",
       "properties": {
         "rotateSpeed": 120.0,
-        "cameraToPlayerDistance": 60.0,
+        "cameraToPlayerDistance": 20.0,
         "lookAtOffsetY": 8.0,
         "startPositionY": 15.0,
         "limitTime": 0.5
