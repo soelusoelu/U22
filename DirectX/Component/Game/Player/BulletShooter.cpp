@@ -14,6 +14,7 @@ BulletShooter::BulletShooter()
     : Component()
     , mCamera(nullptr)
     , mGun(nullptr)
+    , mIsADS(false)
 {
 }
 
@@ -25,13 +26,16 @@ void BulletShooter::start() {
 }
 
 void BulletShooter::update() {
-    const auto& mouse = Input::mouse();
-    if (!mouse.getMouseButtonDown(MouseCode::LeftButton)) {
+    ads();
+    if (!mIsADS) {
+        return;
+    }
+    if (!Input::joyPad().getJoyDown(JoyCode::RightButton)) {
         return;
     }
 
-    const auto center = Vector2(Window::width(), Window::height()) / 2.f;
-    auto ray = mCamera->screenToRay(center);
+    const auto center = Window::size() / 2.f;
+    const auto ray = mCamera->screenToRay(center);
 
     for (const auto& obb : mEnemyColliders) {
         if (Intersect::intersectRayOBB(ray, obb->getOBB())) {
@@ -45,4 +49,32 @@ void BulletShooter::update() {
 void BulletShooter::setEnemy(const GameObject& enemy) {
     const auto& e = enemy.getGameObjectManager().find("Enemy");
     mEnemyColliders = e->componentManager().getComponents<OBBCollider>();
+}
+
+void BulletShooter::ads() {
+    const auto& pad = Input::joyPad();
+    static constexpr auto code = JoyCode::LeftButton;
+    if (pad.getJoyDown(code)) {
+        mIsADS = true;
+        mOnStartAds();
+    }
+    if (pad.getJoyUp(code)) {
+        mIsADS = false;
+        mOnStopAds();
+    }
+    if (pad.getJoy(code)) {
+        mOnAds();
+    }
+}
+
+void BulletShooter::onAds(const std::function<void()>& f) {
+    mOnAds += f;
+}
+
+void BulletShooter::onStartAds(const std::function<void()>& f) {
+    mOnStartAds += f;
+}
+
+void BulletShooter::onStopAds(const std::function<void()>& f) {
+    mOnStopAds += f;
 }

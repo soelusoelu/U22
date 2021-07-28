@@ -99,7 +99,7 @@ void AABBMouseScaler::calculateNewBoxPoint() {
     const auto& surfaceNormal = mSelectSurface.second;
 
     //マウスの移動量を3次元に換算する
-    const auto& mouseMoveAmount = Input::mouse().getMouseMoveAmount();
+    const auto& mouseMoveAmount = Input::mouse().getMouseVelocity();
     auto dir = Vector3(
         mouseMoveAmount.x,
         -mouseMoveAmount.y,

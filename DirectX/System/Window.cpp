@@ -123,6 +123,10 @@ int Window::height() {
     return mGameHeight;
 }
 
+Vector2 Window::size() {
+    return Vector2(static_cast<float>(mGameWidth), static_cast<float>(mGameHeight));
+}
+
 int Window::standardWidth() {
     return mStandardWidth;
 }

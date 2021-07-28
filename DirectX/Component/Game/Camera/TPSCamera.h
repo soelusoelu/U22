@@ -19,12 +19,17 @@ public:
     virtual void start() override;
     virtual void update() override;
     virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
+    virtual void drawInspector() override;
 
     void setPlayer(const std::shared_ptr<GameObject>& player);
 
 private:
     void calcLookAt() const;
-    void calcPosition(const Vector2& mouseMoveAmount) const;
+    void calcRotation(const Vector2& rightStick) const;
+    void calcPosition() const;
+    Vector3 getPlayerHeadPoint() const;
+    Vector3 getCalcPosition() const;
+    void onAds();
 
 private:
     std::shared_ptr<Camera> mCamera;
@@ -34,7 +39,12 @@ private:
     //プレイヤーまでの距離
     float mToPlayerDistance;
     //注視点のY軸オフセット
-    float mLookAtOffsetY;
-    //開始時のカメラY軸位置
-    float mStartPositionY;
+    float mPlayerHeadPointY;
+    //ADS時のカメラ値
+    Vector3 mAdsPosition;
+    //カメラ回転時に反転するか
+    bool mIsInverseX;
+    bool mIsInverseY;
+    //位置計算を行うか
+    bool mIsCalcPosition;
 };

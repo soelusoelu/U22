@@ -31,7 +31,7 @@ void PlayerWalk::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::Alloc
 
 void PlayerWalk::walk(IPlayerMove& playerMove) {
     playerMove.move(mWalkSpeed);
-    //rotate(playerMove);
+    rotate(playerMove);
 
     if (!mIsWalking) {
         mAnimation->changeMotion(PlayerMotions::WALK);
@@ -55,11 +55,12 @@ void PlayerWalk::callbackToWalk(const std::function<void()>& callback) {
 }
 
 void PlayerWalk::rotate(IPlayerMove& playerMove) {
-    if (mLockOn->isLockOn()) {
-        transform().lookAt(mLockOn->getLockOnTargetTransform());
-    } else {
-        playerMove.rotateToMoveDirection();
-    }
+    //if (mLockOn->isLockOn()) {
+    //    transform().lookAt(mLockOn->getLockOnTargetTransform());
+    //} else {
+    //    playerMove.rotateToMoveDirection();
+    //}
+    playerMove.rotateToMoveDirection();
 }
 
 void PlayerWalk::onChangeMotion() {

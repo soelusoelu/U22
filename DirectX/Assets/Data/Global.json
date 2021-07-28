@@ -80,9 +80,7 @@
         "AssetsRenderTextureList": {
             "textureSize": 64,
             "textureDisplayInterval": 32,
-            "texturesFilePath": [
-                "Assets\\Model\\Enemy\\octpus_anime.fbx"
-            ]
+            "texturesFilePath": []
         },
         "AssetsRenderTextureAdder": {
             "renderPosition": [

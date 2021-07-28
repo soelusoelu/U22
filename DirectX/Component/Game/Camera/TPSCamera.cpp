@@ -1,4 +1,5 @@
 ﻿#include "TPSCamera.h"
+#include "../Player/BulletShooter.h"
 #include "../../Engine/Camera/Camera.h"
 #include "../../../Device/Time.h"
 #include "../../../GameObject/GameObject.h"
@@ -6,6 +7,7 @@
 #include "../../../Input/Input.h"
 #include "../../../Transform/Transform3D.h"
 #include "../../../Utility/JsonHelper.h"
+#include "../../../Engine/DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
 
 TPSCamera::TPSCamera()
     : Component()
@@ -13,8 +15,11 @@ TPSCamera::TPSCamera()
     , mPlayer(nullptr)
     , mRotateSpeed(0.f)
     , mToPlayerDistance(0.f)
-    , mLookAtOffsetY(0.f)
-    , mStartPositionY(0.f)
+    , mPlayerHeadPointY(0.f)
+    , mAdsPosition()
+    , mIsInverseX(true)
+    , mIsInverseY(true)
+    , mIsCalcPosition(true)
 {
 }
 
@@ -26,50 +31,86 @@ void TPSCamera::start() {
 }
 
 void TPSCamera::update() {
-    const auto& mouse = Input::mouse();
-    const auto& moveAmount = mouse.getMouseMoveAmount();
+    const auto& pad = Input::joyPad();
+    const auto rightStick = pad.rightStick();
 
-    //マウスの動きが無ければ終了
-    if (Vector2::equal(moveAmount, Vector2::zero)) {
-        return;
+    //スティックが動いていれば角度を計算し直す
+    if (!Vector2::equal(rightStick, Vector2::zero)) {
+        calcRotation(rightStick);
     }
 
+    calcPosition();
     calcLookAt();
-    calcPosition(moveAmount);
 }
 
 void TPSCamera::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
     JsonHelper::getSetFloat(mRotateSpeed, "rotateSpeed", inObj, alloc, mode);
     JsonHelper::getSetFloat(mToPlayerDistance, "cameraToPlayerDistance", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mLookAtOffsetY, "lookAtOffsetY", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mStartPositionY, "startPositionY", inObj, alloc, mode);
+    JsonHelper::getSetFloat(mPlayerHeadPointY, "playerHeadPointY", inObj, alloc, mode);
+    JsonHelper::getSetVector3(mAdsPosition, "adsPosition", inObj, alloc, mode);
+}
+
+void TPSCamera::drawInspector() {
+    ImGui::Checkbox("Inverse X", &mIsInverseX);
+    ImGui::Checkbox("Inverse Y", &mIsInverseY);
+    ImGuiWrapper::dragVector3("ADS Position", mAdsPosition, 0.1f);
 }
 
 void TPSCamera::setPlayer(const std::shared_ptr<GameObject>& player) {
     mPlayer = player;
 
-    const auto& pt = mPlayer->transform();
-    const auto& pp = pt.getPosition();
-
-    auto lookAt = pp + Vector3::up * mLookAtOffsetY;
-    auto pos = pp + -pt.forward() * mToPlayerDistance + Vector3::up * mStartPositionY;
-
-    mCamera->lookAt(lookAt);
-    mCamera->setPosition(pos);
+    auto bs = mPlayer->componentManager().getComponent<BulletShooter>();
+    bs->onStartAds([&] { mIsCalcPosition = false; });
+    bs->onAds([&] { onAds(); });
+    bs->onStopAds([&] { mIsCalcPosition = true; });
 }
 
 void TPSCamera::calcLookAt() const {
-    const auto& pt = mPlayer->transform();
-    auto playerUpPoint = pt.getPosition() + Vector3::up * mLookAtOffsetY * pt.getScale().y;
-    mCamera->lookAt(playerUpPoint);
+    auto toPlayerHeadPoint = Vector3::normalize(getPlayerHeadPoint() - getCalcPosition());
+    mCamera->lookAt(toPlayerHeadPoint * 1000.f);
 }
 
-void TPSCamera::calcPosition(const Vector2& mouseMoveAmount) const {
+void TPSCamera::calcRotation(const Vector2& rightStick) const {
     auto& t = transform();
     auto euler = t.getRotation().euler();
-    euler.y += mouseMoveAmount.x * mRotateSpeed * Time::deltaTime;
-    euler.x += mouseMoveAmount.y * mRotateSpeed * Time::deltaTime;
+    const auto speed = mRotateSpeed * Time::deltaTime;
+
+    auto rotateX = rightStick.x * speed;
+    if (mIsInverseX) {
+        rotateX *= -1.f;
+    }
+    euler.y += rotateX;
+
+    auto rotateY = -rightStick.y * speed;
+    if (mIsInverseY) {
+        rotateY *= -1.f;
+    }
+    euler.x += rotateY;
+
     t.setRotation(Quaternion(euler));
-    auto cameraPos = mCamera->getLookAt() + -t.forward() * mToPlayerDistance;
-    mCamera->setPosition(cameraPos);
+}
+
+void TPSCamera::calcPosition() const {
+    if (mIsCalcPosition) {
+        mCamera->setPosition(getCalcPosition());
+    }
+}
+
+Vector3 TPSCamera::getPlayerHeadPoint() const {
+    const auto& pt = mPlayer->transform();
+    return pt.getPosition() + Vector3::up * mPlayerHeadPointY * pt.getScale().y;
+}
+
+Vector3 TPSCamera::getCalcPosition() const {
+    return getPlayerHeadPoint() + -transform().forward() * mToPlayerDistance;
+}
+
+void TPSCamera::onAds() {
+    const auto& t = transform();
+    Vector3 offset(
+        t.right() * mAdsPosition.x +
+        t.up() * mAdsPosition.y +
+        t.forward() * mAdsPosition.z
+    );
+    mCamera->setPosition(getPlayerHeadPoint() + offset);
 }

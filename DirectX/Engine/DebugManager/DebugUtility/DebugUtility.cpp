@@ -1,8 +1,8 @@
 ﻿#include "DebugUtility.h"
 #include "Log.h"
 #include "PointRenderer.h"
+#include "LineRenderer/LineInstancingDrawer.h"
 #include "LineRenderer/LineRenderer2D.h"
-#include "LineRenderer/LineRenderer3D.h"
 #include "../../../Device/DrawString.h"
 #include "../../../Device/Renderer.h"
 #include "../../../System/GlobalFunction.h"
@@ -13,7 +13,7 @@ DebugUtility::DebugUtility()
     , mLog(std::make_unique<Log>())
     , mPointRenderer(std::make_unique<PointRenderer>())
     , mLineRenderer2D(std::make_unique<LineRenderer2D>())
-    , mLineRenderer3D(std::make_unique<LineRenderer3D>())
+    , mLineRenderer3D(std::make_unique<LineInstancingDrawer>())
 {
 }
 
@@ -81,7 +81,7 @@ LineRenderer2D& DebugUtility::lineRenderer2D() const {
     return *mLineRenderer2D;
 }
 
-LineRenderer3D& DebugUtility::lineRenderer3D() const {
+LineInstancingDrawer& DebugUtility::lineRenderer3D() const {
     return *mLineRenderer3D;
 }
 

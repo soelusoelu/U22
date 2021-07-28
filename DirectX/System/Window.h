@@ -17,8 +17,12 @@ public:
     LRESULT msgProc(HWND, UINT, WPARAM, LPARAM);
     HWND gethWnd() const;
     void update();
+    //ゲームウィンドウの横幅(px)
     static int width();
+    //ゲームウィンドウの縦幅(px)
     static int height();
+    //ゲームウィンドウのサイズ(width * height)
+    static Vector2 size();
     static int standardWidth();
     static int standardHeight();
     static int debugWidth();

@@ -11,7 +11,7 @@ class Renderer;
 class Log;
 class PointRenderer;
 class LineRenderer2D;
-class LineRenderer3D;
+class LineInstancingDrawer;
 
 class DebugUtility
     : public FileOperator
@@ -31,7 +31,7 @@ public:
     Log& log() const;
     PointRenderer& pointRenderer() const;
     LineRenderer2D& lineRenderer2D() const;
-    LineRenderer3D& lineRenderer3D() const;
+    LineInstancingDrawer& lineRenderer3D() const;
 
 private:
     DebugUtility(const DebugUtility&) = delete;
@@ -46,5 +46,5 @@ private:
     std::unique_ptr<Log> mLog;
     std::unique_ptr<PointRenderer> mPointRenderer;
     std::unique_ptr<LineRenderer2D> mLineRenderer2D;
-    std::unique_ptr<LineRenderer3D> mLineRenderer3D;
+    std::unique_ptr<LineInstancingDrawer> mLineRenderer3D;
 };

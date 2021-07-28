@@ -4,10 +4,11 @@
     {
       "type": "TPSCamera",
       "properties": {
-        "rotateSpeed": 10.0,
-        "cameraToPlayerDistance": 20.0,
-        "lookAtOffsetY": 8.0,
-        "startPositionY": 15.0
+        "rotateSpeed": 160.0,
+        "cameraToPlayerDistance": 15.0,
+        "playerHeadPointY": 8.0,
+        "startPositionY": 15.0,
+        "adsPosition": [ 1.5, -1.0, -6.5 ]
       }
     }
   ]
