@@ -1,13 +1,14 @@
 ﻿#pragma once
 
 #include "IPlayerMove.h"
-#include "../Camera/ILockOn.h"
 #include "../../Component.h"
 #include "../../../Device/Function.h"
+#include "../../../Math/Math.h"
 #include <functional>
 #include <memory>
 
 class SkinMeshComponent;
+class BulletShooter;
 
 class PlayerWalk
     : public Component
@@ -21,8 +22,8 @@ public:
     void walk(IPlayerMove& playerMove);
     //歩いているか
     bool isWalking() const;
-    //ILockOnを設定する
-    void setILockOn(const ILockOn* lockOn);
+    //カメラ角度を設定する
+    void setCameraRotation(const Quaternion& cameraRotation);
     //歩行に移行した際のコールバック
     void callbackToWalk(const std::function<void()>& callback);
 
@@ -34,11 +35,14 @@ private:
     void rotate(IPlayerMove& playerMove);
     //モーション変更時のコールバック
     void onChangeMotion();
+    //ADS時に呼ばれる
+    void onAds();
 
 private:
     std::shared_ptr<SkinMeshComponent> mAnimation;
+    std::shared_ptr<BulletShooter> mBulletShooter;
     Function<void()> mCallbackToWalk;
-    const ILockOn* mLockOn;
+    const Quaternion* mCameraRotation;
     float mWalkSpeed;
     bool mIsWalking;
 };

@@ -16,7 +16,7 @@ PlayerMove::PlayerMove()
     , mAnimation(nullptr)
     , mWalk(nullptr)
     , mDash(nullptr)
-    , mMoveDirectionInputedLast()
+    , mMoveDirectionInputedLast(Vector3::forward)
 {
 }
 

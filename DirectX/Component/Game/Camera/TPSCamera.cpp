@@ -53,6 +53,7 @@ void TPSCamera::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::Alloca
 void TPSCamera::drawInspector() {
     ImGui::Checkbox("Inverse X", &mIsInverseX);
     ImGui::Checkbox("Inverse Y", &mIsInverseY);
+    ImGuiWrapper::dragFloat("To Player Distance", mToPlayerDistance, 0.1f, 0.f, FLT_MAX);
     ImGuiWrapper::dragVector3("ADS Position", mAdsPosition, 0.1f);
 }
 

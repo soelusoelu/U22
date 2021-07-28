@@ -1,4 +1,5 @@
 ﻿#include "PlayerWalk.h"
+#include "BulletShooter.h"
 #include "PlayerDash.h"
 #include "PlayerMotions.h"
 #include "PlayerMove.h"
@@ -9,7 +10,8 @@
 PlayerWalk::PlayerWalk()
     : Component()
     , mAnimation(nullptr)
-    , mLockOn(nullptr)
+    , mBulletShooter(nullptr)
+    , mCameraRotation(nullptr)
     , mWalkSpeed(0.f)
     , mIsWalking(false)
 {
@@ -20,6 +22,8 @@ PlayerWalk::~PlayerWalk() = default;
 void PlayerWalk::start() {
     mAnimation = getComponent<SkinMeshComponent>();
     mAnimation->callbackChangeMotion([&] { onChangeMotion(); });
+    mBulletShooter = getComponent<BulletShooter>();
+    mBulletShooter->onAds([&] { onAds(); });
 
     getComponent<PlayerDash>()->callbackToDash([&] { mIsWalking = false; });
     getComponent<PlayerMove>()->callbackToStop([&] { mIsWalking = false; });
@@ -46,8 +50,8 @@ bool PlayerWalk::isWalking() const {
     return mIsWalking;
 }
 
-void PlayerWalk::setILockOn(const ILockOn* lockOn) {
-    mLockOn = lockOn;
+void PlayerWalk::setCameraRotation(const Quaternion& cameraRotation) {
+    mCameraRotation = &cameraRotation;
 }
 
 void PlayerWalk::callbackToWalk(const std::function<void()>& callback) {
@@ -55,16 +59,21 @@ void PlayerWalk::callbackToWalk(const std::function<void()>& callback) {
 }
 
 void PlayerWalk::rotate(IPlayerMove& playerMove) {
-    //if (mLockOn->isLockOn()) {
-    //    transform().lookAt(mLockOn->getLockOnTargetTransform());
-    //} else {
-    //    playerMove.rotateToMoveDirection();
-    //}
-    playerMove.rotateToMoveDirection();
+    if (!mBulletShooter->isAds()) {
+        playerMove.rotateToMoveDirection();
+    }
 }
 
 void PlayerWalk::onChangeMotion() {
     if (mAnimation->getCurrentMotionNumber() != PlayerMotions::WALK) {
         mIsWalking = false;
     }
+}
+
+void PlayerWalk::onAds() {
+    //カメラ角度のY軸だけ考慮して回転する
+    auto euler = mCameraRotation->euler();
+    euler.x = 0.f;
+    euler.z = 0.f;
+    transform().setRotation(euler);
 }

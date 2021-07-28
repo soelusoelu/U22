@@ -67,6 +67,10 @@ void BulletShooter::ads() {
     }
 }
 
+bool BulletShooter::isAds() const {
+    return mIsADS;
+}
+
 void BulletShooter::onAds(const std::function<void()>& f) {
     mOnAds += f;
 }

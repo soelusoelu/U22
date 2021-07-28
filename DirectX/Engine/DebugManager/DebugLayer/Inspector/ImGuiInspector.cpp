@@ -10,6 +10,7 @@
 #include "../../../../System/Window.h"
 #include "../../../../Transform/Transform3D.h"
 #include "../../../../Utility/JsonHelper.h"
+#include "../../../../Utility/LevelLoader.h"
 #include <string>
 
 ImGuiInspector::ImGuiInspector()
@@ -67,6 +68,11 @@ void ImGuiInspector::drawInspect() const {
 
             ImGui::TreePop();
         }
+    }
+
+    //ゲームオブジェクト保存ボタン
+    if (ImGui::Button("Save")) {
+        LevelLoader::saveGameObject(*target);
     }
 
     ImGui::End();

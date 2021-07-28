@@ -24,6 +24,7 @@ public:
 
     void setEnemy(const GameObject& enemy);
     void ads();
+    bool isAds() const;
     void onAds(const std::function<void()>& f);
     void onStartAds(const std::function<void()>& f);
     void onStopAds(const std::function<void()>& f);

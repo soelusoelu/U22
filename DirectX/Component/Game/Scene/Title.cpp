@@ -43,7 +43,7 @@ void Title::awake() {
 
     const auto& playerCompManager = player->componentManager();
     //playerCompManager.getComponent<BulletShooter>()->setEnemy(*boss);
-    //playerCompManager.getComponent<PlayerWalk>()->setILockOn(lockOn.get());
+    playerCompManager.getComponent<PlayerWalk>()->setCameraRotation(camera->transform().getLocalRotation());
     //playerCompManager.getComponent<PlayerWeapon>()->setWeapon(weapon);
     //playerCompManager.getComponent<PlayerShield>()->setShield(shield);
 
