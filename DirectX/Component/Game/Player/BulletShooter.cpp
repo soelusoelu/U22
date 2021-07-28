@@ -13,7 +13,6 @@
 BulletShooter::BulletShooter()
     : Component()
     , mCamera(nullptr)
-    , mGun(nullptr)
     , mIsADS(false)
 {
 }

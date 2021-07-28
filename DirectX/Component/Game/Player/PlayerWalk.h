@@ -41,8 +41,8 @@ private:
 private:
     std::shared_ptr<SkinMeshComponent> mAnimation;
     std::shared_ptr<BulletShooter> mBulletShooter;
-    Function<void()> mCallbackToWalk;
     const Quaternion* mCameraRotation;
+    Function<void()> mCallbackToWalk;
     float mWalkSpeed;
     bool mIsWalking;
 };

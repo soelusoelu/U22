@@ -77,7 +77,7 @@ void EngineCamera::computeRotation(const Vector2& mouseVelocity) {
     auto euler = mCameraRotation.euler();
     euler.y += mouseVelocity.x * ROTATE_SPEED;
     euler.x += mouseVelocity.y * ROTATE_SPEED;
-    mCameraRotation = Quaternion(euler);
+    mCameraRotation.setEuler(euler);
 }
 
 void EngineCamera::zoomCamera(const IMouse& mouse) {

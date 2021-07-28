@@ -88,7 +88,7 @@ void TPSCamera::calcRotation(const Vector2& rightStick) const {
     }
     euler.x += rotateY;
 
-    t.setRotation(Quaternion(euler));
+    t.setRotation(euler);
 }
 
 void TPSCamera::calcPosition() const {

@@ -31,7 +31,6 @@ public:
 
 private:
     std::shared_ptr<Camera> mCamera;
-    std::shared_ptr<GameObject> mGun;
     std::vector<std::shared_ptr<OBBCollider>> mEnemyColliders;
     Function<void()> mOnAds;
     Function<void()> mOnStartAds;
