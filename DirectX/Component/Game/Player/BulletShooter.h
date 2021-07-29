@@ -8,7 +8,7 @@
 
 class GameObject;
 class Camera;
-class OBBCollider;
+class OctopusFoot;
 
 class BulletShooter
     : public Component
@@ -31,7 +31,7 @@ public:
 
 private:
     std::shared_ptr<Camera> mCamera;
-    std::vector<std::shared_ptr<OBBCollider>> mEnemyColliders;
+    std::vector<std::shared_ptr<OctopusFoot>> mEnemyFoots;
     Function<void()> mOnAds;
     Function<void()> mOnStartAds;
     Function<void()> mOnStopAds;

@@ -46,6 +46,8 @@
 #include "../Component/Game/Enemy/EnemyAttack.h"
 #include "../Component/Game/Enemy/EnemyColliderController.h"
 #include "../Component/Game/Enemy/EnemyMove.h"
+#include "../Component/Game/Enemy/OctopusFoot.h"
+#include "../Component/Game/Enemy/OctopusFootCommonSetting.h"
 #include "../Component/Game/Player/BulletShooter.h"
 #include "../Component/Game/Player/PlayerAnimationController.h"
 #include "../Component/Game/Player/PlayerAttack.h"
@@ -139,6 +141,8 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(EnemyAttack);
     ADD_COMPONENT(EnemyColliderController);
     ADD_COMPONENT(EnemyMove);
+    ADD_COMPONENT(OctopusFoot);
+    ADD_COMPONENT(OctopusFootCommonSetting);
 
     ADD_COMPONENT(BulletShooter);
     ADD_COMPONENT(PlayerAnimationController);

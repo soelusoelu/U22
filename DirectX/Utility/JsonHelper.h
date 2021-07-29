@@ -67,6 +67,13 @@ public:
         FileMode mode
     );
     static void getSet(
+        std::vector<int>& value,
+        const char* name,
+        rapidjson::Value& inObject,
+        rapidjson::Document::AllocatorType& alloc,
+        FileMode mode
+    );
+    static void getSet(
         std::vector<std::string>& value,
         const char* name,
         rapidjson::Value& inObject,
@@ -121,6 +128,11 @@ public:
     );
     static bool getQuaternion(
         Quaternion& out,
+        const char* name,
+        const rapidjson::Value& inObject
+    );
+    static bool getIntArray(
+        std::vector<int>& out,
         const char* name,
         const rapidjson::Value& inObject
     );
@@ -180,6 +192,12 @@ public:
     );
     static void setQuaternion(
         const Quaternion& value,
+        const char* name,
+        rapidjson::Value& inObject,
+        rapidjson::Document::AllocatorType& alloc
+    );
+    static void setIntArray(
+        const std::vector<int>& values,
         const char* name,
         rapidjson::Value& inObject,
         rapidjson::Document::AllocatorType& alloc

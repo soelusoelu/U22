@@ -293,6 +293,8 @@
     <ClCompile Include="Component\Game\Weapon\CrossHair.cpp" />
     <ClCompile Include="Component\Game\Camera\TPSCamera.cpp" />
     <ClCompile Include="Component\Game\Player\BulletShooter.cpp" />
+    <ClCompile Include="Component\Game\Enemy\OctopusFoot.cpp" />
+    <ClCompile Include="Component\Game\Enemy\OctopusFootCommonSetting.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -652,6 +654,8 @@
     <ClInclude Include="Component\Game\Weapon\CrossHair.h" />
     <ClInclude Include="Component\Game\Camera\TPSCamera.h" />
     <ClInclude Include="Component\Game\Player\BulletShooter.h" />
+    <ClInclude Include="Component\Game\Enemy\OctopusFoot.h" />
+    <ClInclude Include="Component\Game\Enemy\OctopusFootCommonSetting.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />

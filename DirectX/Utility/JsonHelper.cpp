@@ -111,6 +111,20 @@ void JsonHelper::getSet(
 }
 
 void JsonHelper::getSet(
+    std::vector<int>& value,
+    const char* name,
+    rapidjson::Value& inObject,
+    rapidjson::Document::AllocatorType& alloc,
+    FileMode mode
+) {
+    if (mode == FileMode::SAVE) {
+        setIntArray(value, name, inObject, alloc);
+    } else if (mode == FileMode::LOAD) {
+        getIntArray(value, name, inObject);
+    }
+}
+
+void JsonHelper::getSet(
     std::vector<std::string>& value,
     const char* name,
     rapidjson::Value& inObject,
@@ -323,6 +337,35 @@ bool JsonHelper::getQuaternion(
     return true;
 }
 
+bool JsonHelper::getIntArray(
+    std::vector<int>& out,
+    const char* name,
+    const rapidjson::Value& inObject
+) {
+    auto itr = inObject.FindMember(name);
+    if (itr == inObject.MemberEnd()) {
+        return false;
+    }
+
+    auto& value = itr->value;
+    if (!value.IsArray() || value.Empty()) {
+        return false;
+    }
+
+    auto size = static_cast<size_t>(value.Size());
+    std::vector<int> temp(size);
+    for (size_t i = 0; i < size; ++i) {
+        if (!value[i].IsInt()) {
+            return false;
+        }
+        temp[i] = value[i].GetInt();
+    }
+
+    out = temp;
+
+    return true;
+}
+
 bool JsonHelper::getStringArray(
     std::vector<std::string>& out,
     const char* name,
@@ -494,6 +537,25 @@ void JsonHelper::setQuaternion(
     v.PushBack(rapidjson::Value(value.y).Move(), alloc);
     v.PushBack(rapidjson::Value(value.z).Move(), alloc);
     v.PushBack(rapidjson::Value(value.w).Move(), alloc);
+
+    //inObjectに配列として追加
+    inObject.AddMember(rapidjson::StringRef(name), v, alloc);
+}
+
+void JsonHelper::setIntArray(
+    const std::vector<int>& values,
+    const char* name,
+    rapidjson::Value& inObject,
+    rapidjson::Document::AllocatorType& alloc
+) {
+    //配列を生成
+    rapidjson::Value v(rapidjson::kArrayType);
+
+    //配列要素を順に追加していく
+    for (const auto& value : values) {
+        rapidjson::Value temp(value);
+        v.PushBack(temp, alloc);
+    }
 
     //inObjectに配列として追加
     inObject.AddMember(rapidjson::StringRef(name), v, alloc);

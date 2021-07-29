@@ -192,6 +192,8 @@
     <ClCompile Include="Device\FileOperator.cpp" />
     <ClCompile Include="Engine\DebugManager\DebugUtility\LineRenderer\LineInstancingDrawer.cpp" />
     <ClCompile Include="Component\Game\Camera\TPSCamera.cpp" />
+    <ClCompile Include="Component\Game\Enemy\OctopusFoot.cpp" />
+    <ClCompile Include="Component\Game\Enemy\OctopusFootCommonSetting.cpp" />
     <ClCompile Include="Utility\JsonHelper.cpp" />
     <ClCompile Include="System\Shader\DataTransfer.cpp" />
     <ClCompile Include="Engine\Camera\EngineCamera.cpp" />
@@ -475,6 +477,8 @@
     <ClInclude Include="Device\FileOperator.h" />
     <ClInclude Include="Engine\DebugManager\DebugUtility\LineRenderer\LineInstancingDrawer.h" />
     <ClInclude Include="Component\Game\Camera\TPSCamera.h" />
+    <ClInclude Include="Component\Game\Enemy\OctopusFoot.h" />
+    <ClInclude Include="Component\Game\Enemy\OctopusFootCommonSetting.h" />
     <ClInclude Include="Utility\JsonHelper.h" />
     <ClInclude Include="System\Shader\DataTransfer.h" />
     <ClInclude Include="Engine\Camera\EngineCamera.h" />

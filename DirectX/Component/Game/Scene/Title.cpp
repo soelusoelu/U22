@@ -51,8 +51,8 @@ void Title::awake() {
     auto playerUIManager = GameObjectCreater::create("PlayerUI");
     playerUIManager->componentManager().getComponent<PlayerUIManager>()->setPlayer(player);
 
-    auto bossEnemyUIManager = GameObjectCreater::create("BossEnemyUI");
-    bossEnemyUIManager->componentManager().getComponent<BossEnemyUIManager>()->setBoss(boss);
+    //auto bossEnemyUIManager = GameObjectCreater::create("BossEnemyUI");
+    //bossEnemyUIManager->componentManager().getComponent<BossEnemyUIManager>()->setBoss(boss);
 }
 
 void Title::update() {

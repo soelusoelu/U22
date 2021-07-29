@@ -34,6 +34,10 @@ void OBBCollider::start() {
 }
 
 void OBBCollider::lateUpdate() {
+    if (!mEnable) {
+        return;
+    }
+
     Collider::lateUpdate();
 
     beforeComputeWorldMatrix();
@@ -56,6 +60,9 @@ void OBBCollider::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::Allo
 }
 
 void OBBCollider::drawInspector() {
+    ImGuiWrapper::dragInt("boneNo", mBoneNo);
+    ImGuiWrapper::dragFloat("boneStart", mBoneStart, 0.05f, 0.f, mBoneEnd);
+    ImGuiWrapper::dragFloat("boneEnd", mBoneEnd, 0.05f, mBoneStart, 1.f);
     ImGuiWrapper::dragVector3("center", mOBB.center, 0.1f);
     auto euler = mOBB.rotation.euler();
     ImGuiWrapper::dragVector3("rotation", euler, 0.1f);

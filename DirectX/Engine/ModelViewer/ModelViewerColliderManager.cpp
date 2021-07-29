@@ -50,6 +50,9 @@ void ModelViewerColliderManager::update(LineInstancingDrawer& line, const Simple
 
 void ModelViewerColliderManager::drawGUI() {
     ImGui::Checkbox("IsDrawBone", &mIsDrawBone);
+    if (mSelectedObbNo != INVALID_NO) {
+        mObbColliders[mSelectedObbNo]->drawInspector();
+    }
 
     mOptionGui->drawGui();
 }

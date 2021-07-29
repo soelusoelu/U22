@@ -1,5 +1,5 @@
 ﻿#include "BulletShooter.h"
-#include "../PlayerEnemyCommon/HitPoint.h"
+#include "../Enemy/OctopusFoot.h"
 #include "../../Engine/Camera/Camera.h"
 #include "../../Engine/Collider/OBBCollider.h"
 #include "../../../Collision/Collision.h"
@@ -36,18 +36,25 @@ void BulletShooter::update() {
     const auto center = Window::size() / 2.f;
     const auto ray = mCamera->screenToRay(center);
 
-    for (const auto& obb : mEnemyColliders) {
-        if (Intersect::intersectRayOBB(ray, obb->getOBB())) {
-            obb->getComponent<HitPoint>()->takeDamage(10);
-            Debug::log("Hit");
-            return;
+    for (const auto& foot : mEnemyFoots) {
+        const auto& colliders = foot->getColliders();
+        for (const auto& c : colliders) {
+            if (!c->getEnable()) {
+                continue;
+            }
+
+            if (Intersect::intersectRayOBB(ray, c->getOBB())) {
+                foot->takeDamage();
+                Debug::log("Hit");
+                return;
+            }
         }
     }
 }
 
 void BulletShooter::setEnemy(const GameObject& enemy) {
     const auto& e = enemy.getGameObjectManager().find("Enemy");
-    mEnemyColliders = e->componentManager().getComponents<OBBCollider>();
+    mEnemyFoots = e->componentManager().getComponents<OctopusFoot>();
 }
 
 void BulletShooter::ads() {
