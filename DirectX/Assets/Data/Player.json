@@ -35,9 +35,7 @@
     {
       "type": "PlayerDash",
       "properties": {
-        "dashSpeed": 90.0,
-        "dashStaminaAmount": 0.3,
-        "limitTime": 0.25
+        "dashSpeed": 90.0
       }
     },
     {
@@ -45,24 +43,9 @@
       "properties": {}
     },
     {
-      "type": "PlayerRoll",
-      "properties": {
-        "rollingDistance": 30.0,
-        "rollingStaminaAmount": 20.0
-      }
-    },
-    {
       "type": "HitPoint",
       "properties": {
         "HP": 300
-      }
-    },
-    {
-      "type": "Stamina",
-      "properties": {
-        "stamina": 100.0,
-        "healAmount": 15.0,
-        "limitTime": 1.0
       }
     },
     {

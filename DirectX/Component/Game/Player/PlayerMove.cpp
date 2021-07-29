@@ -41,14 +41,7 @@ void PlayerMove::originalUpdate() {
     if (canMove(leftStick)) {
         //スティック入力から移動方向を求める
         calcMoveDirection(leftStick);
-
-        //ダッシュできるならダッシュする
-        //無理なら歩行
-        if (mDash->canDash()) {
-            mDash->dash(*this);
-        } else {
-            mWalk->walk(*this);
-        }
+        mDash->dash(*this);
     } else {
         stop();
     }

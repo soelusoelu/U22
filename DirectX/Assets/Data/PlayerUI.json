@@ -15,20 +15,7 @@
       }
     },
     {
-      "type": "SpriteComponent",
-      "properties": {
-        "fileName": "System\\pixel.png",
-        "position": [ 64.0, 72.0 ],
-        "scale": [ 512.0, 16.0 ],
-        "color": [ 0.05, 0.95, 0.05 ]
-      }
-    },
-    {
       "type": "PlayerHitPointGauge",
-      "properties": {}
-    },
-    {
-      "type": "StaminaGauge",
       "properties": {}
     }
   ]

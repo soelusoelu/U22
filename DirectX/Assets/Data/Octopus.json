@@ -1,7 +1,7 @@
 {
   "tag": "Enemy",
   "transform": {
-    "scale": [ 20.0, 20.0, 20.0 ]
+    "scale": [ 30.0, 30.0, 30.0 ]
   },
   "components": [
     {
