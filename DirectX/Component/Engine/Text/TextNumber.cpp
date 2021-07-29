@@ -21,7 +21,7 @@ void TextNumber::lateUpdate() {
 void TextNumber::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
     TextBase::saveAndLoad(inObj, alloc, mode);
 
-    JsonHelper::getSetInt(mNumber, "number", inObj, alloc, mode);
+    JsonHelper::getSet(mNumber, "number", inObj, alloc, mode);
 }
 
 void TextNumber::drawInspector() {

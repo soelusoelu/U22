@@ -12,8 +12,8 @@ HitPoint::HitPoint()
 HitPoint::~HitPoint() = default;
 
 void HitPoint::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetInt(mHp, "HP", inObj, alloc, mode);
-    JsonHelper::getSetInt(mMaxHp, "maxHP", inObj, alloc, mode);
+    JsonHelper::getSet(mHp, "HP", inObj, alloc, mode);
+    JsonHelper::getSet(mMaxHp, "maxHP", inObj, alloc, mode);
 
     if (mode == FileMode::LOAD) {
         if (mMaxHp < mHp) {

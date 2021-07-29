@@ -42,8 +42,8 @@ void Pause::update() {
 }
 
 void Pause::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetString(mFileName, "fileName", inObj, alloc, mode);
-    JsonHelper::getSetVector2(mOffset, "offset", inObj, alloc, mode);
+    JsonHelper::getSet(mFileName, "fileName", inObj, alloc, mode);
+    JsonHelper::getSet(mOffset, "offset", inObj, alloc, mode);
 }
 
 void Pause::onModeChange(EngineMode mode) {

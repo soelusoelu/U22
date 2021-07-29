@@ -194,8 +194,8 @@ void SceneManager::draw() const {
 }
 
 void SceneManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetString(mBeginScene, "beginScene", inObj, alloc, mode);
-    JsonHelper::getSetString(mReleaseScene, "releaseScene", inObj, alloc, mode);
+    JsonHelper::getSet(mBeginScene, "beginScene", inObj, alloc, mode);
+    JsonHelper::getSet(mReleaseScene, "releaseScene", inObj, alloc, mode);
 
     if (mode == FileMode::SAVE) {
         std::vector<std::string> temp(mRemoveExclusionTags.cbegin(), mRemoveExclusionTags.cend());

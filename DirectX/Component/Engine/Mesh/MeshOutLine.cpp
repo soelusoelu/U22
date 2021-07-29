@@ -57,10 +57,10 @@ void MeshOutLine::start() {
 }
 
 void MeshOutLine::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetVector3(mOutLineColor, "outLineColor", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mOutLineThickness, "outLineColorThickness", inObj, alloc, mode);
-    JsonHelper::getSetBool(mIsDrawOutLine, "isDrawOutLine", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mOffset, "offset", inObj, alloc, mode);
+    JsonHelper::getSet(mOutLineColor, "outLineColor", inObj, alloc, mode);
+    JsonHelper::getSet(mOutLineThickness, "outLineColorThickness", inObj, alloc, mode);
+    JsonHelper::getSet(mIsDrawOutLine, "isDrawOutLine", inObj, alloc, mode);
+    JsonHelper::getSet(mOffset, "offset", inObj, alloc, mode);
 }
 
 void MeshOutLine::drawInspector() {

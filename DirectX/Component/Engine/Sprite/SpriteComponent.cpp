@@ -34,7 +34,7 @@ void SpriteComponent::onEnable(bool value) {
 }
 
 void SpriteComponent::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetInt(mDrawOrder, "drawOrder", inObj, alloc, mode);
+    JsonHelper::getSet(mDrawOrder, "drawOrder", inObj, alloc, mode);
     if (mode == FileMode::SAVE) {
         JsonHelper::setString(fileName(), "fileName", inObj, alloc);
         JsonHelper::setBool(getActive(), "isActive", inObj, alloc);

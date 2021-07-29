@@ -155,15 +155,15 @@ Vector2 Window::getWindowCorrect() {
 }
 
 void Window::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetString(mTitle, "title", inObj, alloc, mode);
-    JsonHelper::getSetInt(mWidth, "windowWidth", inObj, alloc, mode);
-    JsonHelper::getSetInt(mHeight, "windowHeight", inObj, alloc, mode);
-    JsonHelper::getSetInt(mReleaseWidth, "releaseWindowWidth", inObj, alloc, mode);
-    JsonHelper::getSetInt(mReleaseHeight, "releaseWindowHeight", inObj, alloc, mode);
-    JsonHelper::getSetInt(mStandardWidth, "windowStandardWidth", inObj, alloc, mode);
-    JsonHelper::getSetInt(mStandardHeight, "windowStandardHeight", inObj, alloc, mode);
-    JsonHelper::getSetInt(mDebugWidth, "windowDebugWidth", inObj, alloc, mode);
-    JsonHelper::getSetInt(mDebugHeight, "windowDebugHeight", inObj, alloc, mode);
+    JsonHelper::getSet(mTitle, "title", inObj, alloc, mode);
+    JsonHelper::getSet(mWidth, "windowWidth", inObj, alloc, mode);
+    JsonHelper::getSet(mHeight, "windowHeight", inObj, alloc, mode);
+    JsonHelper::getSet(mReleaseWidth, "releaseWindowWidth", inObj, alloc, mode);
+    JsonHelper::getSet(mReleaseHeight, "releaseWindowHeight", inObj, alloc, mode);
+    JsonHelper::getSet(mStandardWidth, "windowStandardWidth", inObj, alloc, mode);
+    JsonHelper::getSet(mStandardHeight, "windowStandardHeight", inObj, alloc, mode);
+    JsonHelper::getSet(mDebugWidth, "windowDebugWidth", inObj, alloc, mode);
+    JsonHelper::getSet(mDebugHeight, "windowDebugHeight", inObj, alloc, mode);
 
     if (mode == FileMode::LOAD) {
 #ifdef _DEBUG

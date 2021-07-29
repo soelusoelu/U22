@@ -22,9 +22,9 @@ void EnemyMove::start() {
 }
 
 void EnemyMove::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(mWalkSpeed, "walkSpeed", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mRotateSpeed, "rotateSpeed", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mToPlayerLimitDistance, "toPlayerLimitDistance", inObj, alloc, mode);
+    JsonHelper::getSet(mWalkSpeed, "walkSpeed", inObj, alloc, mode);
+    JsonHelper::getSet(mRotateSpeed, "rotateSpeed", inObj, alloc, mode);
+    JsonHelper::getSet(mToPlayerLimitDistance, "toPlayerLimitDistance", inObj, alloc, mode);
 }
 
 void EnemyMove::originalUpdate(const Transform3D& player) {

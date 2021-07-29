@@ -23,6 +23,6 @@ void CrossHair::update() {
 }
 
 void CrossHair::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(mOffset, "offset", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mLength, "length", inObj, alloc, mode);
+    JsonHelper::getSet(mOffset, "offset", inObj, alloc, mode);
+    JsonHelper::getSet(mLength, "length", inObj, alloc, mode);
 }

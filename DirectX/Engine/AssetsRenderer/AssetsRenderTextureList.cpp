@@ -80,8 +80,8 @@ void AssetsRenderTextureList::drawTexture(const Matrix4& proj) const {
 }
 
 void AssetsRenderTextureList::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetInt(mTextureSize, "textureSize", inObj, alloc, mode);
-    JsonHelper::getSetInt(mTextureDisplayInterval, "textureDisplayInterval", inObj, alloc, mode);
+    JsonHelper::getSet(mTextureSize, "textureSize", inObj, alloc, mode);
+    JsonHelper::getSet(mTextureDisplayInterval, "textureDisplayInterval", inObj, alloc, mode);
 
     if (mode == FileMode::SAVE) {
         std::vector<std::string> temp(mTexturesFilePath.cbegin(), mTexturesFilePath.cend());

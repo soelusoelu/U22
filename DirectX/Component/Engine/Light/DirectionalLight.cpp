@@ -22,8 +22,8 @@ void DirectionalLight::lateUpdate() {
 }
 
 void DirectionalLight::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetVector3(mDirection, "direction", inObj, alloc, mode);
-    JsonHelper::getSetVector3(mLightColor, "color", inObj, alloc, mode);
+    JsonHelper::getSet(mDirection, "direction", inObj, alloc, mode);
+    JsonHelper::getSet(mLightColor, "color", inObj, alloc, mode);
 }
 
 void DirectionalLight::drawInspector() {

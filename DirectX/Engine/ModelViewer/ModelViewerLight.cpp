@@ -36,8 +36,8 @@ const Vector3& ModelViewerLight::getColor() const {
 }
 
 void ModelViewerLight::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetQuaternion(mDirection, "direction", inObj, alloc, mode);
-    JsonHelper::getSetVector3(mColor, "color", inObj, alloc, mode);
-    JsonHelper::getSetVector3(mDirectionDrawPosition, "directionDrawPosition", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mLengthDirection, "lengthDirection", inObj, alloc, mode);
+    JsonHelper::getSet(mDirection, "direction", inObj, alloc, mode);
+    JsonHelper::getSet(mColor, "color", inObj, alloc, mode);
+    JsonHelper::getSet(mDirectionDrawPosition, "directionDrawPosition", inObj, alloc, mode);
+    JsonHelper::getSet(mLengthDirection, "lengthDirection", inObj, alloc, mode);
 }

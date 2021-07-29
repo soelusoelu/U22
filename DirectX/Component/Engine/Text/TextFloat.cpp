@@ -22,8 +22,8 @@ void TextFloat::lateUpdate() {
 void TextFloat::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
     TextBase::saveAndLoad(inObj, alloc, mode);
 
-    JsonHelper::getSetFloat(mNumber, "number", inObj, alloc, mode);
-    JsonHelper::getSetInt(mDecimalDigits, "decimalDigits", inObj, alloc, mode);
+    JsonHelper::getSet(mNumber, "number", inObj, alloc, mode);
+    JsonHelper::getSet(mDecimalDigits, "decimalDigits", inObj, alloc, mode);
 }
 
 void TextFloat::drawInspector() {

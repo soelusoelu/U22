@@ -35,7 +35,7 @@ void PlayerGuard::update() {
 }
 
 void PlayerGuard::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(mGuardingStaminaHealRate, "guardingStaminaHealRate", inObj, alloc, mode);
+    JsonHelper::getSet(mGuardingStaminaHealRate, "guardingStaminaHealRate", inObj, alloc, mode);
 }
 
 void PlayerGuard::originalUpdate() {

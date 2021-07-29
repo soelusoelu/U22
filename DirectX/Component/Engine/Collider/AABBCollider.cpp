@@ -83,7 +83,7 @@ void AABBCollider::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::All
             mLoadedProperties = true;
         }
     }
-    JsonHelper::getSetBool(mIsRenderCollision, "isRenderCollision", inObj, alloc, mode);
+    JsonHelper::getSet(mIsRenderCollision, "isRenderCollision", inObj, alloc, mode);
 }
 
 void AABBCollider::drawInspector() {

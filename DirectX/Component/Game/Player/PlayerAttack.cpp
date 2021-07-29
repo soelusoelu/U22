@@ -67,21 +67,21 @@ void PlayerAttack::update() {
 }
 
 void PlayerAttack::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(
+    JsonHelper::getSet(
         mCoolTimeUntilAdditionalAttack[FIRST_ATTACK_START_NO],
         "firstLowestCoolTimeUpToAdditionalAttack",
         inObj,
         alloc,
         mode
     );
-    JsonHelper::getSetFloat(
+    JsonHelper::getSet(
         mCoolTimeUntilAdditionalAttack[SECOND_ATTACK_START_NO],
         "secondLowestCoolTimeUpToAdditionalAttack",
         inObj,
         alloc,
         mode
     );
-    JsonHelper::getSetFloat(mAttackStaminaAmount, "attackStaminaAmount", inObj, alloc, mode);
+    JsonHelper::getSet(mAttackStaminaAmount, "attackStaminaAmount", inObj, alloc, mode);
 }
 
 void PlayerAttack::originalUpdate() {

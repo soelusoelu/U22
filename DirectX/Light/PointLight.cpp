@@ -24,5 +24,5 @@ void PointLight::initialize() {
 }
 
 void PointLight::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetString(mMeshFileName, "pointLightMeshFileName", inObj, alloc, mode);
+    JsonHelper::getSet(mMeshFileName, "pointLightMeshFileName", inObj, alloc, mode);
 }

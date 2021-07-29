@@ -21,11 +21,11 @@ void TextBase::onEnable(bool value) {
 }
 
 void TextBase::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetVector2(mPosition, "position", inObj, alloc, mode);
-    JsonHelper::getSetVector2(mScale, "scale", inObj, alloc, mode);
-    JsonHelper::getSetVector3(mColor, "color", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mAlpha, "alpha", inObj, alloc, mode);
-    JsonHelper::getSetBool(mIsActive, "isActive", inObj, alloc, mode);
+    JsonHelper::getSet(mPosition, "position", inObj, alloc, mode);
+    JsonHelper::getSet(mScale, "scale", inObj, alloc, mode);
+    JsonHelper::getSet(mColor, "color", inObj, alloc, mode);
+    JsonHelper::getSet(mAlpha, "alpha", inObj, alloc, mode);
+    JsonHelper::getSet(mIsActive, "isActive", inObj, alloc, mode);
 
     std::string str;
     if (mode == FileMode::SAVE) {

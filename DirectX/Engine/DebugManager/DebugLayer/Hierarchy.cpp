@@ -95,11 +95,11 @@ void Hierarchy::setGameObjectsGetter(const IGameObjectsGetter* getter) {
 }
 
 void Hierarchy::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetVector2(mScale, "scale", inObj, alloc, mode);
-    JsonHelper::getSetInt(mOffsetCharCountX, "offsetCharCountX", inObj, alloc, mode);
-    JsonHelper::getSetInt(mOffsetCharCountY, "offsetCharCountY", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mLineSpace, "lineSpace", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mNonActiveAlpha, "nonActiveAlpha", inObj, alloc, mode);
+    JsonHelper::getSet(mScale, "scale", inObj, alloc, mode);
+    JsonHelper::getSet(mOffsetCharCountX, "offsetCharCountX", inObj, alloc, mode);
+    JsonHelper::getSet(mOffsetCharCountY, "offsetCharCountY", inObj, alloc, mode);
+    JsonHelper::getSet(mLineSpace, "lineSpace", inObj, alloc, mode);
+    JsonHelper::getSet(mNonActiveAlpha, "nonActiveAlpha", inObj, alloc, mode);
 }
 
 void Hierarchy::setGameObjectToButton() {

@@ -42,9 +42,9 @@ MeshRenderOnTexture::MeshRenderOnTexture(const std::string& filePath, int width,
 //}
 
 void MeshRenderOnTexture::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetString(mFilePath, "filePath", inObj, alloc, mode);
-    JsonHelper::getSetInt(mWidth, "width", inObj, alloc, mode);
-    JsonHelper::getSetInt(mHeight, "height", inObj, alloc, mode);
+    JsonHelper::getSet(mFilePath, "filePath", inObj, alloc, mode);
+    JsonHelper::getSet(mWidth, "width", inObj, alloc, mode);
+    JsonHelper::getSet(mHeight, "height", inObj, alloc, mode);
 
     mRenderTexture = std::make_unique<RenderTexture>(mWidth, mHeight, Format::FORMAT_D16_UNORM, Format::FORMAT_RGBA8_UNORM);
     mMesh = AssetsManager::instance().createMeshFromFilePath(mFilePath);

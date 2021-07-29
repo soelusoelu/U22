@@ -145,7 +145,7 @@ void JoyPad::stringToJoyCode(const std::string& src, JoyCode& dst) {
 }
 
 void JoyPad::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetString(mEnterPadStr, "enterPad", inObj, alloc, mode);
+    JsonHelper::getSet(mEnterPadStr, "enterPad", inObj, alloc, mode);
 
     if (mode == FileMode::LOAD) {
         stringToJoyCode(mEnterPadStr, mEnterPad);

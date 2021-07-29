@@ -53,9 +53,9 @@ void LockOn::lateUpdate() {
 }
 
 void LockOn::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(mLockOnAngle, "lockOnAngle", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mLookAtOffsetY, "lookAtOffsetY", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mCameraOffsetY, "cameraOffsetY", inObj, alloc, mode);
+    JsonHelper::getSet(mLockOnAngle, "lockOnAngle", inObj, alloc, mode);
+    JsonHelper::getSet(mLookAtOffsetY, "lookAtOffsetY", inObj, alloc, mode);
+    JsonHelper::getSet(mCameraOffsetY, "cameraOffsetY", inObj, alloc, mode);
     mLerpTimer->saveAndLoad(inObj, alloc, mode);
 }
 

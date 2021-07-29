@@ -25,7 +25,7 @@ void PlayerDash::start() {
 }
 
 void PlayerDash::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(mDashSpeed, "dashSpeed", inObj, alloc, mode);
+    JsonHelper::getSet(mDashSpeed, "dashSpeed", inObj, alloc, mode);
 }
 
 void PlayerDash::dash(IPlayerMove& playerMove) {

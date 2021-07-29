@@ -242,7 +242,7 @@ void Keyboard::stringToKeyCode(const std::string& src, KeyCode& dst) {
 }
 
 void Keyboard::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetString(mEnterKeyStr, "enterKey", inObj, alloc, mode);
+    JsonHelper::getSet(mEnterKeyStr, "enterKey", inObj, alloc, mode);
 
     if (mode == FileMode::LOAD) {
         stringToKeyCode(mEnterKeyStr, mEnterKey);

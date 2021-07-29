@@ -38,7 +38,7 @@ void EngineFuctionChanger::update() {
 }
 
 void EngineFuctionChanger::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetVector2(mStartRenderPosition, "startRenderPosition", inObj, alloc, mode);
-    JsonHelper::getSetStringArray(mSpritesFilePath, "spritesFilePath", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mSpriteSpace, "spriteSpace", inObj, alloc, mode);
+    JsonHelper::getSet(mStartRenderPosition, "startRenderPosition", inObj, alloc, mode);
+    JsonHelper::getSet(mSpritesFilePath, "spritesFilePath", inObj, alloc, mode);
+    JsonHelper::getSet(mSpriteSpace, "spriteSpace", inObj, alloc, mode);
 }

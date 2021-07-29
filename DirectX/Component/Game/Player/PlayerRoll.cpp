@@ -75,8 +75,8 @@ void PlayerRoll::lateUpdate() {
 }
 
 void PlayerRoll::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(mRollingDistance, "rollingDistance", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mRollingStaminaAmount, "rollingStaminaAmount", inObj, alloc, mode);
+    JsonHelper::getSet(mRollingDistance, "rollingDistance", inObj, alloc, mode);
+    JsonHelper::getSet(mRollingStaminaAmount, "rollingStaminaAmount", inObj, alloc, mode);
 }
 
 void PlayerRoll::originalUpdate() {

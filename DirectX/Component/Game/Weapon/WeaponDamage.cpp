@@ -10,7 +10,7 @@ WeaponDamage::WeaponDamage()
 WeaponDamage::~WeaponDamage() = default;
 
 void WeaponDamage::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetInt(mDamage, "damage", inObj, alloc, mode);
+    JsonHelper::getSet(mDamage, "damage", inObj, alloc, mode);
 }
 
 int WeaponDamage::getDamage() const {

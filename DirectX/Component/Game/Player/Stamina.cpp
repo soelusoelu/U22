@@ -32,9 +32,9 @@ void Stamina::lateUpdate() {
 }
 
 void Stamina::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(mCurrentStamina, "stamina", inObj, alloc, mode);
+    JsonHelper::getSet(mCurrentStamina, "stamina", inObj, alloc, mode);
     mMaxStamina = mCurrentStamina;
-    JsonHelper::getSetFloat(mHealAmount, "healAmount", inObj, alloc, mode);
+    JsonHelper::getSet(mHealAmount, "healAmount", inObj, alloc, mode);
     mCoolTime->saveAndLoad(inObj, alloc, mode);
 }
 

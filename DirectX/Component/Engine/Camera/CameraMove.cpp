@@ -50,8 +50,8 @@ void CameraMove::update() {
 }
 
 void CameraMove::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(mCameraSpeed, "cameraSpeed", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mRotateSpeed, "rotateSpeed", inObj, alloc, mode);
+    JsonHelper::getSet(mCameraSpeed, "cameraSpeed", inObj, alloc, mode);
+    JsonHelper::getSet(mRotateSpeed, "rotateSpeed", inObj, alloc, mode);
 }
 
 void CameraMove::drawInspector() {

@@ -10,70 +10,70 @@
 class JsonHelper {
 public:
     //FileModeに応じてgetter/setter処理を分ける
-    static void getSetInt(
+    static void getSet(
         int& value,
         const char* name,
         rapidjson::Value& inObject,
         rapidjson::Document::AllocatorType& alloc,
         FileMode mode
     );
-    static void getSetFloat(
+    static void getSet(
         float& value,
         const char* name,
         rapidjson::Value& inObject,
         rapidjson::Document::AllocatorType& alloc,
         FileMode mode
     );
-    static void getSetString(
+    static void getSet(
         std::string& value,
         const char* name,
         rapidjson::Value& inObject,
         rapidjson::Document::AllocatorType& alloc,
         FileMode mode
     );
-    static void getSetBool(
+    static void getSet(
         bool& value,
         const char* name,
         rapidjson::Value& inObject,
         rapidjson::Document::AllocatorType& alloc,
         FileMode mode
     );
-    static void getSetVector2(
+    static void getSet(
         Vector2& value,
         const char* name,
         rapidjson::Value& inObject,
         rapidjson::Document::AllocatorType& alloc,
         FileMode mode
     );
-    static void getSetVector3(
+    static void getSet(
         Vector3& value,
         const char* name,
         rapidjson::Value& inObject,
         rapidjson::Document::AllocatorType& alloc,
         FileMode mode
     );
-    static void getSetVector4(
+    static void getSet(
         Vector4& value,
         const char* name,
         rapidjson::Value& inObject,
         rapidjson::Document::AllocatorType& alloc,
         FileMode mode
     );
-    static void getSetQuaternion(
+    static void getSet(
         Quaternion& value,
         const char* name,
         rapidjson::Value& inObject,
         rapidjson::Document::AllocatorType& alloc,
         FileMode mode
     );
-    static void getSetStringArray(
+    static void getSet(
         std::vector<std::string>& value,
         const char* name,
         rapidjson::Value& inObject,
         rapidjson::Document::AllocatorType& alloc,
         FileMode mode
     );
-    static void getSetVector3Array(
+    static void getSet(
         std::vector<Vector3>& value,
         const char* name,
         rapidjson::Value& inObject,

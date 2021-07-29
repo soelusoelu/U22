@@ -79,8 +79,8 @@ void DrawString::drawString(
 }
 
 void DrawString::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetString(mNumberFileName, "number", inObj, alloc, mode);
-    JsonHelper::getSetString(mFontFileName, "font", inObj, alloc, mode);
+    JsonHelper::getSet(mNumberFileName, "number", inObj, alloc, mode);
+    JsonHelper::getSet(mFontFileName, "font", inObj, alloc, mode);
 }
 
 void DrawString::drawInt(const ParamInt& param, const Matrix4& proj) const {

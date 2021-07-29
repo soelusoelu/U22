@@ -58,7 +58,7 @@ void MeshComponent::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::Al
         }
     }
 
-    JsonHelper::getSetBool(mShadowHandle, "shadowHandle", inObj, alloc, mode);
+    JsonHelper::getSet(mShadowHandle, "shadowHandle", inObj, alloc, mode);
 }
 
 void MeshComponent::drawInspector() {

@@ -11,7 +11,7 @@ Time::Time()
 Time::~Time() = default;
 
 void Time::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(mLimitTime, "limitTime", inObj, alloc, mode);
+    JsonHelper::getSet(mLimitTime, "limitTime", inObj, alloc, mode);
 }
 
 void Time::update() {

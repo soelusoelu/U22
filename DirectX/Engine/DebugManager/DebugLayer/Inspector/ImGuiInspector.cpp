@@ -80,7 +80,7 @@ void ImGuiInspector::drawInspect() const {
 }
 
 void ImGuiInspector::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(mInspectorPositionX, "inspectorPositionX", inObj, alloc, mode);
+    JsonHelper::getSet(mInspectorPositionX, "inspectorPositionX", inObj, alloc, mode);
 }
 
 void ImGuiInspector::drawName(const GameObject& target) const {

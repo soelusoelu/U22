@@ -86,7 +86,7 @@ void LightManager::drawPointLights(const Camera& camera) {
 }
 
 void LightManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetVector3(mAmbientLight, "ambientLight", inObj, alloc, mode);
+    JsonHelper::getSet(mAmbientLight, "ambientLight", inObj, alloc, mode);
 }
 
 void LightManager::childSaveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {

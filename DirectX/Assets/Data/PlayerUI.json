@@ -17,6 +17,13 @@
     {
       "type": "PlayerHitPointGauge",
       "properties": {}
+    },
+    {
+      "type": "CrossHair",
+      "properties": {
+        "offset": 8.0,
+        "length": 32.0
+      }
     }
   ]
 }

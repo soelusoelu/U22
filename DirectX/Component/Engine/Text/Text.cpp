@@ -31,7 +31,7 @@ void Text::lateUpdate() {
 void Text::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
     TextBase::saveAndLoad(inObj, alloc, mode);
 
-    JsonHelper::getSetString(mText, "text", inObj, alloc, mode);
+    JsonHelper::getSet(mText, "text", inObj, alloc, mode);
 }
 
 void Text::drawInspector() {

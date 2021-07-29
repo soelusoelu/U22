@@ -37,8 +37,8 @@ void EnemyAttack::update() {
 }
 
 void EnemyAttack::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetInt(mDamage, "damage", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mAttackRangeDistance, "attackRangeDistance", inObj, alloc, mode);
+    JsonHelper::getSet(mDamage, "damage", inObj, alloc, mode);
+    JsonHelper::getSet(mAttackRangeDistance, "attackRangeDistance", inObj, alloc, mode);
 }
 
 void EnemyAttack::attack(const Transform3D& player) {

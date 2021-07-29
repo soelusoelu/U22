@@ -47,12 +47,12 @@ void OBBCollider::finalize() {
 }
 
 void OBBCollider::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetInt(mBoneNo, "boneNo", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mBoneStart, "boneStart", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mBoneEnd, "boneEnd", inObj, alloc, mode);
-    JsonHelper::getSetVector3(mOBB.center, "center", inObj, alloc, mode);
-    JsonHelper::getSetQuaternion(mOBB.rotation, "rotation", inObj, alloc, mode);
-    JsonHelper::getSetVector3(mOBB.extents, "extents", inObj, alloc, mode);
+    JsonHelper::getSet(mBoneNo, "boneNo", inObj, alloc, mode);
+    JsonHelper::getSet(mBoneStart, "boneStart", inObj, alloc, mode);
+    JsonHelper::getSet(mBoneEnd, "boneEnd", inObj, alloc, mode);
+    JsonHelper::getSet(mOBB.center, "center", inObj, alloc, mode);
+    JsonHelper::getSet(mOBB.rotation, "rotation", inObj, alloc, mode);
+    JsonHelper::getSet(mOBB.extents, "extents", inObj, alloc, mode);
 }
 
 void OBBCollider::drawInspector() {

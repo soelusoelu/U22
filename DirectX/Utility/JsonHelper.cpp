@@ -1,6 +1,6 @@
 ﻿#include "JsonHelper.h"
 
-void JsonHelper::getSetInt(
+void JsonHelper::getSet(
     int& value,
     const char* name,
     rapidjson::Value& inObject,
@@ -14,7 +14,7 @@ void JsonHelper::getSetInt(
     }
 }
 
-void JsonHelper::getSetFloat(
+void JsonHelper::getSet(
     float& value,
     const char* name,
     rapidjson::Value& inObject,
@@ -28,7 +28,7 @@ void JsonHelper::getSetFloat(
     }
 }
 
-void JsonHelper::getSetString(
+void JsonHelper::getSet(
     std::string& value,
     const char* name,
     rapidjson::Value& inObject,
@@ -42,7 +42,7 @@ void JsonHelper::getSetString(
     }
 }
 
-void JsonHelper::getSetBool(
+void JsonHelper::getSet(
     bool& value,
     const char* name,
     rapidjson::Value& inObject, rapidjson::Document::AllocatorType& alloc, FileMode mode)
@@ -54,7 +54,7 @@ void JsonHelper::getSetBool(
     }
 }
 
-void JsonHelper::getSetVector2(
+void JsonHelper::getSet(
     Vector2& value,
     const char* name,
     rapidjson::Value& inObject,
@@ -68,7 +68,7 @@ void JsonHelper::getSetVector2(
     }
 }
 
-void JsonHelper::getSetVector3(
+void JsonHelper::getSet(
     Vector3& value,
     const char* name,
     rapidjson::Value& inObject,
@@ -82,7 +82,7 @@ void JsonHelper::getSetVector3(
     }
 }
 
-void JsonHelper::getSetVector4(
+void JsonHelper::getSet(
     Vector4& value,
     const char* name,
     rapidjson::Value& inObject,
@@ -96,7 +96,7 @@ void JsonHelper::getSetVector4(
     }
 }
 
-void JsonHelper::getSetQuaternion(
+void JsonHelper::getSet(
     Quaternion& value,
     const char* name,
     rapidjson::Value& inObject,
@@ -110,7 +110,7 @@ void JsonHelper::getSetQuaternion(
     }
 }
 
-void JsonHelper::getSetStringArray(
+void JsonHelper::getSet(
     std::vector<std::string>& value,
     const char* name,
     rapidjson::Value& inObject,
@@ -124,7 +124,7 @@ void JsonHelper::getSetStringArray(
     }
 }
 
-void JsonHelper::getSetVector3Array(
+void JsonHelper::getSet(
     std::vector<Vector3>& value,
     const char* name,
     rapidjson::Value& inObject,

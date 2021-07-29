@@ -47,7 +47,7 @@ void FPSCounter::setFixedFrame(float fixedFrame) {
 }
 
 void FPSCounter::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(mFixedFrame, "fps", inObj, alloc, mode);
+    JsonHelper::getSet(mFixedFrame, "fps", inObj, alloc, mode);
 }
 
 void FPSCounter::computeFps(float time) {

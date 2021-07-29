@@ -77,10 +77,10 @@ void Inspector::drawInspect() const {
 }
 
 void Inspector::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(mInspectorPositionX, "inspectorPositionX", inObj, alloc, mode);
-    JsonHelper::getSetVector2(mNameScale, "nameScale", inObj, alloc, mode);
-    JsonHelper::getSetVector2(mElementScale, "elementScale", inObj, alloc, mode);
-    JsonHelper::getSetInt(mOffsetCharCountX, "offsetCharCountX", inObj, alloc, mode);
+    JsonHelper::getSet(mInspectorPositionX, "inspectorPositionX", inObj, alloc, mode);
+    JsonHelper::getSet(mNameScale, "nameScale", inObj, alloc, mode);
+    JsonHelper::getSet(mElementScale, "elementScale", inObj, alloc, mode);
+    JsonHelper::getSet(mOffsetCharCountX, "offsetCharCountX", inObj, alloc, mode);
 }
 
 void Inspector::drawName(const GameObject& target) const {

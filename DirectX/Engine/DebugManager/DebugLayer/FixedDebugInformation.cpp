@@ -28,5 +28,5 @@ void FixedDebugInformation::draw(DrawString& drawString) const {
 }
 
 void FixedDebugInformation::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetVector2(mScale, "scale", inObj, alloc, mode);
+    JsonHelper::getSet(mScale, "scale", inObj, alloc, mode);
 }

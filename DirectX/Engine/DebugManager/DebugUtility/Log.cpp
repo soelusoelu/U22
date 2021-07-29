@@ -42,7 +42,7 @@ void Log::drawLogs(DrawString& drawString) const {
 }
 
 void Log::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetVector2(mScale, "scale", inObj, alloc, mode);
+    JsonHelper::getSet(mScale, "scale", inObj, alloc, mode);
 }
 
 void Log::addLog(const std::string& message, const Vector3& color) {

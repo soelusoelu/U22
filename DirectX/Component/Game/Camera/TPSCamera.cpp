@@ -44,10 +44,10 @@ void TPSCamera::update() {
 }
 
 void TPSCamera::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(mRotateSpeed, "rotateSpeed", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mToPlayerDistance, "cameraToPlayerDistance", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mPlayerHeadPointY, "playerHeadPointY", inObj, alloc, mode);
-    JsonHelper::getSetVector3(mAdsPosition, "adsPosition", inObj, alloc, mode);
+    JsonHelper::getSet(mRotateSpeed, "rotateSpeed", inObj, alloc, mode);
+    JsonHelper::getSet(mToPlayerDistance, "cameraToPlayerDistance", inObj, alloc, mode);
+    JsonHelper::getSet(mPlayerHeadPointY, "playerHeadPointY", inObj, alloc, mode);
+    JsonHelper::getSet(mAdsPosition, "adsPosition", inObj, alloc, mode);
 }
 
 void TPSCamera::drawInspector() {

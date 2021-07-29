@@ -81,8 +81,8 @@ void ShadowMap::drawEndShadowTexture() {
 }
 
 void ShadowMap::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetInt(mShadowTextureSize, "shadowTextureSize", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mLightDistance, "lightDistance", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mNearClip, "nearClip", inObj, alloc, mode);
-    JsonHelper::getSetFloat(mFarClip, "farClip", inObj, alloc, mode);
+    JsonHelper::getSet(mShadowTextureSize, "shadowTextureSize", inObj, alloc, mode);
+    JsonHelper::getSet(mLightDistance, "lightDistance", inObj, alloc, mode);
+    JsonHelper::getSet(mNearClip, "nearClip", inObj, alloc, mode);
+    JsonHelper::getSet(mFarClip, "farClip", inObj, alloc, mode);
 }

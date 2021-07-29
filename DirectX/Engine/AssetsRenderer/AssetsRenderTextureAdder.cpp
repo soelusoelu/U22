@@ -26,8 +26,8 @@ void AssetsRenderTextureAdder::update() {
 }
 
 void AssetsRenderTextureAdder::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetVector2(mRenderPosition, "renderPosition", inObj, alloc, mode);
-    JsonHelper::getSetString(mSpriteFilePath, "spriteButtonFilePath", inObj, alloc, mode);
+    JsonHelper::getSet(mRenderPosition, "renderPosition", inObj, alloc, mode);
+    JsonHelper::getSet(mSpriteFilePath, "spriteButtonFilePath", inObj, alloc, mode);
 }
 
 void AssetsRenderTextureAdder::onClickButton() {

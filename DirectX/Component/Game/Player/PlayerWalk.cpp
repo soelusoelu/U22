@@ -30,7 +30,7 @@ void PlayerWalk::start() {
 }
 
 void PlayerWalk::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSetFloat(mWalkSpeed, "walkSpeed", inObj, alloc, mode);
+    JsonHelper::getSet(mWalkSpeed, "walkSpeed", inObj, alloc, mode);
 }
 
 void PlayerWalk::walk(IPlayerMove& playerMove) {
