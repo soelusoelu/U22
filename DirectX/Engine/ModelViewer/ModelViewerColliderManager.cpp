@@ -67,7 +67,6 @@ void ModelViewerColliderManager::drawTPoseBone(LineInstancingDrawer& line) const
 
     const auto animation = mMesh->getAnimation();
     const auto boneCount = animation->getBoneCount();
-    constexpr auto colorSize = COLORS.size();
 
     const auto& curBones = mSkinMesh->getBoneCurrentFrameMatrix();
     for (unsigned i = 0; i < boneCount; ++i) {
@@ -82,7 +81,7 @@ void ModelViewerColliderManager::drawTPoseBone(LineInstancingDrawer& line) const
         line.add(
             Vector3::transform(bone.initMat.getTranslation(), curBones[bone.number]),
             Vector3::transform(parent->initMat.getTranslation(), curBones[parent->number]),
-            COLORS[i % colorSize]
+            ColorPalette::lightYellow
         );
     }
 }

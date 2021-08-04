@@ -41,22 +41,15 @@
 #include "../Component/Game/Camera/GameCamera.h"
 #include "../Component/Game/Camera/LockOn.h"
 #include "../Component/Game/Camera/TPSCamera.h"
-#include "../Component/Game/Enemy/EnemyAI.h"
 #include "../Component/Game/Enemy/EnemyAnimationController.h"
-#include "../Component/Game/Enemy/EnemyAttack.h"
-#include "../Component/Game/Enemy/EnemyColliderController.h"
-#include "../Component/Game/Enemy/EnemyMove.h"
 #include "../Component/Game/Enemy/OctopusFoot.h"
 #include "../Component/Game/Enemy/OctopusFootCommonSetting.h"
+#include "../Component/Game/Enemy/OctopusFootManager.h"
 #include "../Component/Game/Player/BulletShooter.h"
 #include "../Component/Game/Player/PlayerAnimationController.h"
-#include "../Component/Game/Player/PlayerAttack.h"
 #include "../Component/Game/Player/PlayerColliderController.h"
 #include "../Component/Game/Player/PlayerDash.h"
-#include "../Component/Game/Player/PlayerGuard.h"
 #include "../Component/Game/Player/PlayerMove.h"
-#include "../Component/Game/Player/PlayerRoll.h"
-#include "../Component/Game/Player/PlayerShield.h"
 #include "../Component/Game/Player/PlayerWalk.h"
 #include "../Component/Game/Player/PlayerWeapon.h"
 #include "../Component/Game/Player/Stamina.h"
@@ -136,23 +129,16 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(LockOn);
     ADD_COMPONENT(TPSCamera);
 
-    ADD_COMPONENT(EnemyAI);
     ADD_COMPONENT(EnemyAnimationController);
-    ADD_COMPONENT(EnemyAttack);
-    ADD_COMPONENT(EnemyColliderController);
-    ADD_COMPONENT(EnemyMove);
     ADD_COMPONENT(OctopusFoot);
     ADD_COMPONENT(OctopusFootCommonSetting);
+    ADD_COMPONENT(OctopusFootManager);
 
     ADD_COMPONENT(BulletShooter);
     ADD_COMPONENT(PlayerAnimationController);
-    ADD_COMPONENT(PlayerAttack);
     ADD_COMPONENT(PlayerColliderController);
     ADD_COMPONENT(PlayerDash);
-    ADD_COMPONENT(PlayerGuard);
     ADD_COMPONENT(PlayerMove);
-    ADD_COMPONENT(PlayerRoll);
-    ADD_COMPONENT(PlayerShield);
     ADD_COMPONENT(PlayerWalk);
     ADD_COMPONENT(PlayerWeapon);
     ADD_COMPONENT(Stamina);

@@ -2,6 +2,7 @@
 #include "OctopusFootCommonSetting.h"
 #include "../../Engine/Collider/OBBCollider.h"
 #include "../../../Utility/JsonHelper.h"
+#include <algorithm>
 
 OctopusFoot::OctopusFoot()
     : Component()
@@ -19,21 +20,15 @@ void OctopusFoot::start() {
     auto colliders = getComponents<OBBCollider>();
     for (const auto& c : colliders) {
         const auto no = c->getBone().number;
-        if (mTargetBoneNo.find(no) != mTargetBoneNo.end()) {
+        const auto result = std::find(mTargetBoneNo.begin(), mTargetBoneNo.end(), no);
+        if (result != mTargetBoneNo.end()) {
             mColliders.emplace_back(c);
         }
     }
 }
 
 void OctopusFoot::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    if (mode == FileMode::LOAD) {
-        if (std::vector<int> temp; JsonHelper::getIntArray(temp, "targetBoneNo", inObj)) {
-            mTargetBoneNo.insert(temp.cbegin(), temp.cend());
-        }
-    } else if (mode == FileMode::SAVE) {
-        std::vector<int> temp(mTargetBoneNo.cbegin(), mTargetBoneNo.cend());
-        JsonHelper::setIntArray(temp, "targetBoneNo", inObj, alloc);
-    }
+    JsonHelper::getSet(mTargetBoneNo, "targetBoneNo", inObj, alloc, mode);
 }
 
 const std::vector<std::shared_ptr<OBBCollider>>& OctopusFoot::getColliders() const {
@@ -43,9 +38,13 @@ const std::vector<std::shared_ptr<OBBCollider>>& OctopusFoot::getColliders() con
 void OctopusFoot::takeDamage() {
     --mHp;
 
-    if (mHp <= 0) {
+    if (isDestroyFoot()) {
         onDestroyFoot();
     }
+}
+
+bool OctopusFoot::isDestroyFoot() const {
+    return (mHp <= 0);
 }
 
 void OctopusFoot::onDestroyFoot() {

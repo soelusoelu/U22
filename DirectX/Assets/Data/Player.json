@@ -1,18 +1,16 @@
 {
   "tag": "Player",
   "transform": {
-    "position": [ 0.0, 0.0, -100.0 ]
+    "position": [ 0.0, 0.0, -100.0 ],
+    "scale": [ 0.01, 0.01, 0.01 ]
   },
   "components": [
     {
       "type": "MeshComponent",
       "properties": {
-        "fileName": "Player\\U22_player_whiteanime.fbx"
+        "fileName": "Player\\player.fbx",
+        "shadowHandle": false
       }
-    },
-    {
-      "type": "AABBAnimationCollider",
-      "properties": {}
     },
     {
       "type": "PlayerAnimationController",
@@ -29,13 +27,13 @@
     {
       "type": "PlayerWalk",
       "properties": {
-        "walkSpeed": 45.0
+        "walkSpeed": 30.0
       }
     },
     {
       "type": "PlayerDash",
       "properties": {
-        "dashSpeed": 90.0
+        "dashSpeed": 60.0
       }
     },
     {
@@ -47,10 +45,6 @@
       "properties": {
         "HP": 300
       }
-    },
-    {
-      "type": "PlayerWeapon",
-      "properties": {}
     }
   ]
 }

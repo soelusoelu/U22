@@ -8,6 +8,7 @@
 
 class GameObject;
 class Camera;
+class SkinMeshComponent;
 class OctopusFoot;
 
 class BulletShooter
@@ -31,6 +32,7 @@ public:
 
 private:
     std::shared_ptr<Camera> mCamera;
+    std::shared_ptr<SkinMeshComponent> mAnimation;
     std::vector<std::shared_ptr<OctopusFoot>> mEnemyFoots;
     Function<void()> mOnAds;
     Function<void()> mOnStartAds;

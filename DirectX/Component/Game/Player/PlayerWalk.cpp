@@ -38,7 +38,7 @@ void PlayerWalk::walk(IPlayerMove& playerMove) {
     rotate(playerMove);
 
     if (!mIsWalking) {
-        mAnimation->changeMotion(PlayerMotions::WALK);
+        mAnimation->changeMotion(PlayerMotions::LEFT_MOVE_ON_ADS);
         mAnimation->setLoop(true);
         mIsWalking = true;
 
@@ -65,7 +65,7 @@ void PlayerWalk::rotate(IPlayerMove& playerMove) {
 }
 
 void PlayerWalk::onChangeMotion() {
-    if (mAnimation->getCurrentMotionNumber() != PlayerMotions::WALK) {
+    if (mAnimation->getCurrentMotionNumber() != PlayerMotions::LEFT_MOVE_ON_ADS) {
         mIsWalking = false;
     }
 }

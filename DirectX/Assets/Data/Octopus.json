@@ -9,7 +9,7 @@
       "properties": {
         "fileName": "octpus_anime.fbx",
         "directoryPath": "Assets\\Model\\Enemy\\",
-        "shadowHandle": true
+        "shadowHandle": false
       }
     },
     {
@@ -1973,6 +1973,10 @@
           0.0483880415558815
         ]
       }
+    },
+    {
+      "type": "OctopusFootManager",
+      "properties": {}
     },
     {
       "type": "OctopusFootCommonSetting",

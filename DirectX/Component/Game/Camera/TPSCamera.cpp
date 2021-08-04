@@ -54,6 +54,7 @@ void TPSCamera::drawInspector() {
     ImGui::Checkbox("Inverse X", &mIsInverseX);
     ImGui::Checkbox("Inverse Y", &mIsInverseY);
     ImGuiWrapper::dragFloat("To Player Distance", mToPlayerDistance, 0.1f, 0.f, FLT_MAX);
+    ImGuiWrapper::dragFloat("Player Head Point Y", mPlayerHeadPointY, 0.1f, 0.f, FLT_MAX);
     ImGuiWrapper::dragVector3("ADS Position", mAdsPosition, 0.1f);
 }
 
@@ -103,7 +104,7 @@ Vector3 TPSCamera::getPlayerHeadPoint() const {
 }
 
 Vector3 TPSCamera::getCalcPosition() const {
-    return getPlayerHeadPoint() + -transform().forward() * mToPlayerDistance;
+    return getPlayerHeadPoint() + -transform().forward() * mToPlayerDistance * mPlayer->transform().getScale().z;
 }
 
 void TPSCamera::onAds() {

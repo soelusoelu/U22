@@ -1,11 +1,9 @@
 ﻿#include "PlayerColliderController.h"
-#include "../Enemy/EnemyAttack.h"
 #include "../PlayerEnemyCommon/HitPoint.h"
-#include "../../Engine/Collider/AABBAnimationCollider.h"
+#include "../../Engine/Collider/Collider.h"
 
 PlayerColliderController::PlayerColliderController()
     : Component()
-    , mCollider(nullptr)
     , mHP(nullptr)
 {
 }
@@ -17,10 +15,10 @@ void PlayerColliderController::start() {
 }
 
 void PlayerColliderController::onCollisionEnter(Collider& other) {
-    if (other.gameObject().tag() == "Enemy") {
-        auto ea = other.getComponent<EnemyAttack>();
-        if (ea->isAttacking()) {
-            mHP->takeDamage(ea->getDamage());
-        }
-    }
+    //if (other.gameObject().tag() == "Enemy") {
+    //    auto ea = other.getComponent<EnemyAttack>();
+    //    if (ea->isAttacking()) {
+    //        mHP->takeDamage(ea->getDamage());
+    //    }
+    //}
 }

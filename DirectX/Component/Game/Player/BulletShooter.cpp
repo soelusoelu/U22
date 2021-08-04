@@ -1,7 +1,9 @@
 ﻿#include "BulletShooter.h"
+#include "PlayerMotions.h"
 #include "../Enemy/OctopusFoot.h"
 #include "../../Engine/Camera/Camera.h"
 #include "../../Engine/Collider/OBBCollider.h"
+#include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Collision/Collision.h"
 #include "../../../Engine/DebugManager/DebugUtility/Debug.h"
 #include "../../../GameObject/GameObject.h"
@@ -13,6 +15,7 @@
 BulletShooter::BulletShooter()
     : Component()
     , mCamera(nullptr)
+    , mAnimation(nullptr)
     , mIsADS(false)
 {
 }
@@ -22,6 +25,8 @@ BulletShooter::~BulletShooter() = default;
 void BulletShooter::start() {
     const auto& cam = gameObject().getGameObjectManager().find("Camera");
     mCamera = cam->componentManager().getComponent<Camera>();
+
+    mAnimation = getComponent<SkinMeshComponent>();
 }
 
 void BulletShooter::update() {
@@ -53,8 +58,7 @@ void BulletShooter::update() {
 }
 
 void BulletShooter::setEnemy(const GameObject& enemy) {
-    const auto& e = enemy.getGameObjectManager().find("Enemy");
-    mEnemyFoots = e->componentManager().getComponents<OctopusFoot>();
+    mEnemyFoots = enemy.componentManager().getComponents<OctopusFoot>();
 }
 
 void BulletShooter::ads() {
@@ -62,10 +66,14 @@ void BulletShooter::ads() {
     static constexpr auto code = JoyCode::LeftButton;
     if (pad.getJoyDown(code)) {
         mIsADS = true;
+        mAnimation->changeMotion(PlayerMotions::START_ADS);
+        mAnimation->setLoop(false);
         mOnStartAds();
     }
     if (pad.getJoyUp(code)) {
         mIsADS = false;
+        mAnimation->changeMotion(PlayerMotions::STOP_ADS);
+        mAnimation->setLoop(false);
         mOnStopAds();
     }
     if (pad.getJoy(code)) {

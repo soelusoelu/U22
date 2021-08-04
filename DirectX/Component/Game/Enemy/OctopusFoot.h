@@ -2,7 +2,6 @@
 
 #include "../../Component.h"
 #include <memory>
-#include <unordered_set>
 #include <vector>
 
 class OBBCollider;
@@ -25,12 +24,15 @@ public:
     const std::vector<std::shared_ptr<OBBCollider>>& getColliders() const;
     //足にダメージを与える
     void takeDamage();
+    //足が死んでいるか
+    bool isDestroyFoot() const;
 
 private:
+    //足が死んだら
     void onDestroyFoot();
 
 private:
     std::vector<OBBColliderPtr> mColliders;
-    std::unordered_set<int> mTargetBoneNo;
+    std::vector<int> mTargetBoneNo;
     int mHp;
 };

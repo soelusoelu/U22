@@ -3,7 +3,6 @@
 #include "IModelViewerCallback.h"
 #include "ModelViewerMode.h"
 #include "../../Math/Math.h"
-#include <array>
 #include <memory>
 #include <vector>
 
@@ -50,8 +49,4 @@ private:
     bool mIsDrawBone;
 
     inline static constexpr int INVALID_NO = -1;
-    inline static const std::array COLORS = {
-        ColorPalette::red, ColorPalette::blue, ColorPalette::yellow, ColorPalette::green,
-        ColorPalette::lightBlue, ColorPalette::lightGreen, ColorPalette::lightPink, ColorPalette::lightYellow
-    };
 };
