@@ -38,7 +38,7 @@ void Title::awake() {
     playerCompManager.getComponent<PlayerWalk>()->setCameraRotation(camera->transform().getLocalRotation());
     //playerCompManager.getComponent<PlayerWeapon>()->setWeapon(weapon);
 
-    //boss->componentManager().getComponent<EnemyAI>()->setPlayer(player);
+    boss->componentManager().getComponent<EnemyAI>()->setPlayer(player);
 
     auto playerUIManager = GameObjectCreater::create("PlayerUI");
     playerUIManager->componentManager().getComponent<PlayerUIManager>()->setPlayer(player);

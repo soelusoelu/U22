@@ -168,6 +168,8 @@
   <ItemGroup>
     <ClCompile Include="Component\Game\Player\BulletShooter.cpp" />
     <ClCompile Include="Component\Game\Weapon\CrossHair.cpp" />
+    <ClCompile Include="Component\Game\Enemy\EnemyAI.cpp" />
+    <ClCompile Include="Component\Game\Enemy\EnemyMove.cpp" />
     <ClCompile Include="Engine\ModelViewer\ColliderOptionGUI.cpp" />
     <ClCompile Include="Collision\BoxHelper.cpp" />
     <ClCompile Include="Component\Engine\Collider\ColliderDrawer.cpp" />
@@ -437,6 +439,8 @@
   <ItemGroup>
     <ClInclude Include="Component\Game\Player\BulletShooter.h" />
     <ClInclude Include="Component\Game\Weapon\CrossHair.h" />
+    <ClInclude Include="Component\Game\Enemy\EnemyAI.h" />
+    <ClInclude Include="Component\Game\Enemy\EnemyMove.h" />
     <ClInclude Include="Engine\ModelViewer\ColliderOptionGUI.h" />
     <ClInclude Include="Collision\BoxHelper.h" />
     <ClInclude Include="Component\Engine\Collider\ColliderDrawer.h" />

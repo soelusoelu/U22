@@ -31,6 +31,19 @@
       "properties": {}
     },
     {
+      "type": "EnemyAI",
+      "properties": {
+        "attackRange": 2.0
+      }
+    },
+    {
+      "type": "EnemyMove",
+      "properties": {
+        "moveSpeed": 15.0,
+        "rotateSpeed": 10.0
+      }
+    },
+    {
       "type": "OBBCollider",
       "properties": {
         "boneNo": 1,

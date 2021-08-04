@@ -20,9 +20,16 @@ public:
     virtual void start() override;
     virtual void update() override;
 
+    //一本でも足があるか
+    bool isFootAlive() const;
+
+private:
+    //管理中の足が死んだら呼ばれる
+    void onDestroyFoot(const OctopusFoot& foot);
+
 private:
     std::vector<OctopusFootPtr> mFoots;
-    std::vector<unsigned> mFootNumbers;
+    std::vector<unsigned> mFootAliveNumbers;
 
     inline static constexpr unsigned OCTOPUS_FOOT_COUNT = 8;
 };

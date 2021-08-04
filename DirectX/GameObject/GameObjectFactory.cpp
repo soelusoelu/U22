@@ -41,7 +41,9 @@
 #include "../Component/Game/Camera/GameCamera.h"
 #include "../Component/Game/Camera/LockOn.h"
 #include "../Component/Game/Camera/TPSCamera.h"
+#include "../Component/Game/Enemy/EnemyAI.h"
 #include "../Component/Game/Enemy/EnemyAnimationController.h"
+#include "../Component/Game/Enemy/EnemyMove.h"
 #include "../Component/Game/Enemy/OctopusFoot.h"
 #include "../Component/Game/Enemy/OctopusFootCommonSetting.h"
 #include "../Component/Game/Enemy/OctopusFootManager.h"
@@ -129,7 +131,9 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(LockOn);
     ADD_COMPONENT(TPSCamera);
 
+    ADD_COMPONENT(EnemyAI);
     ADD_COMPONENT(EnemyAnimationController);
+    ADD_COMPONENT(EnemyMove);
     ADD_COMPONENT(OctopusFoot);
     ADD_COMPONENT(OctopusFootCommonSetting);
     ADD_COMPONENT(OctopusFootManager);

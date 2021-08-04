@@ -6,6 +6,7 @@
 
 OctopusFoot::OctopusFoot()
     : Component()
+    , mFootNumber(-1)
     , mHp(0)
 {
 }
@@ -31,6 +32,14 @@ void OctopusFoot::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::Allo
     JsonHelper::getSet(mTargetBoneNo, "targetBoneNo", inObj, alloc, mode);
 }
 
+void OctopusFoot::setNumber(int number) {
+    mFootNumber = number;
+}
+
+int OctopusFoot::getNumber() const {
+    return mFootNumber;
+}
+
 const std::vector<std::shared_ptr<OBBCollider>>& OctopusFoot::getColliders() const {
     return mColliders;
 }
@@ -39,7 +48,9 @@ void OctopusFoot::takeDamage() {
     --mHp;
 
     if (isDestroyFoot()) {
-        onDestroyFoot();
+        //足死亡
+        destroyFoot();
+        mOnDestroyFoot(*this);
     }
 }
 
@@ -47,7 +58,11 @@ bool OctopusFoot::isDestroyFoot() const {
     return (mHp <= 0);
 }
 
-void OctopusFoot::onDestroyFoot() {
+void OctopusFoot::onDestroyFoot(const std::function<void(const OctopusFoot&)>& f) {
+    mOnDestroyFoot += f;
+}
+
+void OctopusFoot::destroyFoot() {
     for (const auto& c : mColliders) {
         c->disabled();
     }
