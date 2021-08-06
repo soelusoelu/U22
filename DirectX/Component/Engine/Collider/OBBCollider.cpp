@@ -227,7 +227,7 @@ void OBBCollider::beforeComputeWorldMatrix() {
 
     const auto& t = transform();
     const auto& s = t.getScale();
-    mOBB.center = mOBB.center * s + t.getPosition();
+    mOBB.center = Vector3::transform(mOBB.center, t.getRotation()) * s + t.getPosition();
     mOBB.rotation *= t.getRotation();
     mOBB.extents = mDefaultExtents * s;
 }

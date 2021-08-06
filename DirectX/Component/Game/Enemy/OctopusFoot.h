@@ -22,8 +22,6 @@ public:
     virtual void start() override;
     virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
-    //足に識別番号を与える
-    void setNumber(int number);
     //識別番号を取得する
     int getNumber() const;
     //足の部分の全コライダーを取得する
@@ -43,6 +41,6 @@ private:
     std::vector<OBBColliderPtr> mColliders;
     std::vector<int> mTargetBoneNo;
     Function<void(const OctopusFoot&)> mOnDestroyFoot;
-    int mFootNumber;
+    int mFootMeshNumber;
     int mHp;
 };

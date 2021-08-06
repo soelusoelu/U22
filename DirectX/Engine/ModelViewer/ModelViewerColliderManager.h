@@ -29,7 +29,7 @@ private:
     ModelViewerColliderManager& operator=(const ModelViewerColliderManager&) = delete;
 
     //Tポーズ状態のボーンを描画する
-    void drawTPoseBone(LineInstancingDrawer& line) const;
+    void drawBone(LineInstancingDrawer& line) const;
     //ボーンの数だけOBBを作成する
     void createObbCollider();
     //OBBをマウスで選択する

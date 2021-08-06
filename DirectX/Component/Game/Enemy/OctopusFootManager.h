@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../../Component.h"
+#include <list>
 #include <memory>
 #include <vector>
 
@@ -28,8 +29,9 @@ private:
     void onDestroyFoot(const OctopusFoot& foot);
 
 private:
+    int mCurrentMaterial;
     std::vector<OctopusFootPtr> mFoots;
-    std::vector<unsigned> mFootAliveNumbers;
+    std::list<unsigned> mFootAliveNumbers;
 
     inline static constexpr unsigned OCTOPUS_FOOT_COUNT = 8;
 };

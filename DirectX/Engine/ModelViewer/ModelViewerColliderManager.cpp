@@ -30,7 +30,7 @@ void ModelViewerColliderManager::initialize(IModelViewerCallback* callback) {
 }
 
 void ModelViewerColliderManager::update(LineInstancingDrawer& line, const SimpleCamera& camera) {
-    drawTPoseBone(line);
+    drawBone(line);
     selectObb(camera);
 
     if (Input::mouse().getMouseButtonDown(MouseCode::RightButton) && mSelectedObbNo != INVALID_NO) {
@@ -57,7 +57,7 @@ void ModelViewerColliderManager::drawGUI() {
     mOptionGui->drawGui();
 }
 
-void ModelViewerColliderManager::drawTPoseBone(LineInstancingDrawer& line) const {
+void ModelViewerColliderManager::drawBone(LineInstancingDrawer& line) const {
     if (!isAnimation()) {
         return;
     }
@@ -81,7 +81,7 @@ void ModelViewerColliderManager::drawTPoseBone(LineInstancingDrawer& line) const
         line.add(
             Vector3::transform(bone.initMat.getTranslation(), curBones[bone.number]),
             Vector3::transform(parent->initMat.getTranslation(), curBones[parent->number]),
-            ColorPalette::lightYellow
+            ColorPalette::yellow
         );
     }
 }
