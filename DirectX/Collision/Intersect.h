@@ -23,6 +23,9 @@ bool intersectSphere(const Sphere& a, const Sphere& b);
 //AABB同士の衝突判定を行う
 bool intersectAABB(const AABB& a, const AABB& b);
 
+//OBB同士の衝突判定を行う
+bool intersectOBB(const OBB& a, const OBB& b);
+
 //無限平面とレイの衝突判定を行う
 bool intersectRayPlane(const Ray& ray, const Plane& p, Vector3* intersectPoint = nullptr);
 

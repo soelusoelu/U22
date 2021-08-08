@@ -34,9 +34,9 @@ void AABBAnimationCollider::start() {
     //最新のAABBの点を計算する
     updatePoints();
 
-    if (mPhysics) {
-        mPhysics->add(shared_from_this());
-    }
+    //if (mPhysics) {
+    //    mPhysics->add(shared_from_this());
+    //}
 }
 
 void AABBAnimationCollider::lateUpdate() {
@@ -55,9 +55,9 @@ void AABBAnimationCollider::lateUpdate() {
 void AABBAnimationCollider::finalize() {
     Collider::finalize();
 
-    if (mPhysics) {
-        mPhysics->remove(shared_from_this());
-    }
+    //if (mPhysics) {
+    //    mPhysics->remove(shared_from_this());
+    //}
 }
 
 void AABBAnimationCollider::onEnable(bool value) {

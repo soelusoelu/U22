@@ -2,6 +2,7 @@
 #include "ColliderDrawer.h"
 #include "../Mesh/MeshComponent.h"
 #include "../Mesh/SkinMeshComponent.h"
+#include "../../../Device/Physics.h"
 #include "../../../Engine/DebugManager/DebugUtility/DebugUtility.h"
 #include "../../../Engine/DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
 #include "../../../Transform/Transform3D.h"
@@ -31,6 +32,10 @@ void OBBCollider::start() {
     mDefaultExtents = mOBB.extents;
 
     //transform().callbackBeforeComputeWorldMatrix([&] { beforeComputeWorldMatrix(); });
+
+    if (mPhysics) {
+        mPhysics->add(shared_from_this());
+    }
 }
 
 void OBBCollider::lateUpdate() {
@@ -48,6 +53,10 @@ void OBBCollider::lateUpdate() {
 
 void OBBCollider::finalize() {
     Collider::finalize();
+
+    if (mPhysics) {
+        mPhysics->remove(shared_from_this());
+    }
 }
 
 void OBBCollider::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {

@@ -1,6 +1,7 @@
 ﻿#include "PlayerColliderController.h"
 #include "../PlayerEnemyCommon/HitPoint.h"
 #include "../../Engine/Collider/Collider.h"
+#include "../../../Engine/DebugManager/DebugUtility/Debug.h"
 
 PlayerColliderController::PlayerColliderController()
     : Component()
@@ -15,10 +16,10 @@ void PlayerColliderController::start() {
 }
 
 void PlayerColliderController::onCollisionEnter(Collider& other) {
-    //if (other.gameObject().tag() == "Enemy") {
-    //    auto ea = other.getComponent<EnemyAttack>();
-    //    if (ea->isAttacking()) {
-    //        mHP->takeDamage(ea->getDamage());
-    //    }
-    //}
+    if (other.gameObject().tag() == "Enemy") {
+        mHP->takeDamage(10);
+        Debug::log("damege!");
+
+        return;
+    }
 }

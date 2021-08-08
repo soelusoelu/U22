@@ -33,9 +33,9 @@ void AABBCollider::start() {
     //最新のAABBの点を計算する
     updatePoints();
 
-    if (mPhysics) {
-        mPhysics->add(shared_from_this());
-    }
+    //if (mPhysics) {
+    //    mPhysics->add(shared_from_this());
+    //}
 }
 
 void AABBCollider::lateUpdate() {
@@ -56,9 +56,9 @@ void AABBCollider::lateUpdate() {
 void AABBCollider::finalize() {
     Collider::finalize();
 
-    if (mPhysics) {
-        mPhysics->remove(shared_from_this());
-    }
+    //if (mPhysics) {
+    //    mPhysics->remove(shared_from_this());
+    //}
 }
 
 void AABBCollider::onEnable(bool value) {

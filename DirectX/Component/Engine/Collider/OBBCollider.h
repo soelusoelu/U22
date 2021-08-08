@@ -11,6 +11,7 @@ class SkinMeshComponent;
 
 class OBBCollider
     : public Collider
+    , public std::enable_shared_from_this<OBBCollider>
 {
 public:
     OBBCollider();
