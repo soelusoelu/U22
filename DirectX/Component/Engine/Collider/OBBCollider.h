@@ -16,6 +16,8 @@ class OBBCollider
 public:
     OBBCollider();
     ~OBBCollider();
+    virtual ColliderType getType() const override;
+
     virtual void start() override;
     virtual void lateUpdate() override;
     virtual void finalize() override;

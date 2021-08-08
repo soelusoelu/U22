@@ -20,6 +20,10 @@ AABBCollider::AABBCollider()
 
 AABBCollider::~AABBCollider() = default;
 
+ColliderType AABBCollider::getType() const {
+    return ColliderType::AABB;
+}
+
 void AABBCollider::start() {
     Collider::start();
 

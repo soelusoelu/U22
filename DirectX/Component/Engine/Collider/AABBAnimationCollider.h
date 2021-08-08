@@ -31,6 +31,8 @@ class AABBAnimationCollider
 public:
     AABBAnimationCollider();
     ~AABBAnimationCollider();
+    virtual ColliderType getType() const override;
+
     virtual void start() override;
     virtual void lateUpdate() override;
     virtual void finalize() override;

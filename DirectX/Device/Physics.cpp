@@ -39,7 +39,9 @@ void Physics::sweepAndPrune() {
         if (!enabled(*aColl)) {
             continue;
         }
-        const auto& a = aColl->getOBB();
+
+        const auto aObb = static_cast<const OBBCollider*>(&*aColl);
+        const auto& a = aObb->getOBB();
 
         for (size_t j = i + 1; j < size; ++j) {
             const auto& bColl = mColliders[j];
@@ -51,7 +53,8 @@ void Physics::sweepAndPrune() {
                 break;
             }
 
-            const auto& b = bColl->getOBB();
+            const auto bObb = static_cast<const OBBCollider*>(&*bColl);
+            const auto& b = bObb->getOBB();
 
             //衝突判定
             if (Intersect::intersectOBB(a, b)) {

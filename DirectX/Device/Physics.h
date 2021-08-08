@@ -4,10 +4,9 @@
 #include <vector>
 
 class Collider;
-class OBBCollider;
 
 class Physics {
-    using ColliderPtr = std::shared_ptr<OBBCollider>;
+    using ColliderPtr = std::shared_ptr<Collider>;
     using ColliderPtrArray = std::vector<ColliderPtr>;
 
 public:

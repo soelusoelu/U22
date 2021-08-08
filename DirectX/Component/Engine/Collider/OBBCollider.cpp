@@ -23,6 +23,10 @@ OBBCollider::OBBCollider()
 
 OBBCollider::~OBBCollider() = default;
 
+ColliderType OBBCollider::getType() const {
+    return ColliderType::OBB;
+}
+
 void OBBCollider::start() {
     Collider::start();
 

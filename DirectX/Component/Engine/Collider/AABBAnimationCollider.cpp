@@ -17,6 +17,10 @@ AABBAnimationCollider::AABBAnimationCollider()
 
 AABBAnimationCollider::~AABBAnimationCollider() = default;
 
+ColliderType AABBAnimationCollider::getType() const {
+    return ColliderType::AABB;
+}
+
 void AABBAnimationCollider::start() {
     Collider::start();
 

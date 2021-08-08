@@ -16,6 +16,10 @@ OBBAnimationCollider::OBBAnimationCollider()
 
 OBBAnimationCollider::~OBBAnimationCollider() = default;
 
+ColliderType OBBAnimationCollider::getType() const {
+    return ColliderType::OBB;
+}
+
 void OBBAnimationCollider::start() {
     Collider::start();
 
