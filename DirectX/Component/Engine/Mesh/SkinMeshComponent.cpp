@@ -55,7 +55,7 @@ void SkinMeshComponent::changeMotion(const std::string& motionName) {
 
 void SkinMeshComponent::tPose() {
     mIsMotionUpdate = false;
-    mCurrentMotionNo = -1;
+    mCurrentMotionNo = T_POSE_NO;
     mCurrentBones.assign(mCurrentBones.size(), Matrix4::identity);
 
     //通知を送る
@@ -100,7 +100,7 @@ const Motion& SkinMeshComponent::getMotion(const std::string& motionName) const 
 }
 
 const Motion& SkinMeshComponent::getCurrentMotion() const {
-    if (mCurrentMotionNo == -1) {
+    if (mCurrentMotionNo == T_POSE_NO) {
         return getMotion(0);
     }
     return getMotion(mCurrentMotionNo);

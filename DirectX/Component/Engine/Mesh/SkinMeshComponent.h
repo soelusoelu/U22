@@ -63,6 +63,9 @@ private:
     void calcNextPose();
     void calcCurrentFrame();
 
+public:
+    static constexpr int T_POSE_NO = -1;
+
 private:
     //アニメーションインターフェース
     IAnimation* mAnimation;

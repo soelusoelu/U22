@@ -40,7 +40,8 @@
       "type": "EnemyMove",
       "properties": {
         "moveSpeed": 15.0,
-        "rotateSpeed": 10.0
+        "rotateSpeed": 15.0,
+        "angleNeedsRotate": 15.0
       }
     },
     {

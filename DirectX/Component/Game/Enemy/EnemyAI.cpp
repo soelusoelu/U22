@@ -1,6 +1,7 @@
 ﻿#include "EnemyAI.h"
 #include "EnemyMove.h"
 #include "OctopusFootManager.h"
+#include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Engine/DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
 #include "../../../Engine/DebugManager/DebugUtility/Debug.h"
 #include "../../../Transform/Transform3D.h"
@@ -20,6 +21,9 @@ EnemyAI::~EnemyAI() = default;
 void EnemyAI::start() {
     mFootManager = getComponent<OctopusFootManager>();
     mMove = getComponent<EnemyMove>();
+
+    //初期モーションはTPose(歩行)に
+    getComponent<SkinMeshComponent>()->tPose();
 }
 
 void EnemyAI::update() {
@@ -54,11 +58,14 @@ void EnemyAI::onSetPlayer(const std::function<void(const std::shared_ptr<GameObj
 
 void EnemyAI::updateFootAlive() {
     const auto& t = transform();
-    const auto dist = Vector3::distance(t.getPosition(), mPlayer->transform().getPosition());
+    auto dist = Vector3::distance(t.getPosition(), mPlayer->transform().getPosition());
     if (dist < getAttackRange()) {
 
     } else {
-        mMove->originalUpdate();
+        mMove->move();
+    }
+    if (mMove->shouldRotate()) {
+        mMove->rotate();
     }
 }
 
