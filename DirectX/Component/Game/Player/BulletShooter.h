@@ -1,15 +1,15 @@
 ﻿#pragma once
 
+#include "../PlayerEnemyCommon/IShotRaySetter.h"
 #include "../../Component.h"
+#include "../../../Collision/Collision.h"
 #include "../../../Device/Function.h"
 #include <functional>
 #include <memory>
-#include <vector>
 
 class GameObject;
 class Camera;
 class SkinMeshComponent;
-class OctopusFoot;
 
 class BulletShooter
     : public Component
@@ -23,7 +23,7 @@ public:
     virtual void start() override;
     virtual void update() override;
 
-    void setEnemy(const GameObject& enemy);
+    void setConnector(const GameObject& connector);
     void ads();
     bool isAds() const;
     void onAds(const std::function<void()>& f);
@@ -33,7 +33,8 @@ public:
 private:
     std::shared_ptr<Camera> mCamera;
     std::shared_ptr<SkinMeshComponent> mAnimation;
-    std::vector<std::shared_ptr<OctopusFoot>> mEnemyFoots;
+    Ray mShotRay;
+    IShotRaySetter* mShotRaySetter;
     Function<void()> mOnAds;
     Function<void()> mOnStartAds;
     Function<void()> mOnStopAds;

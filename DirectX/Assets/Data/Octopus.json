@@ -2181,6 +2181,14 @@
       }
     },
     {
+      "type": "Octopus",
+      "properties": {}
+    },
+    {
+      "type": "OctopusHead",
+      "properties": {}
+    },
+    {
       "type": "OctopusFootManager",
       "properties": {}
     },

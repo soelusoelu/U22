@@ -291,6 +291,9 @@
     <ClCompile Include="Component\Game\Enemy\OctopusFootManager.cpp" />
     <ClCompile Include="Component\Game\Enemy\EnemyAI.cpp" />
     <ClCompile Include="Component\Game\Enemy\EnemyMove.cpp" />
+    <ClCompile Include="Component\Game\Enemy\OctopusHead.cpp" />
+    <ClCompile Include="Component\Game\PlayerEnemyCommon\PlayerEnemyConnection.cpp" />
+    <ClCompile Include="Component\Game\Enemy\Octopus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -648,6 +651,13 @@
     <ClInclude Include="Component\Game\Enemy\OctopusFootManager.h" />
     <ClInclude Include="Component\Game\Enemy\EnemyAI.h" />
     <ClInclude Include="Component\Game\Enemy\EnemyMove.h" />
+    <ClInclude Include="Component\Game\Enemy\OctopusHead.h" />
+    <ClInclude Include="Component\Game\PlayerEnemyCommon\PlayerEnemyConnection.h" />
+    <ClInclude Include="Component\Game\Enemy\EnemyAlias.h" />
+    <ClInclude Include="Component\Game\Enemy\Octopus.h" />
+    <ClInclude Include="Component\Engine\EngineComponentAlias.h" />
+    <ClInclude Include="Component\Game\Enemy\IOctopusPart.h" />
+    <ClInclude Include="Component\Game\PlayerEnemyCommon\IShotRaySetter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />
@@ -676,5 +686,6 @@
     <None Include="Assets\Data\imgui.ini" />
     <None Include="Assets\Data\Octopus.json" />
     <None Include="Assets\Data\TPSCamera.json" />
+    <None Include="Assets\Data\PlayerEnemyConnector.json" />
   </ItemGroup>
 </Project>

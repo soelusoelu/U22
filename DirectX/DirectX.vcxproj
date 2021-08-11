@@ -194,6 +194,9 @@
     <ClCompile Include="Component\Game\Enemy\OctopusFootCommonSetting.cpp" />
     <ClCompile Include="Component\Game\Enemy\OctopusFootAttack.cpp" />
     <ClCompile Include="Component\Game\Enemy\OctopusFootManager.cpp" />
+    <ClCompile Include="Component\Game\Enemy\OctopusHead.cpp" />
+    <ClCompile Include="Component\Game\PlayerEnemyCommon\PlayerEnemyConnection.cpp" />
+    <ClCompile Include="Component\Game\Enemy\Octopus.cpp" />
     <ClCompile Include="Utility\JsonHelper.cpp" />
     <ClCompile Include="System\Shader\DataTransfer.cpp" />
     <ClCompile Include="Engine\Camera\EngineCamera.cpp" />
@@ -437,6 +440,10 @@
     <ClCompile Include="Engine\ModelViewer\VertexSelector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component\Engine\EngineComponentAlias.h" />
+    <ClInclude Include="Component\Game\Enemy\EnemyAlias.h" />
+    <ClInclude Include="Component\Game\Enemy\IOctopusPart.h" />
+    <ClInclude Include="Component\Game\PlayerEnemyCommon\IShotRaySetter.h" />
     <ClInclude Include="Component\Game\Player\BulletShooter.h" />
     <ClInclude Include="Component\Game\Weapon\CrossHair.h" />
     <ClInclude Include="Component\Game\Enemy\EnemyAI.h" />
@@ -475,6 +482,9 @@
     <ClInclude Include="Component\Game\Enemy\OctopusFootCommonSetting.h" />
     <ClInclude Include="Component\Game\Enemy\OctopusFootAttack.h" />
     <ClInclude Include="Component\Game\Enemy\OctopusFootManager.h" />
+    <ClInclude Include="Component\Game\Enemy\OctopusHead.h" />
+    <ClInclude Include="Component\Game\PlayerEnemyCommon\PlayerEnemyConnection.h" />
+    <ClInclude Include="Component\Game\Enemy\Octopus.h" />
     <ClInclude Include="Utility\JsonHelper.h" />
     <ClInclude Include="System\Shader\DataTransfer.h" />
     <ClInclude Include="Engine\Camera\EngineCamera.h" />
@@ -1005,6 +1015,7 @@
     <None Include="Assets\Data\Octopus.json" />
     <None Include="Assets\Data\Plane.json" />
     <None Include="Assets\Data\Player.json" />
+    <None Include="Assets\Data\PlayerEnemyConnector.json" />
     <None Include="Assets\Data\PlayerUI.json" />
     <None Include="Assets\Data\Shield.json" />
     <None Include="Assets\Data\Title.json" />

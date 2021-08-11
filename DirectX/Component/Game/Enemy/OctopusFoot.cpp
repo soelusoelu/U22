@@ -34,26 +34,30 @@ void OctopusFoot::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::Allo
     JsonHelper::getSet(mFootMeshNumber, "footMeshNumber", inObj, alloc, mode);
 }
 
-int OctopusFoot::getNumber() const {
-    return mFootMeshNumber;
-}
-
-const std::vector<std::shared_ptr<OBBCollider>>& OctopusFoot::getColliders() const {
+const OBBColliderPtrArray& OctopusFoot::getColliders() const {
     return mColliders;
 }
 
-void OctopusFoot::takeDamage() {
-    --mHp;
+void OctopusFoot::takeDamage(int damage) {
+    mHp -= damage;
 
-    if (isDestroyFoot()) {
+    if (isDestroy()) {
         //足死亡
         destroyFoot();
         mOnDestroyFoot(*this);
     }
 }
 
-bool OctopusFoot::isDestroyFoot() const {
+int OctopusFoot::getHp() const {
+    return mHp;
+}
+
+bool OctopusFoot::isDestroy() const {
     return (mHp <= 0);
+}
+
+int OctopusFoot::getNumber() const {
+    return mFootMeshNumber;
 }
 
 void OctopusFoot::onDestroyFoot(const std::function<void(const OctopusFoot&)>& f) {

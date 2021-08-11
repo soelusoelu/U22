@@ -1,6 +1,6 @@
 ﻿#include "BulletShooter.h"
 #include "PlayerMotions.h"
-#include "../Enemy/OctopusFoot.h"
+#include "../PlayerEnemyCommon/PlayerEnemyConnection.h"
 #include "../../Engine/Camera/Camera.h"
 #include "../../Engine/Collider/OBBCollider.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
@@ -16,6 +16,7 @@ BulletShooter::BulletShooter()
     : Component()
     , mCamera(nullptr)
     , mAnimation(nullptr)
+    , mShotRaySetter(nullptr)
     , mIsADS(false)
 {
 }
@@ -39,26 +40,14 @@ void BulletShooter::update() {
     }
 
     const auto center = Window::size() / 2.f;
-    const auto ray = mCamera->screenToRay(center);
+    mShotRay = mCamera->screenToRay(center);
 
-    for (const auto& foot : mEnemyFoots) {
-        const auto& colliders = foot->getColliders();
-        for (const auto& c : colliders) {
-            if (!c->getEnable()) {
-                continue;
-            }
-
-            if (Intersect::intersectRayOBB(ray, c->getOBB())) {
-                foot->takeDamage();
-                Debug::log("Hit");
-                return;
-            }
-        }
-    }
+    mShotRaySetter->setShotRay(&mShotRay);
 }
 
-void BulletShooter::setEnemy(const GameObject& enemy) {
-    mEnemyFoots = enemy.componentManager().getComponents<OctopusFoot>();
+void BulletShooter::setConnector(const GameObject& connector) {
+    auto pec = connector.componentManager().getComponent<PlayerEnemyConnection>();
+    mShotRaySetter = pec.get();
 }
 
 void BulletShooter::ads() {

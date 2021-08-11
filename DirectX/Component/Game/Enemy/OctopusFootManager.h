@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "EnemyAlias.h"
 #include "../../Component.h"
 #include <list>
 #include <memory>
@@ -10,8 +11,6 @@ class OctopusFoot;
 class OctopusFootManager
     : public Component
 {
-    using OctopusFootPtr = std::shared_ptr<OctopusFoot>;
-
 public:
     OctopusFootManager();
     ~OctopusFootManager();
@@ -19,8 +18,9 @@ public:
     OctopusFootManager& operator=(const OctopusFootManager&) = delete;
 
     virtual void start() override;
-    virtual void update() override;
 
+    //足をすべて取得する
+    const OctopusFootPtrArray& getFoots() const;
     //一本でも足があるか
     bool isFootAlive() const;
 
@@ -29,8 +29,7 @@ private:
     void onDestroyFoot(const OctopusFoot& foot);
 
 private:
-    int mCurrentMaterial;
-    std::vector<OctopusFootPtr> mFoots;
+    OctopusFootPtrArray mFoots;
     std::list<unsigned> mFootAliveNumbers;
 
     inline static constexpr unsigned OCTOPUS_FOOT_COUNT = 8;

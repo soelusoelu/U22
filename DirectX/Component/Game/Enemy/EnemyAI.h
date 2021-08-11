@@ -6,7 +6,7 @@
 #include <memory>
 
 class GameObject;
-class OctopusFootManager;
+class Octopus;
 class EnemyMove;
 
 class EnemyAI
@@ -34,7 +34,7 @@ private:
 
 private:
     std::shared_ptr<GameObject> mPlayer;
-    std::shared_ptr<OctopusFootManager> mFootManager;
+    std::shared_ptr<Octopus> mOctopus;
     std::shared_ptr<EnemyMove> mMove;
     Function<void(const std::shared_ptr<GameObject>&)> mOnSetPlayer;
     float mAttackRange;

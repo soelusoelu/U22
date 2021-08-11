@@ -6,6 +6,7 @@
 #include "../Player/BulletShooter.h"
 #include "../Player/PlayerWalk.h"
 #include "../Player/PlayerWeapon.h"
+#include "../PlayerEnemyCommon/PlayerEnemyConnection.h"
 #include "../UI/BossEnemyUIManager.h"
 #include "../UI/PlayerUIManager.h"
 #include "../../Engine/Mesh/MeshComponent.h"
@@ -27,6 +28,7 @@ void Title::awake() {
     auto player = GameObjectCreater::create("Player");
     //auto weapon = GameObjectCreater::create("Weapon");
     auto boss = GameObjectCreater::create("Octopus");
+    auto connector = GameObjectCreater::create("PlayerEnemyConnector");
 
     auto camera = GameObjectCreater::create("TPSCamera");
 
@@ -34,11 +36,13 @@ void Title::awake() {
     camCompManager.getComponent<TPSCamera>()->setPlayer(player);
 
     const auto& playerCompManager = player->componentManager();
-    playerCompManager.getComponent<BulletShooter>()->setEnemy(*boss);
+    playerCompManager.getComponent<BulletShooter>()->setConnector(*connector);
     playerCompManager.getComponent<PlayerWalk>()->setCameraRotation(camera->transform().getLocalRotation());
     //playerCompManager.getComponent<PlayerWeapon>()->setWeapon(weapon);
 
     boss->componentManager().getComponent<EnemyAI>()->setPlayer(player);
+
+    connector->componentManager().getComponent<PlayerEnemyConnection>()->setEnemy(*boss);
 
     auto playerUIManager = GameObjectCreater::create("PlayerUI");
     playerUIManager->componentManager().getComponent<PlayerUIManager>()->setPlayer(player);

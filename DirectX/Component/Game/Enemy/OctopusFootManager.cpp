@@ -4,7 +4,6 @@
 
 OctopusFootManager::OctopusFootManager()
     : Component()
-    , mCurrentMaterial(0)
 {
 }
 
@@ -23,8 +22,8 @@ void OctopusFootManager::start() {
     }
 }
 
-void OctopusFootManager::update() {
-
+const OctopusFootPtrArray& OctopusFootManager::getFoots() const {
+    return mFoots;
 }
 
 bool OctopusFootManager::isFootAlive() const {

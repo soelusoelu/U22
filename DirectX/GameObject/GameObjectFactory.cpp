@@ -44,9 +44,11 @@
 #include "../Component/Game/Enemy/EnemyAI.h"
 #include "../Component/Game/Enemy/EnemyAnimationController.h"
 #include "../Component/Game/Enemy/EnemyMove.h"
+#include "../Component/Game/Enemy/Octopus.h"
 #include "../Component/Game/Enemy/OctopusFoot.h"
 #include "../Component/Game/Enemy/OctopusFootCommonSetting.h"
 #include "../Component/Game/Enemy/OctopusFootManager.h"
+#include "../Component/Game/Enemy/OctopusHead.h"
 #include "../Component/Game/Player/BulletShooter.h"
 #include "../Component/Game/Player/PlayerAnimationController.h"
 #include "../Component/Game/Player/PlayerColliderController.h"
@@ -56,6 +58,7 @@
 #include "../Component/Game/Player/PlayerWeapon.h"
 #include "../Component/Game/Player/Stamina.h"
 #include "../Component/Game/PlayerEnemyCommon/HitPoint.h"
+#include "../Component/Game/PlayerEnemyCommon/PlayerEnemyConnection.h"
 #include "../Component/Game/Scene/Title.h"
 #include "../Component/Game/UI/BossEnemyHitPointGauge.h"
 #include "../Component/Game/UI/BossEnemyUIManager.h"
@@ -134,9 +137,11 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(EnemyAI);
     ADD_COMPONENT(EnemyAnimationController);
     ADD_COMPONENT(EnemyMove);
+    ADD_COMPONENT(Octopus);
     ADD_COMPONENT(OctopusFoot);
     ADD_COMPONENT(OctopusFootCommonSetting);
     ADD_COMPONENT(OctopusFootManager);
+    ADD_COMPONENT(OctopusHead);
 
     ADD_COMPONENT(BulletShooter);
     ADD_COMPONENT(PlayerAnimationController);
@@ -148,6 +153,7 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(Stamina);
 
     ADD_COMPONENT(HitPoint);
+    ADD_COMPONENT(PlayerEnemyConnection);
 
     ADD_COMPONENT(Title);
 

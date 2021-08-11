@@ -1,5 +1,6 @@
 ﻿#include "EnemyAI.h"
 #include "EnemyMove.h"
+#include "Octopus.h"
 #include "OctopusFootManager.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Engine/DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
@@ -10,7 +11,7 @@
 EnemyAI::EnemyAI()
     : Component()
     , mPlayer(nullptr)
-    , mFootManager(nullptr)
+    , mOctopus(nullptr)
     , mMove(nullptr)
     , mAttackRange(0.f)
 {
@@ -19,7 +20,7 @@ EnemyAI::EnemyAI()
 EnemyAI::~EnemyAI() = default;
 
 void EnemyAI::start() {
-    mFootManager = getComponent<OctopusFootManager>();
+    mOctopus = getComponent<Octopus>();
     mMove = getComponent<EnemyMove>();
 
     //初期モーションはTPose(歩行)に
@@ -27,7 +28,7 @@ void EnemyAI::start() {
 }
 
 void EnemyAI::update() {
-    if (mFootManager->isFootAlive()) {
+    if (mOctopus->getFootManager().isFootAlive()) {
         updateFootAlive();
     }
 
