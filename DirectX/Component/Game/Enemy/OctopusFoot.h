@@ -7,6 +7,8 @@
 #include <memory>
 #include <vector>
 
+class MeshComponent;
+
 class OctopusFoot
     : public Component
     , public IOctopusPart
@@ -33,8 +35,11 @@ public:
 private:
     //足が死んだら
     void destroyFoot();
+    //色を赤くしていく
+    void changeColor();
 
 private:
+    std::shared_ptr<MeshComponent> mMesh;
     OBBColliderPtrArray mColliders;
     std::vector<int> mTargetBoneNo;
     Function<void(const OctopusFoot&)> mOnDestroyFoot;

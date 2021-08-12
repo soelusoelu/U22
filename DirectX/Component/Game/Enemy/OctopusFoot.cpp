@@ -2,11 +2,13 @@
 #include "OctopusFootCommonSetting.h"
 #include "../../Engine/Collider/OBBCollider.h"
 #include "../../Engine/Mesh/MeshComponent.h"
+#include "../../../Math/Math.h"
 #include "../../../Utility/JsonHelper.h"
 #include <algorithm>
 
 OctopusFoot::OctopusFoot()
     : Component()
+    , mMesh(nullptr)
     , mFootMeshNumber(-1)
     , mHp(0)
 {
@@ -15,6 +17,7 @@ OctopusFoot::OctopusFoot()
 OctopusFoot::~OctopusFoot() = default;
 
 void OctopusFoot::start() {
+    mMesh = getComponent<MeshComponent>();
     auto commonSettings = getComponent<OctopusFootCommonSetting>();
     mHp = commonSettings->mHp;
 
@@ -40,6 +43,9 @@ const OBBColliderPtrArray& OctopusFoot::getColliders() const {
 
 void OctopusFoot::takeDamage(int damage) {
     mHp -= damage;
+
+    //足の色を赤くしていく
+    changeColor();
 
     if (isDestroy()) {
         //足死亡
@@ -71,5 +77,16 @@ void OctopusFoot::destroyFoot() {
     }
 
     //足を非アクティブにする
-    getComponent<MeshComponent>()->getMesh()->setMeshActive(mFootMeshNumber, false);
+    mMesh->getMesh()->setMeshActive(mFootMeshNumber, false);
+}
+
+void OctopusFoot::changeColor() {
+    if (isDestroy()) {
+        return;
+    }
+
+    auto mesh = mMesh->getMesh();
+    auto mat = mesh->getMaterial(mFootMeshNumber);
+    mat.diffuse = ColorPalette::red * Math::lerp(0.f, 1.f, 1.f / static_cast<float>(mHp));
+    mesh->setMaterial(mat, mFootMeshNumber);
 }
