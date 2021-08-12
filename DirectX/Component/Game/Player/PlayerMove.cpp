@@ -1,4 +1,5 @@
 ﻿#include "PlayerMove.h"
+#include "BulletShooter.h"
 #include "PlayerDash.h"
 #include "PlayerMotions.h"
 #include "PlayerWalk.h"
@@ -16,6 +17,7 @@ PlayerMove::PlayerMove()
     , mAnimation(nullptr)
     , mWalk(nullptr)
     , mDash(nullptr)
+    , mShooter(nullptr)
     , mMoveDirectionInputedLast(Vector3::forward)
 {
 }
@@ -30,6 +32,7 @@ void PlayerMove::start() {
     mAnimation = getComponent<SkinMeshComponent>();
     mWalk = getComponent<PlayerWalk>();
     mDash = getComponent<PlayerDash>();
+    mShooter = getComponent<BulletShooter>();
 }
 
 const Vector3& PlayerMove::getMoveDirectionInputedLast() const {
@@ -41,7 +44,13 @@ void PlayerMove::originalUpdate() {
     if (canMove(leftStick)) {
         //スティック入力から移動方向を求める
         calcMoveDirection(leftStick);
-        mDash->dash(*this);
+
+        //非ADS時はダッシュ、ADS時は移動速度を落とす
+        if (mShooter->isAds()) {
+            mWalk->walk(*this);
+        } else {
+            mDash->dash(*this);
+        }
     } else {
         stop();
     }
@@ -93,12 +102,18 @@ void PlayerMove::calcMoveDirection(const Vector2& leftStickValue) {
 }
 
 void PlayerMove::stop() {
-    if (isMoving()) {
+    //動いてないなら終了
+    if (!isMoving()) {
+        return;
+    }
+
+    //ADSしていなかったら待機モーションへ
+    if (!mShooter->isAds()) {
         mAnimation->changeMotion(PlayerMotions::IDOL);
         mAnimation->setLoop(true);
-
-        mCallbackToStop();
     }
+
+    mCallbackToStop();
 }
 
 bool PlayerMove::canMove(const Vector2& leftStickValue) const {

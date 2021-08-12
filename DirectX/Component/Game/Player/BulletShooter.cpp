@@ -39,10 +39,15 @@ void BulletShooter::update() {
         return;
     }
 
+    //カメラの中心から弾となるレイを飛ばす
     const auto center = Window::size() / 2.f;
     mShotRay = mCamera->screenToRay(center);
 
     mShotRaySetter->setShotRay(&mShotRay);
+
+    //アニメーション変更
+    mAnimation->changeMotion(PlayerMotions::SHOT);
+    mAnimation->setLoop(false);
 }
 
 void BulletShooter::setConnector(const GameObject& connector) {

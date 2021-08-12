@@ -31,4 +31,8 @@ public:
     virtual Triangle getPolygon(unsigned meshIndex, unsigned polygonIndex, const Matrix4& world) const = 0;
     //指定のメッシュに頂点情報を設定する
     virtual void setMeshVertices(const MeshVertices& newMeshVertices, unsigned index) = 0;
+    //メッシュを描画するかを指定する
+    virtual void setMeshActive(unsigned index, bool value) = 0;
+    //メッシュを描画するかを取得する
+    virtual bool getMeshActive(unsigned index) const = 0;
 };

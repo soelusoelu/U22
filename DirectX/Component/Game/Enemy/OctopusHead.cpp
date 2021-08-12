@@ -1,5 +1,6 @@
 ﻿#include "OctopusHead.h"
 #include "../../Engine/Collider/OBBCollider.h"
+#include "../../../Engine/DebugManager/DebugUtility/Debug.h"
 #include "../../../Utility/JsonHelper.h"
 
 OctopusHead::OctopusHead()
@@ -32,6 +33,8 @@ const OBBColliderPtrArray& OctopusHead::getColliders() const {
 
 void OctopusHead::takeDamage(int damage) {
     mIsDestroy = true;
+
+    Debug::log("death");
 }
 
 int OctopusHead::getHp() const {

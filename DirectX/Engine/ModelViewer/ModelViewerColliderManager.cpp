@@ -33,7 +33,7 @@ void ModelViewerColliderManager::update(LineInstancingDrawer& line, const Simple
     drawBone(line);
     selectObb(camera);
 
-    if (Input::mouse().getMouseButtonDown(MouseCode::RightButton) && mSelectedObbNo != INVALID_NO) {
+    if (Input::mouse().getMouseButtonDown(MouseCode::WheelButton) && mSelectedObbNo != INVALID_NO) {
         mOptionGui->open(mObbColliders[mSelectedObbNo]);
     }
 
@@ -126,12 +126,12 @@ void ModelViewerColliderManager::selectObb(const SimpleCamera& camera) {
     const auto size = mObbColliders.size();
     for (unsigned i = 0; i < size; ++i) {
         if (Intersect::intersectRayOBB(ray, mObbColliders[i]->getOBB())) {
-            mSelectedObbNo = i;
-            return;
+            if (mouse.getMouseButtonDown(MouseCode::LeftButton)) {
+                mSelectedObbNo = i;
+                return;
+            }
         }
     }
-
-    mSelectedObbNo = INVALID_NO;
 }
 
 bool ModelViewerColliderManager::isAnimation() const {

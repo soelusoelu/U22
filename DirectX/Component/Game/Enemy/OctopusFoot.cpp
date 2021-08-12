@@ -70,9 +70,6 @@ void OctopusFoot::destroyFoot() {
         c->disabled();
     }
 
-    //足を透明にする
-    auto mesh = getComponent<MeshComponent>()->getMesh();
-    auto mat = mesh->getMaterial(mFootMeshNumber);
-    mat.transparency = 0.f;
-    mesh->setMaterial(mat, mFootMeshNumber);
+    //足を非アクティブにする
+    getComponent<MeshComponent>()->getMesh()->setMeshActive(mFootMeshNumber, false);
 }

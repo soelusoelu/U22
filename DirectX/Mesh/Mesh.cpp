@@ -76,6 +76,16 @@ void Mesh::setMeshVertices(const MeshVertices& newMeshVertices, unsigned index) 
     mVertexBuffers[index]->updateVertexBuffer(newMeshVertices.data());
 }
 
+void Mesh::setMeshActive(unsigned index, bool value) {
+    assert(index < mMeshesActive.size());
+    mMeshesActive[index] = value;
+}
+
+bool Mesh::getMeshActive(unsigned index) const {
+    assert(index < mMeshesActive.size());
+    return mMeshesActive[index];
+}
+
 const Motion& Mesh::getMotion(unsigned index) const {
     assert(index < mMotions.size());
     return mMotions[index];
@@ -126,7 +136,8 @@ void Mesh::initialize(const std::string& filePath) {
     assert(mMeshesVertices.size() == mMaterials.size());
 
     //メッシュの数だけバッファを作る
-    for (size_t i = 0; i < mMeshesVertices.size(); i++) {
+    auto size = getMeshCount();
+    for (unsigned i = 0; i < size; ++i) {
         createVertexBuffer(i);
         createIndexBuffer(i);
     }
@@ -154,6 +165,9 @@ void Mesh::createMesh(const std::string& filePath) {
         mMotions,
         mBones
     );
+
+    //メッシュ数分アクティブ化
+    mMeshesActive.resize(getMeshCount(), true);
 
     for (auto&& mat : mMaterials) {
         //テクスチャがないマテリアルは白テクスチャを代替する

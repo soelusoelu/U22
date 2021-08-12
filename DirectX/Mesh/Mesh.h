@@ -22,6 +22,8 @@ class Mesh
 public:
     Mesh();
     ~Mesh();
+    Mesh(const Mesh&) = delete;
+    Mesh& operator=(const Mesh&) = delete;
 
     //指定のマテリアルを設定する
     virtual void setMaterial(const Material& material, unsigned index) override;
@@ -43,6 +45,10 @@ public:
     virtual Triangle getPolygon(unsigned meshIndex, unsigned polygonIndex, const Matrix4& world) const override;
     //指定のメッシュに頂点情報を設定する
     virtual void setMeshVertices(const MeshVertices& newMeshVertices, unsigned index) override;
+    //メッシュを描画するかを指定する
+    virtual void setMeshActive(unsigned index, bool value) override;
+    //メッシュを描画するかを取得する
+    virtual bool getMeshActive(unsigned index) const override;
 
     //モーションを取得する
     virtual const Motion& getMotion(unsigned index) const override;
@@ -81,4 +87,5 @@ private:
     std::vector<Bone> mBones;
     std::vector<std::unique_ptr<VertexBuffer>> mVertexBuffers;
     std::vector<std::unique_ptr<IndexBuffer>> mIndexBuffers;
+    std::vector<bool> mMeshesActive;
 };

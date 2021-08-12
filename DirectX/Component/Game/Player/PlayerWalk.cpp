@@ -35,11 +35,11 @@ void PlayerWalk::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::Alloc
 
 void PlayerWalk::walk(IPlayerMove& playerMove) {
     playerMove.move(mWalkSpeed);
-    rotate(playerMove);
+    //rotate(playerMove);
 
     if (!mIsWalking) {
-        mAnimation->changeMotion(PlayerMotions::LEFT_MOVE_ON_ADS);
-        mAnimation->setLoop(true);
+        //mAnimation->changeMotion(PlayerMotions::LEFT_MOVE_ON_ADS);
+        //mAnimation->setLoop(true);
         mIsWalking = true;
 
         mCallbackToWalk();

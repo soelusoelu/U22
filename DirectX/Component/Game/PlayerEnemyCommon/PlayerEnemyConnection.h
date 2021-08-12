@@ -26,9 +26,13 @@ public:
     void setEnemy(const GameObject& enemy);
 
 private:
+    //レイとタコの衝突判定
     void intersectRayOctopus() const;
+    //レイとタコの足の衝突判定
     void intersectRayOctopusFoots() const;
+    //レイとタコの頭の衝突判定
     void intersectRayOctopusHead() const;
+    //レイとタコの部位の衝突判定
     void intersectRayOctopusPart(IOctopusPart* part) const;
 
 private:

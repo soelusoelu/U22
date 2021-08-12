@@ -99,8 +99,14 @@ void MeshRenderer::drawMesh(
     //コンスタントバッファに転送する
     mMeshShader->transferData();
 
-    const auto loopCount = mMeshComponent->getMesh()->getMeshCount();
+    auto mesh = mMeshComponent->getMesh();
+    const auto loopCount = mesh->getMeshCount();
     for (size_t i = 0; i < loopCount; ++i) {
+        //非アクティブなら描画しない
+        if (!mesh->getMeshActive(i)) {
+            continue;
+        }
+
         //マテリアルを設定する
         mMeshShader->setMaterialData(i);
 

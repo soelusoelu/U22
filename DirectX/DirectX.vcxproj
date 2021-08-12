@@ -181,7 +181,6 @@
     <ClCompile Include="Component\Engine\Collider\AABBAnimationCollider.cpp" />
     <ClCompile Include="Component\Engine\Camera\CameraMove.cpp" />
     <ClCompile Include="Component\Game\PlayerEnemyCommon\HitPoint.cpp" />
-    <ClCompile Include="Component\Game\Enemy\EnemyAnimationController.cpp" />
     <ClCompile Include="Component\Engine\Collider\OBBCollider.cpp" />
     <ClCompile Include="Engine\ModelViewer\SaveModelViewerCollider.cpp" />
     <ClCompile Include="Engine\ModelViewer\ModelViewerLight.cpp" />
@@ -443,6 +442,7 @@
     <ClInclude Include="Component\Engine\EngineComponentAlias.h" />
     <ClInclude Include="Component\Game\Enemy\EnemyAlias.h" />
     <ClInclude Include="Component\Game\Enemy\IOctopusPart.h" />
+    <ClInclude Include="Component\Game\Enemy\OctopusConstantNumbers.h" />
     <ClInclude Include="Component\Game\PlayerEnemyCommon\IShotRaySetter.h" />
     <ClInclude Include="Component\Game\Player\BulletShooter.h" />
     <ClInclude Include="Component\Game\Weapon\CrossHair.h" />
@@ -465,7 +465,6 @@
     <ClInclude Include="Component\Game\Player\IMoveDirectionGetter.h" />
     <ClInclude Include="Component\Game\Player\IPlayerMove.h" />
     <ClInclude Include="Component\Game\Player\PlayerMotions.h" />
-    <ClInclude Include="Component\Game\Enemy\EnemyAnimationController.h" />
     <ClInclude Include="Component\Engine\Collider\OBBCollider.h" />
     <ClInclude Include="Engine\DebugManager\DebugLayer\Inspector\IInspector.h" />
     <ClInclude Include="Engine\IEngineManagingClassGetter.h" />

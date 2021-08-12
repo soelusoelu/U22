@@ -9,3 +9,5 @@ class OctopusFoot;
 
 using OctopusFootPtr = std::shared_ptr<OctopusFoot>;
 using OctopusFootPtrArray = std::vector<OctopusFootPtr>;
+
+using AliveNumbers = std::vector<unsigned>;

@@ -12,6 +12,7 @@ class Camera;
 class SkinMeshComponent;
 class PlayerWalk;
 class PlayerDash;
+class BulletShooter;
 
 class PlayerMove
     : public Component
@@ -57,6 +58,7 @@ private:
     std::shared_ptr<SkinMeshComponent> mAnimation;
     std::shared_ptr<PlayerWalk> mWalk;
     std::shared_ptr<PlayerDash> mDash;
+    std::shared_ptr<BulletShooter> mShooter;
     Function<void()> mCallbackToStop;
     //最後に入力された移動方向
     Vector3 mMoveDirectionInputedLast;

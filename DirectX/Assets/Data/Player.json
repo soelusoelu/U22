@@ -27,7 +27,7 @@
     {
       "type": "PlayerWalk",
       "properties": {
-        "walkSpeed": 30.0
+        "walkSpeed": 15.0
       }
     },
     {

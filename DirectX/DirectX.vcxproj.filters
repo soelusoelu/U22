@@ -259,7 +259,6 @@
     <ClCompile Include="Component\Game\PlayerEnemyCommon\HitPoint.cpp" />
     <ClCompile Include="Component\Game\UI\PlayerHitPointGauge.cpp" />
     <ClCompile Include="Component\Game\Player\PlayerWeapon.cpp" />
-    <ClCompile Include="Component\Game\Enemy\EnemyAnimationController.cpp" />
     <ClCompile Include="Component\Game\UI\BossEnemyHitPointGauge.cpp" />
     <ClCompile Include="Component\Game\UI\BossEnemyUIManager.cpp" />
     <ClCompile Include="Component\Game\Weapon\WeaponDamage.cpp" />
@@ -612,7 +611,6 @@
     <ClInclude Include="Component\Game\PlayerEnemyCommon\HitPoint.h" />
     <ClInclude Include="Component\Game\UI\PlayerHitPointGauge.h" />
     <ClInclude Include="Component\Game\Player\PlayerWeapon.h" />
-    <ClInclude Include="Component\Game\Enemy\EnemyAnimationController.h" />
     <ClInclude Include="Component\Game\UI\BossEnemyHitPointGauge.h" />
     <ClInclude Include="Component\Game\UI\BossEnemyUIManager.h" />
     <ClInclude Include="Component\Game\Weapon\WeaponDamage.h" />
@@ -658,6 +656,7 @@
     <ClInclude Include="Component\Engine\EngineComponentAlias.h" />
     <ClInclude Include="Component\Game\Enemy\IOctopusPart.h" />
     <ClInclude Include="Component\Game\PlayerEnemyCommon\IShotRaySetter.h" />
+    <ClInclude Include="Component\Game\Enemy\OctopusConstantNumbers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />

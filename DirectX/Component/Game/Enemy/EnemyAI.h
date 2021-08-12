@@ -8,6 +8,7 @@
 class GameObject;
 class Octopus;
 class EnemyMove;
+class OctopusFootAttack;
 
 class EnemyAI
     : public Component
@@ -31,11 +32,16 @@ private:
     void updateFootAlive();
     //スケールを考慮した攻撃範囲を取得する
     float getAttackRange() const;
+    //攻撃可能角度か
+    bool canAttackAngle() const;
 
 private:
     std::shared_ptr<GameObject> mPlayer;
     std::shared_ptr<Octopus> mOctopus;
     std::shared_ptr<EnemyMove> mMove;
+    std::shared_ptr<OctopusFootAttack> mAttack;
     Function<void(const std::shared_ptr<GameObject>&)> mOnSetPlayer;
     float mAttackRange;
+    float mAttackAngle;
+    bool mIsDebugMode;
 };

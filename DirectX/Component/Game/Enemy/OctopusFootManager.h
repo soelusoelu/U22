@@ -2,7 +2,6 @@
 
 #include "EnemyAlias.h"
 #include "../../Component.h"
-#include <list>
 #include <memory>
 #include <vector>
 
@@ -21,6 +20,8 @@ public:
 
     //足をすべて取得する
     const OctopusFootPtrArray& getFoots() const;
+    //生きている足の番号をすべて取得する
+    const AliveNumbers& getAliveFootNumbers() const;
     //一本でも足があるか
     bool isFootAlive() const;
 
@@ -30,7 +31,5 @@ private:
 
 private:
     OctopusFootPtrArray mFoots;
-    std::list<unsigned> mFootAliveNumbers;
-
-    inline static constexpr unsigned OCTOPUS_FOOT_COUNT = 8;
+    AliveNumbers mFootAliveNumbers;
 };
