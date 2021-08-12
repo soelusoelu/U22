@@ -16,8 +16,8 @@ EnemyAI::EnemyAI()
     , mOctopus(nullptr)
     , mMove(nullptr)
     , mAttack(nullptr)
-    , mAttackRange(0.f)
-    , mAttackAngle(0.f)
+    , mAttackRangeDistance(0.f)
+    , mAttackRangeAngle(0.f)
     , mIsDebugMode(false)
 {
 }
@@ -41,19 +41,29 @@ void EnemyAI::update() {
 #ifdef _DEBUG
     //デバッグ時のみ攻撃範囲を可視化
     const auto& t = transform();
+    auto forward = t.forward();
+    auto attackDist = forward * getAttackRangeDistance();
+
     auto p1 = t.getPosition() + Vector3::up * 10.f;
-    Debug::renderLine(p1, p1 + t.forward() * getAttackRange(), ColorPalette::red);
+    auto p2 = p1 + attackDist;
+    Debug::renderLine(p1, p2, ColorPalette::red);
+
+    auto halfAngle = mAttackRangeAngle / 2.f;
+    auto p3 = Vector3::transform(p1, Quaternion(Vector3::up, halfAngle));
+    auto p4 = Vector3::transform(p1, Quaternion(Vector3::up, -halfAngle));
+    Debug::renderLine(p1, p3 + attackDist, ColorPalette::yellow);
+    Debug::renderLine(p1, p4 + attackDist, ColorPalette::yellow);
 #endif // _DEBUG
 }
 
 void EnemyAI::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSet(mAttackRange, "attackRange", inObj, alloc, mode);
-    JsonHelper::getSet(mAttackAngle, "attackAngle", inObj, alloc, mode);
+    JsonHelper::getSet(mAttackRangeDistance, "attackRange", inObj, alloc, mode);
+    JsonHelper::getSet(mAttackRangeAngle, "attackAngle", inObj, alloc, mode);
 }
 
 void EnemyAI::drawInspector() {
-    ImGuiWrapper::dragFloat("Attack Range", mAttackRange);
-    ImGuiWrapper::dragFloat("Attack Angle", mAttackAngle);
+    ImGuiWrapper::dragFloat("Attack Range", mAttackRangeDistance);
+    ImGuiWrapper::dragFloat("Attack Angle", mAttackRangeAngle);
     ImGui::Checkbox("Is Debug Mode", &mIsDebugMode);
 }
 
@@ -72,27 +82,40 @@ void EnemyAI::updateFootAlive() {
         return;
     }
 
-    const auto& t = transform();
-    auto dist = Vector3::distance(t.getPosition(), mPlayer->transform().getPosition());
-    if (dist < getAttackRange()) {
-        if (canAttackAngle()) {
+    //回転は常に行う
+    mMove->rotate();
+
+    //攻撃中なら終わるまで無視
+    if (mAttack->isAttacking()) {
+        return;
+    }
+
+    //状況に応じて行動
+    if (canAttackRangeDistance()) {
+        if (canAttackRangeAngle()) {
             mAttack->attack();
-        } else {
-            //mMove->rotate();
         }
     } else {
-        //mMove->move();
-        //mMove->rotate();
+        mMove->move();
     }
 }
 
-float EnemyAI::getAttackRange() const {
-    return (mAttackRange * transform().getScale().z);
+float EnemyAI::getAttackRangeDistance() const {
+    return (mAttackRangeDistance * transform().getScale().z);
 }
 
-bool EnemyAI::canAttackAngle() const {
-    auto toPlayer = Vector3::normalize(mPlayer->transform().getPosition() - transform().getPosition());
-    auto dot = Vector3::dot(toPlayer, Vector3::forward);
-    auto angle = Math::acos(dot);
-    return (mAttackAngle < angle * 2.f);
+bool EnemyAI::canAttackRangeDistance() const {
+    auto dist = Vector3::distance(transform().getPosition(), mPlayer->transform().getPosition());
+    return (dist < getAttackRangeDistance());
+}
+
+float EnemyAI::getToPlayerAngle() const {
+    const auto& t = transform();
+    auto toPlayer = Vector3::normalize(mPlayer->transform().getPosition() - t.getPosition());
+    auto dot = Vector3::dot(toPlayer, t.forward());
+    return Math::acos(dot);
+}
+
+bool EnemyAI::canAttackRangeAngle() const {
+    return (mAttackRangeAngle > getToPlayerAngle() * 2.f);
 }

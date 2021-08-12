@@ -11,6 +11,7 @@
 
 class SkinMeshComponent;
 class OctopusFootManager;
+class Time;
 
 class OctopusFootAttack
     : public Component
@@ -22,10 +23,12 @@ public:
     OctopusFootAttack& operator=(const OctopusFootAttack&) = delete;
 
     virtual void start() override;
+    virtual void update() override;
     virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
     virtual void drawInspector() override;
 
     void attack();
+    bool isAttacking() const;
 
 private:
     //攻撃の種類を選択し、モーション番号を返す
@@ -41,6 +44,12 @@ private:
     //攻撃モーションマップ
     std::unordered_map<unsigned, unsigned> mSingleFootAttackMotionMap;
     std::unordered_map<unsigned, unsigned> mDoubleFootAttackMotionMap;
+    //現在の攻撃モーションの時間
+    std::unique_ptr<Time> mCurrentMotionTimer;
+    //全攻撃モーション時間
+    std::vector<float> mMotionsTime;
     //叩きつけ攻撃の発生確率
     int mSwingDownProbability;
+    //攻撃中か
+    bool mIsAttacking;
 };

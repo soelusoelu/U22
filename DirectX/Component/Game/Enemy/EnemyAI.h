@@ -30,10 +30,14 @@ public:
 private:
     //足が一本でも生きているときの更新
     void updateFootAlive();
-    //スケールを考慮した攻撃範囲を取得する
-    float getAttackRange() const;
+    //スケールを考慮した攻撃範囲距離を取得する
+    float getAttackRangeDistance() const;
+    //攻撃可能距離か
+    bool canAttackRangeDistance() const;
+    //前方ベクトルとプレイヤーとの角度を取得する
+    float getToPlayerAngle() const;
     //攻撃可能角度か
-    bool canAttackAngle() const;
+    bool canAttackRangeAngle() const;
 
 private:
     std::shared_ptr<GameObject> mPlayer;
@@ -41,7 +45,7 @@ private:
     std::shared_ptr<EnemyMove> mMove;
     std::shared_ptr<OctopusFootAttack> mAttack;
     Function<void(const std::shared_ptr<GameObject>&)> mOnSetPlayer;
-    float mAttackRange;
-    float mAttackAngle;
+    float mAttackRangeDistance;
+    float mAttackRangeAngle;
     bool mIsDebugMode;
 };

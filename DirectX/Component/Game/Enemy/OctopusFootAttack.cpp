@@ -2,6 +2,7 @@
 #include "EnemyMotions.h"
 #include "OctopusFootManager.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
+#include "../../../Device/Time.h"
 #include "../../../Engine/DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
 #include "../../../Utility/JsonHelper.h"
 #include "../../../Utility/Random.h"
@@ -11,7 +12,10 @@ OctopusFootAttack::OctopusFootAttack()
     : Component()
     , mAnimation(nullptr)
     , mFootManager(nullptr)
+    , mCurrentMotionTimer(std::make_unique<Time>())
+    , mMotionsTime(EnemyMotions::MOTION_COUNT)
     , mSwingDownProbability(0)
+    , mIsAttacking(false)
 {
     //両足攻撃時のペア形成
     mFootPairs[0] = std::make_pair(0, 1);
@@ -45,6 +49,27 @@ OctopusFootAttack::~OctopusFootAttack() = default;
 void OctopusFootAttack::start() {
     mAnimation = getComponent<SkinMeshComponent>();
     mFootManager = getComponent<OctopusFootManager>();
+
+    //全攻撃モーションの時間を求める
+    for (unsigned i = 0; i < EnemyMotions::MOTION_COUNT; ++i) {
+        const auto& motion = mAnimation->getMotion(i);
+        mMotionsTime[i] = static_cast<float>(motion.numFrame) / 60.f;
+    }
+}
+
+void OctopusFootAttack::update() {
+    //攻撃中じゃなければ終了
+    if (!isAttacking()) {
+        return;
+    }
+
+    //タイマー更新
+    mCurrentMotionTimer->update();
+    if (mCurrentMotionTimer->isTime()) {
+        mCurrentMotionTimer->reset();
+
+        mAnimation->tPose();
+    }
 }
 
 void OctopusFootAttack::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
@@ -61,6 +86,15 @@ void OctopusFootAttack::attack() {
     //アニメーション変更
     mAnimation->changeMotion(motionNo);
     mAnimation->setLoop(false);
+
+    //時間設定(モーション番号と配列の添字が一致している前提)
+    mCurrentMotionTimer->setLimitTime(mMotionsTime[motionNo]);
+    mCurrentMotionTimer->reset();
+}
+
+bool OctopusFootAttack::isAttacking() const {
+    //モーションが攻撃しかない前提
+    return (mAnimation->getCurrentMotionNumber() != SkinMeshComponent::T_POSE_NO);
 }
 
 unsigned OctopusFootAttack::choiceAttack() const {

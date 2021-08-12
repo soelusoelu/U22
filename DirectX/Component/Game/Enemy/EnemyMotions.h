@@ -16,4 +16,7 @@ constexpr unsigned VERTICAL_ONE = 7;
 constexpr unsigned VERTICAL_TWO = 8;
 constexpr unsigned VERTICAL_THREE = 9;
 constexpr unsigned VERTICAL_FOUR = 10;
+
+//総モーション数
+constexpr unsigned MOTION_COUNT = 12;
 }
