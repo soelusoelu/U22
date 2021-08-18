@@ -38,18 +38,17 @@ void DebugManager::draw2D(const Renderer& renderer, Matrix4& proj) const {
     DebugUtility::instance().drawLine2D(renderer, proj);
 }
 
-void DebugManager::drawDebug2D(EngineMode mode, Matrix4& proj) const {
-    mDebugLayer->draw(mode, *mStringDrawer, proj);
-    DebugUtility::instance().draw(mode, *mStringDrawer);
+void DebugManager::drawDebug2D(Matrix4& proj) const {
+    mDebugLayer->draw(*mStringDrawer, proj);
+    DebugUtility::instance().draw(*mStringDrawer);
     mStringDrawer->drawAll(proj);
 }
 
 void DebugManager::draw3D(
-    EngineMode mode,
     const Renderer& renderer,
     const Matrix4& viewProj
 ) const {
-    DebugUtility::instance().draw3D(mode, renderer, viewProj);
+    DebugUtility::instance().draw3D(renderer, viewProj);
 }
 
 DebugLayer& DebugManager::getDebugLayer() const {

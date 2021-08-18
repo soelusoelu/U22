@@ -170,7 +170,6 @@
     <ClCompile Include="Component\Game\Weapon\CrossHair.cpp" />
     <ClCompile Include="Component\Game\Enemy\EnemyAI.cpp" />
     <ClCompile Include="Component\Game\Enemy\EnemyMove.cpp" />
-    <ClCompile Include="Engine\ModelViewer\ColliderOptionGUI.cpp" />
     <ClCompile Include="Collision\BoxHelper.cpp" />
     <ClCompile Include="Component\Engine\Collider\ColliderDrawer.cpp" />
     <ClCompile Include="Component\Engine\Other\GameObjectSaveAndLoader.cpp" />
@@ -182,10 +181,6 @@
     <ClCompile Include="Component\Engine\Camera\CameraMove.cpp" />
     <ClCompile Include="Component\Game\PlayerEnemyCommon\HitPoint.cpp" />
     <ClCompile Include="Component\Engine\Collider\OBBCollider.cpp" />
-    <ClCompile Include="Engine\ModelViewer\SaveModelViewerCollider.cpp" />
-    <ClCompile Include="Engine\ModelViewer\ModelViewerLight.cpp" />
-    <ClCompile Include="Engine\ModelViewer\ModelViewerPlane.cpp" />
-    <ClCompile Include="Engine\ModelViewer\ModelViewerColliderManager.cpp" />
     <ClCompile Include="Device\FileOperator.cpp" />
     <ClCompile Include="Engine\DebugManager\DebugUtility\LineRenderer\LineInstancingDrawer.cpp" />
     <ClCompile Include="Component\Game\Camera\TPSCamera.cpp" />
@@ -199,19 +194,10 @@
     <ClCompile Include="Utility\JsonHelper.cpp" />
     <ClCompile Include="System\Shader\DataTransfer.cpp" />
     <ClCompile Include="Engine\Camera\EngineCamera.cpp" />
-    <ClCompile Include="Engine\EngineFuctionChanger.cpp" />
-    <ClCompile Include="Engine\ModelViewer\AnimationViewer.cpp" />
-    <ClCompile Include="Engine\AssetsRenderer\AssetsRenderTexture.cpp" />
     <ClCompile Include="Component\Engine\Camera\CameraHelper.cpp" />
     <ClCompile Include="Engine\DebugManager\DebugManager.cpp" />
     <ClCompile Include="Engine\DebugManager\DebugLayer\DebugLayer.cpp" />
     <ClCompile Include="Engine\EngineFunctionManager.cpp" />
-    <ClCompile Include="Engine\AssetsRenderer\AssetsRenderTextureDeleter.cpp" />
-    <ClCompile Include="Engine\AssetsRenderer\AssetsTexturesSelector.cpp" />
-    <ClCompile Include="Engine\MapEditor\AssetsPlacement.cpp" />
-    <ClCompile Include="Engine\AssetsRenderer\AssetsRenderTextureManager.cpp" />
-    <ClCompile Include="Engine\AssetsRenderer\AssetsRenderTextureAdder.cpp" />
-    <ClCompile Include="Engine\AssetsRenderer\AssetsRenderTextureList.cpp" />
     <ClCompile Include="Component\Engine\Sprite\SpriteButtonComponent.cpp" />
     <ClCompile Include="Component\Engine\CollideOperation\AABBSelector.cpp" />
     <ClCompile Include="Component\Engine\CollideOperation\AABBMouseScaler.cpp" />
@@ -236,8 +222,6 @@
     <ClCompile Include="Component\Game\Camera\GameCamera.cpp" />
     <ClCompile Include="GameObject\MeshGameObjectCreater.cpp" />
     <ClCompile Include="Collision\IntersectHelper.cpp" />
-    <ClCompile Include="Engine\SceneMesh\SceneMeshSelector.cpp" />
-    <ClCompile Include="Engine\MapEditor\MapEditorMeshManager.cpp" />
     <ClCompile Include="Input\InputManager.cpp" />
     <ClCompile Include="Component\Engine\Sprite\MeshRenderOnTextureComponent.cpp" />
     <ClCompile Include="Component\Game\Player\PlayerAnimationController.cpp" />
@@ -259,11 +243,7 @@
     <ClCompile Include="Sprite\SpriteInstancingDrawer.cpp" />
     <ClCompile Include="System\Texture\MeshRenderOnTextureManager.cpp" />
     <ClCompile Include="Mesh\MeshCommonShaderSetter.cpp" />
-    <ClCompile Include="Engine\SceneMesh\SceneMeshOperator.cpp" />
-    <ClCompile Include="Engine\SceneMesh\SceneMeshDeleter.cpp" />
-    <ClCompile Include="Engine\ModelViewer\ModelViewer.cpp" />
     <ClCompile Include="Collision\SphereHelper.cpp" />
-    <ClCompile Include="Engine\ModelViewer\ModelViewCamera.cpp" />
     <ClCompile Include="Engine\Camera\SimpleCamera.cpp" />
     <ClCompile Include="Device\TimeMeasurement.cpp" />
     <ClCompile Include="System\Texture\TextureBinder.cpp" />
@@ -436,7 +416,6 @@
     <ClCompile Include="Component\Engine\Sample\WaveformRenderSample.cpp" />
     <ClCompile Include="Mesh\VertexNormalSmoother.cpp" />
     <ClCompile Include="Component\Game\Weapon\WeaponDamage.cpp" />
-    <ClCompile Include="Engine\ModelViewer\VertexSelector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\Engine\EngineComponentAlias.h" />
@@ -448,7 +427,6 @@
     <ClInclude Include="Component\Game\Weapon\CrossHair.h" />
     <ClInclude Include="Component\Game\Enemy\EnemyAI.h" />
     <ClInclude Include="Component\Game\Enemy\EnemyMove.h" />
-    <ClInclude Include="Engine\ModelViewer\ColliderOptionGUI.h" />
     <ClInclude Include="Collision\BoxHelper.h" />
     <ClInclude Include="Component\Engine\Collider\ColliderDrawer.h" />
     <ClInclude Include="Component\Engine\Other\GameObjectSaveAndLoader.h" />
@@ -468,12 +446,6 @@
     <ClInclude Include="Component\Engine\Collider\OBBCollider.h" />
     <ClInclude Include="Engine\DebugManager\DebugLayer\Inspector\IInspector.h" />
     <ClInclude Include="Engine\IEngineManagingClassGetter.h" />
-    <ClInclude Include="Engine\ModelViewer\IModelViewerCallback.h" />
-    <ClInclude Include="Engine\ModelViewer\ModelViewerMode.h" />
-    <ClInclude Include="Engine\ModelViewer\SaveModelViewerCollider.h" />
-    <ClInclude Include="Engine\ModelViewer\ModelViewerLight.h" />
-    <ClInclude Include="Engine\ModelViewer\ModelViewerPlane.h" />
-    <ClInclude Include="Engine\ModelViewer\ModelViewerColliderManager.h" />
     <ClInclude Include="Device\FileOperator.h" />
     <ClInclude Include="Engine\DebugManager\DebugUtility\LineRenderer\LineInstancingDrawer.h" />
     <ClInclude Include="Component\Game\Camera\TPSCamera.h" />
@@ -487,24 +459,11 @@
     <ClInclude Include="Utility\JsonHelper.h" />
     <ClInclude Include="System\Shader\DataTransfer.h" />
     <ClInclude Include="Engine\Camera\EngineCamera.h" />
-    <ClInclude Include="Engine\EngineFuctionChanger.h" />
-    <ClInclude Include="Engine\AssetsRenderer\ICallbackSelectAssetsTexture.h" />
-    <ClInclude Include="Engine\EngineMode.h" />
-    <ClInclude Include="Engine\IEngineFunctionChanger.h" />
-    <ClInclude Include="Engine\IEngineModeGetter.h" />
-    <ClInclude Include="Engine\ModelViewer\AnimationViewer.h" />
-    <ClInclude Include="Engine\AssetsRenderer\AssetsRenderTexture.h" />
     <ClInclude Include="Component\Engine\Camera\CameraHelper.h" />
     <ClInclude Include="Engine\DebugManager\DebugManager.h" />
     <ClInclude Include="Engine\DebugManager\DebugLayer\DebugLayer.h" />
     <ClInclude Include="Engine\EngineFunctionManager.h" />
-    <ClInclude Include="Engine\AssetsRenderer\AssetsRenderTextureDeleter.h" />
     <ClInclude Include="Collision\RaycastHit.h" />
-    <ClInclude Include="Engine\AssetsRenderer\AssetsTexturesSelector.h" />
-    <ClInclude Include="Engine\MapEditor\AssetsPlacement.h" />
-    <ClInclude Include="Engine\AssetsRenderer\AssetsRenderTextureManager.h" />
-    <ClInclude Include="Engine\AssetsRenderer\AssetsRenderTextureAdder.h" />
-    <ClInclude Include="Engine\AssetsRenderer\AssetsRenderTextureList.h" />
     <ClInclude Include="Assets\Data\MapEditor.json" />
     <ClInclude Include="Component\Engine\Sprite\SpriteButtonComponent.h" />
     <ClInclude Include="Component\Engine\CollideOperation\AABBSelector.h" />
@@ -518,17 +477,12 @@
     <ClInclude Include="Collision\Circle.h" />
     <ClInclude Include="Component\Engine\CollideOperation\MeshAdder.h" />
     <ClInclude Include="Component\Engine\Mesh\IDrawBefore.h" />
-    <ClInclude Include="Engine\AssetsRenderer\IAddAssets.h" />
-    <ClInclude Include="Engine\AssetsRenderer\IAssetsRenderTextureDeleter.h" />
-    <ClInclude Include="Engine\AssetsRenderer\IAssetsRenderTexturesGetter.h" />
-    <ClInclude Include="Engine\AssetsRenderer\ICurrentSelectTextureGetter.h" />
     <ClInclude Include="Engine\DebugManager\DebugLayer\Inspector\ImGuiInspector.h" />
     <ClInclude Include="Engine\DebugManager\DebugLayer\Inspector\ImGuiWrapper.h" />
     <ClInclude Include="Component\Engine\Mesh\MeshOutLine.h" />
     <ClInclude Include="Component\Engine\Mesh\MeshShader.h" />
     <ClInclude Include="Component\Engine\Mesh\MeshRenderer.h" />
     <ClInclude Include="Engine\Pause\IPause.h" />
-    <ClInclude Include="Engine\SceneMesh\ICurrentSelectSceneMeshGetter.h" />
     <ClInclude Include="DirectX\DepthStencilView.h" />
     <ClInclude Include="DirectX\DepthStencilViewDesc.h" />
     <ClInclude Include="Component\Engine\Scene\MapEditor.h" />
@@ -539,8 +493,6 @@
     <ClInclude Include="GameObject\IThisGetter.h" />
     <ClInclude Include="GameObject\MeshGameObjectCreater.h" />
     <ClInclude Include="Collision\IntersectHelper.h" />
-    <ClInclude Include="Engine\SceneMesh\SceneMeshSelector.h" />
-    <ClInclude Include="Engine\MapEditor\MapEditorMeshManager.h" />
     <ClInclude Include="Input\IMouseWheelScrollValueSetter.h" />
     <ClInclude Include="Input\InputManager.h" />
     <ClInclude Include="Component\Engine\Sprite\MeshRenderOnTextureComponent.h" />
@@ -567,11 +519,7 @@
     <ClInclude Include="Mesh\IMeshAdder.h" />
     <ClInclude Include="Mesh\IMeshesGetter.h" />
     <ClInclude Include="Mesh\MeshCommonShaderSetter.h" />
-    <ClInclude Include="Engine\SceneMesh\SceneMeshOperator.h" />
-    <ClInclude Include="Engine\SceneMesh\SceneMeshDeleter.h" />
-    <ClInclude Include="Engine\ModelViewer\ModelViewer.h" />
     <ClInclude Include="Collision\SphereHelper.h" />
-    <ClInclude Include="Engine\ModelViewer\ModelViewCamera.h" />
     <ClInclude Include="Engine\Camera\SimpleCamera.h" />
     <ClInclude Include="System\FpsCounter\IFpsGetter.h" />
     <ClInclude Include="Device\TimeMeasurement.h" />
@@ -800,7 +748,6 @@
     <ClInclude Include="Component\Engine\Sample\WaveformRenderSample.h" />
     <ClInclude Include="Mesh\VertexNormalSmoother.h" />
     <ClInclude Include="Component\Game\Weapon\WeaponDamage.h" />
-    <ClInclude Include="Engine\ModelViewer\VertexSelector.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\ChickenMesh.hlsl">

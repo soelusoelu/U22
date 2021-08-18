@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "Inspector/IInspector.h"
-#include "../../EngineMode.h"
 #include "../../../Device/FileOperator.h"
 #include "../../../GameObject/IGameObjectsGetter.h"
 #include "../../../Math/Math.h"
@@ -22,7 +21,7 @@ public:
     ~DebugLayer();
     void initialize(const IGameObjectsGetter* gameObjectsGetter, const IFpsGetter* fpsGetter);
     void update();
-    void draw(EngineMode mode, DrawString& drawer, Matrix4& proj) const;
+    void draw(DrawString& drawer, Matrix4& proj) const;
     FixedDebugInformation& fixedDebugInfo() const;
     Hierarchy& hierarchy() const;
     IInspector* inspector() const;

@@ -90,10 +90,6 @@ void Hierarchy::drawGameObjects(DrawString& drawString) const {
     }
 }
 
-void Hierarchy::setGameObjectsGetter(const IGameObjectsGetter* getter) {
-    mGameObjectsGetter = getter;
-}
-
 void Hierarchy::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
     JsonHelper::getSet(mScale, "scale", inObj, alloc, mode);
     JsonHelper::getSet(mOffsetCharCountX, "offsetCharCountX", inObj, alloc, mode);

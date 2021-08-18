@@ -36,8 +36,6 @@ public:
     void clear();
     //指定のメッシュを削除する
     void erase(const MeshPtr& mesh);
-    //MeshRendererに自身をマネージャー登録する
-    void registerThisToMeshRenderer();
 
 private:
     MeshManager(const MeshManager&) = delete;

@@ -22,14 +22,9 @@ void DebugLayer::update() {
     mHierarchy->update();
 }
 
-void DebugLayer::draw(EngineMode mode, DrawString& drawer, Matrix4& proj) const {
-    if (mode == EngineMode::GAME) {
-        mFixedDebugInfo->draw(drawer);
-    }
-    if (mode == EngineMode::GAME || mode == EngineMode::MAP_EDITOR) {
-        mHierarchy->drawGameObjects(drawer);
-    }
-
+void DebugLayer::draw(DrawString& drawer, Matrix4& proj) const {
+    mFixedDebugInfo->draw(drawer);
+    mHierarchy->drawGameObjects(drawer);
     mInspector->drawInspect();
 }
 

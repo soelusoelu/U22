@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "../EngineMode.h"
 #include "../Pause/IPause.h"
 #include "../../Device/FileOperator.h"
 #include "../../GameObject/IGameObjectsGetter.h"
@@ -36,11 +35,10 @@ public:
     //2D関連の描画
     void draw2D(const Renderer& renderer, Matrix4& proj) const;
     //2Dデバッグ関連の描画
-    void drawDebug2D(EngineMode mode, Matrix4& proj) const;
+    void drawDebug2D(Matrix4& proj) const;
 
     //3D関連の描画
     void draw3D(
-        EngineMode mode,
         const Renderer& renderer,
         const Matrix4& viewProj
     ) const;

@@ -71,10 +71,6 @@ void MeshManager::erase(const MeshPtr& mesh) {
     mMeshes.remove(mesh);
 }
 
-void MeshManager::registerThisToMeshRenderer() {
-    MeshRenderer::setMeshManager(this);
-}
-
 void MeshManager::remove() {
     auto itr = mShadowMeshes.begin();
     while (itr != mShadowMeshes.end()) {

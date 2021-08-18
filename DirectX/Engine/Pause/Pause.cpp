@@ -19,12 +19,10 @@ bool Pause::isPausing() const {
     return mIsPausing;
 }
 
-void Pause::initialize(IEngineFunctionChanger* modeChanger) {
+void Pause::initialize() {
     auto pos = mOffset;
     pos.x += Window::width();
     mButton = std::make_unique<SpriteButton>(nullptr, mFileName, pos);
-
-    modeChanger->callbackChangeMode([&](EngineMode mode) { onModeChange(mode); });
 }
 
 void Pause::update() {
@@ -44,8 +42,4 @@ void Pause::update() {
 void Pause::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
     JsonHelper::getSet(mFileName, "fileName", inObj, alloc, mode);
     JsonHelper::getSet(mOffset, "offset", inObj, alloc, mode);
-}
-
-void Pause::onModeChange(EngineMode mode) {
-    mButton->setActive(mode == EngineMode::GAME);
 }

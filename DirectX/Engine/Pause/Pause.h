@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "IPause.h"
-#include "../IEngineFunctionChanger.h"
 #include "../../Device/FileOperator.h"
 #include "../../Math/Math.h"
 #include <memory>
@@ -18,7 +17,7 @@ public:
     ~Pause();
     virtual bool isPausing() const override;
 
-    void initialize(IEngineFunctionChanger* modeChanger);
+    void initialize();
     void update();
 
 private:
@@ -27,7 +26,7 @@ private:
 
     virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
-    void onModeChange(EngineMode mode);
+    void onModeChange();
 
 private:
     std::unique_ptr<SpriteButton> mButton;

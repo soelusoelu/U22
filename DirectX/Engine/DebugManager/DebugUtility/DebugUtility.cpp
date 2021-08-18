@@ -50,10 +50,8 @@ void DebugUtility::preUpdateProcess() {
     mLineRenderer3D->clear();
 }
 
-void DebugUtility::draw(EngineMode mode, DrawString& drawer) const {
-    if (mode == EngineMode::GAME) {
-        mLog->drawLogs(drawer);
-    }
+void DebugUtility::draw(DrawString& drawer) const {
+    mLog->drawLogs(drawer);
 }
 
 void DebugUtility::drawLine2D(const Renderer& renderer, Matrix4& proj) const {
@@ -61,7 +59,7 @@ void DebugUtility::drawLine2D(const Renderer& renderer, Matrix4& proj) const {
     mLineRenderer2D->draw(proj);
 }
 
-void DebugUtility::draw3D(EngineMode mode, const Renderer& renderer, const Matrix4& viewProj) const {
+void DebugUtility::draw3D(const Renderer& renderer, const Matrix4& viewProj) const {
     renderer.renderPointLine3D();
     renderer.renderPoint3D();
     mPointRenderer->draw(viewProj);
