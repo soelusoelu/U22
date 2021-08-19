@@ -21,8 +21,8 @@ public:
     BulletShooter& operator=(const BulletShooter&) = delete;
 
     virtual void start() override;
-    virtual void update() override;
 
+    void originalUpdate();
     void setConnector(const GameObject& connector);
     void ads();
     bool isAds() const;

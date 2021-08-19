@@ -5,6 +5,8 @@
 
 class SkinMeshComponent;
 class PlayerMove;
+class PlayerCrouch;
+class BulletShooter;
 
 class PlayerAnimationController
     : public Component
@@ -22,4 +24,6 @@ private:
 private:
     std::shared_ptr<SkinMeshComponent> mAnimation;
     std::shared_ptr<PlayerMove> mMove;
+    std::shared_ptr<PlayerCrouch> mCrouch;
+    std::shared_ptr<BulletShooter> mShooter;
 };

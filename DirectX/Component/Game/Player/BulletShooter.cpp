@@ -30,7 +30,7 @@ void BulletShooter::start() {
     mAnimation = getComponent<SkinMeshComponent>();
 }
 
-void BulletShooter::update() {
+void BulletShooter::originalUpdate() {
     ads();
     if (!mIsADS) {
         return;

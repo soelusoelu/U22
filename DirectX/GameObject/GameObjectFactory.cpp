@@ -52,6 +52,7 @@
 #include "../Component/Game/Player/BulletShooter.h"
 #include "../Component/Game/Player/PlayerAnimationController.h"
 #include "../Component/Game/Player/PlayerColliderController.h"
+#include "../Component/Game/Player/PlayerCrouch.h"
 #include "../Component/Game/Player/PlayerDash.h"
 #include "../Component/Game/Player/PlayerMove.h"
 #include "../Component/Game/Player/PlayerWalk.h"
@@ -146,6 +147,7 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(BulletShooter);
     ADD_COMPONENT(PlayerAnimationController);
     ADD_COMPONENT(PlayerColliderController);
+    ADD_COMPONENT(PlayerCrouch);
     ADD_COMPONENT(PlayerDash);
     ADD_COMPONENT(PlayerMove);
     ADD_COMPONENT(PlayerWalk);

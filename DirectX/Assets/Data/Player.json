@@ -37,6 +37,12 @@
       }
     },
     {
+      "type": "PlayerCrouch",
+      "properties": {
+        "limitTime": 0.0
+      }
+    },
+    {
       "type": "BulletShooter",
       "properties": {}
     },

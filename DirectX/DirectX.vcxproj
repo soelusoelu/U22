@@ -191,6 +191,7 @@
     <ClCompile Include="Component\Game\Enemy\OctopusHead.cpp" />
     <ClCompile Include="Component\Game\PlayerEnemyCommon\PlayerEnemyConnection.cpp" />
     <ClCompile Include="Component\Game\Enemy\Octopus.cpp" />
+    <ClCompile Include="Component\Game\Player\PlayerCrouch.cpp" />
     <ClCompile Include="Utility\JsonHelper.cpp" />
     <ClCompile Include="System\Shader\DataTransfer.cpp" />
     <ClCompile Include="Engine\Camera\EngineCamera.cpp" />
@@ -456,6 +457,7 @@
     <ClInclude Include="Component\Game\Enemy\OctopusHead.h" />
     <ClInclude Include="Component\Game\PlayerEnemyCommon\PlayerEnemyConnection.h" />
     <ClInclude Include="Component\Game\Enemy\Octopus.h" />
+    <ClInclude Include="Component\Game\Player\PlayerCrouch.h" />
     <ClInclude Include="Utility\JsonHelper.h" />
     <ClInclude Include="System\Shader\DataTransfer.h" />
     <ClInclude Include="Engine\Camera\EngineCamera.h" />
