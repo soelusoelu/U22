@@ -12,6 +12,7 @@ public:
     PlayerColliderController();
     ~PlayerColliderController();
     virtual void start() override;
+    virtual void update() override;
     virtual void onCollisionEnter(Collider& other) override;
 
 private:
@@ -20,4 +21,6 @@ private:
 
 private:
     std::shared_ptr<HitPoint> mHP;
+    bool mIsHitThisFrame;
+    bool mIsPreviousHit;
 };

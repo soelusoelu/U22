@@ -50,7 +50,7 @@ void Physics::sweepAndPrune() {
             }
             //同一ゲームオブジェクトのコライダーなら次へ
             if (&aColl->gameObject() == &bColl->gameObject()) {
-                break;
+                continue;
             }
 
             const auto bObb = static_cast<const OBBCollider*>(&*bColl);

@@ -17,6 +17,11 @@ void Collider::start() {
 }
 
 void Collider::lateUpdate() {
+    //コライダーが有効じゃなければ終了
+    if (!mEnable) {
+        return;
+    }
+
     //衝突し続けている/衝突しなくなった コライダーに通知を送る
     notifyCollisionStay();
     notifyCollisionExit();

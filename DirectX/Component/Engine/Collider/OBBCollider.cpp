@@ -14,7 +14,8 @@ OBBCollider::OBBCollider()
     , mOBB()
     , mMesh(nullptr)
     , mAnimation(nullptr)
-    , mDefaultExtents()
+    , mOffsetCenter(Vector3::zero)
+    , mDefaultExtents(Vector3::zero)
     , mBoneNo(-1)
     , mBoneStart(0.f)
     , mBoneEnd(1.f)
@@ -33,7 +34,7 @@ void OBBCollider::start() {
     mMesh = getComponent<MeshComponent>();
     mAnimation = getComponent<SkinMeshComponent>();
 
-    mDefaultExtents = mOBB.extents;
+    mOBB.extents = mDefaultExtents;
 
     //transform().callbackBeforeComputeWorldMatrix([&] { beforeComputeWorldMatrix(); });
 
@@ -69,17 +70,16 @@ void OBBCollider::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::Allo
     JsonHelper::getSet(mBoneEnd, "boneEnd", inObj, alloc, mode);
     JsonHelper::getSet(mOBB.center, "center", inObj, alloc, mode);
     JsonHelper::getSet(mOBB.rotation, "rotation", inObj, alloc, mode);
-    JsonHelper::getSet(mOBB.extents, "extents", inObj, alloc, mode);
+    JsonHelper::getSet(mDefaultExtents, "extents", inObj, alloc, mode);
+    JsonHelper::getSet(mOffsetCenter, "offsetCenter", inObj, alloc, mode);
 }
 
 void OBBCollider::drawInspector() {
     ImGuiWrapper::dragInt("boneNo", mBoneNo);
     ImGuiWrapper::dragFloat("boneStart", mBoneStart, 0.05f, 0.f, mBoneEnd);
     ImGuiWrapper::dragFloat("boneEnd", mBoneEnd, 0.05f, mBoneStart, 1.f);
-    ImGuiWrapper::dragVector3("center", mOBB.center, 0.1f);
-    auto euler = mOBB.rotation.euler();
-    ImGuiWrapper::dragVector3("rotation", euler, 0.1f);
-    ImGuiWrapper::dragVector3("extents", mOBB.extents, 0.1f);
+    ImGuiWrapper::dragVector3("offsetCenter", mOffsetCenter, 0.1f);
+    ImGuiWrapper::dragVector3("extents", mDefaultExtents, 0.1f);
 }
 
 const OBB& OBBCollider::getOBB() const {
@@ -197,8 +197,9 @@ void OBBCollider::create(
     mOBB.center = center;
     mOBB.rotation = rot;
     //mOBB.extents = Vector3(maxX, maxY, maxZ);
-    mDefaultExtents = Vector3(minX, minY, toParent.length() / 2.f);
-    mOBB.extents = mDefaultExtents;
+    mOBB.extents = Vector3(minX, minY, toParent.length() / 2.f);
+
+    mDefaultExtents = mOBB.extents;
 }
 
 void OBBCollider::test(
@@ -236,6 +237,7 @@ void OBBCollider::beforeComputeWorldMatrix() {
     auto toParent = (parentPos - bonePos);
 
     mOBB.center = (bonePos + parentPos) / 2.f;
+    mOBB.center += mOffsetCenter;
     mOBB.rotation = Quaternion::lookRotation(Vector3::normalize(toParent));
 
     const auto& t = transform();

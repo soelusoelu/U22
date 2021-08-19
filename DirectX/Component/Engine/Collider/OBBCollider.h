@@ -58,6 +58,8 @@ private:
     OBB mOBB;
     std::shared_ptr<MeshComponent> mMesh;
     std::shared_ptr<SkinMeshComponent> mAnimation;
+    //中心点のオフセット
+    Vector3 mOffsetCenter;
     //デフォルトの拡縮
     Vector3 mDefaultExtents;
     //影響を受けるボーン
