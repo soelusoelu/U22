@@ -416,7 +416,6 @@
     <ClCompile Include="Sound\Effects\FourierTransform\WindowFunction.cpp" />
     <ClCompile Include="Component\Engine\Sample\WaveformRenderSample.cpp" />
     <ClCompile Include="Mesh\VertexNormalSmoother.cpp" />
-    <ClCompile Include="Component\Game\Weapon\WeaponDamage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\Engine\EngineComponentAlias.h" />
@@ -749,7 +748,6 @@
     <ClInclude Include="Sound\Effects\FourierTransform\WindowFunction.h" />
     <ClInclude Include="Component\Engine\Sample\WaveformRenderSample.h" />
     <ClInclude Include="Mesh\VertexNormalSmoother.h" />
-    <ClInclude Include="Component\Game\Weapon\WeaponDamage.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\ChickenMesh.hlsl">
@@ -958,6 +956,7 @@
     <None Include="Assets\Data\GameCamera.json" />
     <None Include="Assets\Data\Global.json" />
     <None Include="Assets\Data\Ground1.json" />
+    <None Include="Assets\Data\Gun.json" />
     <None Include="Assets\Data\imgui.ini" />
     <None Include="Assets\Data\ModelViewer.json" />
     <None Include="Assets\Data\Octopus.json" />

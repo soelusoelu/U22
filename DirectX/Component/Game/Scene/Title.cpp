@@ -26,7 +26,7 @@ Title::~Title() = default;
 void Title::awake() {
     GameObjectCreater::create("Plane");
     auto player = GameObjectCreater::create("Player");
-    //auto weapon = GameObjectCreater::create("Weapon");
+    auto gun = GameObjectCreater::create("Gun");
     auto boss = GameObjectCreater::create("Octopus");
     auto connector = GameObjectCreater::create("PlayerEnemyConnector");
 
@@ -38,7 +38,7 @@ void Title::awake() {
     const auto& playerCompManager = player->componentManager();
     playerCompManager.getComponent<BulletShooter>()->setConnector(*connector);
     playerCompManager.getComponent<PlayerWalk>()->setCameraRotation(camera->transform().getLocalRotation());
-    //playerCompManager.getComponent<PlayerWeapon>()->setWeapon(weapon);
+    playerCompManager.getComponent<PlayerWeapon>()->setWeapon(gun);
 
     boss->componentManager().getComponent<EnemyAI>()->setPlayer(player);
 

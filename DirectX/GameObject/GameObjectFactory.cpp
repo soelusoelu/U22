@@ -67,7 +67,6 @@
 #include "../Component/Game/UI/PlayerUIManager.h"
 #include "../Component/Game/UI/StaminaGauge.h"
 #include "../Component/Game/Weapon/CrossHair.h"
-#include "../Component/Game/Weapon/WeaponDamage.h"
 #include "../Engine/DebugManager/DebugUtility/Debug.h"
 #include "../System/GlobalFunction.h"
 #include "../Utility/JsonHelper.h"
@@ -166,7 +165,6 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(StaminaGauge);
 
     ADD_COMPONENT(CrossHair);
-    ADD_COMPONENT(WeaponDamage);
 #pragma endregion
 }
 

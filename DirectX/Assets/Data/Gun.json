@@ -1,0 +1,46 @@
+{
+    "tag": "Weapon",
+    "transform": {
+        "position": [
+            427.82000732421877,
+            526.9099731445313,
+            7.78000020980835
+        ],
+        "rotation": [
+            0.6916515827178955,
+            -0.029293043538928033,
+            0.026217568665742875,
+            0.7211606502532959
+        ],
+        "scale": [
+            30.0,
+            25.0,
+            25.0
+        ],
+        "pivot": [
+            0.0,
+            0.0,
+            0.0
+        ]
+    },
+    "components": [
+        {
+            "type": "MeshComponent",
+            "properties": {
+                "fileName": "Player\\gun.fbx",
+                "directoryPath": "Assets\\Model\\",
+                "shadowHandle": false
+            }
+        },
+        {
+            "type": "MeshRenderer",
+            "properties": {}
+        },
+        {
+            "type": "MeshShader",
+            "properties": {
+                "shaderName": "Mesh.hlsl"
+            }
+        }
+    ]
+}

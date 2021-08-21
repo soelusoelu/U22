@@ -246,7 +246,6 @@
     <ClCompile Include="Component\Game\Player\PlayerWeapon.cpp" />
     <ClCompile Include="Component\Game\UI\BossEnemyHitPointGauge.cpp" />
     <ClCompile Include="Component\Game\UI\BossEnemyUIManager.cpp" />
-    <ClCompile Include="Component\Game\Weapon\WeaponDamage.cpp" />
     <ClCompile Include="Component\Engine\Other\SimpleMotionChanger.cpp" />
     <ClCompile Include="Device\TimeMeasurement.cpp" />
     <ClCompile Include="Sprite\SpriteInstancingDrawer.cpp" />
@@ -570,7 +569,6 @@
     <ClInclude Include="Component\Game\Player\PlayerWeapon.h" />
     <ClInclude Include="Component\Game\UI\BossEnemyHitPointGauge.h" />
     <ClInclude Include="Component\Game\UI\BossEnemyUIManager.h" />
-    <ClInclude Include="Component\Game\Weapon\WeaponDamage.h" />
     <ClInclude Include="Component\Game\Enemy\EnemyMotions.h" />
     <ClInclude Include="Component\Engine\Other\SimpleMotionChanger.h" />
     <ClInclude Include="Device\TimeMeasurement.h" />
@@ -635,5 +633,6 @@
     <None Include="Assets\Data\Octopus.json" />
     <None Include="Assets\Data\TPSCamera.json" />
     <None Include="Assets\Data\PlayerEnemyConnector.json" />
+    <None Include="Assets\Data\Gun.json" />
   </ItemGroup>
 </Project>
