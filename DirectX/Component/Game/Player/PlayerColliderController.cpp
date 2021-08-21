@@ -27,6 +27,11 @@ void PlayerColliderController::start() {
 }
 
 void PlayerColliderController::update() {
+    //死亡しているなら終了
+    if (mAnimation->getCurrentMotionNumber() == PlayerMotions::DEAD) {
+        return;
+    }
+
     //無敵中なら
     if (isInvincible()) {
         mInvincibleTime->update();
@@ -54,7 +59,9 @@ void PlayerColliderController::onCollisionEnter(Collider& other) {
 void PlayerColliderController::takeDamage() {
     mHP->takeDamage(10);
 
-    mAnimation->changeMotion(PlayerMotions::TAKE_DAMAGE);
+    //HPが残ってるなら被ダメ、0なら死亡モーション
+    auto nextMotion = (mHP->getHp() > 0) ? PlayerMotions::TAKE_DAMAGE : PlayerMotions::DEAD;
+    mAnimation->changeMotion(nextMotion);
     mAnimation->setLoop(false);
 
     Debug::log("damege!");

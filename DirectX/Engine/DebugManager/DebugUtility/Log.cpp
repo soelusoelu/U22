@@ -13,7 +13,7 @@ Log::Log()
 Log::~Log() = default;
 
 void Log::initialize() {
-    mNumRowsToDisplay = (Window::debugHeight() - Window::height() - DRAW_OFFSET_Y) / (DrawString::HEIGHT * mScale.y);
+    mNumRowsToDisplay = (Window::debugHeight() - Window::height()) / (DrawString::HEIGHT * mScale.y);
 }
 
 void Log::log(const std::string& message) {
@@ -34,7 +34,7 @@ void Log::clear() {
 
 void Log::drawLogs(DrawString& drawString) const {
     const float height = DrawString::HEIGHT * mScale.y;
-    auto pos = Vector2(0.f, Window::debugHeight() - height - DRAW_OFFSET_Y);
+    auto pos = Vector2(0.f, Window::debugHeight() - height);
     for (const auto& log : mLogs) {
         drawString.drawString(log.first, pos, mScale, log.second);
         pos.y -= height;

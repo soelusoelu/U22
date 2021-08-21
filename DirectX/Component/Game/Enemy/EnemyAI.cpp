@@ -37,23 +37,6 @@ void EnemyAI::update() {
     if (mOctopus->getFootManager().isFootAlive()) {
         updateFootAlive();
     }
-
-#ifdef _DEBUG
-    //デバッグ時のみ攻撃範囲を可視化
-    const auto& t = transform();
-    auto forward = t.forward();
-    auto attackDist = forward * getAttackRangeDistance();
-
-    auto p1 = t.getPosition() + Vector3::up * 10.f;
-    auto p2 = p1 + attackDist;
-    Debug::renderLine(p1, p2, ColorPalette::red);
-
-    auto halfAngle = mAttackRangeAngle / 2.f;
-    auto p3 = Vector3::transform(p1, Quaternion(Vector3::up, halfAngle));
-    auto p4 = Vector3::transform(p1, Quaternion(Vector3::up, -halfAngle));
-    Debug::renderLine(p1, p3 + attackDist, ColorPalette::yellow);
-    Debug::renderLine(p1, p4 + attackDist, ColorPalette::yellow);
-#endif // _DEBUG
 }
 
 void EnemyAI::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {

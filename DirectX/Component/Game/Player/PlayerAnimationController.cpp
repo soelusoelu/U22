@@ -26,6 +26,10 @@ void PlayerAnimationController::start() {
 }
 
 void PlayerAnimationController::update() {
+    //死亡しているなら終了
+    if (mAnimation->getCurrentMotionNumber() == PlayerMotions::DEAD) {
+        return;
+    }
     //被ダメージモーション中は何もできない
     if (mAnimation->getCurrentMotionNumber() == PlayerMotions::TAKE_DAMAGE) {
         return;
