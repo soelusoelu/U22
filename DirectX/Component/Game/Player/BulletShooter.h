@@ -10,6 +10,7 @@
 class GameObject;
 class Camera;
 class SkinMeshComponent;
+class HitPoint;
 
 class BulletShooter
     : public Component
@@ -29,6 +30,9 @@ public:
     void onAds(const std::function<void()>& f);
     void onStartAds(const std::function<void()>& f);
     void onStopAds(const std::function<void()>& f);
+
+private:
+    void onChangeHp(const HitPoint& hp);
 
 private:
     std::shared_ptr<Camera> mCamera;

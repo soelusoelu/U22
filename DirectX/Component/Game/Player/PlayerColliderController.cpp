@@ -1,44 +1,65 @@
 ﻿#include "PlayerColliderController.h"
+#include "PlayerMotions.h"
 #include "../PlayerEnemyCommon/HitPoint.h"
 #include "../../Engine/Collider/Collider.h"
+#include "../../Engine/Mesh/SkinMeshComponent.h"
+#include "../../../Device/Time.h"
 #include "../../../Engine/DebugManager/DebugUtility/Debug.h"
 
 PlayerColliderController::PlayerColliderController()
     : Component()
+    , mAnimation(nullptr)
     , mHP(nullptr)
-    , mIsHitThisFrame(false)
-    , mIsPreviousHit(false)
+    , mInvincibleTime(std::make_unique<Time>())
 {
 }
 
 PlayerColliderController::~PlayerColliderController() = default;
 
 void PlayerColliderController::start() {
+    mAnimation = getComponent<SkinMeshComponent>();
     mHP = getComponent<HitPoint>();
+
+    //被ダメージ時モーション時間を無敵時間に設定する
+    const auto& motion = mAnimation->getMotion(PlayerMotions::TAKE_DAMAGE);
+    auto motionTime = static_cast<float>(motion.numFrame) / 60.f;
+    mInvincibleTime->setLimitTime(motionTime);
 }
 
 void PlayerColliderController::update() {
-    mIsPreviousHit = mIsHitThisFrame;
-    mIsHitThisFrame = false;
+    //無敵中なら
+    if (isInvincible()) {
+        mInvincibleTime->update();
+        if (mInvincibleTime->isTime()) {
+            mInvincibleTime->reset();
+
+            mAnimation->changeMotion(PlayerMotions::IDOL);
+            mAnimation->setLoop(true);
+        }
+    }
 }
 
 void PlayerColliderController::onCollisionEnter(Collider& other) {
-    //1フレームに1回しかヒットさせない
-    if (mIsHitThisFrame) {
-        return;
-    }
-    //前フレームにヒットしていたら終了
-    if (mIsPreviousHit) {
+    //無敵中なら終了
+    if (isInvincible()) {
         return;
     }
 
     if (other.gameObject().tag() == "Enemy") {
-        mHP->takeDamage(10);
-
-        mIsHitThisFrame = true;
-
-        Debug::log("damege!");
-
+        takeDamage();
         return;
     }
+}
+
+void PlayerColliderController::takeDamage() {
+    mHP->takeDamage(10);
+
+    mAnimation->changeMotion(PlayerMotions::TAKE_DAMAGE);
+    mAnimation->setLoop(false);
+
+    Debug::log("damege!");
+}
+
+bool PlayerColliderController::isInvincible() const {
+    return (mAnimation->getCurrentMotionNumber() == PlayerMotions::TAKE_DAMAGE);
 }

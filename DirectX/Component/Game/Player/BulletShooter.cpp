@@ -1,5 +1,6 @@
 ﻿#include "BulletShooter.h"
 #include "PlayerMotions.h"
+#include "../PlayerEnemyCommon/HitPoint.h"
 #include "../PlayerEnemyCommon/PlayerEnemyConnection.h"
 #include "../../Engine/Camera/Camera.h"
 #include "../../Engine/Collider/OBBCollider.h"
@@ -28,6 +29,8 @@ void BulletShooter::start() {
     mCamera = cam->componentManager().getComponent<Camera>();
 
     mAnimation = getComponent<SkinMeshComponent>();
+
+    getComponent<HitPoint>()->callbackChangeHp([&](const HitPoint& hp) { onChangeHp(hp); });
 }
 
 void BulletShooter::originalUpdate() {
@@ -89,4 +92,11 @@ void BulletShooter::onStartAds(const std::function<void()>& f) {
 
 void BulletShooter::onStopAds(const std::function<void()>& f) {
     mOnStopAds += f;
+}
+
+void BulletShooter::onChangeHp(const HitPoint& hp) {
+    if (mIsADS) {
+        mIsADS = false;
+        mOnStopAds();
+    }
 }

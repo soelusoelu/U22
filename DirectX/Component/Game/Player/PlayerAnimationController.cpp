@@ -1,4 +1,4 @@
-#include "PlayerAnimationController.h"
+﻿#include "PlayerAnimationController.h"
 #include "BulletShooter.h"
 #include "PlayerCrouch.h"
 #include "PlayerMotions.h"
@@ -26,6 +26,11 @@ void PlayerAnimationController::start() {
 }
 
 void PlayerAnimationController::update() {
+    //被ダメージモーション中は何もできない
+    if (mAnimation->getCurrentMotionNumber() == PlayerMotions::TAKE_DAMAGE) {
+        return;
+    }
+
     if (!mShooter->isAds()) {
         mCrouch->originalUpdate();
     }
