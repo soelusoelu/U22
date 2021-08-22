@@ -48,6 +48,8 @@ void Title::awake() {
 
     auto playerUIManager = GameObjectCreater::create("PlayerUI");
     playerUIManager->componentManager().getComponent<PlayerUIManager>()->setPlayer(player);
+
+    GameObjectCreater::create("Clear");
 }
 
 void Title::update() {

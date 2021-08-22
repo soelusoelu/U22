@@ -64,6 +64,7 @@
 #include "../Component/Game/Scene/Title.h"
 #include "../Component/Game/UI/BossEnemyHitPointGauge.h"
 #include "../Component/Game/UI/BossEnemyUIManager.h"
+#include "../Component/Game/UI/Clear.h"
 #include "../Component/Game/UI/PlayerHitPointGauge.h"
 #include "../Component/Game/UI/PlayerUIManager.h"
 #include "../Component/Game/UI/StaminaGauge.h"
@@ -162,6 +163,7 @@ GameObjectFactory::GameObjectFactory() {
 
     ADD_COMPONENT(BossEnemyHitPointGauge);
     ADD_COMPONENT(BossEnemyUIManager);
+    ADD_COMPONENT(Clear);
     ADD_COMPONENT(PlayerHitPointGauge);
     ADD_COMPONENT(PlayerUIManager);
     ADD_COMPONENT(StaminaGauge);

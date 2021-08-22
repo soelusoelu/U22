@@ -1,0 +1,29 @@
+{
+  "components": [
+    {
+      "type": "Clear",
+      "properties": {}
+    },
+    {
+      "type": "SpriteComponent",
+      "properties": {
+        "drawOrder": 1,
+        "fileName": "clear.png",
+        "pivot": "Center",
+        "position": [ 960.0, 540.0 ],
+        "isActive": false
+      }
+    },
+    {
+      "type": "SpriteComponent",
+      "properties": {
+        "drawOrder": 0,
+        "fileName": "System\\pixel.png",
+        "scale": [ 1920.0, 1080.0 ],
+        "color": [ 0.0, 0.0, 0.0 ],
+        "alpha": 0.25,
+        "isActive": false
+      }
+    }
+  ]
+}

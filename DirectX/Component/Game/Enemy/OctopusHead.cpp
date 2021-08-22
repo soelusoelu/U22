@@ -34,6 +34,8 @@ const OBBColliderPtrArray& OctopusHead::getColliders() const {
 void OctopusHead::takeDamage(int damage) {
     mIsDestroy = true;
 
+    mOnDestroy();
+
     Debug::log("death");
 }
 
@@ -44,4 +46,8 @@ int OctopusHead::getHp() const {
 
 bool OctopusHead::isDestroy() const {
     return mIsDestroy;
+}
+
+void OctopusHead::onDestroy(const std::function<void()>& f) {
+    mOnDestroy += f;
 }

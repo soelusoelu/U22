@@ -166,6 +166,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Component\Game\UI\Clear.cpp" />
     <ClCompile Include="Component\Game\Player\BulletShooter.cpp" />
     <ClCompile Include="Component\Game\Weapon\CrossHair.cpp" />
     <ClCompile Include="Component\Game\Enemy\EnemyAI.cpp" />
@@ -419,6 +420,7 @@
     <ClCompile Include="Mesh\VertexNormalSmoother.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component\Game\UI\Clear.h" />
     <ClInclude Include="Component\Engine\EngineComponentAlias.h" />
     <ClInclude Include="Component\Game\Enemy\EnemyAlias.h" />
     <ClInclude Include="Component\Game\Enemy\IOctopusPart.h" />
@@ -952,6 +954,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Data\Camera.json" />
+    <None Include="Assets\Data\Clear.json" />
     <None Include="Assets\Data\CollideOperator.json" />
     <None Include="Assets\Data\DirectionalLight.json" />
     <None Include="Assets\Data\Enemy.json" />

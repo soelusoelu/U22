@@ -2,6 +2,8 @@
 
 #include "IOctopusPart.h"
 #include "../../Component.h"
+#include "../../../Device/Function.h"
+#include <functional>
 #include <memory>
 #include <vector>
 
@@ -23,8 +25,12 @@ public:
     virtual int getHp() const override;
     virtual bool isDestroy() const override;
 
+    //死亡通知を送る
+    void onDestroy(const std::function<void()>& f);
+
 private:
     OBBColliderPtrArray mColliders;
     std::vector<int> mTargetBoneNo;
+    Function<void()> mOnDestroy;
     bool mIsDestroy;
 };
