@@ -152,7 +152,7 @@ std::string StringUtil::utf8ToShitJIS(const std::string& utf8) {
     char* bufShiftJis = new char[lengthSJis];
 
     //UnicodeからShiftJISへ変換
-    WideCharToMultiByte(CP_THREAD_ACP, 0, bufUnicode, lenghtUnicode + 1, bufShiftJis, lengthSJis, NULL, NULL);
+    WideCharToMultiByte(CP_THREAD_ACP, 0, bufUnicode, -1, bufShiftJis, lengthSJis, NULL, NULL);
 
     std::string strSJis(bufShiftJis);
 
@@ -179,7 +179,7 @@ std::string StringUtil::shitJISToUtf8(const std::string& shiftJIS) {
     char* bufUTF8 = new char[lengthUTF8];
 
     //UnicodeからUTF8へ変換
-    WideCharToMultiByte(CP_UTF8, 0, bufUnicode, lenghtUnicode + 1, bufUTF8, lengthUTF8, NULL, NULL);
+    WideCharToMultiByte(CP_UTF8, 0, bufUnicode, -1, bufUTF8, lengthUTF8, NULL, NULL);
 
     std::string strUTF8(bufUTF8);
 
