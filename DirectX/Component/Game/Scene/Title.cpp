@@ -16,8 +16,8 @@
 #include "../../../Input/Input.h"
 #include "../../../Transform/Transform3D.h"
 
-Title::Title() :
-    Scene()
+Title::Title()
+    : Scene()
 {
 }
 

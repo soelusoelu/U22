@@ -37,4 +37,8 @@ public:
     static std::string quaternionToString(const Quaternion& quaternion, int decimalDigits = 2);
     //anyからstringへの変換
     static std::string anyToString(const std::any& src);
+    //UTF8からShiftJISへの変換
+    static std::string utf8ToShitJIS(const std::string& utf8);
+    //ShiftJISからUTF8への変換
+    static std::string shitJISToUtf8(const std::string& shiftJIS);
 };

@@ -147,11 +147,8 @@ void FbxMaterialParser::createTexture(Material& material, const FbxSurfaceMateri
     //ファイルパスからファイル名を取得する
     auto textureName = FileUtil::getFileNameFromDirectry(filePath);
 
-    //Unicodeからwide charへ変換する
-    wchar_t* out;
-    FbxUTF8ToWC(textureName.c_str(), out);
-    //wide charからcharへ変換する
-    textureName = StringUtil::wcharToString(out);
+    //Unicodeからcharへ変換する
+    textureName = StringUtil::utf8ToShitJIS(textureName);
 
     //ファイル名からテクスチャを作成する
     auto& am = AssetsManager::instance();
