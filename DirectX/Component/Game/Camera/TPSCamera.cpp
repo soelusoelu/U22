@@ -1,5 +1,6 @@
 ﻿#include "TPSCamera.h"
 #include "../Player/BulletShooter.h"
+#include "../Scene/GameStartTimer.h"
 #include "../../Engine/Camera/Camera.h"
 #include "../../../Device/Time.h"
 #include "../../../GameObject/GameObject.h"
@@ -20,17 +21,26 @@ TPSCamera::TPSCamera()
     , mIsInverseX(true)
     , mIsInverseY(true)
     , mIsCalcPosition(true)
+    , mIsUpdate(false)
 {
 }
 
 TPSCamera::~TPSCamera() = default;
 
 void TPSCamera::start() {
-    const auto& cam = gameObject().getGameObjectManager().find("Camera");
-    mCamera = cam->componentManager().getComponent<Camera>();
+    const auto& gom = gameObject().getGameObjectManager();
+
+    mCamera = gom.find("Camera")->componentManager().getComponent<Camera>();
+
+    const auto& gst = gom.find("GameStartTimer")->componentManager().getComponent<GameStartTimer>();
+    gst->onEndTimer([&] { mIsUpdate = true; });
 }
 
 void TPSCamera::update() {
+    if (!mIsUpdate) {
+        return;
+    }
+
     const auto& pad = Input::joyPad();
     const auto rightStick = pad.rightStick();
 
@@ -60,6 +70,9 @@ void TPSCamera::drawInspector() {
 
 void TPSCamera::setPlayer(const std::shared_ptr<GameObject>& player) {
     mPlayer = player;
+
+    calcPosition();
+    calcLookAt();
 
     auto bs = mPlayer->componentManager().getComponent<BulletShooter>();
     bs->onStartAds([&] { mIsCalcPosition = false; });

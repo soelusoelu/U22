@@ -1,0 +1,20 @@
+{
+  "tag": "GameStartTimer",
+  "components": [
+    {
+      "type": "GameStartTimer",
+      "properties": {
+        "beginScale": 5.0,
+        "endScale": 10.0,
+        "limitTime": 5.0
+      }
+    },
+    {
+      "type": "Text",
+      "properties": {
+        "pivot": "Center",
+        "position": [ 960.0, 540.0 ]
+      }
+    }
+  ]
+}

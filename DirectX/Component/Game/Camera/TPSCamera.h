@@ -47,4 +47,6 @@ private:
     bool mIsInverseY;
     //位置計算を行うか
     bool mIsCalcPosition;
+    //更新するか
+    bool mIsUpdate;
 };

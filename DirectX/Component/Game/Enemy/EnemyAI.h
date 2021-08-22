@@ -47,5 +47,5 @@ private:
     Function<void(const std::shared_ptr<GameObject>&)> mOnSetPlayer;
     float mAttackRangeDistance;
     float mAttackRangeAngle;
-    bool mIsDebugMode;
+    bool mIsUpdate;
 };

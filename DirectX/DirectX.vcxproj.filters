@@ -272,6 +272,7 @@
     <ClCompile Include="Component\Game\PlayerEnemyCommon\PlayerEnemyConnection.cpp" />
     <ClCompile Include="Component\Game\Enemy\Octopus.cpp" />
     <ClCompile Include="Component\Game\Player\PlayerCrouch.cpp" />
+    <ClCompile Include="Component\Game\Scene\GameStartTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -604,6 +605,7 @@
     <ClInclude Include="Component\Game\PlayerEnemyCommon\IShotRaySetter.h" />
     <ClInclude Include="Component\Game\Enemy\OctopusConstantNumbers.h" />
     <ClInclude Include="Component\Game\Player\PlayerCrouch.h" />
+    <ClInclude Include="Component\Game\Scene\GameStartTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />
@@ -634,5 +636,6 @@
     <None Include="Assets\Data\TPSCamera.json" />
     <None Include="Assets\Data\PlayerEnemyConnector.json" />
     <None Include="Assets\Data\Gun.json" />
+    <None Include="Assets\Data\GameStartTimer.json" />
   </ItemGroup>
 </Project>

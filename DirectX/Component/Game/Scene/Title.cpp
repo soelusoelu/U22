@@ -24,6 +24,8 @@ Title::Title() :
 Title::~Title() = default;
 
 void Title::awake() {
+    GameObjectCreater::create("GameStartTimer");
+
     GameObjectCreater::create("Plane");
     auto player = GameObjectCreater::create("Player");
     auto gun = GameObjectCreater::create("Gun");
@@ -46,9 +48,6 @@ void Title::awake() {
 
     auto playerUIManager = GameObjectCreater::create("PlayerUI");
     playerUIManager->componentManager().getComponent<PlayerUIManager>()->setPlayer(player);
-
-    //auto bossEnemyUIManager = GameObjectCreater::create("BossEnemyUI");
-    //bossEnemyUIManager->componentManager().getComponent<BossEnemyUIManager>()->setBoss(boss);
 }
 
 void Title::update() {

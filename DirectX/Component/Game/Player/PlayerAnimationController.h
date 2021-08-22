@@ -26,4 +26,5 @@ private:
     std::shared_ptr<PlayerMove> mMove;
     std::shared_ptr<PlayerCrouch> mCrouch;
     std::shared_ptr<BulletShooter> mShooter;
+    bool mIsUpdate;
 };

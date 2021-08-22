@@ -3,7 +3,10 @@
 #include "PlayerCrouch.h"
 #include "PlayerMotions.h"
 #include "PlayerMove.h"
+#include "../Scene/GameStartTimer.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
+#include "../../../GameObject/GameObject.h"
+#include "../../../GameObject/GameObjectManager.h"
 
 PlayerAnimationController::PlayerAnimationController()
     : Component()
@@ -11,6 +14,7 @@ PlayerAnimationController::PlayerAnimationController()
     , mMove(nullptr)
     , mCrouch(nullptr)
     , mShooter(nullptr)
+    , mIsUpdate(false)
 {
 }
 
@@ -23,9 +27,16 @@ void PlayerAnimationController::start() {
     mMove = getComponent<PlayerMove>();
     mCrouch = getComponent<PlayerCrouch>();
     mShooter = getComponent<BulletShooter>();
+
+    const auto& gst = gameObject().getGameObjectManager().find("GameStartTimer");
+    gst->componentManager().getComponent<GameStartTimer>()->onEndTimer([&] { mIsUpdate = true; });
 }
 
 void PlayerAnimationController::update() {
+    if (!mIsUpdate) {
+        return;
+    }
+
     //死亡しているなら終了
     if (mAnimation->getCurrentMotionNumber() == PlayerMotions::DEAD) {
         return;

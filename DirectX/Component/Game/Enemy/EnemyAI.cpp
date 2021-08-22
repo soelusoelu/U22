@@ -3,9 +3,12 @@
 #include "Octopus.h"
 #include "OctopusFootAttack.h"
 #include "OctopusFootManager.h"
+#include "../Scene/GameStartTimer.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
 #include "../../../Engine/DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
 #include "../../../Engine/DebugManager/DebugUtility/Debug.h"
+#include "../../../GameObject/GameObject.h"
+#include "../../../GameObject/GameObjectManager.h"
 #include "../../../Input/Input.h"
 #include "../../../Transform/Transform3D.h"
 #include "../../../Utility/JsonHelper.h"
@@ -18,7 +21,7 @@ EnemyAI::EnemyAI()
     , mAttack(nullptr)
     , mAttackRangeDistance(0.f)
     , mAttackRangeAngle(0.f)
-    , mIsDebugMode(false)
+    , mIsUpdate(false)
 {
 }
 
@@ -31,9 +34,16 @@ void EnemyAI::start() {
 
     //初期モーションはTPose(歩行)に
     getComponent<SkinMeshComponent>()->tPose();
+
+    const auto& gst = gameObject().getGameObjectManager().find("GameStartTimer");
+    gst->componentManager().getComponent<GameStartTimer>()->onEndTimer([&] { mIsUpdate = true; });
 }
 
 void EnemyAI::update() {
+    if (!mIsUpdate) {
+        return;
+    }
+
     if (mOctopus->getFootManager().isFootAlive()) {
         updateFootAlive();
     }
@@ -47,7 +57,7 @@ void EnemyAI::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::Allocato
 void EnemyAI::drawInspector() {
     ImGuiWrapper::dragFloat("Attack Range", mAttackRangeDistance);
     ImGuiWrapper::dragFloat("Attack Angle", mAttackRangeAngle);
-    ImGui::Checkbox("Is Debug Mode", &mIsDebugMode);
+    ImGui::Checkbox("Is Update", &mIsUpdate);
 }
 
 void EnemyAI::setPlayer(const std::shared_ptr<GameObject>& player) {
@@ -60,11 +70,6 @@ void EnemyAI::onSetPlayer(const std::function<void(const std::shared_ptr<GameObj
 }
 
 void EnemyAI::updateFootAlive() {
-    //デバッグモード中は更新しない
-    if (mIsDebugMode) {
-        return;
-    }
-
     //回転は常に行う
     mMove->rotate();
 

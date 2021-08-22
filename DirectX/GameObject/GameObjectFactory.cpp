@@ -60,6 +60,7 @@
 #include "../Component/Game/Player/Stamina.h"
 #include "../Component/Game/PlayerEnemyCommon/HitPoint.h"
 #include "../Component/Game/PlayerEnemyCommon/PlayerEnemyConnection.h"
+#include "../Component/Game/Scene/GameStartTimer.h"
 #include "../Component/Game/Scene/Title.h"
 #include "../Component/Game/UI/BossEnemyHitPointGauge.h"
 #include "../Component/Game/UI/BossEnemyUIManager.h"
@@ -156,6 +157,7 @@ GameObjectFactory::GameObjectFactory() {
     ADD_COMPONENT(HitPoint);
     ADD_COMPONENT(PlayerEnemyConnection);
 
+    ADD_COMPONENT(GameStartTimer);
     ADD_COMPONENT(Title);
 
     ADD_COMPONENT(BossEnemyHitPointGauge);
