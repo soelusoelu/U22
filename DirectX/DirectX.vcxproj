@@ -968,6 +968,7 @@
     <None Include="Assets\Data\imgui.ini" />
     <None Include="Assets\Data\ModelViewer.json" />
     <None Include="Assets\Data\Octopus.json" />
+    <None Include="Assets\Data\OctopusCollider.json" />
     <None Include="Assets\Data\Plane.json" />
     <None Include="Assets\Data\Player.json" />
     <None Include="Assets\Data\PlayerEnemyConnector.json" />

@@ -643,5 +643,6 @@
     <None Include="Assets\Data\GameStartTimer.json" />
     <None Include="Assets\Data\Clear.json" />
     <None Include="Assets\Data\YouDied.json" />
+    <None Include="Assets\Data\OctopusCollider.json" />
   </ItemGroup>
 </Project>
