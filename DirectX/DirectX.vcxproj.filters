@@ -274,6 +274,7 @@
     <ClCompile Include="Component\Game\Player\PlayerCrouch.cpp" />
     <ClCompile Include="Component\Game\Scene\GameStartTimer.cpp" />
     <ClCompile Include="Component\Game\UI\Clear.cpp" />
+    <ClCompile Include="Component\Game\UI\YouDied.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\ComponentManager.h" />
@@ -608,6 +609,7 @@
     <ClInclude Include="Component\Game\Player\PlayerCrouch.h" />
     <ClInclude Include="Component\Game\Scene\GameStartTimer.h" />
     <ClInclude Include="Component\Game\UI\Clear.h" />
+    <ClInclude Include="Component\Game\UI\YouDied.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />
@@ -640,5 +642,6 @@
     <None Include="Assets\Data\Gun.json" />
     <None Include="Assets\Data\GameStartTimer.json" />
     <None Include="Assets\Data\Clear.json" />
+    <None Include="Assets\Data\YouDied.json" />
   </ItemGroup>
 </Project>

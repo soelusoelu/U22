@@ -1,0 +1,34 @@
+{
+  "components": [
+    {
+      "type": "YouDied",
+      "properties": {
+        "startingUpToTime": 5.0,
+        "youDiedTimer": 6.0,
+        "backGroundTimer": 1.0
+      }
+    },
+    {
+      "type": "SpriteComponent",
+      "properties": {
+        "drawOrder": 1,
+        "fileName": "YouDied.png",
+        "pivot": "Center",
+        "position": [ 960.0, 540.0 ],
+        "alpha": 0.0,
+        "isActive": false
+      }
+    },
+    {
+      "type": "SpriteComponent",
+      "properties": {
+        "drawOrder": 0,
+        "fileName": "System\\pixel.png",
+        "scale": [ 1920.0, 1080.0 ],
+        "color": [ 0.0, 0.0, 0.0 ],
+        "alpha": 0.0,
+        "isActive": false
+      }
+    }
+  ]
+}

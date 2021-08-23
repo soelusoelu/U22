@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include "../../Component.h"
+#include "../../../Device/Function.h"
+#include <functional>
 #include <memory>
 
 class SkinMeshComponent;
@@ -20,6 +22,8 @@ public:
     virtual void update() override;
     virtual void onCollisionEnter(Collider& other) override;
 
+    void onDead(const std::function<void()>& f);
+
 private:
     //被ダメージ時
     void takeDamage();
@@ -30,4 +34,5 @@ private:
     std::shared_ptr<SkinMeshComponent> mAnimation;
     std::shared_ptr<HitPoint> mHP;
     std::unique_ptr<Time> mInvincibleTime;
+    Function<void()> mOnDead;
 };

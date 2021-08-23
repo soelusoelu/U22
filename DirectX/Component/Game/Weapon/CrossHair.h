@@ -11,10 +11,12 @@ public:
     CrossHair(const CrossHair&) = delete;
     CrossHair& operator=(const CrossHair&) = delete;
 
+    virtual void start() override;
     virtual void update() override;
     virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
 private:
     float mOffset;
     float mLength;
+    bool mIsRender;
 };

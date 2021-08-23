@@ -49,6 +49,10 @@ void PlayerColliderController::onCollisionEnter(Collider& other) {
     if (isInvincible()) {
         return;
     }
+    //死亡しているなら終了
+    if (mAnimation->getCurrentMotionNumber() == PlayerMotions::DEAD) {
+        return;
+    }
 
     if (other.gameObject().tag() == "Enemy") {
         takeDamage();
@@ -56,11 +60,21 @@ void PlayerColliderController::onCollisionEnter(Collider& other) {
     }
 }
 
+void PlayerColliderController::onDead(const std::function<void()>& f) {
+    mOnDead += f;
+}
+
 void PlayerColliderController::takeDamage() {
     mHP->takeDamage(10);
 
     //HPが残ってるなら被ダメ、0なら死亡モーション
-    auto nextMotion = (mHP->getHp() > 0) ? PlayerMotions::TAKE_DAMAGE : PlayerMotions::DEAD;
+    unsigned nextMotion = 0;
+    if (mHP->getHp() > 0) {
+        nextMotion = PlayerMotions::TAKE_DAMAGE;
+    } else {
+        nextMotion = PlayerMotions::DEAD;
+        mOnDead();
+    }
     mAnimation->changeMotion(nextMotion);
     mAnimation->setLoop(false);
 

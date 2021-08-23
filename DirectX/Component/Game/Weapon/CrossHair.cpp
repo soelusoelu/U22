@@ -1,5 +1,8 @@
 ﻿#include "CrossHair.h"
+#include "../Player/PlayerColliderController.h"
+#include "../UI/PlayerUIManager.h"
 #include "../../../Engine/DebugManager/DebugUtility/Debug.h"
+#include "../../../GameObject/GameObject.h"
 #include "../../../System/Window.h"
 #include "../../../Utility/JsonHelper.h"
 
@@ -7,12 +10,23 @@ CrossHair::CrossHair()
     : Component()
     , mOffset(0.f)
     , mLength(0.f)
+    , mIsRender(true)
 {
 }
 
 CrossHair::~CrossHair() = default;
 
+void CrossHair::start() {
+    getComponent<PlayerUIManager>()->callbackSetPlayer([&](const GameObject& player) {
+        player.componentManager().getComponent<PlayerColliderController>()->onDead([&] { mIsRender = false; });
+    });
+}
+
 void CrossHair::update() {
+    if (!mIsRender) {
+        return;
+    }
+
     const auto width = Window::standardWidth();
     const auto height = Window::standardHeight();
     const auto center = Vector2(width / 2.f, height / 2.f);

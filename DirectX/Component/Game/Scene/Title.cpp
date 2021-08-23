@@ -9,6 +9,7 @@
 #include "../PlayerEnemyCommon/PlayerEnemyConnection.h"
 #include "../UI/BossEnemyUIManager.h"
 #include "../UI/PlayerUIManager.h"
+#include "../UI/YouDied.h"
 #include "../../Engine/Mesh/MeshComponent.h"
 #include "../../../GameObject/GameObject.h"
 #include "../../../GameObject/GameObjectFactory.h"
@@ -49,6 +50,8 @@ void Title::awake() {
     auto playerUIManager = GameObjectCreater::create("PlayerUI");
     playerUIManager->componentManager().getComponent<PlayerUIManager>()->setPlayer(player);
 
+    auto youDied = GameObjectCreater::create("YouDied");
+    youDied->componentManager().getComponent<YouDied>()->onEndedDrawing([&] { next("Title"); });
     GameObjectCreater::create("Clear");
 }
 
