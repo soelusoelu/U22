@@ -610,6 +610,7 @@
     <ClInclude Include="Component\Game\Scene\GameStartTimer.h" />
     <ClInclude Include="Component\Game\UI\Clear.h" />
     <ClInclude Include="Component\Game\UI\YouDied.h" />
+    <ClInclude Include="Component\Game\Player\PlayerSounds.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\MeshCommonHeader.hlsli" />
@@ -644,5 +645,6 @@
     <None Include="Assets\Data\Clear.json" />
     <None Include="Assets\Data\YouDied.json" />
     <None Include="Assets\Data\OctopusCollider.json" />
+    <None Include="Assets\Data\PlayerCollider.json" />
   </ItemGroup>
 </Project>

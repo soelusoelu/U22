@@ -7,7 +7,7 @@
         "rotateSpeed": 160.0,
         "cameraToPlayerDistance": 1750.0,
         "playerHeadPointY": 770.0,
-        "adsPosition": [ 1.5, -1.0, -6.5 ]
+        "adsPosition": [ 0.15, -0.1, -0.65 ]
       }
     }
   ]

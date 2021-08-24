@@ -10,6 +10,7 @@
 #include <vector>
 
 class SkinMeshComponent;
+class SoundComponent;
 class OctopusFootManager;
 class Time;
 
@@ -38,6 +39,8 @@ private:
 
 private:
     std::shared_ptr<SkinMeshComponent> mAnimation;
+    std::shared_ptr<SoundComponent> mSoundH;
+    std::shared_ptr<SoundComponent> mSoundV;
     std::shared_ptr<OctopusFootManager> mFootManager;
     //叩きつけ攻撃時のペアとなる足配列
     std::array<std::pair<unsigned, unsigned>, OctopusConstantNumbers::FOOT_COUNT / 2> mFootPairs;

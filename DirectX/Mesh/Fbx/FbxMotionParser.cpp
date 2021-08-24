@@ -31,7 +31,7 @@ void FbxMotionParser::parse(
     //モーション数を設定する
     motions.resize(numAnim);
 
-    for (int i = 0; i < motions.size(); ++i) {
+    for (int i = 0; i < numAnim; ++i) {
         //アニメーションを取得する
         FbxAnimStack* anim = fbxScene->GetSrcObject<FbxAnimStack>(i);
         //シーン切り替え

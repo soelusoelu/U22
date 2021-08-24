@@ -3,13 +3,22 @@
 #include "PlayerDash.h"
 #include "PlayerMotions.h"
 #include "PlayerMove.h"
+#include "PlayerSounds.h"
+#include "../../Engine/Collider/Collider.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
+#include "../../Engine/Sound/SoundComponent.h"
+#include "../../../GameObject/GameObject.h"
+#include "../../../Sound/3D/Emitter/Sound3DEmitter.h"
+#include "../../../Sound/Player/Frequency.h"
+#include "../../../Sound/Player/SoundLoop.h"
+#include "../../../Sound/Player/SoundPlayer.h"
 #include "../../../Transform/Transform3D.h"
 #include "../../../Utility/JsonHelper.h"
 
 PlayerWalk::PlayerWalk()
     : Component()
     , mAnimation(nullptr)
+    , mSound(nullptr)
     , mBulletShooter(nullptr)
     , mCameraRotation(nullptr)
     , mWalkSpeed(0.f)
@@ -25,8 +34,20 @@ void PlayerWalk::start() {
     mBulletShooter = getComponent<BulletShooter>();
     mBulletShooter->onAds([&] { onAds(); });
 
+    mSound = getComponents<SoundComponent>()[PlayerSounds::DASH];
+    //音を高くするために
+    mSound->getSoundPlayer().getFrequency().setFrequencyRatio(2.f);
+    //音の反響を無くすため
+    mSound->getSoundEmitter().setCalculateReverb(false);
+
     getComponent<PlayerDash>()->callbackToDash([&] { mIsWalking = false; });
-    getComponent<PlayerMove>()->callbackToStop([&] { mIsWalking = false; });
+    getComponent<PlayerMove>()->callbackToStop([&] { mIsWalking = false; mSound->getSoundPlayer().stop(); });
+}
+
+void PlayerWalk::onCollisionEnter(Collider& other) {
+    if (other.gameObject().tag() == "Enemy") {
+        mSound->getSoundPlayer().stop();
+    }
 }
 
 void PlayerWalk::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
@@ -41,6 +62,13 @@ void PlayerWalk::walk(IPlayerMove& playerMove) {
         //mAnimation->changeMotion(PlayerMotions::LEFT_MOVE_ON_ADS);
         //mAnimation->setLoop(true);
         mIsWalking = true;
+
+        auto& soundPlayer = mSound->getSoundPlayer();
+        soundPlayer.setPlayPoint(0.f);
+        soundPlayer.playStreaming();
+        soundPlayer.getLoop().loopAll();
+        //音を遅く・低くするために
+        soundPlayer.getFrequency().setFrequencyRatio(1.5f);
 
         mCallbackToWalk();
     }

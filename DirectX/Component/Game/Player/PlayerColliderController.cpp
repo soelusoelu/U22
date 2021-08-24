@@ -1,14 +1,20 @@
 ﻿#include "PlayerColliderController.h"
 #include "PlayerMotions.h"
+#include "PlayerSounds.h"
 #include "../PlayerEnemyCommon/HitPoint.h"
 #include "../../Engine/Collider/Collider.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
+#include "../../Engine/Sound/SoundComponent.h"
 #include "../../../Device/Time.h"
 #include "../../../Engine/DebugManager/DebugUtility/Debug.h"
+#include "../../../Sound/Player/Frequency.h"
+#include "../../../Sound/Player/SoundPlayer.h"
+#include "../../../Sound/Volume/SoundVolume.h"
 
 PlayerColliderController::PlayerColliderController()
     : Component()
     , mAnimation(nullptr)
+    , mSound(nullptr)
     , mHP(nullptr)
     , mInvincibleTime(std::make_unique<Time>())
 {
@@ -18,6 +24,9 @@ PlayerColliderController::~PlayerColliderController() = default;
 
 void PlayerColliderController::start() {
     mAnimation = getComponent<SkinMeshComponent>();
+    mSound = getComponents<SoundComponent>()[PlayerSounds::DAMAGE];
+    mSound->getSoundVolume().setVolume(0.75f);
+    mSound->getSoundPlayer().getFrequency().setFrequencyRatio(1.5f);
     mHP = getComponent<HitPoint>();
 
     //被ダメージ時モーション時間を無敵時間に設定する
@@ -77,6 +86,8 @@ void PlayerColliderController::takeDamage() {
     }
     mAnimation->changeMotion(nextMotion);
     mAnimation->setLoop(false);
+
+    mSound->getSoundPlayer().playStreaming();
 
     Debug::log("damege!");
 }

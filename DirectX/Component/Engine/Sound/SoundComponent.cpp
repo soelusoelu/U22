@@ -11,7 +11,7 @@
 SoundComponent::SoundComponent()
     : Component()
     , mSound(nullptr)
-    , mFileName()
+    , mFilename()
     , mUse3DSound(false)
 {
 }
@@ -19,11 +19,11 @@ SoundComponent::SoundComponent()
 SoundComponent::~SoundComponent() = default;
 
 void SoundComponent::awake() {
-    if (!mFileName.empty()) {
+    if (!mFilename.empty()) {
         SourceVoiceInitParam param;
         param.maxFrequencyRatio = 4.f;
         param.isCalculate3D = mUse3DSound;
-        mSound = SoundEngine::instance().createSourceVoice(mFileName, param);
+        mSound = SoundEngine::instance().createSourceVoice(mFilename, param);
     }
 }
 
@@ -34,7 +34,7 @@ void SoundComponent::update() {
     if (!mUse3DSound) {
         return;
     }
-    mSound->getEmitter().setPosition(transform().getPosition());
+    mSound->getEmitter().setPosition(transform().getLocalPosition());
 }
 
 void SoundComponent::finalize() {
@@ -44,12 +44,12 @@ void SoundComponent::finalize() {
 }
 
 void SoundComponent::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {
-    JsonHelper::getSet(mFileName, "fileName", inObj, alloc, mode);
+    JsonHelper::getSet(mFilename, "filename", inObj, alloc, mode);
     JsonHelper::getSet(mUse3DSound, "use3D", inObj, alloc, mode);
 }
 
 void SoundComponent::drawInspector() {
-    ImGui::Text("FileName: &s", mFileName);
+    ImGui::Text("Filename: &s", mFilename.c_str());
 }
 
 bool SoundComponent::isNull() const {
@@ -78,4 +78,8 @@ OutputVoices& SoundComponent::getOutputVoices() const {
 
 SoundEffect& SoundComponent::getSoundEffect() const {
     return mSound->getSoundEffect();
+}
+
+Sound3DEmitter& SoundComponent::getSoundEmitter() const {
+    return mSound->getEmitter();
 }

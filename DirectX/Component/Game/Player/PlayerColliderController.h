@@ -6,6 +6,7 @@
 #include <memory>
 
 class SkinMeshComponent;
+class SoundComponent;
 class HitPoint;
 class Time;
 
@@ -32,6 +33,7 @@ private:
 
 private:
     std::shared_ptr<SkinMeshComponent> mAnimation;
+    std::shared_ptr<SoundComponent> mSound;
     std::shared_ptr<HitPoint> mHP;
     std::unique_ptr<Time> mInvincibleTime;
     Function<void()> mOnDead;

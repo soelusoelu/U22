@@ -7,6 +7,7 @@
 #include <memory>
 
 class SkinMeshComponent;
+class SoundComponent;
 
 class PlayerDash
     : public Component
@@ -14,8 +15,13 @@ class PlayerDash
 public:
     PlayerDash();
     ~PlayerDash();
+    PlayerDash(const PlayerDash&) = delete;
+    PlayerDash& operator=(const PlayerDash&) = delete;
+
     virtual void start() override;
+    virtual void onCollisionEnter(Collider& other) override;
     virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
+
     //ダッシュ処理
     void dash(IPlayerMove& playerMove);
     //走っているか
@@ -26,14 +32,12 @@ public:
     void callbackRunOutOfStamina(const std::function<void()>& callback);
 
 private:
-    PlayerDash(const PlayerDash&) = delete;
-    PlayerDash& operator=(const PlayerDash&) = delete;
-
     //モーション変更時のコールバック
     void onChangeMotion();
 
 private:
     std::shared_ptr<SkinMeshComponent> mAnimation;
+    std::shared_ptr<SoundComponent> mSound;
     Function<void()> mCallbackToDash;
     Function<void()> mCallbackRunOutOfStamina;
     //ダッシュ速度

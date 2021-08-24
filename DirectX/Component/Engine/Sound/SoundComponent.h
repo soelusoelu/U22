@@ -12,6 +12,7 @@ class SourceVoice;
 class SoundPlayer;
 class SoundVolume;
 class SoundEffect;
+class Sound3DEmitter;
 class OutputVoices;
 
 class SoundComponent
@@ -35,9 +36,10 @@ public:
     SoundVolume& getSoundVolume() const;
     OutputVoices& getOutputVoices() const;
     SoundEffect& getSoundEffect() const;
+    Sound3DEmitter& getSoundEmitter() const;
 
 private:
     std::shared_ptr<SourceVoice> mSound;
-    std::string mFileName;
+    std::string mFilename;
     bool mUse3DSound;
 };

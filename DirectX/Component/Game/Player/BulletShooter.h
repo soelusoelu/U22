@@ -10,7 +10,9 @@
 class GameObject;
 class Camera;
 class SkinMeshComponent;
+class SoundComponent;
 class HitPoint;
+class Time;
 
 class BulletShooter
     : public Component
@@ -22,6 +24,8 @@ public:
     BulletShooter& operator=(const BulletShooter&) = delete;
 
     virtual void start() override;
+    virtual void update() override;
+    virtual void saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) override;
 
     void originalUpdate();
     void setConnector(const GameObject& connector);
@@ -37,6 +41,8 @@ private:
 private:
     std::shared_ptr<Camera> mCamera;
     std::shared_ptr<SkinMeshComponent> mAnimation;
+    std::shared_ptr<SoundComponent> mSound;
+    std::unique_ptr<Time> mShotCoolTime;
     Ray mShotRay;
     IShotRaySetter* mShotRaySetter;
     Function<void()> mOnAds;

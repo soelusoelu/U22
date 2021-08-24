@@ -2,8 +2,11 @@
 #include "EnemyMotions.h"
 #include "OctopusFootManager.h"
 #include "../../Engine/Mesh/SkinMeshComponent.h"
+#include "../../Engine/Sound/SoundComponent.h"
 #include "../../../Device/Time.h"
 #include "../../../Engine/DebugManager/DebugLayer/Inspector/ImGuiWrapper.h"
+#include "../../../Sound/Player/Frequency.h"
+#include "../../../Sound/Player/SoundPlayer.h"
 #include "../../../Utility/JsonHelper.h"
 #include "../../../Utility/Random.h"
 #include <algorithm>
@@ -11,6 +14,8 @@
 OctopusFootAttack::OctopusFootAttack()
     : Component()
     , mAnimation(nullptr)
+    , mSoundH(nullptr)
+    , mSoundV(nullptr)
     , mFootManager(nullptr)
     , mCurrentMotionTimer(std::make_unique<Time>())
     , mMotionsTime(EnemyMotions::MOTION_COUNT)
@@ -48,6 +53,10 @@ OctopusFootAttack::~OctopusFootAttack() = default;
 
 void OctopusFootAttack::start() {
     mAnimation = getComponent<SkinMeshComponent>();
+    auto sounds = getComponents<SoundComponent>();
+    mSoundH = sounds[0];
+    mSoundV = sounds[1];
+    mSoundH->getSoundPlayer().getFrequency().setFrequencyRatio(0.75f);
     mFootManager = getComponent<OctopusFootManager>();
 
     //全攻撃モーションの時間を求める
@@ -90,6 +99,12 @@ void OctopusFootAttack::attack() {
     //時間設定(モーション番号と配列の添字が一致している前提)
     mCurrentMotionTimer->setLimitTime(mMotionsTime[motionNo]);
     mCurrentMotionTimer->reset();
+
+    if (EnemyMotions::VERTICAL_ONE <= motionNo && motionNo <= EnemyMotions::VERTICAL_FOUR) {
+        mSoundV->getSoundPlayer().playStreaming();
+    } else if ((EnemyMotions::HORIZONTAL_LEFT_ONE <= motionNo && motionNo <= EnemyMotions::HORIZONTAL_RIGHT_FOUR) || motionNo == EnemyMotions::HORIZONTAL_RIGHT_THREE) {
+        mSoundH->getSoundPlayer().playStreaming();
+    }
 }
 
 bool OctopusFootAttack::isAttacking() const {
