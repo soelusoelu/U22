@@ -22,7 +22,7 @@
       "type": "CrossHair",
       "properties": {
         "offset": 8.0,
-        "length": 32.0
+        "length": 24.0
       }
     }
   ]

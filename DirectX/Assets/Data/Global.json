@@ -83,7 +83,7 @@
         },
         "DrawString": {
             "number": "System/number2.png",
-            "font": "System/font2.png"
+            "font": "System/font.png"
         }
     }
 }

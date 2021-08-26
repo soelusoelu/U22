@@ -11,7 +11,10 @@ class SpriteManager;
 class Texture;
 class Transform2D;
 
-class SpriteComponent : public Component, public std::enable_shared_from_this<SpriteComponent> {
+class SpriteComponent
+    : public Component
+    , public std::enable_shared_from_this<SpriteComponent>
+{
 public:
     SpriteComponent();
     virtual ~SpriteComponent();

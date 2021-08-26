@@ -1,39 +1,43 @@
 ﻿#include "CrossHair.h"
 #include "../Player/PlayerColliderController.h"
 #include "../UI/PlayerUIManager.h"
-#include "../../../Engine/DebugManager/DebugUtility/Debug.h"
+#include "../../Engine/Sprite/SpriteComponent.h"
 #include "../../../GameObject/GameObject.h"
 #include "../../../System/Window.h"
+#include "../../../Transform/Transform2D.h"
 #include "../../../Utility/JsonHelper.h"
 
 CrossHair::CrossHair()
     : Component()
+    , mSprites(CROSS_HAIR_COUNT)
     , mOffset(0.f)
     , mLength(0.f)
-    , mIsRender(true)
 {
 }
 
 CrossHair::~CrossHair() = default;
 
 void CrossHair::start() {
-    getComponent<PlayerUIManager>()->callbackSetPlayer([&](const GameObject& player) {
-        player.componentManager().getComponent<PlayerColliderController>()->onDead([&] { mIsRender = false; });
-    });
-}
-
-void CrossHair::update() {
-    if (!mIsRender) {
-        return;
-    }
-
+    static const Vector2 dir[CROSS_HAIR_COUNT] = { Vector2::up, Vector2::right, Vector2::down, Vector2::left };
     const auto width = Window::standardWidth();
     const auto height = Window::standardHeight();
     const auto center = Vector2(width / 2.f, height / 2.f);
-    Debug::renderLine(center + Vector2::up * mOffset, center + Vector2::up * mLength);
-    Debug::renderLine(center + Vector2::right * mOffset, center + Vector2::right * mLength);
-    Debug::renderLine(center + Vector2::down * mOffset, center + Vector2::down * mLength);
-    Debug::renderLine(center + Vector2::left * mOffset, center + Vector2::left * mLength);
+    for (int i = 0; i < CROSS_HAIR_COUNT; ++i) {
+        auto& s = mSprites[i];
+        s = addComponent<SpriteComponent>("SpriteComponent");
+        s->setTextureFromFileName("System/pixel.png");
+        auto& t = s->transform();
+        t.setPosition(center + dir[i] * mOffset);
+        t.setScale(Vector2::one + dir[i] * mLength);
+    }
+
+    getComponent<PlayerUIManager>()->callbackSetPlayer([&](const GameObject& player) {
+        player.componentManager().getComponent<PlayerColliderController>()->onDead([&] {
+            for (auto&& s : mSprites) {
+                s->setActive(false);
+            }
+        });
+    });
 }
 
 void CrossHair::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {

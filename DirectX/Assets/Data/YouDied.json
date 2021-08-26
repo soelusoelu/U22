@@ -11,7 +11,7 @@
     {
       "type": "SpriteComponent",
       "properties": {
-        "drawOrder": 1,
+        "drawOrder": 10,
         "fileName": "YouDied.png",
         "pivot": "Center",
         "position": [ 960.0, 540.0 ],
@@ -22,7 +22,7 @@
     {
       "type": "SpriteComponent",
       "properties": {
-        "drawOrder": 0,
+        "drawOrder": 5,
         "fileName": "System\\pixel.png",
         "scale": [ 1920.0, 1080.0 ],
         "color": [ 0.0, 0.0, 0.0 ],
