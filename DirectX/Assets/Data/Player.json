@@ -2,7 +2,7 @@
   "tag": "Player",
   "transform": {
     "position": [ 0.0, 0.0, -10.0 ],
-    "scale": [ 0.001, 0.001, 0.001 ]
+    "scale": [ 0.1, 0.1, 0.1 ]
   },
   "prototype": "PlayerCollider",
   "components": [
@@ -27,7 +27,7 @@
     {
       "type": "PlayerDash",
       "properties": {
-        "dashSpeed": 6.0
+        "dashSpeed": 5.0
       }
     },
     {

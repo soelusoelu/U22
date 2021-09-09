@@ -116,6 +116,13 @@
         "filename": "octopus_v.wav",
         "use3D": true
       }
+    },
+    {
+      "type": "SoundComponent",
+      "properties": {
+        "filename": "octopus_damage.wav",
+        "use3D": true
+      }
     }
   ]
 }

@@ -140,10 +140,6 @@ void SceneManager::draw() const {
     //メッシュをテクスチャに描画する
     mMeshRenderOnTextureManager->drawMeshOnTextures();
 
-#ifdef _DEBUG
-    mEngineManager->draw3D(*mRenderer, *mCamera);
-#endif // _DEBUG
-
     //スプライト描画準備
     mRenderer->renderSprite();
     //3Dスプライト
@@ -164,15 +160,6 @@ void SceneManager::draw() const {
     mTextDrawer->drawAll(proj2D);
     //エンジン機能の2D描画
     mEngineManager->draw2D(*mRenderer, proj2D);
-
-#ifdef _DEBUG
-    //レンダリング領域をデバッグに変更
-    mRenderer->renderSprite();
-    mRenderer->renderSprite2D(proj2D);
-    mRenderer->renderToDebug(proj2D);
-    mSpriteManager->draw(proj2D);
-    mEngineManager->drawDebug2D(proj2D);
-#endif // _DEBUG
 }
 
 void SceneManager::saveAndLoad(rapidjson::Value& inObj, rapidjson::Document::AllocatorType& alloc, FileMode mode) {

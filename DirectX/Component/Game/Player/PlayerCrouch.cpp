@@ -43,7 +43,7 @@ void PlayerCrouch::originalUpdate() {
     if (isStandingUp()) {
         return;
     }
-    if (!Input::joyPad().getJoyDown(JoyCode::X)) {
+    if (!Input::joyPad().getJoyDown(JoyCode::A)) {
         return;
     }
 

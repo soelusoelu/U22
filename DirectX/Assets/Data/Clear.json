@@ -24,6 +24,12 @@
         "alpha": 0.25,
         "isActive": false
       }
+    },
+    {
+      "type": "SoundComponent",
+      "properties": {
+        "filename": "clear.wav"
+      }
     }
   ]
 }

@@ -9,13 +9,6 @@
       "properties": {
         "direction": [ -45.0, 0.0, 0.0 ]
       }
-    },
-    {
-      "type": "MeshComponent",
-      "properties": {
-        "fileName": "Light/DLight.obj",
-        "shadowHandle": false
-      }
     }
   ]
 }

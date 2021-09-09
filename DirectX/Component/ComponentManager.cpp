@@ -20,7 +20,6 @@ void ComponentManager::update() const {
         }
 
         comp->update();
-        comp->updateDestroyTimer();
     }
 }
 
@@ -31,6 +30,7 @@ void ComponentManager::lateUpdate() const {
         }
 
         comp->lateUpdate();
+        comp->updateDestroyTimer();
     }
 }
 

@@ -2,8 +2,8 @@
     "globalProperties": {
         "Window": {
             "title": "MyEngine",
-            "windowWidth": 1024,
-            "windowHeight": 576,
+            "windowWidth": 1920,
+            "windowHeight": 1080,
             "releaseWindowWidth": 1600,
             "releaseWindowHeight": 900,
             "windowStandardWidth": 1920,

@@ -1,7 +1,9 @@
 ﻿#include "OctopusFootManager.h"
 #include "OctopusConstantNumbers.h"
 #include "OctopusFoot.h"
+#include "../../Engine/Sound/SoundComponent.h"
 #include "../../../Engine/DebugManager/DebugUtility/Debug.h"
+#include "../../../Sound/Player/SoundPlayer.h"
 #include "../../../Utility/StringUtil.h"
 #include <algorithm>
 #include <cassert>
@@ -9,6 +11,7 @@
 OctopusFootManager::OctopusFootManager()
     : Component()
     , mFootAliveNumbers(OctopusConstantNumbers::FOOT_COUNT)
+    , mSound(nullptr)
 {
 }
 
@@ -17,6 +20,8 @@ OctopusFootManager::~OctopusFootManager() = default;
 void OctopusFootManager::start() {
     mFoots = getComponents<OctopusFoot>();
     assert(mFoots.size() == OctopusConstantNumbers::FOOT_COUNT);
+
+    mSound = getComponents<SoundComponent>()[2];
 
     //全足共通処理
     for (unsigned i = 0; i < OctopusConstantNumbers::FOOT_COUNT; ++i) {
@@ -44,6 +49,7 @@ void OctopusFootManager::onDestroyFoot(const OctopusFoot& foot) {
     auto itr = std::find(mFootAliveNumbers.begin(), mFootAliveNumbers.end(), foot.getNumber());
     if (itr != mFootAliveNumbers.end()) {
         mFootAliveNumbers.erase(itr);
+        mSound->getSoundPlayer().playStreaming();
     } else {
         //もし見つからなければエラー発行
         Debug::logError("Not found foot number. [" + StringUtil::intToString(foot.getNumber()) + "]");

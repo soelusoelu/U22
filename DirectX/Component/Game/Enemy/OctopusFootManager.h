@@ -6,6 +6,7 @@
 #include <vector>
 
 class OctopusFoot;
+class SoundComponent;
 
 class OctopusFootManager
     : public Component
@@ -32,4 +33,5 @@ private:
 private:
     OctopusFootPtrArray mFoots;
     AliveNumbers mFootAliveNumbers;
+    std::shared_ptr<SoundComponent> mSound;
 };

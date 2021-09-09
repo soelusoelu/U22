@@ -56,7 +56,7 @@ void Title::awake() {
 }
 
 void Title::update() {
-    if (Input::keyboard().getKeyDown(KeyCode::R)) {
-        next("Title");
-    }
+    //if (Input::keyboard().getKeyDown(KeyCode::R)) {
+    //    next("Title");
+    //}
 }
